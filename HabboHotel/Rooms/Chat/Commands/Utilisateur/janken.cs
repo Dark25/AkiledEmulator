@@ -1,0 +1,7 @@
+using Akiled.HabboHotel.GameClients;using Akiled.HabboHotel.Rooms.Games;
+using Akiled.HabboHotel.Rooms.Janken;
+
+namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd{    class Janken : IChatCommand    {        public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)        {            if (Params.Length != 2)                return;
+
+            if (UserRoom.Team != Team.none || UserRoom.InGame)
+                return;            if (Session.GetHabbo().SpectatorMode)                return;            string Username = Params[1];            if (string.IsNullOrWhiteSpace(Username))                return;            Room room = UserRoom.Room;            if (room == null)                return;            RoomUser roomuser = room.GetRoomUserManager().GetRoomUserByHabbo(Username);            if (roomuser == null)            {                UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("input.usernotfound", Session.Langue));                return;            }            if (roomuser.UserId == UserRoom.UserId)                return;            JankenManager Jankan = room.GetJanken();            Jankan.Duel(UserRoom, roomuser);        }    }}

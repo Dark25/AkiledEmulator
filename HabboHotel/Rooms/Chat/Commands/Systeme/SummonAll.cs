@@ -1,0 +1,4 @@
+﻿using Akiled.Communication.Packets.Outgoing.Structure;
+using Akiled.HabboHotel.GameClients;using System.Linq;
+
+namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd{    class SummonAll : IChatCommand    {        public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)        {            foreach (GameClient Client in AkiledEnvironment.GetGame().GetClientManager().GetClients.ToList())            {                if (Client.GetHabbo() != null)                {                    Client.GetHabbo().IsTeleporting = true;                    Client.GetHabbo().TeleportingRoomID = Room.RoomData.Id;                    Client.GetHabbo().TeleporterId = 0;                    Client.SendPacket(new GetGuestRoomResultComposer(Client, Room.RoomData, false, true));                }            }        }    }}
