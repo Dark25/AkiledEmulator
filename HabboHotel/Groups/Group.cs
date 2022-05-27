@@ -152,15 +152,9 @@ namespace Akiled.HabboHotel.Groups
 
         public bool IsMember(int Id) => this._members.Contains(Id) || this._administrators.Contains(Id);
 
-        public bool IsAdmin(int Id)
-        {
-            return this._administrators.Contains(Id);
-        }
+        public bool IsAdmin(int Id) => this._administrators.Contains(Id);
 
-        public bool HasRequest(int Id)
-        {
-            return this._requests.Contains(Id);
-        }
+        public bool HasRequest(int Id) => this._requests.Contains(Id);
 
         public void MakeAdmin(int Id)
         {
