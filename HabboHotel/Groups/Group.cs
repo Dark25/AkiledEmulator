@@ -265,10 +265,7 @@ namespace Akiled.HabboHotel.Groups
                 this._requests.Remove(Id);
         }
 
-        public void ClearRequests()
-        {
-            this._requests.Clear();
-        }
+        public void ClearRequests() => this._requests.Clear();
 
         public void Dispose()
         {

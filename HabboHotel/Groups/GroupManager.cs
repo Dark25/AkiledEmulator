@@ -179,29 +179,17 @@ namespace Akiled.HabboHotel.Groups
         }
 
 
-        public ICollection<GroupBadgeParts> BadgeBases
-        {
-            get { return this._bases; }
-        }
+        public ICollection<GroupBadgeParts> BadgeBases => this._bases;
 
         public ICollection<GroupBadgeParts> BadgeSymbols
         {
             get { return this._symbols; }
         }
 
-        public ICollection<GroupColours> BadgeBaseColours
-        {
-            get { return this._baseColours; }
-        }
+        public ICollection<GroupColours> BadgeBaseColours => this._baseColours;
 
-        public ICollection<GroupColours> BadgeSymbolColours
-        {
-            get { return this._symbolColours.Values; }
-        }
+        public ICollection<GroupColours> BadgeSymbolColours => this._symbolColours.Values;
 
-        public ICollection<GroupColours> BadgeBackColours
-        {
-            get { return this._backgroundColours.Values; }
-        }
+        public ICollection<GroupColours> BadgeBackColours => this._backgroundColours.Values;
     }
 }
