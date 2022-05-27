@@ -150,10 +150,7 @@ namespace Akiled.HabboHotel.Groups
             get { return this._requests.Count; }
         }
 
-        public bool IsMember(int Id)
-        {
-            return this._members.Contains(Id) || this._administrators.Contains(Id);
-        }
+        public bool IsMember(int Id) => this._members.Contains(Id) || this._administrators.Contains(Id);
 
         public bool IsAdmin(int Id)
         {
