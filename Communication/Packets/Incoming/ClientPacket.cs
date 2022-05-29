@@ -58,10 +58,7 @@ namespace Akiled.Communication.Packets.Incoming
             return ReadBytes(len);
         }
 
-        public string PopString()
-        {
-            return Encoding.GetString(ReadFixedValue());
-        }
+        public string PopString() => Encoding.UTF8.GetString(this.ReadFixedValue());
 
         public bool PopBoolean()
         {
@@ -87,10 +84,7 @@ namespace Akiled.Communication.Packets.Incoming
             return i;
         }
 
-        public override string ToString()
-        {
-            return "[" + Header + "] BODY: " + (Encoding.GetString(Body).Replace(Convert.ToChar(0).ToString(), "[0]"));
-        }
+        public override string ToString() => "[" + Header + "] BODY: " + (Encoding.GetString(Body).Replace(Convert.ToChar(0).ToString(), "[0]"));
 
         public int DecodeInt32(byte[] v)
         {

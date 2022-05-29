@@ -194,8 +194,8 @@
         public const int OnBullyClickMessageEvent = 2455;
         public const int SendBullyReportMessageEvent = 3786;
         public const int SubmitBullyReportMessageEvent = 3060;
-        public const int CameraRoomPictureEvent = 3226;
-        public const int CameraRoomThumbnailEvent = 1982;
+       // public const int CameraRoomPictureEvent = 3226;
+       // public const int CameraRoomThumbnailEvent = 1982;
         public const int GetSanctionStatusMessageEvent = 2746;
         public const int CheckValidNameMessageEvent = 3950;
         public const int ChangeNameMessageEvent = 2977;
@@ -239,5 +239,9 @@
         public const int RedeemOfferCreditsMessageEvent = 2650;
         public const int GetMarketplaceConfigurationMessageEvent = 2597;
         public const int GetNuxPresentEvent = 1822;
+        public const int RenderRoomMessageComposer = 3226;
+        public const int RenderRoomMessageComposerBigPhoto = 1982;
+        public const int SetRoomThumbnailMessageEvent = 1982;
+        public const int RenderRoomEvent = 3226;
     }
 }

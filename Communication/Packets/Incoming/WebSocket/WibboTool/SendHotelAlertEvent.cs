@@ -44,7 +44,7 @@ namespace Akiled.Communication.Packets.Incoming.WebSocket
                 if (!Url.StartsWith(Hotel_url) && !Url.StartsWith(instagram_url) && !Url.StartsWith(Facebook) && !Url.StartsWith("https://www.facebook.com/") && !Url.StartsWith(instagram_url))
                     return;
 
-                AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer("comunicadostaff", Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes("Atención Comunicado Staff")), Message, "Ir al Enlace !", 0, Url), Session.Langue);
+                AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer("comunicadostaff", "Atención Comunicado Staff", Message, "Ir al Enlace !", 0, Url), Session.Langue);
                 return;
             }
 
@@ -61,7 +61,7 @@ namespace Akiled.Communication.Packets.Incoming.WebSocket
                     return;
 
                 //AkiledEnvironment.GetGame().GetClientManager().SendSuperNotif("Message de_hotelalerts Staffs", AlertMessage, "game_promo_small", "event:navigator/goto/" + Client.GetHabbo().CurrentRoom.Id, "Je veux y accéder!", true, true);
-                AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer("alertajuego", Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes("Notificacíon de Evento")), Message, "Ir al Evento!", Client.GetHabbo().CurrentRoom.Id, ""), Session.Langue);
+                AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer("alertajuego", "Notificacíon de Evento", Message, "Ir al Evento!", Client.GetHabbo().CurrentRoom.Id, ""), Session.Langue);
 
                 Client.GetHabbo().CurrentRoom.CloseFullRoom = true;
             }

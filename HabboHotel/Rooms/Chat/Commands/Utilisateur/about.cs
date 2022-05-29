@@ -19,13 +19,13 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 
 
 
-            Session.SendMessage(new RoomNotificationComposer(Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes("Akiled Emulator for " + name_hotel + "")),
-                        Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes("<b><font color='#9200cc'>AkiledEmu</font></b>\n<font color='#363636'>AkiledEmu es un proyecto de varios fanaticos de habbo para tener todas las Funciones de Habbo.\n\n</font><font color='#9200cc'><b>Creditos para</b>:</font>\n" +
+            Session.SendMessage(new RoomNotificationComposer("Akiled Emulator for " + name_hotel + "",
+                        "<b><font color='#9200cc'>AkiledEmu</font></b>\n<font color='#363636'>AkiledEmu es un proyecto de varios fanaticos de habbo para tener todas las Funciones de Habbo.\n\n</font><font color='#9200cc'><b>Creditos para</b>:</font>\n" +
                         "Carlos Mota (Program)\n" +
                         "<b><font color='#9200cc'>Información:</font></b>\n" +
                         "<font color='#363636'><b>Usuarios:</b> " + OnlineUsers + "\n" +
                         "<b>Salas:</b> " + RoomCount + "\n" +
-                        "<b>Tiempo:</b> " + Uptime.Days + " day(s), " + Uptime.Hours + " hours and " + Uptime.Minutes + " minutes.</font>\n\n")), about_image, ""));
+                        "<b>Tiempo:</b> " + Uptime.Days + " day(s), " + Uptime.Hours + " hours and " + Uptime.Minutes + " minutes.</font>\n\n", about_image, ""));
 
         }
     }

@@ -40,7 +40,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 				if (!int.TryParse(Convert.ToString(Params[2]), out ItemId2))
 				{
 
-					Session.SendWhisper(Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes("Por favor, introduzca una ID de Item válida.")), 1);
+					Session.SendWhisper("Por favor, introduzca una ID de Item válida.", 1);
 					return;
 				}
 				int count3 = 0;
@@ -58,7 +58,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 				int ItemId;
 				if (!int.TryParse(Convert.ToString(Params[1]), out ItemId))
 				{
-					Session.SendWhisper(Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes("Por favor, introduzca una ID de Item válida.")), 1);
+					Session.SendWhisper("Por favor, introduzca una ID de Item válida.", 1);
 					return;
 				}
 				int count2 = 0;
@@ -68,11 +68,11 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 					dClient.AddParameter("IID", ItemId);
 					count2 = dClient.GetInteger();
 				}
-				Session.SendWhisper(Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes("[ITEM-CHECK] Hay " + count2 + " unidad(es) en circulación. (Han sido excluidos los staff menores a rango 5)")), 1);
+				Session.SendWhisper("[ITEM-CHECK] Hay " + count2 + " unidad(es) en circulación. (Han sido excluidos los staff menores a rango 5)", 1);
 			}
 			else
 			{
-				Session.SendWhisper(Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes("Usa el comando :checkitem <username> <itemID> ó :checkitem <itemID>.")), 1);
+				Session.SendWhisper("Usa el comando :checkitem <username> <itemID> ó :checkitem <itemID>.", 1);
 			}
 		}
 	}

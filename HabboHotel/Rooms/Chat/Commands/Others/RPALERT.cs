@@ -17,10 +17,10 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             }
 
             string roleplay_alert = (AkiledEnvironment.GetConfig().data["roleplay_alert"]);
-            string AlertMessage = Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes( "<i>¡NUEVO EVENTO ROLEPLAY!</i>" +
+            string AlertMessage = "<i>¡NUEVO EVENTO ROLEPLAY!</i>" +
             "\r\r" +
             "El usuario <b><font color=\"#58ACFA\">"
-                 + Session.GetHabbo().Username + "</font></font></b> esta promocionando un nuevo evento, <b><br>Se trata de un juego tipo <b>RolePlay</b> en donde deberas destacar tus habilidades especiales para ganar el evento.<br><br>"));
+                 + Session.GetHabbo().Username + "</font></font></b> esta promocionando un nuevo evento, <b><br>Se trata de un juego tipo <b>RolePlay</b> en donde deberas destacar tus habilidades especiales para ganar el evento.<br><br>";
 
             AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer(roleplay_alert, "Comunicado Staff", AlertMessage, "Ir a la sala RP", Session.GetHabbo().CurrentRoomId, ""), Session.Langue);
 

@@ -37,8 +37,9 @@ namespace Akiled.Communication.Packets.Outgoing
 
         public void WriteString(string s)
         {
-            this.WriteShort(s.Length);
-            this.WriteByte(Encoding.GetBytes(s), false);
+            byte[] bytes = Encoding.UTF8.GetBytes(s);
+            this.WriteShort(bytes.Length);
+            this.WriteByte(bytes, false);
         }
 
         public void WriteByte(byte[] b, bool IsInt)

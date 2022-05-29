@@ -17,10 +17,10 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 return;
             }
 
-            string AlertMessage = Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes("<i>¡Que Rumbiiitah Mijo!</i>" +
+            string AlertMessage = "<i>¡Que Rumbiiitah Mijo!</i>" +
             "\r\r" +
             "El usuario <b> <font><font color=\"#58ACFA\">"
-                 + Session.GetHabbo().Username + "</font></font></b> se ha vuelto loc@ y esta invitando a todo el hotel a la gran fiesta <b><br><br>Ven a difrutar del buen ambiente y a escuchar la música de nuestros mejores DJ, asi es ellos se encargaran animar el evento y darle un toque de locura.<b><br><br><font><font color=\"#DB0003\">¿Te lo vas a perder? ¡HABRAN PREMIOS RIFAS Y MUCHO MÁS!</font></font>"));
+                 + Session.GetHabbo().Username + "</font></font></b> se ha vuelto loc@ y esta invitando a todo el hotel a la gran fiesta <b><br><br>Ven a difrutar del buen ambiente y a escuchar la música de nuestros mejores DJ, asi es ellos se encargaran animar el evento y darle un toque de locura.<b><br><br><font><font color=\"#DB0003\">¿Te lo vas a perder? ¡HABRAN PREMIOS RIFAS Y MUCHO MÁS!</font></font>";
 
             AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer("partyalert", "Comunicado Staff", AlertMessage, "Ir a la Rumbita", Session.GetHabbo().CurrentRoomId, ""), Session.Langue);
 

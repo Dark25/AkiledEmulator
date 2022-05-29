@@ -13,7 +13,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 Session.SendWhisper("Debes esperar 1 minuto, para volver a usar el comando", 1);
                 return;
             }
-            AkiledEnvironment.GetGame().GetClientManager().SendMessage(RoomNotificationComposer.SendBubble("DADOON", Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes("¡Los Dados Han Sido Abiertos Por " + Session.GetHabbo().Username + " Ven a Probar Tu Suerte Apostando Tus Rares o Lingotes.")), "event:navigator/goto/" + Session.GetHabbo().CurrentRoomId));
+            AkiledEnvironment.GetGame().GetClientManager().SendMessage(RoomNotificationComposer.SendBubble("DADOON", "¡Los Dados Han Sido Abiertos Por " + Session.GetHabbo().Username + " Ven a Probar Tu Suerte Apostando Tus Rares o Lingotes.", "event:navigator/goto/" + Session.GetHabbo().CurrentRoomId));
             Session.GetHabbo().last_dadosalert = AkiledEnvironment.GetIUnixTimestamp();
             return;
 

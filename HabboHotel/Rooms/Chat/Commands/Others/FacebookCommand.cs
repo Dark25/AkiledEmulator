@@ -19,11 +19,11 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 
             string Message = CommandManager.MergeParams(Params, 1);
 
-            string AlertMessage = Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes("<i>Nuevo Concurso en Facebook!</i>" +
+            string AlertMessage = "<i>Nuevo Concurso en Facebook!</i>" +
             "\r\r" +
             "Hay un nuevo concurso en facebook realizado por <b>" + Session.GetHabbo().Username + ".</b>" +
             "\r\r" +
-            "<b>¿De qué se trata?</b><br>" + Message + "<br><br><font><font color=\"#DB0003\">Para acceder a la página de Facebook haz clic en Ir a Facebook.</font></font>"));
+            "<b>¿De qué se trata?</b><br>" + Message + "<br><br><font><font color=\"#DB0003\">Para acceder a la página de Facebook haz clic en Ir a Facebook.</font></font>";
 
             AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer(facebook_alert, "Comunicado Staff", AlertMessage, "Ir a Facebook", 0, URL), Session.Langue);
 

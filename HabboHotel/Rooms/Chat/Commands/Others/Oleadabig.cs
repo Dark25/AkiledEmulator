@@ -17,12 +17,12 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 Session.SendWhisper("Debes esperar 1 minuto, para volver a usar el comando", 1);
                 return;
             }
-            string AlertMessage = Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes("¡Hay una nueva oleada de publicidad! Si quieres ganar <b>distintas recompensas</b> por participar acude a la sala de publicidad.<br>¿Quién ha abierto la oleada? <b> <font color=\"#2E9AFE\"> " + Session.GetHabbo().Username + "</font>.</b>" +
+            string AlertMessage = "¡Hay una nueva oleada de publicidad! Si quieres ganar <b>distintas recompensas</b> por participar acude a la sala de publicidad.<br>¿Quién ha abierto la oleada? <b> <font color=\"#2E9AFE\"> " + Session.GetHabbo().Username + "</font>.</b>" +
 
             "<br>¿De qué trata este evento?<br><font color='#084B8A'><b>Trata de seguir las instrucciones de los guías de la oleada para participar y así ganar tu premio!</b></font><br>¡Te esperamos!" +
-            "\r\n"));
+            "\r\n";
 
-            AkiledEnvironment.GetGame().GetClientManager().SendMessage(RoomNotificationComposer.SendBubble("hoteloleada", Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes("¡Hay una nueva oleada de públicidad! Para ganar distintas recompensas por participar, ve a la sala de públicidad. - Click Aquí.")), "event:navigator/goto/" + Session.GetHabbo().CurrentRoomId));
+            AkiledEnvironment.GetGame().GetClientManager().SendMessage(RoomNotificationComposer.SendBubble("hoteloleada","¡Hay una nueva oleada de públicidad! Para ganar distintas recompensas por participar, ve a la sala de públicidad. - Click Aquí.", "event:navigator/goto/" + Session.GetHabbo().CurrentRoomId));
             Session.GetHabbo().last_oleada = AkiledEnvironment.GetIUnixTimestamp();
             AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer(oleada_alert, "Comunicado Staff", AlertMessage, "Ir a la Oleada !", Session.GetHabbo().CurrentRoomId, ""), Session.Langue);
 

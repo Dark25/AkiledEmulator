@@ -55,7 +55,7 @@ namespace Akiled.Core
                 this._valuesFr.Add(key, value_fr);
                 this._valuesEn.Add(key, value_en);
                 this._valuesBr.Add(key, value_br);
-                this._valuesEs.Add(key, Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes(value_es)));
+                this._valuesEs.Add(key, value_es);
             }
         }
 

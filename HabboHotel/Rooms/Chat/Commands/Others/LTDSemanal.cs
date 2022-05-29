@@ -11,8 +11,8 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             string Message = CommandManager.MergeParams(Params, 1);
             string name_hotel = (AkiledEnvironment.GetConfig().data["namehotel_text"]);
             string ltdsemanal_alert = (AkiledEnvironment.GetConfig().data["ltdsemanal_alert"]);
-            AkiledEnvironment.GetGame().GetClientManager().SendMessage(new RoomNotificationComposer(Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes("¡NUEVOS LTD SEMANAL DISPONIBLES!")),
-              Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes("¡Estimados Usuairios De <font color=\"#d100fe\"><b>© " + name_hotel + " 2020</b></font> Acaba De Ser Actualizado <b>El Catálogo!</b> Esta Vez Se Trata De Un Nuevo <font color=\"#fecb00\"><b>Rare(s) LTD Semanal</b></font> Sólo Debes Hacer Click En El Botón De Abajo Para Visualizarlo.<br>")), ltdsemanal_alert, Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes("Ir a La Página LTD")), "event:catalog/open/ltdsemanal" + Message));
+            AkiledEnvironment.GetGame().GetClientManager().SendMessage(new RoomNotificationComposer("¡NUEVOS LTD SEMANAL DISPONIBLES!",
+                "¡Estimados Usuairios De <font color=\"#d100fe\"><b>© " + name_hotel + " 2020</b></font> Acaba De Ser Actualizado <b>El Catálogo!</b> Esta Vez Se Trata De Un Nuevo <font color=\"#fecb00\"><b>Rare(s) LTD Semanal</b></font> Sólo Debes Hacer Click En El Botón De Abajo Para Visualizarlo.<br>", ltdsemanal_alert, "Ir a La Página LTD", "event:catalog/open/ltdsemanal" + Message));
 
             Session.SendWhisper("Alerta De Nuevo LTD Semanal Enviado Correctamente.", 34);
         }

@@ -17,7 +17,7 @@ namespace Akiled.HabboHotel.Catalog
         public CatalogPromotion(int id, string title, string titleEn, string titleBr, string image, int unknown, string pageLink, int parentId)
         {
             this.Id = id;
-            this.Title = Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes(title));
+            this.Title = title;
             this.TitleEn = titleEn;
             this.TitleBr = titleBr;
             this.Image = image;

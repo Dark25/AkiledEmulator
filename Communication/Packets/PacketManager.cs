@@ -8,6 +8,7 @@ using Akiled.Communication.Packets.Incoming.Marketplace;
 using Akiled.HabboHotel.WebClients;
 using Akiled.Communication.Packets.Incoming.WebSocket;
 using Akiled.Communication.Packets.Incoming.Rooms.Furni;
+using Akiled.Communication.Packets.Incoming.Camera;
 
 namespace Akiled.Communication.Packets
 {
@@ -159,10 +160,10 @@ namespace Akiled.Communication.Packets
             _incomingPackets.Add(ClientPacketHeader.GetSellablePetBreedsMessageEvent, new GetSellablePetBreedsEvent());
             _incomingPackets.Add(ClientPacketHeader.GetGroupFurniConfigMessageEvent, new GetGroupFurniConfigEvent());
             _incomingPackets.Add(ClientPacketHeader.GetMarketplaceConfigurationMessageEvent, new GetMarketplaceConfigurationEvent());
-            _incomingPackets.Add(ClientPacketHeader.CameraRoomThumbnailEvent, new CameraRoomThumbnailEvent());
+            _incomingPackets.Add(ClientPacketHeader.RenderRoomMessageComposerBigPhoto, new RenderRoomMessageComposerBigPhoto());
             _incomingPackets.Add(ClientPacketHeader.CameraPurchaseMessageEvent, new CameraPurchaseEvent());
             _incomingPackets.Add(ClientPacketHeader.RequestCameraConfigurationMessageEvent, new RequestCameraConfigurationEvent());
-            _incomingPackets.Add(ClientPacketHeader.CameraRoomPictureEvent, new CameraRoomPictureEvent());
+            _incomingPackets.Add(ClientPacketHeader.RenderRoomMessageComposer, (IPacketEvent) new RenderRoomMessageComposerEvent());
 
         }
 

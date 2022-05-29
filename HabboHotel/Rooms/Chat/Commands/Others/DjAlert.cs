@@ -22,7 +22,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             }
 
             string Message = CommandManager.MergeParams(Params, 1);
-            AkiledEnvironment.GetGame().GetClientManager().SendMessage(RoomNotificationComposer.SendBubble("LOCOSON", Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes("¡DJ " + Message + " está emitiendo en vivo! Sintoniza RadioFM ahora mismo y disfruta al máximo.")) , "event:navigator/goto/" + Session.GetHabbo().CurrentRoomId));
+            AkiledEnvironment.GetGame().GetClientManager().SendMessage(RoomNotificationComposer.SendBubble("LOCOSON", "¡DJ " + Message + " está emitiendo en vivo! Sintoniza RadioFM ahora mismo y disfruta al máximo." , "event:navigator/goto/" + Session.GetHabbo().CurrentRoomId));
             Session.GetHabbo().last_dj = AkiledEnvironment.GetIUnixTimestamp();
             return;
         }

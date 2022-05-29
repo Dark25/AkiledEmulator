@@ -14,13 +14,13 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             string instagram_alert = (AkiledEnvironment.GetConfig().data["instagram_alert"]);
             string URL = (AkiledEnvironment.GetConfig().data["instagram_url"]);
 
-            string AlertMessage = Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes("<i>Nuevo Concurso en Instagram!</i>" +
+            string AlertMessage = "<i>Nuevo Concurso en Instagram!</i>" +
             "\r\r" +
             "Se esta realizando un nuevo concurso en instagram por, <b>" + Session.GetHabbo().Username + ".</b>" +
             "\r\r" +
             "Dirigite a nuestro Instagram Oficial, Concursa y Gana, tenemos sorpresas para tí<i> Puedes Obtener Rares, Placas, Créditos, " + name_monedaoficial + " y mucho más ! </i>" +
             "\r\n" +
-            "\r\n- <b>Att: " + Session.GetHabbo().Username + ".</b>\r\n"));
+            "\r\n- <b>Att: " + Session.GetHabbo().Username + ".</b>\r\n";
 
             AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer(instagram_alert, "Comunicado Staff", AlertMessage, "Ir a Instagram", 0, URL), Session.Langue);
 

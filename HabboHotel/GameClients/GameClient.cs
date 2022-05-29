@@ -120,8 +120,8 @@ namespace Akiled.HabboHotel.GameClients
                     this.Habbo.UpdateCreditsBalance();
                     this.Habbo.UpdateDiamondsBalance();
 
-                    string last_success_login = "Tu ùltimo inicio de sesiòn exitoso fue el";
-                    var last_success_login1 = Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes(last_success_login));
+                    string last_success_login = "Tu último inicio de sesiòn exitoso fue el ";
+                    var last_success_login1 = last_success_login;
                     SendMessage(RoomNotificationComposer.SendBubble("last_success_login", last_success_login1 + new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(GetHabbo().LastOnline + 7200.0) + " Horas."));
                    
 
@@ -141,7 +141,7 @@ namespace Akiled.HabboHotel.GameClients
                     if (!this.GetHabbo().Nuxenable)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkBlue;
-                        Console.WriteLine("Usuario Conectado: " + this.GetHabbo().Username + " al Hotel, con la IP :" + this.GetHabbo().IP + " ", "Trap.Users",
+                        Console.WriteLine("Usuario Conectado: " + this.GetHabbo().Username + " al Hotel, con la IP :" + this.GetHabbo().IP + " ",
                         ConsoleColor.DarkGreen);
                     }
 

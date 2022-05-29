@@ -42,7 +42,7 @@ namespace Akiled.HabboHotel.Catalog
             this.ParentId = ParentId;
             this.Enabled = Enabled.ToLower() == "1" ? true : false;
 
-            this.Caption = Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes(Caption));
+            this.Caption = Caption;
             this.CaptionEn = CaptionEn;
             this.CaptionBr = CaptionBr;
 
@@ -54,25 +54,25 @@ namespace Akiled.HabboHotel.Catalog
             foreach (string Str in PageStrings1.Split('|'))
             {
                 if (this.PageStrings1 == null) { this.PageStrings1 = new List<string>(); }
-                this.PageStrings1.Add(Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes(Str)));
+                this.PageStrings1.Add(Str);
             }
 
             foreach (string Str in PageStrings2.Split('|'))
             {
                 if (this.PageStrings2 == null) { this.PageStrings2 = new List<string>(); }
-                this.PageStrings2.Add(Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes(Str)));
+                this.PageStrings2.Add(Str);
             }
 
             foreach (string Str in PageStrings2En.Split('|'))
             {
                 if (this.PageStrings2En == null) { this.PageStrings2En = new List<string>(); }
-                this.PageStrings2En.Add(Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes(Str)));
+                this.PageStrings2En.Add(Str);
             }
 
             foreach (string Str in PageStrings2Br.Split('|'))
             {
                 if (this.PageStrings2Br == null) { this.PageStrings2Br = new List<string>(); }
-                this.PageStrings2Br.Add(Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes(Str)));
+                this.PageStrings2Br.Add(Str);
             }
 
             this.Items = Items;

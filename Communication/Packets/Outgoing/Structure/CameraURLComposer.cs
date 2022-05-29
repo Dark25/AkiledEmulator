@@ -5,9 +5,9 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
     class CameraURLComposer : ServerPacket
     {
         public CameraURLComposer(string Url)
-            : base(ServerPacketHeader.CameraURLComposer)
+: base(3696)
         {
-            WriteString(Url);
+            this.WriteString(Url);
         }
     }
 }

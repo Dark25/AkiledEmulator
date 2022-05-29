@@ -21,7 +21,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             }
             else
             {
-                Room.SendPacket(new ChatComposer(user.VirtualId, Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes(" Bienvenido(a) a " + name_hotel + ": Espero que te diviertas aquí y recuerda invitar a tus amig@s por favor. gracias <3")), 0, 34));
+                Room.SendPacket(new ChatComposer(user.VirtualId, " Bienvenido(a) a " + name_hotel + ": Espero que te diviertas aquí y recuerda invitar a tus amig@s por favor. gracias <3", 0, 34));
             }
         }
     }

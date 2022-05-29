@@ -24,7 +24,7 @@ namespace Akiled.HabboHotel.Catalog
             int CostDiamonds, int Amount, int LimitedEditionSells, int LimitedEditionStack, bool HaveOffer, string Badge)
         {
             this.Id = Id;
-            this.Name = Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes(CatalogName));
+            this.Name = CatalogName;
             this.ItemId = ItemId;
             this.Data = Data;
             this.PageID = PageId;

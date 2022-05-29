@@ -5,9 +5,6 @@ namespace Akiled.Communication.Packets.Incoming.Structure
 {
     class RequestCameraConfigurationEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
-        {
-            Session.SendPacket(new CameraPriceComposer(0, 0, 0));
-        }
+        public void Parse(GameClient Session, ClientPacket Packet) => Session.SendPacket(new CameraPriceComposer(0, 0, 0));
     }
 }

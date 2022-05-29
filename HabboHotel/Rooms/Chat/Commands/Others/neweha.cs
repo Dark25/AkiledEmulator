@@ -28,11 +28,11 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                     string event_alert = (AkiledEnvironment.GetConfig().data["event_alert"]);
                     string Message = CommandManager.MergeParams(Params, 1);
 
-                    string AlertMessage = Encoding.GetEncoding("Windows-1252").GetString(Encoding.GetEncoding("UTF-8").GetBytes("¡Hay un nuevo evento en este momento! Si quieres ganar <b>Diamantes o Puntos VIP</b> participa ahora mismo.Se trata de un juego hecho por <b> <font color=\"#2E9AFE\"> " + Session.GetHabbo().Username + "</font>.</b>" +
+                    string AlertMessage =  "¡Hay un nuevo evento en este momento! Si quieres ganar <b>Diamantes o Puntos VIP</b> participa ahora mismo.Se trata de un juego hecho por <b> <font color=\"#2E9AFE\"> " + Session.GetHabbo().Username + "</font>.</b>" +
                     "\r\r" +
                     "Si quieres participar haz click en el botón inferior de <b>Ir a la sala del evento</b>, y ahí dentro podrás participar.<br>¿De qué trata este evento?<br><font color='#FF0040'><b>"
                     + Message + "</b></font><br>¡Te esperamos!" +
-                    "\r\n"));
+                    "\r\n";
 
 
                     AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer(event_alert, "Comunicado Staff", AlertMessage, "Ir a la sala del evento", Session.GetHabbo().CurrentRoomId, ""), Session.Langue);
