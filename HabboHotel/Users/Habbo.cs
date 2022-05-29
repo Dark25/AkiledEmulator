@@ -213,12 +213,8 @@ namespace Akiled.HabboHotel.Users
         }
         public bool InitProcess()
         {
-            _process = new LowMoney();
-            if (_process.Init(this))
-            {
-                return true;
-            }
-            return false;
+            this._process = new LowMoney();
+            return this._process.Init(this);
         }
 
 
@@ -960,7 +956,62 @@ namespace Akiled.HabboHotel.Users
                 this.GetClient().SendMessage((IServerPacket)RoomNotificationComposer.SendBubble("happyhour", "Has recibido " + num.ToString() + " " + str1 + ", " + Notif2.ToString() + " " + str2 + ", " + Notif1.ToString() + " " + str3 + " Por estar conectado 30 minutos en el hotel."));
                 this.GetClient().SendWhisper("Has recibido " + num.ToString() + " " + str1 + ", " + Notif2.ToString() + " " + str2 + ", " + Notif1.ToString() + " " + str3 + " Por estar conectado 30 minutos en el hotel.", 34);
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine("El Usuario: " + this.mClient.GetHabbo().Username + " ha recibido su premio de happyhour. ", (object)".", (object)ConsoleColor.DarkGreen);
+                Console.WriteLine("El Usuario: " + this.mClient.GetHabbo().Username + " ha recibido su premio por tiempo online. ", (object)".", (object)ConsoleColor.DarkGreen);
+                this.CreditsUpdateTick = 30;
+            }
+            catch
+            {
+            }
+        }
+        public void CheckCreditsTimerRP()
+        {
+            try
+            {
+                --this._creditsTickUpdate;
+                if (this.CalendarCounter < 30)
+                    ++this.CalendarCounter;
+                if (this._creditsTickUpdate > 0)
+                    return;
+                Random random = new Random();
+                int Notif1 = 0;
+                int num = 0;
+                int num2 = 0;
+                int Notif2 = 0;
+                string str1 = "";
+                string str2 = "";
+                string str3 = "";
+                string str4 = "";
+                RoomUser roomUserByHabboId = this.GetClient().GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabboId(this.GetClient().GetHabbo().Id);
+                RolePlayer roleplayer = roomUserByHabboId.Roleplayer;                
+                using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
+                {
+                    queryReactor.SetQuery("SELECT * FROM `game_happyhour` LIMIT 1");
+                    foreach (DataRow row in (InternalDataCollectionBase)queryReactor.GetTable().Rows)
+                    {
+                        num = Convert.ToInt32(row["credits"]);
+                        Notif1 = Convert.ToInt32(row["duckets"]);
+                        Notif2 = Convert.ToInt32(row["diamantes"]);
+                        num2 = Convert.ToInt32(row["dolares"]);
+                        str1 = Convert.ToString(row["moneda1"]);
+                        str2 = Convert.ToString(row["moneda2"]);
+                        str3 = Convert.ToString(row["moneda3"]);
+                        str4 = Convert.ToString(row["moneda4"]);
+                    }
+                }
+                this.mClient.GetHabbo().Credits += num;
+                this.mClient.SendPacket((IServerPacket)new CreditBalanceComposer(this.mClient.GetHabbo().Credits));
+                this.mClient.GetHabbo().Duckets += Notif2;
+                this.mClient.SendPacket((IServerPacket)new HabboActivityPointNotificationComposer(this.mClient.GetHabbo().Duckets, Notif2));
+                this.mClient.GetHabbo().AkiledPoints += Notif1;
+                roleplayer.Money += num2;
+                roleplayer.SendUpdate();
+                this.mClient.SendPacket((IServerPacket)new HabboActivityPointNotificationComposer(this.mClient.GetHabbo().AkiledPoints, Notif1, 105));
+                using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
+                    queryReactor.RunQuery("UPDATE users SET vip_points = vip_points + " + Notif1.ToString() + " WHERE id = " + this.mClient.GetHabbo().Id.ToString() + " LIMIT 1");
+                this.GetClient().SendMessage((IServerPacket)RoomNotificationComposer.SendBubble("notibonusrp", "Has recibido " + num.ToString() + " " + str1 + ", " + Notif2.ToString() + " " + str2 + ", " + Notif1.ToString() + " " + str3 + ", " + num2.ToString() + " " + str4 + "Por estar conectado 30 minutos en en la zona rp."));
+                this.GetClient().SendWhisper("Has recibido " + num.ToString() + " " + str1 + ", " + Notif2.ToString() + " " + str2 + ", " + Notif1.ToString() + " " + str3 + " Por estar conectado 30 minutos en el hotel.", 34);
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine("El Usuario: " + this.mClient.GetHabbo().Username + " ha recibido su premio por tiempo online. ", (object)".", (object)ConsoleColor.DarkGreen);
                 this.CreditsUpdateTick = 30;
             }
             catch
