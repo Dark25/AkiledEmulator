@@ -538,7 +538,7 @@ namespace Akiled.HabboHotel.Support
             else
             {
                 double LengthSeconds = (double)Length;
-                AkiledEnvironment.GetGame().GetClientManager().BanUser(clientByUserId, ModSession.GetHabbo().Username, LengthSeconds, Message, false, false);
+                AkiledEnvironment.GetGame().GetClientManager().BanUserAsync(clientByUserId, ModSession.GetHabbo().Username, LengthSeconds, Message, false, false);
             }
         }
 

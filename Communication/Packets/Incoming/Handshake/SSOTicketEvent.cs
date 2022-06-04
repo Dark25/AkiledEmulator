@@ -6,7 +6,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {            if (Session == null || Session.GetHabbo() != null )
-                return;            Session.TryAuthenticate(Packet.PopString());
+                return;            Session.TryAuthenticateAsync(Packet.PopString());
         }
     }
 }

@@ -12,11 +12,13 @@ using Akiled.Communication.Encryption.Crypto.Prng;
 using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Communication.Packets.Outgoing.WebSocket;
 using Akiled.HabboHotel.Items;
-using Akiled.Utilities;
 using System.Text;
 using Akiled.HabboHotel.Rooms;
 using System.Collections.Generic;
 using Akiled.Communication.Packets.Outgoing.Inventory.AvatarEffects;
+
+using JNogueira.Discord.Webhook.Client;
+using System.Threading.Tasks;
 
 namespace Akiled.HabboHotel.GameClients
 {
@@ -51,7 +53,7 @@ namespace Akiled.HabboHotel.GameClients
             this.Connection.parser.handlePacketData(packet);
         }
 
-        public void TryAuthenticate(string AuthTicket)
+        public async Task TryAuthenticateAsync(string AuthTicket)
         {
             if (string.IsNullOrEmpty(AuthTicket))
                 return;
@@ -93,7 +95,7 @@ namespace Akiled.HabboHotel.GameClients
 
 
 
-                    this.IsNewUser();
+                    this.IsNewUserAsync();
 
                     this.SendPacket(new AuthenticationOKComposer());
                     this.SendPacket(new NavigatorSettingsComposer(this.Habbo.HomeRoom));
@@ -119,12 +121,14 @@ namespace Akiled.HabboHotel.GameClients
                     this.Habbo.UpdateActivityPointsBalance();
                     this.Habbo.UpdateCreditsBalance();
                     this.Habbo.UpdateDiamondsBalance();
+                    
+                   
 
                     string last_success_login = "Tu último inicio de sesiòn exitoso fue el ";
                     var last_success_login1 = last_success_login;
                     SendMessage(RoomNotificationComposer.SendBubble("last_success_login", last_success_login1 + new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(GetHabbo().LastOnline + 7200.0) + " Horas."));
-                   
 
+                    
 
 
                     string premiox20horasid = (AkiledEnvironment.GetConfig().data["premiox20horasid"]);
@@ -140,10 +144,47 @@ namespace Akiled.HabboHotel.GameClients
 
                     if (!this.GetHabbo().Nuxenable)
                     {
+                    
+
                         Console.ForegroundColor = ConsoleColor.DarkBlue;
                         Console.WriteLine("Usuario Conectado: " + this.GetHabbo().Username + " al Hotel, con la IP :" + this.GetHabbo().IP + " ",
                         ConsoleColor.DarkGreen);
+                        
+                        string Webhook = AkiledEnvironment.GetConfig().data["Webhook"];
+                        string Webhook_login_logout_ProfilePicture = AkiledEnvironment.GetConfig().data["Webhook_on_off_Image"];
+                        string Webhook_login_logout_UserNameD = AkiledEnvironment.GetConfig().data["Webhook_on_off_Username"];
+                        string Webhook_login_logout_WebHookurl = AkiledEnvironment.GetConfig().data["Webhook_on_off_URL"];
+
+                        if (Webhook == "true")
+                        {
+
+                            var client = new DiscordWebhookClient(Webhook_login_logout_WebHookurl);
+
+                            var message = new DiscordMessage(
+                             "La Seguridad es importante para nosotros! " + DiscordEmoji.Grinning,
+                                username: Webhook_login_logout_UserNameD,
+                                avatarUrl: Webhook_login_logout_ProfilePicture,
+                                tts: false,
+                                embeds: new[]
+                    {
+                                new DiscordMessageEmbed(
+                                "Notificacion de login" + DiscordEmoji.Thumbsup,
+                                 color: 0,
+                                author: new DiscordMessageEmbedAuthor(this.GetHabbo().Username),
+                                description: "Ha ingresado al cliente del hotel",
+                                thumbnail: new DiscordMessageEmbedThumbnail("https://hrecu.site/habbo-imaging/avatar/" + this.GetHabbo().Look),
+                                footer: new DiscordMessageEmbedFooter("Creado por "+Webhook_login_logout_UserNameD, Webhook_login_logout_ProfilePicture)
+        )
                     }
+                    );
+                            await client.SendToDiscord(message);
+                            Console.WriteLine("login enviado a Discord ", ConsoleColor.DarkCyan);
+
+                        }
+
+                    }
+                    
+                    
 
                     if (this.GetHabbo().AccountCreated > AkiledEnvironment.GetUnixTimestamp() - 259200.0 && this.GetHabbo().Nuxenable2 && this.GetHabbo().AchievementPoints > 20000)
                     {
@@ -170,7 +211,7 @@ namespace Akiled.HabboHotel.GameClients
                                 this.SendPacket(new FurniListNotificationComposer(PurchasedItem.Id, 1));
                                 this.SendPacket(RoomNotificationComposer.SendBubble("rewards", "Acabas de recibir un:\n\n " + premiox20horasname + ".\n\n¡Corre, " + this.GetHabbo().Username + ", revisa tu inventario, hay algo nuevo al parecer! \n\nClick Aquí", "inventory/open/furni"));
                                 Console.ForegroundColor = ConsoleColor.DarkGreen;
-                                Console.WriteLine("El Usuario: " + this.GetHabbo().Username + " ha recibido su premio x estar conectado 20 horas. ", "Trap.Users",
+                                Console.WriteLine("El Usuario: " + this.GetHabbo().Username + " ha recibido su premio x estar conectado 20 horas. ", "Akiled.Users",
                                 ConsoleColor.DarkGreen);
                             }
 
@@ -188,20 +229,27 @@ namespace Akiled.HabboHotel.GameClients
             }
         }
 
-        private void IsNewUser()
+        private async Task IsNewUserAsync()
         {
             string sala_boy = (AkiledEnvironment.GetConfig().data["sala_boy"]);
             string sala_girl = (AkiledEnvironment.GetConfig().data["sala_girl"]);
             string modelsala_boy = (AkiledEnvironment.GetConfig().data["modelsala_boy"]);
             string modelsala_girl = (AkiledEnvironment.GetConfig().data["modelsala_girl"]);
+            string Webhook = AkiledEnvironment.GetConfig().data["Webhook"];
+            string ProfilePicture = AkiledEnvironment.GetConfig().data["Webhook_Image"];
+            string UserNameD = AkiledEnvironment.GetConfig().data["Webhook_Username"];
+            string WebHookurl = AkiledEnvironment.GetConfig().data["Webhook_URL"];
+
+
             if (GetHabbo().NewUser && this.GetHabbo().Gender.ToUpper() != "M")
             {
                 GetHabbo().NewUser = false;
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine("Nuevo Usuario Conectado: " + this.GetHabbo().Username + " al Hotel, con la IP :" + this.GetHabbo().IP + " ", "Trap.Users",
+                Console.WriteLine("Nuevo Usuario Conectado: " + this.GetHabbo().Username + " al Hotel, con la IP :" + this.GetHabbo().IP + " ", "Akiled.Users",
                 ConsoleColor.DarkGreen);
 
                 int RoomId = 0;
+               
 
                 using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                 {
@@ -229,13 +277,38 @@ namespace Akiled.HabboHotel.GameClients
                 this.SendPacket(nuxStatus);
 
                 this.SendPacket(new NuxAlertComposer("nux/lobbyoffer/hide"));
+                if (Webhook == "true")
+                {
+                    var client = new DiscordWebhookClient(WebHookurl);
+
+                    var message = new DiscordMessage(
+                     "La seguridad es importate para nosotros " + DiscordEmoji.Grinning,
+                        username: UserNameD,
+                        avatarUrl: ProfilePicture,
+                        tts: false,
+                        embeds: new[]
+            {
+                                new DiscordMessageEmbed(
+                                "Notificación nuevo usuario" + DiscordEmoji.Thumbsup,
+                                 color: 0,
+                                author: new DiscordMessageEmbedAuthor(this.GetHabbo().Username),
+                                description: "Ha ingresado al cliente del hotel por primera vez",
+                                thumbnail: new DiscordMessageEmbedThumbnail("https://hrecu.site/habbo-imaging/avatar/" + this.GetHabbo().Look),
+                                footer: new DiscordMessageEmbedFooter("Creado por "+UserNameD, ProfilePicture)
+        )
+            }
+            );
+                    await client.SendToDiscord(message);
+                    Console.WriteLine("login de nuevo usuario enviado a Discord ", ConsoleColor.DarkYellow);
+
+                }
             }
 
             if (GetHabbo().NewUser && this.GetHabbo().Gender.ToUpper() != "F")
             {
                 GetHabbo().NewUser = false;
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Nuevo Usuario Conectado: " + this.GetHabbo().Username + " al Hotel, con la IP :" + this.GetHabbo().IP + " ", "Trap.Users",
+                Console.WriteLine("Nuevo Usuario Conectado: " + this.GetHabbo().Username + " al Hotel, con la IP :" + this.GetHabbo().IP + " ", "Akiled.Users",
                 ConsoleColor.DarkGreen);
 
                 int RoomId = 0;
@@ -266,6 +339,31 @@ namespace Akiled.HabboHotel.GameClients
                 this.SendPacket(nuxStatus);
 
                 this.SendPacket(new NuxAlertComposer("nux/lobbyoffer/hide"));
+                if (Webhook == "true")
+                {
+                    var client = new DiscordWebhookClient(WebHookurl);
+
+                    var message = new DiscordMessage(
+                     "La seguridad es importate para nosotros " + DiscordEmoji.Grinning,
+                        username: UserNameD,
+                        avatarUrl: ProfilePicture,
+                        tts: false,
+                        embeds: new[]
+            {
+                                new DiscordMessageEmbed(
+                                "Notificación nuevo usuario" + DiscordEmoji.Thumbsup,
+                                 color: 0,
+                                author: new DiscordMessageEmbedAuthor(this.GetHabbo().Username),
+                                description: "Ha ingresado al cliente del hotel por primera vez",
+                                thumbnail: new DiscordMessageEmbedThumbnail("https://hrecu.site/habbo-imaging/avatar/" + this.GetHabbo().Look),
+                                footer: new DiscordMessageEmbedFooter("Creado por "+UserNameD, ProfilePicture)
+        )
+            }
+            );
+                    await client.SendToDiscord(message);
+                    Console.WriteLine("login de nuevo usuario enviado a Discord ", ConsoleColor.DarkYellow);
+
+                }
             }
 
         }
@@ -406,7 +504,7 @@ namespace Akiled.HabboHotel.GameClients
                     queryreactor.RunQuery();
                 }
 
-                AkiledEnvironment.GetGame().GetClientManager().BanUser(this, "Robot", (double)86400, "Nuestro robot ha detectado la publicidad de la cuenta. " + this.GetHabbo().Username, true, false);
+                AkiledEnvironment.GetGame().GetClientManager().BanUserAsync(this, "Robot", (double)86400, "Nuestro robot ha detectado la publicidad de la cuenta. " + this.GetHabbo().Username, true, false);
             }
             else
             {
@@ -445,14 +543,14 @@ namespace Akiled.HabboHotel.GameClients
 
         public void Dispose()
         {
-            if (this.GetHabbo() != null) this.Habbo.OnDisconnect();
+            if (this.GetHabbo() != null) this.Habbo.OnDisconnectAsync();
 
             this.Habbo = (Habbo)null;
             this.Connection = (ConnectionInformation)null;
             this.packetParser = null;
             this.RC4Client = null;
         }
-
+        
         public void Disconnect()
         {
             if (this.Connection != null) this.Connection.Dispose();

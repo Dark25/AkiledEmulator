@@ -70,7 +70,7 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
 
             WriteString("NAVIGATOR_ROOM_THUMBNAIL_CAMERA");
             WriteString(""); // ??
-            WriteBoolean(false);
+            WriteBoolean(true);
         }
     }
 }

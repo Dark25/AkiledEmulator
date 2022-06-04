@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Database.Interfaces;
+using JNogueira.Discord.Webhook.Client;
+using System.Threading.Tasks;
 
 namespace Akiled.HabboHotel.Rooms
 {
@@ -149,7 +151,7 @@ namespace Akiled.HabboHotel.Rooms
         {
             try
             {
-                this.DeliverItems();
+                this.DeliverItemsAsync();
                 this.CloseTradeClean();
             }
             catch (Exception ex)
@@ -232,10 +234,14 @@ namespace Akiled.HabboHotel.Rooms
             this.SendMessageToUsers(Message);
         }
 
-        public void DeliverItems()
+        public async Task DeliverItemsAsync()
         {
             List<Item> list1 = this.GetTradeUser(this.oneId).OfferedItems;
             List<Item> list2 = this.GetTradeUser(this.twoId).OfferedItems;
+            string items1 = "";
+            string items2 = "";
+            string itemsname1 = ":";
+            string itemsname2 = ":";
             foreach (Item userItem in list1)
             {
                 if (this.GetTradeUser(this.oneId).GetClient().GetHabbo().GetInventoryComponent().GetItem(userItem.Id) == null)
@@ -244,6 +250,8 @@ namespace Akiled.HabboHotel.Rooms
                     this.GetTradeUser(this.twoId).GetClient().SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("trade.failed", this.GetTradeUser(this.twoId).GetClient().Langue));
                     return;
                 }
+                items1 = items1 + userItem.Id.ToString() + "; ";
+                itemsname1 = itemsname1 + userItem.GetBaseItem().ItemName.ToString() + "; ";
             }
             foreach (Item userItem in list2)
             {
@@ -253,6 +261,8 @@ namespace Akiled.HabboHotel.Rooms
                     this.GetTradeUser(this.twoId).GetClient().SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("trade.failed", this.GetTradeUser(this.twoId).GetClient().Langue));
                     return;
                 }
+                items2 = items2 + userItem.Id.ToString() + "; ";
+                itemsname2 = itemsname2 + userItem.GetBaseItem().ItemName.ToString() + "; ";
             }
             foreach (Item userItem in list1)
             {
@@ -297,15 +307,57 @@ namespace Akiled.HabboHotel.Rooms
 
             this.GetTradeUser(this.oneId).GetClient().SendPacket(new FurniListUpdateComposer());
             this.GetTradeUser(this.twoId).GetClient().SendPacket(new FurniListUpdateComposer());
-        
-            using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
+
+            using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery("INSERT INTO `logs_client_trade` (`user_id1`,`user_id2`,`items1`,`items2`,`timestamp`) VALUES (@user_id1, @user_id2, @items1, @items2, UNIX_TIMESTAMP())");
-                dbClient.AddParameter("user_id1", oneId);
-                dbClient.AddParameter("user_id2", twoId); 
-                dbClient.AddParameter("user_id2", 1);
-                dbClient.AddParameter("user_id2", 0);
-                dbClient.RunQuery();
+                queryReactor.SetQuery("INSERT INTO `logs_client_trade` VALUES(null, @1id, @2id, @1items, @2items, UNIX_TIMESTAMP())");
+                queryReactor.AddParameter("1id", this.oneId);
+                queryReactor.AddParameter("2id", this.twoId);
+                queryReactor.AddParameter("1items", items1);
+                queryReactor.AddParameter("2items", items2);
+                queryReactor.RunQuery();
+            }
+            
+            string Webhook = AkiledEnvironment.GetConfig().data["Webhook"];
+            string Webhook_trade_ProfilePicture = AkiledEnvironment.GetConfig().data["Webhook_trade_Image"];
+            string Webhook_trade_Thumbnail = AkiledEnvironment.GetConfig().data["Webhook_trade_Thumbnail"];
+            string Webhook_trade_UserNameD = AkiledEnvironment.GetConfig().data["Webhook_trade_Username"];
+            string Webhook_trade_WebHookurl = AkiledEnvironment.GetConfig().data["Webhook_trade_URL"];
+            
+            if (Webhook == "true")
+            {
+
+                var client = new DiscordWebhookClient(Webhook_trade_WebHookurl);
+
+                var message = new DiscordMessage(
+                 "La Seguridad es importante para nosotros! " + DiscordEmoji.Grinning,
+                    username: Webhook_trade_UserNameD,
+                    avatarUrl: Webhook_trade_ProfilePicture,
+                    tts: false,
+                    embeds: new[]
+        {
+                                new DiscordMessageEmbed(
+                                "Notificacion de trade" + DiscordEmoji.Thumbsup,
+                                 color: 0,
+                                author: new DiscordMessageEmbedAuthor(this.GetTradeUser(this.oneId).GetClient().GetHabbo().Username + " acepto el trade con " + this.GetTradeUser(this.twoId).GetClient().GetHabbo().Username),
+                                description: "Informacion de trade",
+                                fields: new[]
+                                {
+                                    new DiscordMessageEmbedField("Usuario 1", this.GetTradeUser(this.oneId).GetClient().GetHabbo().Username, true),
+                                    new DiscordMessageEmbedField("Usuario 2", this.GetTradeUser(this.twoId).GetClient().GetHabbo().Username, true),
+                                    new DiscordMessageEmbedField("Items 1", itemsname1 ?? "Nada", true),
+                                    new DiscordMessageEmbedField("Items 2", itemsname2 ?? "Nada", true),
+
+                                },
+                                thumbnail: new DiscordMessageEmbedThumbnail(Webhook_trade_Thumbnail),
+                                footer: new DiscordMessageEmbedFooter("Creado por: "+Webhook_trade_UserNameD, Webhook_trade_ProfilePicture)
+        )
+        }
+        );
+               await client.SendToDiscord(message);
+
+                Console.WriteLine("Trade enviado a Discord ", ConsoleColor.DarkCyan);
+
             }
         }
 

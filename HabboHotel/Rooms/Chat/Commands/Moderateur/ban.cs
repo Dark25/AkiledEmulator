@@ -1,5 +1,8 @@
 using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.HabboHotel.GameClients;namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd{    class ban : IChatCommand    {        public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)        {            if (Params.Length < 2)                return;
+using Akiled.HabboHotel.GameClients;using JNogueira.Discord.Webhook.Client;
+using System;
+
+namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd{    class ban : IChatCommand    {        public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)        {            if (Params.Length < 2)                return;
 
             GameClient clientByUsername = AkiledEnvironment.GetGame().GetClientManager().GetClientByUsername(Params[1]);            if (clientByUsername == null || clientByUsername.GetHabbo() == null)
             {
@@ -20,9 +23,12 @@ using Akiled.HabboHotel.GameClients;namespace Akiled.HabboHotel.Rooms.Chat.Com
             else
             {
                 string Raison = CommandManager.MergeParams(Params, 3);
-                AkiledEnvironment.GetGame().GetClientManager().BanUser(clientByUsername, Session.GetHabbo().Username, (double)num, Raison, false, false);
+                AkiledEnvironment.GetGame().GetClientManager().BanUserAsync(clientByUsername, Session.GetHabbo().Username, (double)num, Raison, false, false);
                 AkiledEnvironment.GetGame().GetClientManager().StaffAlert(RoomNotificationComposer.SendBubble("baneo", "El usuario: " + clientByUsername.GetHabbo().Username + " ha sido baneado, por favor verifiquen la razon del baneo, para evitar malos entendidos"));
                 Session.SendWhisper("Excelente has baneado la ip del usuario '" + clientByUsername + "' por la razon: '" + Raison + "'!");
                 if (Session.Antipub(Raison, "<CMD>", Room.Id))
                     return;
-            }        }    }}
+                
+              
+            }
+                    }    }}

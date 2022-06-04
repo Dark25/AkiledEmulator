@@ -18,6 +18,8 @@ using Akiled.HabboHotel.Roleplay;
 using Akiled.HabboHotel.Roleplay.Player;
 using Akiled.HabboHotel.WebClients;
 using Akiled.HabboHotel.Users.Clothing;
+using JNogueira.Discord.Webhook.Client;
+using System.Threading.Tasks;
 
 namespace Akiled.HabboHotel.Users
 {
@@ -702,7 +704,7 @@ namespace Akiled.HabboHotel.Users
 
         public void LoadAchievements(Dictionary<string, UserAchievement> achievements) => this.Achievements = achievements;
 
-        public void OnDisconnect()
+        public async Task OnDisconnectAsync()
         {
             if (this.Disconnected)
                 return;
@@ -722,11 +724,45 @@ namespace Akiled.HabboHotel.Users
             else if (this.Langue == Language.SPANISH) AkiledEnvironment.GetGame().GetClientManager().OnlineUsersEs--;
 
             if (this.HasFuse("fuse_mod"))
+                
                 AkiledEnvironment.GetGame().GetClientManager().RemoveUserStaff(this.Id);
 
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("El Usuario : " + this.Username + " Se ha Desconectado del Hotel.",
             ConsoleColor.DarkGreen);
+            
+            string Webhook = AkiledEnvironment.GetConfig().data["Webhook"];
+            string Webhook_login_logout_ProfilePicture = AkiledEnvironment.GetConfig().data["Webhook_on_off_Image"];
+            string Webhook_login_logout_UserNameD = AkiledEnvironment.GetConfig().data["Webhook_on_off_Username"];
+            string Webhook_login_logout_WebHookurl = AkiledEnvironment.GetConfig().data["Webhook_on_off_URL"];
+
+
+            if (Webhook == "true")
+            {
+                var client = new DiscordWebhookClient(Webhook_login_logout_WebHookurl);
+
+                var message = new DiscordMessage(
+                 "La Seguridad es importante para nosotros! " + DiscordEmoji.Grinning,
+                    username: Webhook_login_logout_UserNameD,
+                    avatarUrl: Webhook_login_logout_ProfilePicture,
+                    tts: false,
+                    embeds: new[]
+        {
+                                new DiscordMessageEmbed(
+                                "Notificacion de Logout" + DiscordEmoji.Thumbsup,
+                                 color: 0,
+                                author: new DiscordMessageEmbedAuthor(this.Username),
+                                description: "Se ha Desconectado del Hotel",
+                                thumbnail: new DiscordMessageEmbedThumbnail("https://hrecu.site/habbo-imaging/avatar/" + this.Look),
+                                footer: new DiscordMessageEmbedFooter("Creado por "+Webhook_login_logout_UserNameD, Webhook_login_logout_ProfilePicture)
+        )
+        }
+        );
+                await client.SendToDiscord(message);
+                Console.WriteLine("logout enviado a Discord ", ConsoleColor.DarkYellow);
+
+            }
+        
 
             if (!this.HabboinfoSaved)
             {
@@ -738,7 +774,9 @@ namespace Akiled.HabboHotel.Users
                     queryreactor.RunQuery("UPDATE users SET online = '0', last_online = '" + AkiledEnvironment.GetUnixTimestamp() + "', activity_points = " + this.Duckets + ", activity_points_lastupdate = '" + this.LastActivityPointsUpdate + "', credits = " + this.Credits + " WHERE id = " + this.Id + " ;");
                     queryreactor.RunQuery("UPDATE user_stats SET groupid = " + this.FavouriteGroupId + ",  OnlineTime = OnlineTime + " + TimeOnlineSec + ", quest_id = '" + this.CurrentQuestId + "', Respect = '" + this.Respect + "', DailyRespectPoints = '" + this.DailyRespectPoints + "', DailyPetRespectPoints = '" + this.DailyPetRespectPoints + "' WHERE id = " + this.Id + " ;");
                 }
+               
             }
+            
 
             if (this.InRoom && this.CurrentRoom != null)
             {
