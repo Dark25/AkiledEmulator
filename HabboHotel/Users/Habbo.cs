@@ -750,7 +750,7 @@ namespace Akiled.HabboHotel.Users
         {
                                 new DiscordMessageEmbed(
                                 "Notificacion de Logout" + DiscordEmoji.Thumbsup,
-                                 color: 0,
+                                 color: 14687003,
                                 author: new DiscordMessageEmbedAuthor(this.Username),
                                 description: "Se ha Desconectado del Hotel",
                                 thumbnail: new DiscordMessageEmbedThumbnail("https://hrecu.site/habbo-imaging/avatar/" + this.Look),

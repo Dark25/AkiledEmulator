@@ -169,7 +169,7 @@ namespace Akiled.HabboHotel.GameClients
                     {
                                 new DiscordMessageEmbed(
                                 "Notificacion de login" + DiscordEmoji.Thumbsup,
-                                 color: 0,
+                                 color: 4833120,
                                 author: new DiscordMessageEmbedAuthor(this.GetHabbo().Username),
                                 description: "Ha ingresado al cliente del hotel",
                                 thumbnail: new DiscordMessageEmbedThumbnail("https://hrecu.site/habbo-imaging/avatar/" + this.GetHabbo().Look),
@@ -290,7 +290,7 @@ namespace Akiled.HabboHotel.GameClients
             {
                                 new DiscordMessageEmbed(
                                 "Notificación nuevo usuario" + DiscordEmoji.Thumbsup,
-                                 color: 0,
+                                 color: 1824480,
                                 author: new DiscordMessageEmbedAuthor(this.GetHabbo().Username),
                                 description: "Ha ingresado al cliente del hotel por primera vez",
                                 thumbnail: new DiscordMessageEmbedThumbnail("https://hrecu.site/habbo-imaging/avatar/" + this.GetHabbo().Look),
@@ -352,7 +352,7 @@ namespace Akiled.HabboHotel.GameClients
             {
                                 new DiscordMessageEmbed(
                                 "Notificación nuevo usuario" + DiscordEmoji.Thumbsup,
-                                 color: 0,
+                                 color: 1824480,
                                 author: new DiscordMessageEmbedAuthor(this.GetHabbo().Username),
                                 description: "Ha ingresado al cliente del hotel por primera vez",
                                 thumbnail: new DiscordMessageEmbedThumbnail("https://hrecu.site/habbo-imaging/avatar/" + this.GetHabbo().Look),
