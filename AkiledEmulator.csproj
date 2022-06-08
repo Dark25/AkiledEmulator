@@ -59,8 +59,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Properties\**" />
+    <Compile Remove="Utilities\Discord\**" />
     <EmbeddedResource Remove="Properties\**" />
+    <EmbeddedResource Remove="Utilities\Discord\**" />
     <None Remove="Properties\**" />
+    <None Remove="Utilities\Discord\**" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MySql.Data, Version=6.5.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
@@ -95,7 +98,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HabboHotel\Rooms\Chat\Pets\Locale\" />
-    <Folder Include="Utilities\Discord\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="discord-webhook-client" Version="3.1.0" />
@@ -115,7 +117,7 @@
     <Compile Remove="HabboHotel\Rooms\Chat\Commands\Construition\sh.cs" />
     <Compile Remove="HabboHotel\Rooms\Chat\Commands\Others\Fiestamensual - Copy.cs" />
   </ItemGroup>
-	<ItemGroup>
+	<ItemGroup>s
 		<None Update="Settings\configuration.ini">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
