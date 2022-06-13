@@ -6,7 +6,7 @@ namespace Akiled.Core
     [Transient]
     public interface IStartable
     {
-         void InitiaStartlize();
+         Task Start();
     
     }
 }

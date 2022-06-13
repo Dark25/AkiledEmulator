@@ -11,11 +11,11 @@ namespace Akiled.Plugins
         private readonly Dictionary<IPluginDefinition, IPlugin> _plugins;
         public PluginsCache(IEnumerable<IPluginDefinition> pluginDefinitions, IEnumerable<IPlugin> plugins) => _plugins = pluginDefinitions.ToDictionary(kvp => kvp, kvp => plugins.First(p => p.GetType() == kvp.PluginClass));
 
-        public void InitiaStartlize()
+        public Task Start()
         {
             foreach (var (_, plugin) in _plugins)
                 Task.Run(plugin.Start);
-            return;
+            return Task.CompletedTask;
         }
     }
 }

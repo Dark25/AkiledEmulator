@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Permissions;
+using System.Threading.Tasks;
 
 namespace Akiled
 {
@@ -17,8 +18,8 @@ namespace Akiled
         private static IEnumerable<Type> _transientTypes;
         [STAThread]
         [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]
-        
-        public static void Main()
+
+        public static async Task Main(string[] args)
         {
             var services = new ServiceCollection();
             _transientTypes = typeof(Program).Assembly.GetTypes().Where(t => t.IsInterface && t.GetCustomAttributes<TransientAttribute>().Any());
@@ -43,8 +44,16 @@ namespace Akiled
             foreach (var plugin in pluginDefinitions)
                 plugin.OnServiceProviderBuild(serviceProvider);
 
+            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
 
-            InitEnvironment();
+            // Start
+            var environment = serviceProvider.GetRequiredService<IAkiledEnvironment>();
+            var started = await environment.Start();
+            if (!started)
+            {
+                Environment.Exit(1);
+                return;
+            }
             while (true)
             {
                 if (Console.ReadKey(true).Key == ConsoleKey.Enter)
@@ -115,19 +124,13 @@ namespace Akiled
         }
 
 
-        [MTAThread]
-        public static void InitEnvironment()
-        {
-            Console.ForegroundColor = ConsoleColor.White;
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(MyHandler);
-            AkiledEnvironment.InitiaStartlize();
-        }
+        
 
 
-        private static void MyHandler(object sender, UnhandledExceptionEventArgs args)
+        private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs args)
         {
-            Logging.DisablePrimaryWriting(true);
-            Logging.LogCriticalException("SYSTEM CRITICAL EXCEPTION: " + ((Exception)args.ExceptionObject).ToString());
+            var e = (Exception)args.ExceptionObject;
+            //Logger.LogCriticalException("SYSTEM CRITICAL EXCEPTION: " + e);
             AkiledEnvironment.PreformShutDown(true);
         }
     }

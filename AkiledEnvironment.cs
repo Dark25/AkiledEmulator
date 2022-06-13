@@ -25,7 +25,7 @@ using System.Threading.Tasks;
 
 namespace Akiled
 {
-    public class AkiledEnvironment
+    public class AkiledEnvironment: IAkiledEnvironment
     {
         private static ConcurrentDictionary<int, Habbo> _usersCached = new ConcurrentDictionary<int, Habbo>();
         private readonly IEnumerable<IStartable> _startableTasks;
@@ -135,9 +135,9 @@ namespace Akiled
         public AkiledEnvironment(
        IEnumerable<IStartable> startableTasks) => _startableTasks = startableTasks;
 
-       
 
-        public  static void InitiaStartlize()
+
+        public async Task<bool> Start()
         {
             Console.Clear();
             AkiledEnvironment.ServerStarted = DateTime.Now;
@@ -175,7 +175,7 @@ namespace Akiled
                         Logging.WriteLine("Error al conectar con el Mysql Server.");
                         Console.ReadKey(true);
                         Environment.Exit(1);
-                        return;
+                        return false;
                     }
                 }
                 HabboEncryptionV2.Initialize(new RSAKeys());
@@ -193,7 +193,9 @@ namespace Akiled
                 AkiledEnvironment.StaticEvents = AkiledEnvironment._configuration.data["static.events"] == "true";
                 Logging.WriteLine("VARIABLES -> CARGADAS y LISTAS!");
                 // Allow services to self initialize
-               
+                foreach (var task in _startableTasks)
+                    await task.Start();
+
                 TimeSpan TimeUsed = DateTime.Now - ServerStarted;
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Logging.WriteLine("Akiled Emulador -> Activo! (" + TimeUsed.Seconds + " s, " + TimeUsed.Milliseconds + " ms)");
@@ -215,12 +217,14 @@ namespace Akiled
                 Logging.WriteLine("Press any key to shut down ...");
                 Logging.WriteLine(ex.ToString());
                 Console.ReadKey(true);
+                return false;
             }
             catch (InvalidOperationException ex)
             {
                 Logging.WriteLine("Failed to initialize AkiledEmulator: " + ex.Message);
                 Logging.WriteLine("Press any key to shut down ...");
                 Console.ReadKey(true);
+                return false;
             }
             catch (Exception ex)
             {
@@ -228,7 +232,9 @@ namespace Akiled
                 Console.WriteLine("Press a key to exit");
                 Console.ReadKey();
                 Environment.Exit(1);
+                return false;
             }
+            return true;
         }
 
 
@@ -348,14 +354,14 @@ namespace Akiled
                     }
                     catch
                     {
-                        return (Habbo)null;
+                        return null;
                     }
                 }
-                return (Habbo)null;
+                return null;
             }
             catch
             {
-                return (Habbo)null;
+                return null;
             }
         }
 

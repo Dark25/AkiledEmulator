@@ -760,9 +760,15 @@ namespace Akiled.HabboHotel.Users
         );
                 await client.SendToDiscord(message);
                 Console.WriteLine("logout enviado a Discord ", ConsoleColor.DarkYellow);
+                //discord stats enviar a discord
+               
+                                
+                           
+
+
 
             }
-        
+
 
             if (!this.HabboinfoSaved)
             {

@@ -4,5 +4,6 @@ namespace Akiled;
 
 public interface IAkiledEnvironment
 {
-    void InitiaStartlize();
+    Task<bool> Start();
+
 }
