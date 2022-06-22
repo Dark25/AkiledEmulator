@@ -8,6 +8,7 @@ namespace Akiled.HabboHotel.Items
         public int Id;
         public int SpriteId;
         public string ItemName;
+        public string publicname;
         public char Type;
         public int Width;
         public int Length;
@@ -28,13 +29,14 @@ namespace Akiled.HabboHotel.Items
         public int EffectId;
         public bool IsRare;
 
-        public ItemData(int Id, int Sprite, string Name, string Type, int Width, int Length, double Height, bool Stackable, bool Walkable, bool IsSeat,
+        public ItemData(int Id, int Sprite, string Name, string Public_name, string Type, int Width, int Length, double Height, bool Stackable, bool Walkable, bool IsSeat,
             bool AllowRecycle, bool AllowTrade, bool AllowGift, bool AllowInventoryStack, InteractionType InteractionType, int behaviourData, int Modes,
             string VendingIds, string AdjustableHeights, int EffectId,  bool IsRare)
         {
             this.Id = Id;
             this.SpriteId = Sprite;
             this.ItemName = Name;
+            this.publicname = Public_name;
             this.Type = char.Parse(Type);
             this.Width = Width;
             this.Length = Length;

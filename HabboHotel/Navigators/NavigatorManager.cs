@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using Akiled.Core;
 using Akiled.Database.Interfaces;
 
@@ -144,5 +145,7 @@ namespace Akiled.HabboHotel.Navigators
         {
             return this._featuredRooms.Values;//.Where(F => F.Langue == Langue).ToList();
         }
+    
+
     }
 }

@@ -378,6 +378,10 @@ namespace Akiled
 
         public static DatabaseManager GetDatabaseManager() => AkiledEnvironment._datebasemanager;
 
+        public static ICollection<Habbo> GetUsersCached() => AkiledEnvironment._usersCached.Values;
+
+        public static bool RemoveFromCache(int Id, out Habbo Data) => AkiledEnvironment._usersCached.TryRemove(Id, out Data);
+
         internal static void PreformShutDown() => PreformShutDown(false);
 
 

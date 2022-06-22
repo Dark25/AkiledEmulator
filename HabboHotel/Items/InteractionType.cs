@@ -210,31 +210,40 @@
                     return InteractionType.PREFIX_SIZETAG;
                 case "actiongivescore":
                 case "wf_act_givepoints":
+                case "wf_act_give_score":
                     return InteractionType.actiongivescore;
                 case "actionmoverotate":
                 case "wf_act_moverotate":
+                case "wf_act_move_to_dir1":
                     return InteractionType.actionmoverotate;
                 case "actionposreset":
                 case "wf_act_matchfurni":
+                case "wf_act_match_to_sshot":
                     return InteractionType.actionposreset;
                 case "actionresettimer":
+                case "wf_act_reset_timers":
                     return InteractionType.actionresettimer;
                 case "actionshowmessage":
                 case "wf_act_saymsg":
+                case "wf_act_show_message":
                     return InteractionType.actionshowmessage;
                 case "actionteleportto":
                 case "wf_act_moveuser":
+                case "wf_act_teleport_to":
                     return InteractionType.actionteleportto;
                 case "actiontogglestate":
                 case "wf_act_togglefurni":
+                case "wf_act_toggle_state":
                     return InteractionType.actiontogglestate;
                 case "adsbackground":
+                case "ads_bg":
                     return InteractionType.adsbackground;
                 case "alert":
                     return InteractionType.alert;
                 case "arrowplate":
                 case "pressure_pad":
                 case "pressurepad":
+                case "pressureplate":
                     return InteractionType.pressurepad;
                 case "badge":
                     return InteractionType.BADGE;
@@ -250,36 +259,49 @@
                 case "banzaicounter":
                 case "counter":
                 case "freezetimer":
+                case "game_timer":
                     return InteractionType.ChronoTimer;
                 case "banzaifloor":
                 case "bb_patch":
+                case "battlebanzai_tile":
                     return InteractionType.banzaifloor;
                 case "banzaigateblue":
                 case "bb_blue_gate":
+                case "battlebanzai_gate_blue":
                     return InteractionType.banzaigateblue;
                 case "banzaigategreen":
                 case "bb_green_gate":
+                case "battlebanzai_gate_green":
                     return InteractionType.banzaigategreen;
                 case "banzaigatered":
                 case "bb_red_gate":
+                case "battlebanzai_gate_red":
                     return InteractionType.banzaigatered;
                 case "banzaigateyellow":
                 case "bb_yellow_gate":
+                case "battlebanzai_gate_yellow":
                     return InteractionType.banzaigateyellow;
                 case "banzaipuck":
+                case "battlebanzai_puck":
                     return InteractionType.banzaipuck;
                 case "banzaipyramid":
+                case "pyramid":
                     return InteractionType.banzaipyramid;
                 case "banzaiscoreblue":
+                case "battlebanzai_counter_blue":
                     return InteractionType.banzaiscoreblue;
                 case "banzaiscoregreen":
+                case "battlebanzai_counter_gree":
                     return InteractionType.banzaiscoregreen;
                 case "banzaiscorered":
+                case "battlebanzai_counter_red":
                     return InteractionType.banzaiscorered;
                 case "banzaiscoreyellow":
+                case "battlebanzai_counter_yell":
                     return InteractionType.banzaiscoreyellow;
                 case "banzaitele":
                 case "bb_teleport":
+                case "battlebanzai_random_telep":
                     return InteractionType.banzaitele;
                 case "bed":
                     return InteractionType.bed;
@@ -287,6 +309,7 @@
                     return InteractionType.TONER;
                 case "blue_goal":
                 case "footballgoalblue":
+                case "football_goal_blue":
                     return InteractionType.footballgoalblue;
                 case "bot":
                     return InteractionType.bot;
@@ -302,6 +325,7 @@
                 case "wf_cnd_furnis_hv_avtrs":
                     return InteractionType.conditionfurnishaveusers;
                 case "conditionstatepos":
+                case "wf_cnd_match_snapshot":
                     return InteractionType.conditionstatepos;
                 case "conditiontimelessthan":
                     return InteractionType.conditiontimelessthan;
@@ -315,6 +339,7 @@
                 case "crafting":
                     return InteractionType.CRAFTING;
                 case "crosstrainer":
+                case "gym_equipment":
                     return InteractionType.CROSSTRAINER;
                 case "default":
                     return InteractionType.NONE;
@@ -329,6 +354,7 @@
                 case "extrabox":
                     return InteractionType.EXTRABOX;
                 case "fbgate":
+                case "football_gate":
                     return InteractionType.fbgate;
                 case "firegate":
                     return InteractionType.firegate;
@@ -336,45 +362,64 @@
                     return InteractionType.FLOOR;
                 case "floorswitch1":
                 case "floorswitch2":
+                case "switch":
                     return InteractionType.floorswitch1;
                 case "footballcounterblue":
+                case "football_counter_blue":
                     return InteractionType.footballcounterblue;
                 case "footballcountered":
+                case "football_counter_red":
                     return InteractionType.footballcounterred;
                 case "footballcountergreen":
+                case "football_counter_green":
                     return InteractionType.footballcountergreen;
                 case "footballcounteryellow":
+                case "football_counter_yellow":
                     return InteractionType.footballcounteryellow;
                 case "footballgoalgreen":
                 case "green_goal":
+                case "football_goal_green":
                     return InteractionType.footballgoalgreen;
                 case "footballgoalred":
                 case "red_goal":
+                case "football_goal_red":
                     return InteractionType.footballgoalred;
                 case "footballgoalyellow":
                 case "yellow_goal":
+                case "football_goal_yellow":
                     return InteractionType.footballgoalyellow;
                 case "freezebluecounter":
+                case "freeze_counter_blue":
                     return InteractionType.freezebluecounter;
                 case "freezebluegate":
+                case "freeze_gate_blue":
                     return InteractionType.freezebluegate;
                 case "freezeexit":
+                case "freeze_exit":
                     return InteractionType.freezeexit;
                 case "freezegreencounter":
+                case "freeze_counter_green":
                     return InteractionType.freezegreencounter;
                 case "freezegreengate":
+                case "freeze_gate_green":
                     return InteractionType.freezegreengate;
                 case "freezeredcounter":
+                case "freeze_counter_red":
                     return InteractionType.freezeredcounter;
                 case "freezeredgate":
+                case "freeze_gate_red":
                     return InteractionType.freezeredgate;
                 case "freezetile":
+                case "freeze_tile":
                     return InteractionType.freezetile;
                 case "freezetileblock":
+                case "freeze_block":
                     return InteractionType.freezetileblock;
                 case "freezeyellowcounter":
+                case "freeze_counter_yellow":
                     return InteractionType.freezeyellowcounter;
                 case "freezeyellowgate":
+                case "freeze_gate_yellow":
                     return InteractionType.freezeyellowgate;
                 case "gate":
                     return InteractionType.GATE;
@@ -385,8 +430,10 @@
                 case "gnomebox":
                     return InteractionType.gnomebox;
                 case "groupfurni":
+                case "guild_furni":
                     return InteractionType.GUILD_ITEM;
                 case "groupgate":
+                case "guild_gate":
                     return InteractionType.GUILD_GATE;
                 case "guild_forum":
                     return InteractionType.GUILD_FORUM;
@@ -395,6 +442,7 @@
                 case "haloweenpool":
                     return InteractionType.haloweenpool;
                 case "highscore":
+                case "wf_highscore":
                     return InteractionType.highscore;
                 case "hightscorepoints":
                     return InteractionType.highscorepoints;
@@ -409,6 +457,7 @@
                 case "horse_saddle_2":
                     return InteractionType.HORSE_SADDLE_2;
                 case "iceskates":
+                case "icetag_field":
                     return InteractionType.iceskates;
                 case "jmphorse":
                     return InteractionType.jmphorse;
@@ -419,12 +468,15 @@
                 case "legendbox":
                     return InteractionType.LEGENDBOX;
                 case "lovelock":
+                case "love_lock":
                     return InteractionType.LOVELOCK;
                 case "loveshuffler":
+                case "random_state":
                     return InteractionType.loveshuffler;
                 case "lowpool":
                     return InteractionType.lowpool;
                 case "maniqui":
+                case "mannequin":
                     return InteractionType.MANNEQUIN;
                 case "mineria":
                     return InteractionType.mineria;
@@ -437,22 +489,25 @@
                 case "pet":
                     return InteractionType.pet;
                 case "photo":
+                case "external_image":
                     return InteractionType.PHOTO;
                 case "pilemagic":
+                case "stack_helper":
                     return InteractionType.pilemagic;
                 case "pool":
                 case "water":
                     return InteractionType.pool;
                 case "postit":
                     return InteractionType.POSTIT;
-                case "prefix":
+                case "prefix"://
                 case "prefix_name":
                     return InteractionType.PREFIX_NAME;
-                case "prefix_color":
+                case "prefix_color"://
                     return InteractionType.PREFIX_COLOR;
-                case "prefix_colorname":
+                case "prefix_colorname"://
                     return InteractionType.PREFIX_COLORNAME;
                 case "puzzlebox":
+                case "puzzle_box":
                     return InteractionType.puzzlebox;
                 case "rentals":
                     return InteractionType.rentals;
@@ -470,9 +525,9 @@
                 case "specialunseen":
                 case "wf_xtra_unseen":
                     return InteractionType.specialunseen;
-                case "superwired":
+                case "superwired"://
                     return InteractionType.superwired;
-                case "superwiredcondition":
+                case "superwiredcondition"://
                     return InteractionType.superwiredcondition;
                 case "teleport":
                     return InteractionType.TELEPORT;
@@ -484,43 +539,55 @@
                     return InteractionType.TREADMILL;
                 case "triggergameend":
                 case "wf_trg_gameend":
+                case "wf_trg_game_ends":
                     return InteractionType.triggergameend;
                 case "triggergamestart":
                 case "wf_trg_gamestart":
+                case "wf_trg_game_starts":
                     return InteractionType.triggergamestart;
                 case "triggeronusersay":
                 case "wf_trg_onsay":
+                case "wf_trg_says_something":
                     return InteractionType.triggeronusersay;
                 case "triggerrepeater":
                 case "wf_trg_timer":
+                case "wf_trg_periodically":
                     return InteractionType.triggerrepeater;
                 case "triggerroomenter":
                 case "wf_trg_enterroom":
+                case "wf_trg_enter_room":
                     return InteractionType.triggerroomenter;
                 case "triggerscoreachieved":
                 case "wf_trg_atscore":
+                case "wf_trg_score_achieved":
                     return InteractionType.triggerscoreachieved;
                 case "triggerstatechanged":
                 case "wf_trg_furnistate":
+                case "wf_trg_state_changed":
                     return InteractionType.triggerstatechanged;
                 case "triggertimer":
                 case "wf_trg_attime":
+                case "wf_trg_at_given_time":
                     return InteractionType.triggertimer;
                 case "triggerwalkofffurni":
                 case "wf_trg_offfurni":
+                case "wf_trg_walks_off_furni":
                     return InteractionType.triggerwalkofffurni;
                 case "triggerwalkonfurni":
                 case "wf_trg_onfurni":
+                case "wf_trg_walks_on_furni":
                     return InteractionType.triggerwalkonfurni;
                 case "tronco":
                     return InteractionType.tronco;
                 case "trophy":
                     return InteractionType.TROPHY;
                 case "tvyoutube":
+                case "youtube":
                     return InteractionType.tvyoutube;
                 case "vendingenablemachine":
                     return InteractionType.vendingenablemachine;
                 case "vendingmachine":
+                case "vendingmachine_no_sides":
                     return InteractionType.vendingmachine;
                 case "wallpaper":
                     return InteractionType.WALLPAPER;

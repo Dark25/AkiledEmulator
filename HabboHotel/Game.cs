@@ -25,6 +25,7 @@ using Akiled.HabboHotel.Animations;
 using Akiled.HabboHotel.NotifTop;
 using Akiled.HabboHotel.Users.Messenger;
 using Akiled.HabboHotel.Subscriptions;
+using Akiled.HabboHotel.Cache;
 
 namespace Akiled.HabboHotel
 {
@@ -51,6 +52,7 @@ namespace Akiled.HabboHotel
         private readonly NotificationTopManager _notiftopManager;
         private readonly LowPriorityWorker _lowPriorityWorker;
         private readonly SubscriptionManager _subscriptionManager;
+        private readonly CacheManager _cacheManager;
 
         private Thread gameLoop; //Task
         public static bool gameLoopEnabled = true;
@@ -72,6 +74,8 @@ namespace Akiled.HabboHotel
 
             this._catalogManager = new CatalogManager();
             this._catalogManager.Init(this._itemDataManager);
+
+            this._cacheManager = new CacheManager();
 
             this._navigatorManager = new NavigatorManager();
             this._navigatorManager.Init();
@@ -224,6 +228,7 @@ namespace Akiled.HabboHotel
         {
             return this._hotelViewManager;
         }
+        
         #endregion
 
         public void StartGameLoop()
@@ -249,6 +254,8 @@ namespace Akiled.HabboHotel
 
             //this.gameLoop.Dispose();
         }
+       
+        public CacheManager GetCacheManager() => this._cacheManager;        
 
         private void MainGameLoop()
         {

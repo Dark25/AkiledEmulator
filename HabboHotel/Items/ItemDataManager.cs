@@ -38,6 +38,7 @@ namespace Akiled.HabboHotel.Items
                             int id = Convert.ToInt32(Row["id"]);
                             int spriteID = Convert.ToInt32(Row["sprite_id"]);
                             string itemName = Convert.ToString(Row["item_name"]);
+                            string publicname = Convert.ToString(Row["public_name"]);
                             string type = Row["type"].ToString();
                             int width = Convert.ToInt32(Row["width"]);
                             int length = Convert.ToInt32(Row["length"]);
@@ -58,10 +59,10 @@ namespace Akiled.HabboHotel.Items
                             bool IsRare = AkiledEnvironment.EnumToBool(Row["is_rare"].ToString());
 
                             if (!this._gifts.ContainsKey(spriteID) && interactionType == InteractionType.GIFT)
-                                this._gifts.Add(spriteID, new ItemData(id, spriteID, itemName, type, width, length, height, allowStack, allowWalk, allowSit, allowRecycle, allowTrade, allowGift, allowInventoryStack, interactionType, behaviourData, cycleCount, vendingIDS, heightAdjustable, EffectId, IsRare));
+                                this._gifts.Add(spriteID, new ItemData(id, spriteID, itemName, publicname, type, width, length, height, allowStack, allowWalk, allowSit, allowRecycle, allowTrade, allowGift, allowInventoryStack, interactionType, behaviourData, cycleCount, vendingIDS, heightAdjustable, EffectId, IsRare));
 
                             if (!this._items.ContainsKey(id))
-                                this._items.Add(id, new ItemData(id, spriteID, itemName, type, width, length, height, allowStack, allowWalk, allowSit, allowRecycle, allowTrade, allowGift, allowInventoryStack, interactionType, behaviourData, cycleCount, vendingIDS, heightAdjustable, EffectId, IsRare));
+                                this._items.Add(id, new ItemData(id, spriteID, itemName, publicname, type, width, length, height, allowStack, allowWalk, allowSit, allowRecycle, allowTrade, allowGift, allowInventoryStack, interactionType, behaviourData, cycleCount, vendingIDS, heightAdjustable, EffectId, IsRare));
                         }
                         catch (Exception e)
                         {

@@ -334,16 +334,14 @@ namespace Akiled.HabboHotel.Rooms
 
         public bool AddAvatarToRoom(GameClient Session)
         {
-            if (_room == null)
-                return false;
-
-            if (Session == null || Session.GetHabbo() == null)
+            if (this._room == null || Session == null || Session.GetHabbo() == null)
                 return false;
 
             int PersonalID = this._primaryPrivateUserID++;
 
             RoomUser User = new RoomUser(Session.GetHabbo().Id, this._room.Id, PersonalID, this._room);
-
+            if (User.GetClient() == null)
+                return false;
             User.UserId = Session.GetHabbo().Id;
             User.IsSpectator = Session.GetHabbo().SpectatorMode;
 

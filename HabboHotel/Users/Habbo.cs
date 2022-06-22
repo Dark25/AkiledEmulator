@@ -127,6 +127,7 @@ namespace Akiled.HabboHotel.Users
         public int RolePlayId;
 
         public bool IgnoreAll;
+        private DateTime _timeCached;        
         public string _guardar;
         public string _sexWith;
         public int _guardar2;
@@ -215,11 +216,13 @@ namespace Akiled.HabboHotel.Users
             }
             return false;
         }
+        public bool CacheExpired() => (DateTime.Now - this._timeCached).TotalMinutes >= 30.0;
         public bool InitProcess()
         {
             this._process = new LowMoney();
             return this._process.Init(this);
         }
+
 
 
         public string GetQueryString

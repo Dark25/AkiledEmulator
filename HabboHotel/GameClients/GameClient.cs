@@ -95,7 +95,7 @@ namespace Akiled.HabboHotel.GameClients
 
 
 
-                    this.IsNewUserAsync();
+                   await this.IsNewUserAsync();
 
                     this.SendPacket(new AuthenticationOKComposer());
                     this.SendPacket(new NavigatorSettingsComposer(this.Habbo.HomeRoom));
@@ -379,15 +379,9 @@ namespace Akiled.HabboHotel.GameClients
             }
         }
 
-        public ConnectionInformation GetConnection()
-        {
-            return this.Connection;
-        }
+        public ConnectionInformation GetConnection() => this.Connection;
 
-        public Habbo GetHabbo()
-        {
-            return this.Habbo;
-        }
+        public Habbo GetHabbo() => this.Habbo;
 
         public void SendMessage(IServerPacket Message)
         {
@@ -445,7 +439,7 @@ namespace Akiled.HabboHotel.GameClients
 
             if (!AkiledEnvironment.GetGame().GetChatManager().GetFilter().Ispub(Message))
             {
-                if(AkiledEnvironment.GetGame().GetChatManager().GetFilter().CheckMessageWord(Message))
+                if (AkiledEnvironment.GetGame().GetChatManager().GetFilter().CheckMessageWord(Message))
                 {
                     using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                     {
@@ -504,7 +498,7 @@ namespace Akiled.HabboHotel.GameClients
                     queryreactor.RunQuery();
                 }
 
-                AkiledEnvironment.GetGame().GetClientManager().BanUserAsync(this, "Robot", (double)86400, "Nuestro robot ha detectado la publicidad de la cuenta. " + this.GetHabbo().Username, true, false);
+                Task task = AkiledEnvironment.GetGame().GetClientManager().BanUserAsync(this, "Robot", 86400, "Nuestro robot ha detectado la publicidad de la cuenta. " + this.GetHabbo().Username, true, false);
             }
             else
             {
@@ -517,7 +511,7 @@ namespace Akiled.HabboHotel.GameClients
                 }
             }
 
-            foreach(GameClient Client in AkiledEnvironment.GetGame().GetClientManager().GetStaffUsers())
+            foreach (GameClient Client in AkiledEnvironment.GetGame().GetClientManager().GetStaffUsers())
             {
                 if (Client == null || Client.GetHabbo() == null)
                     continue;
@@ -528,10 +522,7 @@ namespace Akiled.HabboHotel.GameClients
             return true;
         }
 
-        public void SendNotification(string Message)
-        {
-            SendPacket(new BroadcastMessageAlertComposer(Message));
-        }
+        public void SendNotification(string Message) => SendPacket(new BroadcastMessageAlertComposer(Message));
 
         public void SendHugeNotif(string Message)
         {
@@ -541,9 +532,9 @@ namespace Akiled.HabboHotel.GameClients
             this.SendPacket(Message1);
         }
 
-        public void Dispose()
+        public async Task Dispose()
         {
-            if (this.GetHabbo() != null) this.Habbo.OnDisconnectAsync();
+            if (this.GetHabbo() != null) await this.Habbo.OnDisconnectAsync();
 
             this.Habbo = (Habbo)null;
             this.Connection = (ConnectionInformation)null;
