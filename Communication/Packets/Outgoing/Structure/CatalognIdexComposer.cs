@@ -22,7 +22,6 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
             {
                 Append(session, page, session.Langue);
             }
-
             base.WriteBoolean(false);
             base.WriteString("NORMAL");
         }
