@@ -147,11 +147,11 @@ namespace Akiled.HabboHotel.Rooms
             this.Finnito();
         }
 
-        private void Finnito()
+        private async void Finnito()
         {
             try
             {
-                this.DeliverItemsAsync();
+                await this.DeliverItemsAsync();
                 this.CloseTradeClean();
             }
             catch (Exception ex)

@@ -5,96 +5,49 @@ using System.Collections.Generic;
 
 namespace Akiled.Communication.Packets.Outgoing.Structure
 {
-    class CatalogIndexComposer : ServerPacket
+    public class CatalogIndexComposer : ServerPacket
     {
-       public CatalogIndexComposer(GameClient Session, ICollection<CatalogPage> Pages, int Sub = 0)
+        public CatalogIndexComposer(GameClient session, ICollection<CatalogPage> pages)
             : base(ServerPacketHeader.GetCatalogIndexComposer)
         {
-            WriteRootIndex(Session, Pages);
+            base.WriteBoolean(true);
+            base.WriteInteger(0);
+            base.WriteInteger(-1);
+            base.WriteString("root");
+            base.WriteString("");
+            base.WriteInteger(0);
 
-            foreach (CatalogPage Parent in Pages)
+            base.WriteInteger(pages.Count);
+            foreach (CatalogPage page in pages)
             {
-                if (Parent.ParentId != -1 || Parent.MinimumRank > Session.GetHabbo().Rank)
-                    continue;
-
-                WritePage(Parent, CalcTreeSize(Session, Pages, Parent.Id), Session.Langue);
-
-                foreach (CatalogPage child in Pages)
-                {
-                    if (child.ParentId != Parent.Id || child.MinimumRank > Session.GetHabbo().Rank)
-                        continue;
-
-                    if (child.Enabled)
-                        WritePage(child, CalcTreeSize(Session, Pages, child.Id), Session.Langue);
-                    else
-                        WriteNodeIndex(child, CalcTreeSize(Session, Pages, child.Id), Session.Langue);
-
-                    foreach (CatalogPage SubChild in Pages)
-                    {
-                        if (SubChild.ParentId != child.Id || SubChild.MinimumRank > Session.GetHabbo().Rank)
-                            continue;
-
-                        WritePage(SubChild, 0, Session.Langue);
-                    }
-                }
+                Append(session, page, session.Langue);
             }
 
-            WriteBoolean(false);
-            WriteString("NORMAL");
+            base.WriteBoolean(false);
+            base.WriteString("NORMAL");
         }
 
-        public void WriteRootIndex(GameClient session, ICollection<CatalogPage> pages)
+    public void Append(GameClient session, CatalogPage page, Language Langue)
         {
-            WriteBoolean(true);
-            WriteInteger(0);
-            WriteInteger(-1);
-            WriteString("root");
-            WriteString(string.Empty);
-            WriteInteger(0);
-            WriteInteger(CalcTreeSize(session, pages, -1));
-        }
+            ICollection<CatalogPage> pages = AkiledEnvironment.GetGame().GetCatalog().GetPages(session, page.Id);
 
-        public void WriteNodeIndex(CatalogPage page, int treeSize, Language Langue)
-        {
-            WriteBoolean(true); // Visible
-            WriteInteger(page.Icon);
-            WriteInteger(-1);
-            WriteString(page.PageLink);
-            WriteString(page.GetCaptionByLangue(Langue));
-            WriteInteger(0);
-            WriteInteger(treeSize);
-        }
+            base.WriteBoolean(true);
+            base.WriteInteger(page.Icon);
+            base.WriteInteger(page.Enabled ? page.Id : -1);
+            base.WriteString(page.PageLink);
+            base.WriteString(page.GetCaptionByLangue(Langue));
 
-        public void WritePage(CatalogPage page, int treeSize, Language Langue)
-        {
-            WriteBoolean(true);
-            WriteInteger(page.Icon);
-            WriteInteger(page.Id);
-            WriteString(page.PageLink);
-            WriteString(page.GetCaptionByLangue(Langue));
-
-            WriteInteger(page.ItemOffers.Count);
-            foreach (int i in page.ItemOffers.Keys)
+            base.WriteInteger(page.ItemOffers.Count);
+            foreach (int key in page.ItemOffers.Keys)
             {
-                WriteInteger(i);
+                base.WriteInteger(key);
             }
 
-            WriteInteger(treeSize);
-        }
-
-        public int CalcTreeSize(GameClient Session, ICollection<CatalogPage> Pages, int ParentId)
-        {
-            int i = 0;
-            foreach (CatalogPage Page in Pages)
+            base.WriteInteger(pages.Count);
+            foreach (CatalogPage nextPage in pages)
             {
-                if (Page.MinimumRank > Session.GetHabbo().Rank || Page.ParentId != ParentId)
-                    continue;
-
-                if (Page.ParentId == ParentId)
-                    i++;
+                Append(session, nextPage, session.Langue);
             }
-
-            return i;
         }
     }
 }

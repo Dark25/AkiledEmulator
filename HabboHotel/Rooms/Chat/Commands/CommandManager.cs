@@ -197,7 +197,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands
             this.Register(31, new invisible());
             this.Register(32, new ban());
             this.Register(33, new Disconnect());
-            this.Register(34, new superban());
+            this.Register(34, new Superban());
             this.Register(36, new roomkick());
             this.Register(37, new mute());
             this.Register(38, new UnMute());

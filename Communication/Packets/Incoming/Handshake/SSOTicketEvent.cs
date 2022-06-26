@@ -4,9 +4,9 @@ namespace Akiled.Communication.Packets.Incoming.Structure
 {
     class SSOTicketEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public async void Parse(GameClient Session, ClientPacket Packet)
         {            if (Session == null || Session.GetHabbo() != null )
-                return;            Session.TryAuthenticateAsync(Packet.PopString());
+                return;            await Session.TryAuthenticateAsync(Packet.PopString());
         }
     }
 }

@@ -24,6 +24,7 @@
         public const int InfoRetrieveMessageEvent = 357;
         public const int RequestGuideToolEvent = 1922;
         public const int UserNuxEvent = 1299;
+        public const int UsernameEvent = 3878;
         public const int GuideEndSession = 887;
         public const int CancellInviteGuide = 291;
         public const int OnGuideSessionDetached = 1424;

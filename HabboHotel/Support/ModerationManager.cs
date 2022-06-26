@@ -526,7 +526,7 @@ namespace Akiled.HabboHotel.Support
             clientByUserId.SendNotification(Message);
         }
 
-        public static void BanUser(GameClient ModSession, int UserId, int Length, string Message)
+        public static async void BanUser(GameClient ModSession, int UserId, int Length, string Message)
         {
             GameClient clientByUserId = AkiledEnvironment.GetGame().GetClientManager().GetClientByUserID(UserId);
             if (clientByUserId == null || clientByUserId.GetHabbo().Id == ModSession.GetHabbo().Id)
@@ -538,7 +538,7 @@ namespace Akiled.HabboHotel.Support
             else
             {
                 double LengthSeconds = (double)Length;
-                AkiledEnvironment.GetGame().GetClientManager().BanUserAsync(clientByUserId, ModSession.GetHabbo().Username, LengthSeconds, Message, false, false);
+                await AkiledEnvironment.GetGame().GetClientManager().BanUserAsync(clientByUserId, ModSession.GetHabbo().Username, LengthSeconds, Message, false, false);
             }
         }
 

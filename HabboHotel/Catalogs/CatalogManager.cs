@@ -9,6 +9,7 @@ using Akiled.HabboHotel.Catalog.Marketplace;
 using Akiled.HabboHotel.Catalog.Clothing;
 
 using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.GameClients;
 
 namespace Akiled.HabboHotel.Catalog
 {
@@ -143,10 +144,7 @@ namespace Akiled.HabboHotel.Catalog
             Console.WriteLine("Catalogo del Hotel -> Listo!");
         }
 
-        public bool HasBadge(string Code)
-        {
-            return this._badges.Contains(Code);
-        }
+        public bool HasBadge(string Code) => this._badges.Contains(Code);
 
         public CatalogItem FindItem(int ItemId, int Rank)
         {
@@ -176,9 +174,18 @@ namespace Akiled.HabboHotel.Catalog
             return this._pages.TryGetValue(pageId, out page);
         }
 
-        public ICollection<CatalogPage> GetPages()
+        public ICollection<CatalogPage> GetPages(GameClient session, int pageId)
         {
-            return this._pages.Values;
+            List<CatalogPage> pages = new List<CatalogPage>();
+            foreach (CatalogPage page in this._pages.Values)
+            {
+                if (page.ParentId != pageId || page.MinimumRank > session.GetHabbo().Rank)
+                {
+                    continue;
+                }
+                pages.Add(page);
+            }
+            return pages;
         }
 
         public ICollection<CatalogPromotion> GetPromotions()

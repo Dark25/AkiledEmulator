@@ -331,7 +331,7 @@ namespace Akiled.HabboHotel.Users.Messenger
 
         public ServerPacket SerializeUpdate(MessengerBuddy friend)
         {
-            ServerPacket reply = new ServerPacket(ServerPacketHeader.FriendListUpdateMessageComposer);
+            ServerPacket reply = new(ServerPacketHeader.FriendListUpdateMessageComposer);
             reply.WriteInteger(0);
             reply.WriteInteger(1);
             reply.WriteInteger(0);

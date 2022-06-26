@@ -331,14 +331,14 @@ namespace Akiled.HabboHotel.GameClients
                 connection.Dispose();
         }
 
-        public void DisposeConnection(int clientID)
+        public async void DisposeConnection(int clientID)
         {
             GameClient Client = null;
             if (!TryGetClient(clientID, out Client))
                 return;
 
             if (Client != null)
-                Client.Dispose();
+               await Client.Dispose();
 
             this._clients.TryRemove(clientID, out Client);
         }
@@ -473,11 +473,11 @@ namespace Akiled.HabboHotel.GameClients
             }
             if (MachineBan)
             {
-                this.BanUserAsync(Client, Moderator, LengthSeconds, Reason, true, false);
+                await this.BanUserAsync(Client, Moderator, LengthSeconds, Reason, true, false);
             }
             else if (IpBan)
             {
-                this.BanUserAsync(Client, Moderator, LengthSeconds, Reason, false, false);
+                await this.BanUserAsync(Client, Moderator, LengthSeconds, Reason, false, false);
             }
             else
             {

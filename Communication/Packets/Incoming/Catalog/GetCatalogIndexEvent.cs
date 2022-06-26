@@ -7,7 +7,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-            Session.SendPacket(new CatalogIndexComposer(Session, AkiledEnvironment.GetGame().GetCatalog().GetPages()));//, Sub));
+            Session.SendPacket(new CatalogIndexComposer(Session, AkiledEnvironment.GetGame().GetCatalog().GetPages(Session, -1)));
             Session.SendPacket(new CatalogItemDiscountComposer());
             Session.SendPacket(new BCBorrowedItemsComposer());
         }

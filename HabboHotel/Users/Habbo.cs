@@ -483,17 +483,7 @@ namespace Akiled.HabboHotel.Users
             this.chatMessageManager.LoadUserChatlogs(this.Id);
             this.Messenger = new HabboMessenger(this.Id);
             this.Messenger.AppearOffline = this.HideOnline;
-
             this.MyGroups = data.MyGroups;
-            /*
-             if (this.HasFuse("fuse_chat_staff"))
-             {
-
-                //data.friends.Add(1, MessengerStaff);
-                data.friends.Add(0x7fffffff, StaffChat.MessengerStaff);
-            }*/
-            //MessengerStaff = new MessengerBuddy(0x7fffffff, "Staff Chat", "hr-831-45.fa-1206-91.sh-290-1331.ha-3129-100.hd-180-2.cc-3039-73.ch-3215-92.lg-270-73", 0);
-            //data.friends.Add(0x7fffffff, MessengerStaff);
             this.Messenger.Init(data.friends, data.requests, data.Relationships);
             this.UpdateRooms();
             this.InitClothing();
