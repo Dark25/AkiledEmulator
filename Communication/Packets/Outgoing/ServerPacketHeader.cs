@@ -231,5 +231,10 @@
         public const int NuxItemListComposer = 3575;
 
         public const int CostumNotificationComposer = 66; // PRODUCTION-201611291003-338511768
+        public const int TraxSongInfoMessageComposer = 3365;
+        public const int LoadJukeboxUserMusicItemsMessageComposer = 2602;
+        public const int SetJukeboxNowPlayingMessageComposer = 469;
+        public const int SetJukeboxSongMusicDataMessageComposer = 3365;
+        public const int SetJukeboxPlayListMessageComposer = 34;
     }
 }

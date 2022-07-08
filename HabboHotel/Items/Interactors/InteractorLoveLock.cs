@@ -87,5 +87,8 @@ namespace Akiled.HabboHotel.Items.Interactors
                 User.MoveTo(Item.SquareInFront);
             }
         }
+        public override void OnTrigger2(GameClient Session, Item Ball, int Request)
+        {
+        }
     }
 }

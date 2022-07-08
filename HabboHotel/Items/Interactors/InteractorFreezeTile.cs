@@ -23,5 +23,8 @@ namespace Akiled.HabboHotel.Items.Interactors
           return;
       Item.GetRoom().GetFreeze().throwBall(Item, roomUserByHabbo);
     }
-  }
+        public override void OnTrigger2(GameClient Session, Item Ball, int Request)
+        {
+        }
+    }
 }

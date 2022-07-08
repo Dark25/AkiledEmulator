@@ -23,5 +23,8 @@ namespace Akiled.HabboHotel.Items.Interactors
       Item.UpdateState();
       Item.ReqUpdate(10);
     }
-  }
+        public override void OnTrigger2(GameClient Session, Item Ball, int Request)
+        {
+        }
+    }
 }

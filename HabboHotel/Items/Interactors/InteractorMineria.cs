@@ -136,5 +136,8 @@ namespace Akiled.HabboHotel.Items.Interactors
                 }
             }
         }
+        public override void OnTrigger2(GameClient Session, Item Ball, int Request)
+        {
+        }
     }
 }

@@ -57,5 +57,8 @@ namespace Akiled.HabboHotel.Items.Interactors
             Item.ExtraData = num2.ToString();
             Item.UpdateState();
         }
+        public override void OnTrigger2(GameClient Session, Item Ball, int Request)
+        {
+        }
     }
 }

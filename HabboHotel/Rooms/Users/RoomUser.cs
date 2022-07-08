@@ -233,6 +233,7 @@ namespace Akiled.HabboHotel.Rooms
             string str4 = this.GetClient().GetHabbo().PrefixSize.Split(';')[1];
             string str5 = this.GetClient().GetHabbo().Prefix.Split(';')[1];
             string str6 = (string)null;
+            string str8 = (string)null;
             if (str5 == "RAINCOLOR")
             {
                 string str7 = "";
@@ -369,13 +370,14 @@ namespace Akiled.HabboHotel.Rooms
                 }
                 str6 = str7;
             }
+            
             if (string.IsNullOrWhiteSpace(str1) || !(str1 != "off"))
                 return;
             string Username;
             if (str5 == "RAINCOLOR" || str5 == "germany" || (str5 == "yeblack" || str5 == "CHRISTMAS18") || (str5 == "blurapi" || str5 == "pinkrosa") || str5 == "bluyeor")
-                Username = "<font size= '" + str3 + "'>[" + str6 + "] <font size= '" + str4 + "'>" + this.GetClient().GetHabbo().Username + "</font></font></font>";
+                Username = "<font size= '" + str3 + "'>[" + str6 + "] <font size= '" + str4 + "px'><font color='#" + str2 + "'>" + this.GetClient().GetHabbo().Username + "</font></font></font></font>";
             else
-                Username = "<font size= '" + str3 + "'><font color='#" + str5 + "'>[" + str1 + "]</font></font> <font color='#" + str2 + "'><font size= '" + str4 + "'>" + this.GetClient().GetHabbo().Username + "</font></font></font>";
+                Username = "<font size= '" + str3 + "px'><font color='#" + str5 + "'>[" + str1 + "]</font></font> <font size= '" + str4 + "px'><font color='#" + str2 + "'>" + this.GetClient().GetHabbo().Username + "</font></font></font></font>";
             if (this.GetRoom() == null)
                 return;
             this.GetRoom().SendPacket((IServerPacket)new UserNameChangeMessageComposer(0, this.VirtualId, Username));

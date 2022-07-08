@@ -9,6 +9,7 @@ using Akiled.HabboHotel.WebClients;
 using Akiled.Communication.Packets.Incoming.WebSocket;
 using Akiled.Communication.Packets.Incoming.Rooms.Furni;
 using Akiled.Communication.Packets.Incoming.Camera;
+using Akiled.Communication.Packets.Incoming.Sound;
 
 namespace Akiled.Communication.Packets
 {
@@ -349,6 +350,7 @@ namespace Akiled.Communication.Packets
             _incomingPackets.Add(ClientPacketHeader.ModifyWhoCanRideHorseMessageEvent, new ModifyWhoCanRideHorseEvent());
             _incomingPackets.Add(ClientPacketHeader.GetPetTrainingPanelMessageEvent, new GetPetTrainingPanelEvent());
             _incomingPackets.Add(ClientPacketHeader.MoveMonsterPlanteMessageEvent, new MoveMonsterPlanteEvent());
+           
         }
 
         private void RegisterQuests()
@@ -408,6 +410,12 @@ namespace Akiled.Communication.Packets
         private void RegisterSound()
         {
             _incomingPackets.Add(ClientPacketHeader.SetSoundSettingsMessageEvent, new SetSoundSettingsEvent());
+            _incomingPackets.Add(-1, (IPacketEvent)new GetSongInfoEvent());
+            _incomingPackets.Add(1435, (IPacketEvent)new GetJukeboxPlayListEvent());
+            _incomingPackets.Add(2304, (IPacketEvent)new LoadJukeboxDiscsEvent());
+            _incomingPackets.Add(3082, (IPacketEvent)new GetJukeboxDiscsDataEvent());
+            _incomingPackets.Add(753, (IPacketEvent)new AddDiscToPlayListEvent());
+            _incomingPackets.Add(3050, (IPacketEvent)new RemoveDiscFromPlayListEvent());
         }
 
         private void RegisterMisc()

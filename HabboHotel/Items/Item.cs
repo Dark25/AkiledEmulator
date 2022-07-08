@@ -162,7 +162,15 @@ namespace Akiled.HabboHotel.Items
         }
 
         public ItemData Data;
+        public int ExtradataInt
+        {
+            get
+            {
+                int result;
+                return int.TryParse(this.ExtraData, out result) ? result : 0;
+            }
 
+        }
         public FurniInteractor Interactor
         {
             get
@@ -214,7 +222,7 @@ namespace Akiled.HabboHotel.Items
                     case InteractionType.freezetileblock:
                     case InteractionType.freezetile:
                         return new InteractorFreezeTile();
-                    case InteractionType.jukebox:
+                    case InteractionType.JUKEBOX:
                         return new InteractorJukebox();
                     case InteractionType.triggertimer:
                     case InteractionType.triggerroomenter:

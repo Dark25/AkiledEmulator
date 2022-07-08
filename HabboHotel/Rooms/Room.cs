@@ -16,6 +16,7 @@ using Akiled.HabboHotel.Rooms.Janken;
 using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.HabboHotel.Rooms.Projectile;
 using Akiled.HabboHotel.Roleplay;
+using Akiled.HabboHotel.Rooms.TraxMachine;
 
 namespace Akiled.HabboHotel.Rooms
 {
@@ -41,7 +42,7 @@ namespace Akiled.HabboHotel.Rooms
         public bool RpTimeSpeed;
 
         private TeamManager teammanager;
-
+        private RoomTraxManager _traxManager;
         public List<int> UsersWithRights;
         public bool EveryoneGotRights;
         private readonly Dictionary<int, double> Bans;
@@ -87,7 +88,7 @@ namespace Akiled.HabboHotel.Rooms
 
         private ProjectileManager projectileManager;
         private int SaveTimer;
-
+        public event Room.FurnitureLoad OnFurnisLoad;
         //Question
         public int VotedYesCount;
         public int VotedNoCount;
@@ -914,7 +915,7 @@ namespace Akiled.HabboHotel.Rooms
         }
 
         public bool HasMuteExpired(int pId) => !this.UserIsMuted(pId) || this.Mutes[pId] - (double)AkiledEnvironment.GetUnixTimestamp() <= 0.0;
-
+        public RoomTraxManager GetTraxManager() => this._traxManager;
         public bool HasActiveTrade(RoomUser User)
         {
             if (User.IsBot)
@@ -974,5 +975,6 @@ namespace Akiled.HabboHotel.Rooms
                    this.Id
                 }));
         }
+        public delegate void FurnitureLoad();
     }
 }

@@ -418,11 +418,11 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                                 if (catalogItem.Data.InteractionType == InteractionType.PREFIX_COLORNAME)
                                 {
                                     string str2 = Session.GetHabbo().Prefixnamecolor.Split(';')[0];
-                                    Session.GetHabbo().Prefixnamecolor = string.IsNullOrEmpty(str2) ? ";" + catalogItem.Data.ItemName : str2 + ";" + catalogItem.Data.ItemName;
+                                    Session.GetHabbo().Prefixnamecolor = string.IsNullOrEmpty(str2) ?   catalogItem.Data.ItemName + ";": catalogItem.Data.ItemName + ";" + str2;
                                     using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                                     {
-                                        queryReactor.SetQuery("UPDATE `users` SET `prefixcolorname` = @prefixcolorname WHERE `id` = '" + Session.GetHabbo().Id.ToString() + "' LIMIT 1");
-                                        queryReactor.AddParameter("prefixcolorname", (object)Session.GetHabbo().Prefixnamecolor);
+                                        queryReactor.SetQuery("UPDATE `users` SET `prefixnamecolor` = @prefixnamecolor WHERE `id` = '" + Session.GetHabbo().Id.ToString() + "' LIMIT 1");
+                                        queryReactor.AddParameter("prefixnamecolor", (object)Session.GetHabbo().Prefixnamecolor);
                                         queryReactor.RunQuery();
                                     }
                                     Session.SendPacket((IServerPacket)new RoomCustomizedAlertComposer("¡Ha comprado un color para su nombre!"));

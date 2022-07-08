@@ -67,7 +67,7 @@
         freezebluegate,
         freezetileblock,
         freezetile,
-        jukebox,
+        JUKEBOX,
         puzzlebox,
         triggertimer,
         triggerroomenter,
@@ -194,6 +194,7 @@
         mineria,
         CRAFTING,
         ROOMCAMERA,
+        MUSIC_DISC
     }
 
     public class InteractionTypes
@@ -432,6 +433,8 @@
                 case "groupfurni":
                 case "guild_furni":
                     return InteractionType.GUILD_ITEM;
+                case "musicdisc":
+                    return InteractionType.MUSIC_DISC;
                 case "groupgate":
                 case "guild_gate":
                     return InteractionType.GUILD_GATE;
@@ -462,7 +465,7 @@
                 case "jmphorse":
                     return InteractionType.jmphorse;
                 case "jukebox":
-                    return InteractionType.jukebox;
+                    return InteractionType.JUKEBOX;
                 case "landscape":
                     return InteractionType.LANDSCAPE;
                 case "legendbox":

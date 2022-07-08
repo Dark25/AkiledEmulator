@@ -44,5 +44,8 @@ namespace Akiled.HabboHotel.Items.Interactors
         Item.GetRoom().GetGameMap().updateMapForItem(Item);
 
     }
-  }
+        public override void OnTrigger2(GameClient Session, Item Ball, int Request)
+        {
+        }
+    }
 }

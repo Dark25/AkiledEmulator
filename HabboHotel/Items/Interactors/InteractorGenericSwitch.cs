@@ -117,5 +117,8 @@ namespace Akiled.HabboHotel.Items.Interactors
                     Item.GetRoom().GetRoomUserManager().UpdateUserStatus(roomUserByHabbo, false);
             }
         }
+        public override void OnTrigger2(GameClient Session, Item Ball, int Request)
+        {
+        }
     }
 }

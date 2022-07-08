@@ -20,6 +20,8 @@ namespace Akiled.HabboHotel.Items.Interactors
       if (Item.WiredHandler != null)
           Item.WiredHandler.OnTrigger(Session, Item.GetBaseItem().SpriteId);
     }
-
-  }
+        public override void OnTrigger2(GameClient Session, Item Ball, int Request)
+        {
+        }
+    }
 }

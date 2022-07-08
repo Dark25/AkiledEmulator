@@ -244,5 +244,9 @@
         public const int RenderRoomMessageComposerBigPhoto = 1982;
         public const int SetRoomThumbnailMessageEvent = 1982;
         public const int RenderRoomEvent = 3226;
+        public const int LoadJukeboxDiscsMessageEvent = 2304;
+        public const int GetJukeboxPlaylistMessageEvent = 1435;
+        public const int GetJukeboxDiscsDataMessageEvent = 3082;
+        public const int AddDiscToPlayListMessageEvent = 753;
     }
 }

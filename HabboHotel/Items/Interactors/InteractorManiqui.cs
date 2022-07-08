@@ -53,5 +53,8 @@ namespace Akiled.HabboHotel.Items.Interactors
                 return;
             room.SendPacket(new UserChangeComposer(Roomuser, false));
         }
+        public override void OnTrigger2(GameClient Session, Item Ball, int Request)
+        {
+        }
     }
 }
