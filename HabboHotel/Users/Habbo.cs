@@ -62,6 +62,7 @@ namespace Akiled.HabboHotel.Users
         public List<int> ClientVolume;
         public string MachineId;
         public Language Langue;
+        public bool PickupItemsStatus = false;        
 
         public List<RoomData> RoomRightsList;
         public List<RoomData> FavoriteRooms;
@@ -754,10 +755,6 @@ namespace Akiled.HabboHotel.Users
                 await client.SendToDiscord(message);
                 Console.WriteLine("logout enviado a Discord ", ConsoleColor.DarkYellow);
                 //discord stats enviar a discord
-               
-                                
-                           
-
 
 
             }

@@ -1,32 +1,38 @@
-using Akiled.Communication.Packets.Outgoing;
-using Akiled.HabboHotel.GameClients;
-using Akiled.HabboHotel.Items;
+using System.Linq;
 using Akiled.HabboHotel.Rooms;
+using Akiled.HabboHotel.Items;
 
-namespace Akiled.Communication.Packets.Incoming.Structure
+using Akiled.HabboHotel.GameClients;
+using Akiled.Communication.Packets.Outgoing.Structure;
+
+namespace Akiled.Communication.Packets.Incoming.Rooms.Furni.Moodlight
 {
     class GetMoodlightConfigEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient session, ClientPacket packet)
         {
-            Room room = AkiledEnvironment.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
-            if (room == null || !room.CheckRights(Session, true))
+            if (!session.GetHabbo().InRoom)
                 return;
-            if (room.MoodlightData == null || room.MoodlightData.Presets == null)
+
+            if (!AkiledEnvironment.GetGame().GetRoomManager().TryGetRoom(session.GetHabbo().CurrentRoomId, out Room room))
                 return;
-            ServerPacket Response = new ServerPacket(ServerPacketHeader.MoodlightConfigMessageComposer);
-            Response.WriteInteger(room.MoodlightData.Presets.Count);
-            Response.WriteInteger(room.MoodlightData.CurrentPreset);
-            int i = 0;
-            foreach (MoodlightPreset moodlightPreset in room.MoodlightData.Presets)
+
+            if (!room.CheckRights(session, true))
+                return;
+
+            if (room.MoodlightData == null)
             {
-                ++i;
-                Response.WriteInteger(i);
-                Response.WriteInteger(int.Parse(AkiledEnvironment.BoolToEnum(moodlightPreset.BackgroundOnly)) + 1);
-                Response.WriteString(moodlightPreset.ColorCode);
-                Response.WriteInteger(moodlightPreset.ColorIntensity);
+                foreach (Item item in room.GetRoomItemHandler().GetWall.ToList())
+                {
+                    if (item.GetBaseItem().InteractionType == InteractionType.MOODLIGHT)
+                        room.MoodlightData = new MoodlightData(item.Id);
+                }
             }
-            Session.SendPacket(Response);
+
+            if (room.MoodlightData == null)
+                return;
+
+            session.SendPacket(new MoodlightConfigComposer(room.MoodlightData));
         }
     }
 }

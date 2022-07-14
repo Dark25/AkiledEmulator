@@ -10,6 +10,8 @@ using Akiled.Communication.Packets.Incoming.WebSocket;
 using Akiled.Communication.Packets.Incoming.Rooms.Furni;
 using Akiled.Communication.Packets.Incoming.Camera;
 using Akiled.Communication.Packets.Incoming.Sound;
+using Akiled.Communication.Packets.Incoming.Rooms.Engine;
+using Akiled.Communication.Packets.Incoming.Rooms.Furni.Moodlight;
 
 namespace Akiled.Communication.Packets
 {
@@ -258,7 +260,7 @@ namespace Akiled.Communication.Packets
             this._incomingPackets.Add(ClientPacketHeader.ApplyDecorationMessageEvent, new ApplyDecorationEvent());
             this._incomingPackets.Add(ClientPacketHeader.PlaceObjectMessageEvent, new PlaceObjectEvent());
             this._incomingPackets.Add(ClientPacketHeader.UseFurnitureMessageEvent, new UseFurnitureEvent());
-            this._incomingPackets.Add(ClientPacketHeader.UseWallItemMessageEvent, new UseFurnitureEvent());
+            this._incomingPackets.Add(ClientPacketHeader.ToggleWallItemEvent, new UseWallItemEvent());
             this._incomingPackets.Add(ClientPacketHeader.AnswerPollMessageEvent, new AnswerPollEvent());
         }
 

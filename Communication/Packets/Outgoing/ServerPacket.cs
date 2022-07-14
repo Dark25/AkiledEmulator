@@ -15,6 +15,10 @@ namespace Akiled.Communication.Packets.Outgoing
             this.WriteShort(Header);
         }
 
+       
+
+      
+
         public void WriteByte(byte b)
         {
             this.WriteByte(new byte[] { b }, false);

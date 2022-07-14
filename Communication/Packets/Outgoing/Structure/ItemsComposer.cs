@@ -22,23 +22,20 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
 
         private void WriteWallItem(Item Item, int UserId)
         {
-            WriteString(Item.Id.ToString());
-            WriteInteger(Item.GetBaseItem().SpriteId);
-
+            this.WriteString(Item.Id.ToString());
+            this.WriteInteger(Item.Data.SpriteId);
             try
             {
-                WriteString(Item.wallCoord);
+                this.WriteString(Item.wallCoord);
             }
             catch
             {
-                WriteString("");
+                this.WriteString("");
             }
-
-            ItemBehaviourUtility.GenerateWallExtradata(Item, this);
-
-            WriteInteger(-1);
-            WriteInteger((Item.GetBaseItem().Modes > 1) ? 1 : 0);
-            WriteInteger(UserId);
+            ItemBehaviourUtility.GenerateWallExtradata(Item, (ServerPacket)this);
+            this.WriteInteger(-1);
+            this.WriteInteger(Item.Data.Modes > 1 ? 1 : 0);
+            this.WriteInteger(UserId);
         }
     }
 }

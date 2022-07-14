@@ -26,7 +26,7 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
 
             WriteBoolean(Item.GetBaseItem().AllowEcotronRecycle);
             WriteBoolean(Item.GetBaseItem().AllowTrade);
-            WriteBoolean(Item.LimitedNo == 0 ? Item.GetBaseItem().AllowInventoryStack : false);
+            WriteBoolean(Item.LimitedNo == 0 && Item.GetBaseItem().AllowInventoryStack);
             WriteBoolean(ItemUtility.IsRare(Item));
             WriteInteger(-1);//Seconds to expiration.
             WriteBoolean(true);

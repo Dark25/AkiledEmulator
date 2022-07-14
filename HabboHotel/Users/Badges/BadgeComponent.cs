@@ -49,6 +49,7 @@ namespace Akiled.HabboHotel.Users.Badges
         public bool HasBadge(string Badge) => string.IsNullOrEmpty(Badge) || this._badges.ContainsKey(Badge);
 
         public void GiveBadge(string Badge, bool InDatabase) => this.GiveBadge(Badge, 0, InDatabase);
+        public ICollection<Badge> GetBadges() => (ICollection<Badge>) this._badges.Values;
 
         public void GiveBadge(string Badge, int Slot, bool InDatabase)
         {

@@ -36,6 +36,7 @@ namespace Akiled.HabboHotel.Items
         private bool updateNeeded;
         public int UpdateCounter;
         public int OwnerId;
+        public string Username;
         public int InteractingUser;
         public int InteractingUser2;
         private Room mRoom;
@@ -324,6 +325,7 @@ namespace Akiled.HabboHotel.Items
             {
                 this.Id = mId;
                 this.OwnerId = fOwnerId;
+                this.Username = AkiledEnvironment.GetUsernameById(OwnerId);
                 this.RoomId = RoomId;
                 this.BaseItem = mBaseItem;
                 this.ExtraData = ExtraData;

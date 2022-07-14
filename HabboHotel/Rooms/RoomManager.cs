@@ -89,10 +89,7 @@ namespace Akiled.HabboHotel.Rooms
             return roomData;
         }
 
-        internal bool TryGetRoom(int currentRoomId, out object targetRoom)
-        {
-            throw new NotImplementedException();
-        }
+      
 
         public Room LoadRoom(int Id)
         {

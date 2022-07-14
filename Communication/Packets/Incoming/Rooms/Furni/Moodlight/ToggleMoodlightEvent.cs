@@ -1,14 +1,33 @@
 using Akiled.HabboHotel.GameClients;
-using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Rooms;
+using Akiled.HabboHotel.Items;
 
-namespace Akiled.Communication.Packets.Incoming.Structure
+namespace Akiled.Communication.Packets.Incoming.Rooms.Furni.Moodlight
 {
     class ToggleMoodlightEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient session, ClientPacket packet)
         {
-            Room room = AkiledEnvironment.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);            if (room == null || !room.CheckRights(Session, true) || room.MoodlightData == null)                return;            Item roomItem = room.GetRoomItemHandler().GetItem(room.MoodlightData.ItemId);            if (roomItem == null || roomItem.GetBaseItem().InteractionType != InteractionType.MOODLIGHT)                return;            if (room.MoodlightData.Enabled)                room.MoodlightData.Disable();            else                room.MoodlightData.Enable();            roomItem.ExtraData = room.MoodlightData.GenerateExtraData();            roomItem.UpdateState();
+            if (!session.GetHabbo().InRoom)
+                return;
+
+            if (!AkiledEnvironment.GetGame().GetRoomManager().TryGetRoom(session.GetHabbo().CurrentRoomId, out Room room))
+                return;
+
+            if (!room.CheckRights(session, true) || room.MoodlightData == null)
+                return;
+
+            Item item = room.GetRoomItemHandler().GetItem(room.MoodlightData.ItemId);
+            if (item == null || item.GetBaseItem().InteractionType != InteractionType.MOODLIGHT)
+                return;
+
+            if (room.MoodlightData.Enabled)
+                room.MoodlightData.Disable();
+            else
+                room.MoodlightData.Enable();
+
+            item.ExtraData = room.MoodlightData.GenerateExtraData();
+            item.UpdateState();
         }
     }
 }

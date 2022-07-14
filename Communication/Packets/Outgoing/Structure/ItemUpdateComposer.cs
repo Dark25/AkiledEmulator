@@ -28,6 +28,7 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
             WriteInteger(-1);
             WriteInteger((Item.GetBaseItem().Modes > 1) ? 1 : 0);
             WriteInteger(UserId);
+            base.WriteString(Item.Username); // nitro fix
         }
     }
 }

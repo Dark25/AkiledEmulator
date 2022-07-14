@@ -129,7 +129,7 @@
         public const int MoveWallItemMessageEvent = 168;
         public const int UseFurnitureMessageEvent = 99;
         public const int SetTonerMessageEvent = 2880;
-        public const int UseWallItemMessageEvent = 210;
+        public const int ToggleWallItemEvent = 210;
         public const int UseHabboWheelMessageEvent = 2144;
         public const int UseOneWayGateMessageEvent = 2765;
         public const int GetMoodlightConfigMessageEvent = 2813;

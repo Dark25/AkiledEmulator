@@ -6,6 +6,7 @@
         public const int RoomUserQuestionAnsweredComposer = 2589;
         public const int QuestionInfoComposer = 2665;
         public const int SimplePollAnswersComposer = 1066;
+        public const int ItemStateComposer = 2376;
 
         public const int ErrorLoginComposer = 4000;
         public const int WiredRewardAlertComposer = 178;
@@ -29,7 +30,7 @@
         public const int FavouritesMessageComposer = 151;
         public const int AvatarEffectsMessageComposer = 340;
         public const int NuxAlertComposer = 2023;
-        public const int NavigatorSettingsMessageComposer = 2875;
+        public const int UserHomeRoomComposer = 2875;
         public const int NavigatorLiftedRoomsMessageComposer = 3104;
         public const int NavigatorPreferencesMessageComposer = 518;
         public const int NavigatorFlatCatsMessageComposer = 3244;
@@ -45,6 +46,10 @@
         public const int ModeratorInitMessageComposer = 2696;
         public const int CfhTopicsInitMessageComposer = 325;
         public const int HelperToolMessageComposer = 1548;
+        public const int WallItemUpdateComposer = 2009;
+        public const int AddWallItemComposer = 2187;
+        public const int RoomWallItemsComposer = 1369;
+        public const int RemoveWallItemComposer = 3208;
 
         public const int OnGuideSessionStarted = 3209;
         public const int OnGuideSessionPartnerIsTyping = 1016;
