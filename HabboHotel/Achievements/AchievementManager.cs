@@ -80,7 +80,7 @@ namespace Akiled.HabboHotel.Achievements
                 int ProgressRemainder = NewProgress - TargetLevelData.Requirement;
                 NewProgress = 0;
 
-                Session.GetHabbo().GetBadgeComponent().GiveBadge(AchievementGroup + TargetLevel, true);
+                Session.GetHabbo().GetBadgeComponent().GiveBadge(AchievementGroup + TargetLevel, 0,true);
                 Session.SendPacket(new ReceiveBadgeComposer(AchievementGroup + TargetLevel));
 
                 if (NewTarget > TotalLevels)

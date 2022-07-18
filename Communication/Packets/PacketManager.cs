@@ -390,6 +390,11 @@ namespace Akiled.Communication.Packets
             _incomingPackets.Add(ClientPacketHeader.GetGroupFurniSettingsMessageEvent, new GetGroupFurniSettingsEvent());
             _incomingPackets.Add(ClientPacketHeader.UseSellableClothingMessageEvent, new UseSellableClothingEvent());
             _incomingPackets.Add(ClientPacketHeader.ConfirmLoveLockMessageEvent, new ConfirmLoveLockEvent());
+            _incomingPackets.Add(1251, (IPacketEvent)new CraftingSecretEvent());
+            _incomingPackets.Add(1173, (IPacketEvent)new ExecuteCraftingRecipeEvent());
+            _incomingPackets.Add(633, (IPacketEvent)new GetCraftingItemEvent());
+            _incomingPackets.Add(3086, (IPacketEvent)new GetCraftingRecipesAvailableEvent());
+            _incomingPackets.Add(1245, (IPacketEvent)new SetCraftingRecipeEvent());
         }
 
         private void RegisterUsers()

@@ -111,6 +111,8 @@ namespace Akiled.HabboHotel.Users.Inventory
             }
         }
 
+        internal Item GetFirstItemByBaseId(int id) => this._UserItems.Values.Where<Item>((Func<Item, bool>)(item => item != null && item.GetBaseItem() != null && item.GetBaseItem().Id == id)).FirstOrDefault<Item>();
+        
         private int GetUserInventaryId()
         {
             if (InventaryUserId > 0)

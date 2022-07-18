@@ -1,6 +1,7 @@
 ﻿using Akiled.Communication.Packets.Outgoing;
+using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Database.Interfaces;
-
+using Akiled.HabboHotel.GameClients;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -48,7 +49,25 @@ namespace Akiled.HabboHotel.Users.Badges
 
         public bool HasBadge(string Badge) => string.IsNullOrEmpty(Badge) || this._badges.ContainsKey(Badge);
 
-        public void GiveBadge(string Badge, bool InDatabase) => this.GiveBadge(Badge, 0, InDatabase);
+        public void GiveBadge(string Badge, int Slot, bool InDatabase, GameClient Session)
+        {
+            if (this.HasBadge(Badge))
+                return;
+            if (InDatabase)
+            {
+                using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
+                {
+                    queryReactor.SetQuery("INSERT INTO user_badges (user_id,badge_id,badge_slot) VALUES (" + this._userId.ToString() + ",@badge," + Slot.ToString() + ")");
+                    queryReactor.AddParameter("badge", (object)Badge);
+                    queryReactor.RunQuery();
+                }
+            }
+            this._badges.Add(Badge, new Badge(Badge, Slot));
+            if (Session == null)
+                return;
+            Session.SendMessage((IServerPacket)new BadgesComposer(Session));
+            Session.SendMessage((IServerPacket)new FurniListNotificationComposer(1, 4));
+        }
         public ICollection<Badge> GetBadges() => (ICollection<Badge>) this._badges.Values;
 
         public void GiveBadge(string Badge, int Slot, bool InDatabase)

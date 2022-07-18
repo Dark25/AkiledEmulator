@@ -1746,7 +1746,7 @@ break;
                     }
                 case "badge":
                     {
-                        User.GetClient().GetHabbo().GetBadgeComponent().GiveBadge(Value, true);
+                        User.GetClient().GetHabbo().GetBadgeComponent().GiveBadge(Value,0, true);
                         User.GetClient().SendPacket(new ReceiveBadgeComposer(Value));
                         break;
                     }

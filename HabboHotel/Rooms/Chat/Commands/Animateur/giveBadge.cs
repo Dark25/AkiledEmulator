@@ -18,7 +18,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             {
                 if (!TargetClient.GetHabbo().GetBadgeComponent().HasBadge(Params[2]))
                 {
-                    TargetClient.GetHabbo().GetBadgeComponent().GiveBadge(Params[2], true);
+                    TargetClient.GetHabbo().GetBadgeComponent().GiveBadge(Params[2],0, true);
                     if (TargetClient.GetHabbo().Id != Session.GetHabbo().Id)
                     {
                         TargetClient.SendMessage(new NewYearComposer(Params[2]));

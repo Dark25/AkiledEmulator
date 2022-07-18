@@ -246,7 +246,7 @@ namespace Akiled.HabboHotel.Items
 
             if (!string.IsNullOrEmpty(BadgeCode) && !Session.GetHabbo().GetBadgeComponent().HasBadge(BadgeCode))
             {
-                Session.GetHabbo().GetBadgeComponent().GiveBadge(BadgeCode, true);
+                Session.GetHabbo().GetBadgeComponent().GiveBadge(BadgeCode, 0,true);
                 Session.SendPacket(new ReceiveBadgeComposer(BadgeCode));
 
                 RoomUser roomUserByHabbo = Room.GetRoomUserManager().GetRoomUserByHabboId(Session.GetHabbo().Id);
@@ -355,7 +355,7 @@ namespace Akiled.HabboHotel.Items
 
             if (!string.IsNullOrEmpty(BadgeCode))
             {
-                Session.GetHabbo().GetBadgeComponent().GiveBadge(BadgeCode, true);
+                Session.GetHabbo().GetBadgeComponent().GiveBadge(BadgeCode,0, true);
                 Session.SendPacket(new ReceiveBadgeComposer(BadgeCode));
             }
 

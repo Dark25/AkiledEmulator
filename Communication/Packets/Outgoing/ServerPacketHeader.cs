@@ -241,5 +241,9 @@
         public const int SetJukeboxNowPlayingMessageComposer = 469;
         public const int SetJukeboxSongMusicDataMessageComposer = 3365;
         public const int SetJukeboxPlayListMessageComposer = 34;
+        public const int CraftableProductsMessageComposer = 1000;
+        public const int CraftingRecipeMessageComposer = 2774;
+        public const int CraftingResultMessageComposer = 3128;
+        public const int CraftingFoundMessageComposer = 2124;
     }
 }

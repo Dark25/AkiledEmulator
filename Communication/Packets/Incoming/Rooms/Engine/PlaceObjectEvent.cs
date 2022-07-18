@@ -83,7 +83,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                         using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                             queryReactor.RunQuery("DELETE FROM items WHERE id = " + result1.ToString());
                         Session.GetHabbo().GetInventoryComponent().RemoveItem(result1);
-                        Session.GetHabbo().GetBadgeComponent().GiveBadge(obj1.ExtraData, true);
+                        Session.GetHabbo().GetBadgeComponent().GiveBadge(obj1.ExtraData, 0, true);
                         Session.SendPacket(new ReceiveBadgeComposer(obj1.ExtraData));
                         Session.SendNotification("Ya has recibido esta placa: " + obj1.ExtraData + " !");
                     }

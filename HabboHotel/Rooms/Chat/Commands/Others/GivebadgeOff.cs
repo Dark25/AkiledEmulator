@@ -25,7 +25,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 }
 
                 string BadgeCode = Params[2];
-                clientByUsername.GetHabbo().GetBadgeComponent().GiveBadge(BadgeCode, true);
+                clientByUsername.GetHabbo().GetBadgeComponent().GiveBadge(BadgeCode, 0, true);
                 clientByUsername.SendPacket(new ReceiveBadgeComposer(BadgeCode));
 
 

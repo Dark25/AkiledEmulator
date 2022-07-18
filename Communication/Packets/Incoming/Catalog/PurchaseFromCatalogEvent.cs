@@ -376,6 +376,9 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                                         }
                                         else
                                             break;
+                                    case InteractionType.PINATA:
+                                    case InteractionType.PINATATRIGGERED:
+                                    case InteractionType.CRACKABLE_EGG:
                                     default:
                                         if (Amount > 1)
                                         {
@@ -431,6 +434,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                                     Session.SendPacket((IServerPacket)new FurniListUpdateComposer());
                                     flag2 = true;
                                 }
+                               
                                 if (catalogItem.Data.InteractionType == InteractionType.PREFIX_SIZENAME)
                                 {
                                     string str2 = Session.GetHabbo().PrefixSize.Split(';')[0];
@@ -491,7 +495,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                         break;
                     if (!string.IsNullOrEmpty(catalogItem.Badge) && !Session.GetHabbo().GetBadgeComponent().HasBadge(catalogItem.Badge))
                     {
-                        Session.GetHabbo().GetBadgeComponent().GiveBadge(catalogItem.Badge, true);
+                        Session.GetHabbo().GetBadgeComponent().GiveBadge(catalogItem.Badge,0, true);
                         Session.SendPacket((IServerPacket)new ReceiveBadgeComposer(catalogItem.Badge));
                         Session.SendPacket((IServerPacket)new FurniListNotificationComposer(0, 4));
                         Session.SendMessage((IServerPacket)new RoomCustomizedAlertComposer("¡ Recibiste una nueva placa, revisa tu inventario !"));

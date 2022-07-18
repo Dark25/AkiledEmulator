@@ -151,6 +151,7 @@ namespace Akiled.HabboHotel.Users
         public int last_hal;
         public int last_fish;
         public int last_mina;
+        public int last_pickupitem = 0;
         private DateTime _lastClothingUpdateTime;
         private int _creditsTickUpdate;
         private int _calendarCounter;

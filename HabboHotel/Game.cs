@@ -26,6 +26,7 @@ using Akiled.HabboHotel.NotifTop;
 using Akiled.HabboHotel.Users.Messenger;
 using Akiled.HabboHotel.Subscriptions;
 using Akiled.HabboHotel.Cache;
+using Akiled.HabboHotel.Items.Crafting;
 
 namespace Akiled.HabboHotel
 {
@@ -53,7 +54,8 @@ namespace Akiled.HabboHotel
         private readonly LowPriorityWorker _lowPriorityWorker;
         private readonly SubscriptionManager _subscriptionManager;
         private readonly CacheManager _cacheManager;
-
+        private readonly CrackableManager _crackableManager;
+        private readonly CraftingManager _craftingManager;
         private Thread gameLoop; //Task
         public static bool gameLoopEnabled = true;
         public bool gameLoopActive;
@@ -109,8 +111,9 @@ namespace Akiled.HabboHotel
             this._animationManager.Init();
             this._subscriptionManager = new SubscriptionManager();
             this._subscriptionManager.Init();
-
-
+            this._crackableManager = new CrackableManager();
+            this._craftingManager = new CraftingManager();
+            this._craftingManager.Init();
             this._notiftopManager = new NotificationTopManager();
             this._notiftopManager.Init();
             using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
@@ -127,7 +130,7 @@ namespace Akiled.HabboHotel
 
         #region Return values
 
-
+        public CraftingManager GetCraftingManager() => this._craftingManager;
         public NotificationTopManager GetNotifTopManager()
         {
             return this._notiftopManager;
@@ -255,8 +258,8 @@ namespace Akiled.HabboHotel
             //this.gameLoop.Dispose();
         }
        
-        public CacheManager GetCacheManager() => this._cacheManager;        
-
+        public CacheManager GetCacheManager() => this._cacheManager;
+        internal CrackableManager GetPinataManager() => this._crackableManager;
         private void MainGameLoop()
         {
             while (this.gameLoopActive)

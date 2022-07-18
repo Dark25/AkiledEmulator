@@ -248,5 +248,11 @@
         public const int GetJukeboxPlaylistMessageEvent = 1435;
         public const int GetJukeboxDiscsDataMessageEvent = 3082;
         public const int AddDiscToPlayListMessageEvent = 753;
+        public const int GetCraftingItemMessageEvent = 633;
+        public const int SetCraftingRecipeMessageEvent = 1245;
+        public const int ExecuteCraftingRecipeMessageEvent = 1173;
+        public const int CraftSecretMessageEvent = 1251;
+        public const int GetCraftingRecipesAvailableMessageEvent = 3086;
+        
     }
 }

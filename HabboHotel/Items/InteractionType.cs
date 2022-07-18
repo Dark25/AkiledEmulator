@@ -194,7 +194,13 @@
         mineria,
         CRAFTING,
         ROOMCAMERA,
-        MUSIC_DISC
+        MUSIC_DISC,
+        PREFIX_Emoji,
+        PINATA,
+        PINATATRIGGERED,
+        CRACKABLE_EGG,
+        MARECRACKABLE_EGG,
+
     }
 
     public class InteractionTypes
@@ -209,6 +215,8 @@
                 case "TAG_SIZE":
                 case "prefix_sizetag":
                     return InteractionType.PREFIX_SIZETAG;
+                case "PREFIX_Emoji":
+                    return InteractionType.PREFIX_Emoji;
                 case "actiongivescore":
                 case "wf_act_givepoints":
                 case "wf_act_give_score":
@@ -695,6 +703,14 @@
                     return InteractionType.wireSplitter;
                 case "wireStandard":
                     return InteractionType.wireStandard;
+                case "PINATA":
+                    return InteractionType.PINATA;
+                case "PINATATRIGGERED":
+                    return InteractionType.PINATATRIGGERED;
+                case "MARECRACKABLE_EGG":
+                    return InteractionType.MARECRACKABLE_EGG;
+                case "CRACKABLE_EGG":
+                    return InteractionType.CRACKABLE_EGG;
                 default:
                     return InteractionType.NONE;
             }

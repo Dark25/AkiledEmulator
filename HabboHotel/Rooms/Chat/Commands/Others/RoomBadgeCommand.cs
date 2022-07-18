@@ -20,7 +20,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 				{
 					if (!User.GetClient().GetHabbo().GetBadgeComponent().HasBadge(Params[1]))
 					{
-						User.GetClient().GetHabbo().GetBadgeComponent().GiveBadge(Params[1], true);
+						User.GetClient().GetHabbo().GetBadgeComponent().GiveBadge(Params[1],0, true);
 						User.GetClient().SendNotification("<font color = '#008000'><font size= '16'><b>Has Recibido una Nueva Placa!</b></font></font>\n\nAsí es, Los staff estan muy contento por contar con tu presencia, por lo tanto, te han obsequiado una nueva placa, revisa tu inventario y hazla lucir.");
 					}
 					else
