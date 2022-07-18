@@ -12,13 +12,18 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 Session.SendWhisper("Introduce el nombre del usuario a quien deseas enviar una placa!");
                 return;
             }
-
+            
+            
             GameClient TargetClient = AkiledEnvironment.GetGame().GetClientManager().GetClientByUsername(Params[1]);
+            
             if (TargetClient != null)
             {
                 if (!TargetClient.GetHabbo().GetBadgeComponent().HasBadge(Params[2]))
                 {
                     TargetClient.GetHabbo().GetBadgeComponent().GiveBadge(Params[2],0, true);
+                    string BadgeCode = Params[2];
+                    TargetClient.GetHabbo().GetBadgeComponent().GiveBadge(BadgeCode, 0, true);
+                    TargetClient.SendPacket(new ReceiveBadgeComposer(BadgeCode));
                     if (TargetClient.GetHabbo().Id != Session.GetHabbo().Id)
                     {
                         TargetClient.SendMessage(new NewYearComposer(Params[2]));

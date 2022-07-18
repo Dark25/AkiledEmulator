@@ -167,6 +167,7 @@
         public const int BadgesMessageComposer = 717;
         public const int HabboUserBadgesMessageComposer = 1087;
         public const int AddUserBadgeComposer = 2493;
+        public const int ReceiveBadgeComposer = 2493;
         public const int FlatControllerAddedMessageComposer = 2088;
         public const int FlatControllerRemovedMessageComposer = 1327;
         public const int RoomRightsListMessageComposer = 1284;
