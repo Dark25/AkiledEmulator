@@ -93,10 +93,6 @@ namespace Akiled.HabboHotel.GameClients
                     this.Habbo.InitProcess();
                    this.Habbo.Look = AkiledEnvironment.GetFigureManager().ProcessFigure(this.Habbo.Look, this.Habbo.Gender, true);
                     await this.IsNewUserAsync();
-
-
-
-
                     this.SendPacket(new AuthenticationOKComposer());
                     this.SendPacket(new UserHomeRoomComposer(this.Habbo.HomeRoom, this.Habbo.HomeRoom));
                     this.SendPacket(new FavouritesComposer(this.Habbo.FavoriteRooms));

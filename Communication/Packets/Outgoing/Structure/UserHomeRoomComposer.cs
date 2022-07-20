@@ -6,8 +6,8 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
         public UserHomeRoomComposer(int homeRoom, int roomToEnter)
             : base(ServerPacketHeader.UserHomeRoomComposer)
         {
-            base.WriteInteger(homeRoom);
-            base.WriteInteger(roomToEnter);
+            this.WriteInteger(homeRoom);
+            this.WriteInteger(roomToEnter);
         }
     }
 }
