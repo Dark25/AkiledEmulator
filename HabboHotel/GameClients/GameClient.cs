@@ -94,7 +94,6 @@ namespace Akiled.HabboHotel.GameClients
                    this.Habbo.Look = AkiledEnvironment.GetFigureManager().ProcessFigure(this.Habbo.Look, this.Habbo.Gender, true);
                     await this.IsNewUserAsync();
                     this.SendPacket(new AuthenticationOKComposer());
-                    this.SendPacket(new UserHomeRoomComposer(this.Habbo.HomeRoom, this.Habbo.HomeRoom));
                     this.SendPacket(new FavouritesComposer(this.Habbo.FavoriteRooms));
                     this.SendPacket(new FigureSetIdsComposer(this.Habbo.GetClothing().GetClothingParts));
                    
@@ -113,7 +112,7 @@ namespace Akiled.HabboHotel.GameClients
                     this.SendPacket(new CfhTopicsInitComposer(AkiledEnvironment.GetGame().GetModerationManager().UserActionPresets));
                     this.SendPacket(new SoundSettingsComposer(this.Habbo.ClientVolume, false, false, false, 1));
                     this.SendPacket(new AvatarEffectsComposer(AkiledEnvironment.GetGame().GetEffectsInventoryManager().GetEffects()));
-
+                    SendPacket(new UserHomeRoomComposer(this.Habbo.HomeRoom, this.Habbo.HomeRoom));
 
                     this.Habbo.UpdateActivityPointsBalance();
                     this.Habbo.UpdateCreditsBalance();
@@ -228,6 +227,7 @@ namespace Akiled.HabboHotel.GameClients
 
         private async Task IsNewUserAsync()
         {
+            
             string sala_boy = (AkiledEnvironment.GetConfig().data["sala_boy"]);
             string sala_girl = (AkiledEnvironment.GetConfig().data["sala_girl"]);
             string modelsala_boy = (AkiledEnvironment.GetConfig().data["modelsala_boy"]);
@@ -364,6 +364,7 @@ namespace Akiled.HabboHotel.GameClients
             }
 
         }
+        
         private void parser_onNewPacket(ClientPacket Message)
         {
             try
