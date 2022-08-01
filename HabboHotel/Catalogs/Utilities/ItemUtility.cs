@@ -36,9 +36,9 @@ namespace Akiled.HabboHotel.Catalog.Utilities
             {
                 default:
                 case 9:
-                    return 2804;
+                    return 4221;
                 case 10:
-                    return 7544143;
+                    return 4450;
             }
         }
 

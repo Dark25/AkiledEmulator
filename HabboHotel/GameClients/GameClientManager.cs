@@ -14,6 +14,7 @@ using System.Text;
 using Akin.HabboHotel.Misc;
 using JNogueira.Discord.Webhook.Client;
 using System.Threading.Tasks;
+using Akiled.HabboHotel.Rooms;
 
 namespace Akiled.HabboHotel.GameClients
 {
@@ -298,7 +299,24 @@ namespace Akiled.HabboHotel.GameClients
                 client.SendPacket(Message);
             }
         }
+         public void StaffWhisper(string Text, int Colour = 0, int Exclude = 0)
+        {
+            foreach (GameClient Client in this.GetClients.ToList())
+            {
+                if (Client == null || Client.GetHabbo() == null)
+                    continue;
 
+                if (Client.GetHabbo().Rank < 4 || Client.GetHabbo().Id == Exclude)
+                    continue;
+
+                RoomUser User = Client.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(Client.GetHabbo().Id);
+                if (User == null)
+                    return;
+
+                Client.SendPacket(new WhisperMessageComposer(User.VirtualId, Text, 0, (Colour == 0 ? User.LastBubble : Colour)));
+
+            }
+        }
         public void SendMessageStaff(IServerPacket Packet)
         {
             foreach (int UserId in this._userStaff)

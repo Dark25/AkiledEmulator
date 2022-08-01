@@ -88,7 +88,7 @@ namespace Akiled.Net
                         this._halfDataRecieved = true;
                         return;
                     }
-                    else if (MsgLen < 2)
+                    else if ((MsgLen < 0 || MsgLen > 5120))
                     {
                         return;
                     }
@@ -117,6 +117,7 @@ namespace Akiled.Net
             }
             catch (Exception e)
             {
+                string CurrentTime = DateTime.Now.ToString("HH:mm:ss" + " | ");
                 Console.WriteLine("Packet Error! " + e);
             }
         }
@@ -173,5 +174,6 @@ namespace Akiled.Net
         }
 
         public delegate void HandlePacket(ClientPacket message);
+        
     }
 }

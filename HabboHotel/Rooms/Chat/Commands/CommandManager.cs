@@ -7,7 +7,7 @@ using System.Data;
 using Akiled.HabboHotel.Rooms.Chat.Commands.Cmd;
 using Akiled.Core;
 using Akiled.HabboHotel.Rooms.Chat.Commands.SpecialPvP;
-
+using Akiled.HabboHotel.Rooms.Chat.Commands.Moderator;
 
 namespace Akiled.HabboHotel.Rooms.Chat.Commands
 {
@@ -394,6 +394,8 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands
             this.Register(273, new SayBotUser());
             this.Register(274, new EnablePvP());
             this.Register(275, new MinaCommand());
+            this.Register(276, new SuschatstaffCommand());
+
 
 
         }

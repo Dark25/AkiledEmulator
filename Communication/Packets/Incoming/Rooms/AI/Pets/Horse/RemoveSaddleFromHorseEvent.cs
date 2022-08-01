@@ -5,53 +5,52 @@ using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Rooms;
 
-namespace Akiled.Communication.Packets.Incoming.Structure
+namespace Akiled.Communication.Packets.Incoming.Rooms.AI.Pets.Horse
 {
-    class RemoveSaddleFromHorseEvent : IPacketEvent
+    internal class RemoveSaddleFromHorseEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
+        public void Parse(GameClient session, ClientPacket packet)
         {
-            if (!Session.GetHabbo().InRoom)
+            if (!session.GetHabbo().InRoom)
                 return;
 
-            Room Room = null;
-            if (!AkiledEnvironment.GetGame().GetRoomManager().TryGetRoom(Session.GetHabbo().CurrentRoomId, out Room))
+            if (!AkiledEnvironment.GetGame().GetRoomManager().TryGetRoom(session.GetHabbo().CurrentRoomId, out Room room))
                 return;
 
-            RoomUser PetUser = null;
-            if (!Room.GetRoomUserManager().TryGetPet(Packet.PopInt(), out PetUser))
+            if (!room.GetRoomUserManager().TryGetPet(packet.PopInt(), out RoomUser petUser))
                 return;
 
-            if (PetUser.PetData == null || PetUser.PetData.OwnerId != Session.GetHabbo().Id || PetUser.PetData.Type != 13)
+            if (petUser.PetData == null || petUser.PetData.OwnerId != session.GetHabbo().Id)
                 return;
 
             //Fetch the furniture Id for the pets current saddle.
-            int SaddleId = ItemUtility.GetSaddleId(PetUser.PetData.Saddle);
+            int saddleId = ItemUtility.GetSaddleId(petUser.PetData.Saddle);
 
             //Remove the saddle from the pet.
-            PetUser.PetData.Saddle = 0;
+            petUser.PetData.Saddle = 0;
 
             using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.RunQuery("UPDATE `user_pets` SET `have_saddle` = '0' WHERE `id` = '" + PetUser.PetData.PetId + "' LIMIT 1");
+                dbClient.RunQuery("UPDATE `bots_petdata` SET `have_saddle` = '0' WHERE `id` = '" + petUser.PetData.PetId + "' LIMIT 1");
             }
 
             //Give the saddle back to the user.
-            ItemData ItemData = null;
-            if (!AkiledEnvironment.GetGame().GetItemManager().GetItem(SaddleId, out ItemData))
+            if (!AkiledEnvironment.GetGame().GetItemManager().GetItem(saddleId, out ItemData itemData))
                 return;
 
-            Item Item = ItemFactory.CreateSingleItemNullable(ItemData, Session.GetHabbo(), "");
-            if (Item != null)
+            Item item = ItemFactory.CreateSingleItemNullable(itemData, session.GetHabbo(), "");
+            if (item != null)
             {
-                Session.GetHabbo().GetInventoryComponent().TryAddItem(Item);
-                Session.SendPacket(new FurniListNotificationComposer(Item.Id, 1));
-                Session.SendPacket(new PurchaseOKComposer());
+                session.GetHabbo().GetInventoryComponent().TryAddItem(item);
+                session.SendPacket(new FurniListNotificationComposer(item.Id, 1));
+                session.SendPacket(new PurchaseOKComposer());
+                session.SendPacket(new FurniListAddComposer(item));
+                session.SendPacket(new FurniListUpdateComposer());
             }
 
-            Room.SendPacket(new UsersComposer(PetUser));
-            Room.SendPacket(new PetHorseFigureInformationComposer(PetUser));
-
+            //Update the Pet and the Pet figure information.
+            room.SendPacket(new UsersComposer(petUser));
+            room.SendPacket(new PetHorseFigureInformationComposer(petUser));
         }
     }
 }

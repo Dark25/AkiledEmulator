@@ -1,5 +1,6 @@
 ﻿
 
+using Akiled.Communication.Packets.Incoming.Rooms.Camera;
 using Akiled.Communication.Packets.Outgoing;
 using Akiled.HabboHotel.GameClients;
 

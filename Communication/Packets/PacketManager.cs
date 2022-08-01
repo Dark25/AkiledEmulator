@@ -12,6 +12,7 @@ using Akiled.Communication.Packets.Incoming.Camera;
 using Akiled.Communication.Packets.Incoming.Sound;
 using Akiled.Communication.Packets.Incoming.Rooms.Engine;
 using Akiled.Communication.Packets.Incoming.Rooms.Furni.Moodlight;
+using Akiled.Communication.Packets.Incoming.Rooms.AI.Pets.Horse;
 
 namespace Akiled.Communication.Packets
 {

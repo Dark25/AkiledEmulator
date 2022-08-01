@@ -240,8 +240,8 @@
         public const int RedeemOfferCreditsMessageEvent = 2650;
         public const int GetMarketplaceConfigurationMessageEvent = 2597;
         public const int GetNuxPresentEvent = 1822;
-        public const int RenderRoomMessageComposer = 3226;
-        public const int RenderRoomMessageComposerBigPhoto = 1982;
+        public const int RenderRoomMessageComposer = 1982;
+        public const int RenderRoomMessageComposerBigPhoto = 3226;
         public const int SetRoomThumbnailMessageEvent = 1982;
         public const int RenderRoomEvent = 3226;
         public const int LoadJukeboxDiscsMessageEvent = 2304;
@@ -253,6 +253,7 @@
         public const int ExecuteCraftingRecipeMessageEvent = 1173;
         public const int CraftSecretMessageEvent = 1251;
         public const int GetCraftingRecipesAvailableMessageEvent = 3086;
-        
+        public const int YoutubeRequestPlaylists = 336;
+
     }
 }

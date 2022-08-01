@@ -406,6 +406,7 @@ namespace Akiled.HabboHotel.GameClients
             SendPacket(new WhisperMessageComposer(User.VirtualId, Message, 0, (Colour == 0 ? User.LastBubble : Colour)));
         }
 
+
         public void StartConnection()
         {
             if (this.Connection == null)
