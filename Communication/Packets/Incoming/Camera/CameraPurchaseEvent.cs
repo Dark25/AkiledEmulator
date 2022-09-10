@@ -3,6 +3,7 @@ using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
 using AkiledEmulator.HabboHotel.Camera;
+using System;
 
 namespace Akiled.Communication.Packets.Incoming.Structure
 {
@@ -10,14 +11,19 @@ namespace Akiled.Communication.Packets.Incoming.Structure
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
+            string imagen1 = AkiledEnvironment.GetConfig().data["Camera_img_1"];
+            string imagen2 = AkiledEnvironment.GetConfig().data["Camera_img_2"];
+            int imagenint1 = Int32.Parse(imagen1);
+            int imagenint2 = Int32.Parse(imagen2);
 
-            if (!AkiledEnvironment.GetGame().GetItemManager().GetItem(45810, out ItemData ItemData))
+            if (!AkiledEnvironment.GetGame().GetItemManager().GetItem(imagenint1, out ItemData ItemData))
             {
+
                 Session.SendNotification("Invalid id 01");
                 return;
             }
 
-            if (!AkiledEnvironment.GetGame().GetItemManager().GetItem(45970, out ItemData ItemDataSmall))
+            if (!AkiledEnvironment.GetGame().GetItemManager().GetItem(imagenint2, out ItemData ItemDataSmall))
             {
                 Session.SendNotification("Invalid id 02");
                 return;
