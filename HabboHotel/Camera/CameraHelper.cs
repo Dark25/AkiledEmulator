@@ -9,8 +9,8 @@ namespace AkiledEmulator.HabboHotel.Camera
 {
     public class CameraHelper
     {
-        public const string BASE_URL = "https://swfs.akiled.org/newfoto/";
-        private const string REQUEST_URL = BASE_URL + "camera.php";
+        public static string BASE_URL = AkiledEnvironment.GetConfig().data["Url_camera"];
+        private static string REQUEST_URL = BASE_URL + "camera.php";
 
         public static string request(string type, int userId, int roomId, string base64)
         {
