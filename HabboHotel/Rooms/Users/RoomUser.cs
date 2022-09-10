@@ -2,7 +2,6 @@
 using Akiled.Communication.Packets.Outgoing;
 using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Core;
-using Akiled.HabboHotel.Camera;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Pets;
 using Akiled.HabboHotel.Roleplay;
@@ -13,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Akiled.HabboHotel.Rooms
@@ -372,12 +370,12 @@ namespace Akiled.HabboHotel.Rooms
                 }
                 str6 = str7;
             }
-            
+
             if (string.IsNullOrWhiteSpace(str1) || !(str1 != "off"))
                 return;
             string Username;
             if (str5 == "RAINCOLOR" || str5 == "germany" || (str5 == "yeblack" || str5 == "CHRISTMAS18") || (str5 == "blurapi" || str5 == "pinkrosa") || str5 == "bluyeor")
-                Username = "<font size= '" + str3 + "'>[" + str6 + "] <font size= '" + str4 + "px'><font color='#" + str2 + "'>" + prefixemoji + this.GetClient().GetHabbo().Username +"</font></font></font></font>";
+                Username = "<font size= '" + str3 + "'>[" + str6 + "] <font size= '" + str4 + "px'><font color='#" + str2 + "'>" + prefixemoji + this.GetClient().GetHabbo().Username + "</font></font></font></font>";
             else
                 Username = "<font size= '" + str3 + "px'><font color='#" + str5 + "'>[" + str1 + "]</font></font> <font size= '" + str4 + "px'><font color='#" + str2 + "'>" + prefixemoji + this.GetClient().GetHabbo().Username + " </font></font></font></font>";
             if (this.GetRoom() == null)
@@ -427,7 +425,7 @@ namespace Akiled.HabboHotel.Rooms
                 return 1;
             return Message.Contains(">:(") || Message.Contains(":@") ? 2 : (Message.Contains(":o") ? 3 : (Message.Contains(":(") || Message.Contains("=[") || (Message.Contains(":'(") || Message.Contains("='[")) ? 4 : 0));
         }
-        public CameraPhotoPreview LastPhotoPreview;
+
         public void MoveTo(Point c, bool Override = false) => this.MoveTo(c.X, c.Y, Override);
 
         public void MoveTo(int pX, int pY, bool pOverride = false)

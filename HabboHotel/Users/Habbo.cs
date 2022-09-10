@@ -20,6 +20,7 @@ using Akiled.HabboHotel.WebClients;
 using Akiled.HabboHotel.Users.Clothing;
 using JNogueira.Discord.Webhook.Client;
 using System.Threading.Tasks;
+using AkiledEmulator.HabboHotel.Camera;
 
 namespace Akiled.HabboHotel.Users
 {
@@ -163,7 +164,7 @@ namespace Akiled.HabboHotel.Users
         private bool _allowBotSpeech;
         public bool isLoggedIn = false;
         private int _petId;
-        public string lastPhotoPreview;
+        public JSONCamera lastPhotoPreview;
         public string _lastPhotoPreview;
         private int _clothingUpdateWarnings;
         private bool _sessionClothingBlocked;
@@ -288,7 +289,6 @@ namespace Akiled.HabboHotel.Users
             this._allowPetSpeech = PetsMuted;
             this._allowBotSpeech = BotsMuted;
             this._lastClothingUpdateTime = DateTime.Now;
-            this._lastPhotoPreview = this.lastPhotoPreview;
             this._clothingUpdateWarnings = 0;
             this._sessionClothingBlocked = false;            
 

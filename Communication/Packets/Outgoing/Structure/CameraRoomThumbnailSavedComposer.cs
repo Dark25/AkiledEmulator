@@ -2,10 +2,10 @@
 
 namespace Akiled.Communication.Packets.Outgoing.Structure
 {
-    public class TakedRoomPhoto : ServerPacket
+    public class CameraRoomThumbnailSavedComposer : ServerPacket
     {
-        public TakedRoomPhoto()
-          : base(ServerPacketHeader.TakedRoomPhoto)
+        public CameraRoomThumbnailSavedComposer()
+          : base(ServerPacketHeader.CameraRoomThumbnailSavedComposer)
         {
             this.WriteInteger(15);
             this.WriteInteger(0);

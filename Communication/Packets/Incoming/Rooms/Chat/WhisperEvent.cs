@@ -81,7 +81,7 @@ using Akiled.Communication.Packets.Outgoing;using Akiled.Communication.Packets.
 
                 User.Unidle();
 
-                if (ToUser == "groupe")
+                if (ToUser == "Grupo")
                 {
                     if (User.WhiperGroupUsers.Count <= 0)
                         return;

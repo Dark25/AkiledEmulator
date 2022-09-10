@@ -88,7 +88,7 @@ namespace Akiled.Net
                         this._halfDataRecieved = true;
                         return;
                     }
-                    else if ((MsgLen < 0 || MsgLen > 5120))
+                    else if ((MsgLen < 0 || MsgLen > 500000))
                     {
                         return;
                     }

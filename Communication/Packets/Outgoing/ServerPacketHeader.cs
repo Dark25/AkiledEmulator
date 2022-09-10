@@ -11,8 +11,7 @@
         public const int ErrorLoginComposer = 4000;
         public const int WiredRewardAlertComposer = 178;
         public const int CameraPriceComposer = 3878;
-        public const int CameraURLComposer = 3696;
-        public const int TakedRoomPhoto = 3595;
+        public const int CameraRoomThumbnailSavedComposer = 3595;
         public const int CameraToken = 3018;
         public const int CameraPurchaseSuccesfullComposer = 2783;
         public const int CameraPhotoPreviewComposer = 3696;

@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using Akiled.HabboHotel.GameClients;
-using Akiled.Communication.Packets.Incoming;
-
-using Akiled.Communication.Packets.Incoming.Structure;
+﻿using Akiled.Communication.Packets.Incoming;
 using Akiled.Communication.Packets.Incoming.Marketplace;
-using Akiled.HabboHotel.WebClients;
-using Akiled.Communication.Packets.Incoming.WebSocket;
-using Akiled.Communication.Packets.Incoming.Rooms.Furni;
-using Akiled.Communication.Packets.Incoming.Camera;
-using Akiled.Communication.Packets.Incoming.Sound;
-using Akiled.Communication.Packets.Incoming.Rooms.Engine;
-using Akiled.Communication.Packets.Incoming.Rooms.Furni.Moodlight;
 using Akiled.Communication.Packets.Incoming.Rooms.AI.Pets.Horse;
+using Akiled.Communication.Packets.Incoming.Rooms.Engine;
+using Akiled.Communication.Packets.Incoming.Rooms.Furni;
+using Akiled.Communication.Packets.Incoming.Rooms.Furni.Moodlight;
+using Akiled.Communication.Packets.Incoming.Sound;
+using Akiled.Communication.Packets.Incoming.Structure;
+using Akiled.Communication.Packets.Incoming.WebSocket;
+using Akiled.HabboHotel.GameClients;
+using Akiled.HabboHotel.WebClients;
+using System;
+using System.Collections.Generic;
 
 namespace Akiled.Communication.Packets
 {
@@ -54,6 +52,7 @@ namespace Akiled.Communication.Packets
             this.RegisterModeration();
             this.RegisterGuide();
             this.RegisterNux();
+            this.RegisterRoomCamera();
 
             this.RegisterWebPacket();
 
@@ -164,10 +163,8 @@ namespace Akiled.Communication.Packets
             _incomingPackets.Add(ClientPacketHeader.GetSellablePetBreedsMessageEvent, new GetSellablePetBreedsEvent());
             _incomingPackets.Add(ClientPacketHeader.GetGroupFurniConfigMessageEvent, new GetGroupFurniConfigEvent());
             _incomingPackets.Add(ClientPacketHeader.GetMarketplaceConfigurationMessageEvent, new GetMarketplaceConfigurationEvent());
-            _incomingPackets.Add(ClientPacketHeader.RenderRoomMessageComposerBigPhoto, new RenderRoomMessageComposerBigPhoto());
             _incomingPackets.Add(ClientPacketHeader.CameraPurchaseMessageEvent, new CameraPurchaseEvent());
             _incomingPackets.Add(ClientPacketHeader.RequestCameraConfigurationMessageEvent, new RequestCameraConfigurationEvent());
-            _incomingPackets.Add(ClientPacketHeader.RenderRoomMessageComposer, (IPacketEvent) new RenderRoomMessageComposerEvent());
 
         }
 
@@ -193,8 +190,12 @@ namespace Akiled.Communication.Packets
             _incomingPackets.Add(ClientPacketHeader.CanCreateRoomMessageEvent, new CanCreateRoomEvent());
             _incomingPackets.Add(ClientPacketHeader.CreateFlatMessageEvent, new CreateFlatEvent());
             _incomingPackets.Add(ClientPacketHeader.GetGuestRoomMessageEvent, new GetGuestRoomEvent());
+        }
 
-
+        private void RegisterRoomCamera()
+        {
+            this._incomingPackets.Add(ClientPacketHeader.SetRoomThumbnailMessageEvent, new CameraRoomThumbnailEvent());
+            this._incomingPackets.Add(ClientPacketHeader.RenderRoomEvent, new CameraRoomPictureEvent());
         }
 
         private void RegisterNewNavigator()
@@ -233,7 +234,7 @@ namespace Akiled.Communication.Packets
         {
             _incomingPackets.Add(ClientPacketHeader.GetWardrobeMessageEvent, new GetWardrobeEvent());
             _incomingPackets.Add(ClientPacketHeader.SaveWardrobeOutfitMessageEvent, new SaveWardrobeOutfitEvent());
-            
+
         }
 
         private void RegisterRoomAction()
@@ -353,7 +354,7 @@ namespace Akiled.Communication.Packets
             _incomingPackets.Add(ClientPacketHeader.ModifyWhoCanRideHorseMessageEvent, new ModifyWhoCanRideHorseEvent());
             _incomingPackets.Add(ClientPacketHeader.GetPetTrainingPanelMessageEvent, new GetPetTrainingPanelEvent());
             _incomingPackets.Add(ClientPacketHeader.MoveMonsterPlanteMessageEvent, new MoveMonsterPlanteEvent());
-           
+
         }
 
         private void RegisterQuests()

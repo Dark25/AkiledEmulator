@@ -2,6 +2,7 @@
 using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
+using AkiledEmulator.HabboHotel.Camera;
 
 namespace Akiled.Communication.Packets.Incoming.Structure
 {
@@ -9,21 +10,27 @@ namespace Akiled.Communication.Packets.Incoming.Structure
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-            string PhotoId = Packet.PopString();
 
-            if (string.IsNullOrEmpty(PhotoId) || !AkiledEnvironment.IsValidAlphaNumeric(PhotoId) || PhotoId.Length != 32)
+            if (!AkiledEnvironment.GetGame().GetItemManager().GetItem(45810, out ItemData ItemData))
             {
-                Session.SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("notif.buyphoto.error", Session.Langue) + " ( " + PhotoId + " ) ");
+                Session.SendNotification("Invalid id 01");
                 return;
             }
 
-            if (!AkiledEnvironment.GetGame().GetItemManager().GetItem(4581, out ItemData ItemData)) return;
+            if (!AkiledEnvironment.GetGame().GetItemManager().GetItem(45970, out ItemData ItemDataSmall))
+            {
+                Session.SendNotification("Invalid id 02");
+                return;
+            }
 
-            if (!AkiledEnvironment.GetGame().GetItemManager().GetItem(4597, out ItemData ItemDataSmall)) return;
+            JSONCamera jsonInfo = Session.GetHabbo().lastPhotoPreview;
 
-            int Time = AkiledEnvironment.GetUnixTimestamp();
-            string ExtraData = "{\"w\":\"" + "/photos/" + PhotoId + ".png" + "\", \"n\":\"" + Session.GetHabbo().Username + "\", \"s\":\"" + Session.GetHabbo().Id + "\", \"u\":\"" + "0" + "\", \"t\":\"" + Time + "000" + "\"}";
+            string roomId = jsonInfo.room_id;
+            double timestamp = jsonInfo.timestamp;
+            string md5image = jsonInfo.encrypted_id;
+            string username = Session.GetHabbo().Username;
 
+            string ExtraData = "{\"w\":\"" + CameraHelper.BASE_URL + "photos/" + md5image + ".png" + "\", \"n\":\"" + username + "\", \"s\":\"" + Session.GetHabbo().Id + "\", \"u\":\"" + "0" + "\", \"t\":\"" + timestamp + "000" + "\"}";
 
             Item ItemSmall = ItemFactory.CreateSingleItemNullable(ItemDataSmall, Session.GetHabbo(), ExtraData);
             Session.GetHabbo().GetInventoryComponent().TryAddItem(ItemSmall);
@@ -33,14 +40,11 @@ namespace Akiled.Communication.Packets.Incoming.Structure
 
             Session.SendPacket(new CameraPurchaseSuccesfullComposer());
 
-            if (Session.GetHabbo().LastPhotoId == PhotoId) return;
-
-            Session.GetHabbo().LastPhotoId = PhotoId;
 
             using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {
-                queryreactor.SetQuery("INSERT INTO user_photos (user_id,photo,time) VALUES ('" + Session.GetHabbo().Id + "', @photoid, '" + Time + "');");
-                queryreactor.AddParameter("photoid", PhotoId);
+                queryreactor.SetQuery("INSERT INTO user_photos (user_id,photo,time) VALUES ('" + Session.GetHabbo().Id + "', @photoid, '" + timestamp + "');");
+                queryreactor.AddParameter("photoid", md5image);
                 queryreactor.RunQuery();
             }
 
