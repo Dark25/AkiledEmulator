@@ -14,7 +14,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <ApplicationVersion>2.8.0.0</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -56,8 +56,11 @@
     <StartupObject>Akiled.Program</StartupObject>
     <AssemblyName>AkiledEmulator</AssemblyName>
     <RootNamespace>AkiledEmulator</RootNamespace>
-    <AssemblyVersion>2.7</AssemblyVersion>
-    <FileVersion>2.7</FileVersion>
+    <AssemblyVersion>2.8</AssemblyVersion>
+    <FileVersion>2.8</FileVersion>
+    <Version>2.8.44</Version>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <AnalysisLevel>latest-all</AnalysisLevel>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Properties\**" />
@@ -120,6 +123,19 @@
   <ItemGroup>
     <Compile Remove="HabboHotel\Rooms\Chat\Commands\Construition\sh.cs" />
     <Compile Remove="HabboHotel\Rooms\Chat\Commands\Others\Fiestamensual - Copy.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 	<ItemGroup>
 		<None Update="Settings\configuration.ini">

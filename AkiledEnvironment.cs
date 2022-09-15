@@ -25,15 +25,15 @@ using System.Threading.Tasks;
 
 namespace Akiled
 {
-    public class AkiledEnvironment: IAkiledEnvironment
+    public class AkiledEnvironment : IAkiledEnvironment
     {
         private static ConcurrentDictionary<int, Habbo> _usersCached = new ConcurrentDictionary<int, Habbo>();
         private readonly IEnumerable<IStartable> _startableTasks;
         public static bool eventStarted = false;
         public static bool eventDisabled = false;
         public static Random Random = new Random();
-        
-        
+
+
         private static readonly List<char> Allowedchars = new List<char>((IEnumerable<char>)new char[82]
         {
       'a',
@@ -152,9 +152,11 @@ namespace Akiled
             Console.WriteLine(@"                        / _ \| ' < | || |__| _|| |) | | _|| |\/| | |_| | |__ / _ \| || (_) |   /");
             Console.WriteLine(@"                       / / \_\_|\_\___|____|___|___/  |___|_|  |_|\___/|____/_/ \_\_| \___/|_|_\");
             Console.WriteLine(@"");
-            Console.WriteLine(@"                                 Basado en PlusEmulator y Wibbo Emulator - Akiled Emulator        ");
+            Console.WriteLine(@"                           Basado en PlusEmulator y Wibbo Emulator - Akiled Emulator    ");
             Console.WriteLine(@"");
-            Console.WriteLine(@"                           Desarrollado por Carlos Mota, --- Todos los derechos reservados   ");
+            Console.WriteLine(@"                                                  Versión: 2.8                            ");
+            Console.WriteLine(@"");
+            Console.WriteLine(@"                           Desarrollado por Carlos Mota --- Todos los derechos reservados");
             Console.WriteLine();
             _defaultEncoding = Encoding.Default;
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -164,7 +166,14 @@ namespace Akiled
             try
             {
                 AkiledEnvironment._configuration = new ConfigurationData(AkiledEnvironment.PatchDir + "Settings/configuration.ini", false);
-                AkiledEnvironment._datebasemanager = new DatabaseManager(uint.Parse(AkiledEnvironment.GetConfig().data["db.pool.maxsize"]), uint.Parse(AkiledEnvironment.GetConfig().data["db.pool.minsize"]), AkiledEnvironment.GetConfig().data["db.hostname"], uint.Parse(AkiledEnvironment.GetConfig().data["db.port"]), AkiledEnvironment.GetConfig().data["db.username"], AkiledEnvironment.GetConfig().data["db.password"], AkiledEnvironment.GetConfig().data["db.name"]);
+                AkiledEnvironment._datebasemanager = new DatabaseManager(
+                    uint.Parse(GetConfig().data["db.pool.maxsize"]),
+                    uint.Parse(AkiledEnvironment.GetConfig().data["db.pool.minsize"]),
+                    AkiledEnvironment.GetConfig().data["db.hostname"],
+                    uint.Parse(AkiledEnvironment.GetConfig().data["db.port"]),
+                    AkiledEnvironment.GetConfig().data["db.username"],
+                    AkiledEnvironment.GetConfig().data["db.password"],
+                    AkiledEnvironment.GetConfig().data["db.name"]);
                 int num = 0;
                 while (!_datebasemanager.IsConnected())
                 {
