@@ -15,6 +15,8 @@
                     return NavigatorCategoryType.POPULAR;
                 case "recommended":
                     return NavigatorCategoryType.RECOMMENDED;
+                case "staff_picks":
+                    return NavigatorCategoryType.STAFF_PICKS;
                 case "query":
                     return NavigatorCategoryType.QUERY;
                 case "my_rooms":
@@ -35,6 +37,7 @@
                     return NavigatorCategoryType.PROMOTION_CATEGORY;
                 case "my_rights":
                     return NavigatorCategoryType.MY_RIGHTS;
+
             }
         }
     }

@@ -12,7 +12,7 @@ namespace Akiled.HabboHotel.Navigators
     public sealed class NavigatorManager
     {
         private readonly Dictionary<int, FeaturedRoom> _featuredRooms;
-
+        private readonly Dictionary<int, StaffPick> _staffPicks;
         private readonly Dictionary<int, TopLevelItem> _topLevelItems;
         private readonly Dictionary<int, SearchResultList> _searchResultLists;
 
@@ -20,7 +20,7 @@ namespace Akiled.HabboHotel.Navigators
         {
             this._topLevelItems = new Dictionary<int, TopLevelItem>();
             this._searchResultLists = new Dictionary<int, SearchResultList>();
-
+            this._staffPicks = new Dictionary<int, StaffPick>();
             this._topLevelItems.Add(1, new TopLevelItem(1, "official_view", "", ""));
             this._topLevelItems.Add(2, new TopLevelItem(2, "hotel_view", "", ""));
             //this._topLevelItems.Add(3, new TopLevelItem(3, "rooms_game", "", ""));
@@ -68,6 +68,16 @@ namespace Akiled.HabboHotel.Navigators
                             if (!this._featuredRooms.ContainsKey(Convert.ToInt32(Row["room_id"])))
                             {
                                 this._featuredRooms.Add(Convert.ToInt32(Row["room_id"]), new FeaturedRoom(Convert.ToInt32(Row["room_id"]), Convert.ToString(Row["image_url"]), LanguageManager.ParseLanguage(Convert.ToString(Row["langue"]))));
+                            }
+                        }
+                        dbClient.SetQuery("SELECT `room_id`,`image` FROM `navigator_staff_picks`");
+                        DataTable table3 = dbClient.GetTable();
+                        if (table3 != null)
+                        {
+                            foreach (DataRow row in (InternalDataCollectionBase)table3.Rows)
+                            {
+                                if (!this._staffPicks.ContainsKey(Convert.ToInt32(row["room_id"])))
+                                    this._staffPicks.Add(Convert.ToInt32(row["room_id"]), new StaffPick(Convert.ToInt32(row["room_id"]), Convert.ToString(row["image"])));
                             }
                         }
                     }
@@ -125,6 +135,7 @@ namespace Akiled.HabboHotel.Navigators
         {
             return this._searchResultLists.Values;
         }
+        public ICollection<StaffPick> GetStaffPicks() => (ICollection<StaffPick>)this._staffPicks.Values;
 
         public bool TryGetTopLevelItem(int Id, out TopLevelItem TopLevelItem)
         {
@@ -140,6 +151,19 @@ namespace Akiled.HabboHotel.Navigators
         {
             return this._featuredRooms.TryGetValue(RoomId, out PublicRoom);
         }
+
+        public bool TryGetStaffPickedRoom(int roomId, out StaffPick room) => this._staffPicks.TryGetValue(roomId, out room);
+
+        public bool TryAddStaffPickedRoom(int roomId)
+        {
+            if (this._staffPicks.ContainsKey(roomId))
+                return false;
+            this._staffPicks.Add(roomId, new StaffPick(roomId, ""));
+            return true;
+        }
+
+        public bool TryRemoveStaffPickedRoom(int roomId) => this._staffPicks.ContainsKey(roomId) && this._staffPicks.Remove(roomId);
+
 
         public ICollection<FeaturedRoom> GetFeaturedRooms(Language Langue)
         {

@@ -246,6 +246,7 @@
         public const int CraftingResultMessageComposer = 3128;
         public const int CraftingFoundMessageComposer = 2124;
         public const int YoutubeDisplayListComposer = 1112;
+        public const int ModeratorUserRoomVisitsMessageComposer = 1752;
 
     }
 }

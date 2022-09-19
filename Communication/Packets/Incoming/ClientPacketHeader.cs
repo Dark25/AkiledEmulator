@@ -251,6 +251,7 @@
         public const int CraftSecretMessageEvent = 1251;
         public const int GetCraftingRecipesAvailableMessageEvent = 3086;
         public const int YoutubeRequestPlaylists = 336;
+        public const int ToggleStaffPickEvent = 1918;
 
     }
 }

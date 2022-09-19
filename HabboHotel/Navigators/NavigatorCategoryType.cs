@@ -15,6 +15,7 @@
         MY_HISTORY_FREQ,
         TOP_PROMOTIONS,
         PROMOTION_CATEGORY,
-        MY_RIGHTS
+        MY_RIGHTS,
+        STAFF_PICKS
     }
 }

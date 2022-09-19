@@ -171,6 +171,27 @@ namespace Akiled.HabboHotel.Navigators
                         }
                         break;
                     }
+                case NavigatorCategoryType.STAFF_PICKS:
+                    List<RoomData> source2 = new List<RoomData>();
+                    foreach (StaffPick staffPick in AkiledEnvironment.GetGame().GetNavigator().GetStaffPicks().ToList<StaffPick>())
+                    {
+                        if (staffPick != null)
+                        {
+                            RoomData roomData = AkiledEnvironment.GetGame().GetRoomManager().GenerateRoomData(staffPick.RoomId);
+                            if (roomData != null && !source2.Contains(roomData))
+                                source2.Add(roomData);
+                        }
+                    }
+                    Message.WriteInteger(source2.Count);
+                    using (List<RoomData>.Enumerator enumerator = source2.ToList<RoomData>().GetEnumerator())
+                    {
+                        while (enumerator.MoveNext())
+                        {
+                            RoomData current = enumerator.Current;
+                            RoomAppender.WriteRoom(Message, current);
+                        }
+                        break;
+                    }
 
                 case NavigatorCategoryType.CATEGORY:
                     {

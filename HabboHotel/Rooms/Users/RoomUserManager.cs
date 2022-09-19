@@ -408,26 +408,31 @@ namespace Akiled.HabboHotel.Rooms
                 }
             }
 
-            if (_room.CheckRights(Session, true))
-            {
+        if (!User.IsBot && Session.GetHabbo().Rank > 15)
+      {
+                User.SetStatus("flatctrl", "5");
+        Session.SendPacket((IServerPacket) new YouAreOwnerComposer());
+        Session.SendPacket((IServerPacket) new YouAreControllerComposer(5));
+      }
+      else if (this._room.CheckRights(Session, true))
+      {
                 User.SetStatus("flatctrl", "useradmin");
-                Session.SendPacket(new YouAreOwnerComposer());
-                Session.SendPacket(new YouAreControllerComposer(5));
-
-                if (Session.GetHabbo().HasFuse("ads_background"))
-                    Session.SendPacket(new UserRightsComposer(5));
-            }
-            else if (_room.CheckRights(Session))
-            {
+        Session.SendPacket((IServerPacket) new YouAreOwnerComposer());
+        Session.SendPacket((IServerPacket) new YouAreControllerComposer(4));
+        if (Session.GetHabbo().HasFuse("ads_background"))
+          Session.SendPacket((IServerPacket) new UserRightsComposer(5));
+      }
+      else if (this._room.CheckRights(Session))
+      {
                 User.SetStatus("flatctrl", "1");
-                Session.SendPacket(new YouAreControllerComposer(1));
-            }
-            else
-            {
-                if (Session.GetHabbo().HasFuse("ads_background"))
-                    Session.SendPacket(new UserRightsComposer(Session.GetHabbo().Rank));
-                Session.SendPacket(new YouAreNotControllerComposer());
-            }
+        Session.SendPacket((IServerPacket) new YouAreControllerComposer(1));
+      }
+      else
+      {
+        if (Session.GetHabbo().HasFuse("ads_background"))
+          Session.SendPacket((IServerPacket) new UserRightsComposer(Session.GetHabbo().Rank));
+        Session.SendPacket((IServerPacket) new YouAreNotControllerComposer());
+      }
 
             if (!User.IsBot && Session.GetHabbo().Rank > 2)
             {

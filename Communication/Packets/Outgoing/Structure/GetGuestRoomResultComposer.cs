@@ -1,4 +1,5 @@
 using Akiled.HabboHotel.GameClients;
+using Akiled.HabboHotel.Navigators;
 using Akiled.HabboHotel.Rooms;
 using System;
 
@@ -43,8 +44,12 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
             }
 
 
-            WriteBoolean(checkEntry);
-            WriteBoolean(false);
+            this.WriteBoolean(checkEntry);
+            StaffPick room = (StaffPick)null;
+            if (!AkiledEnvironment.GetGame().GetNavigator().TryGetStaffPickedRoom(Data.Id, out room))
+                this.WriteBoolean(false);
+            else
+                this.WriteBoolean(true);
             WriteBoolean(false);
             WriteBoolean(false);
 

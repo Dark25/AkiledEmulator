@@ -190,6 +190,7 @@ namespace Akiled.Communication.Packets
             _incomingPackets.Add(ClientPacketHeader.CanCreateRoomMessageEvent, new CanCreateRoomEvent());
             _incomingPackets.Add(ClientPacketHeader.CreateFlatMessageEvent, new CreateFlatEvent());
             _incomingPackets.Add(ClientPacketHeader.GetGuestRoomMessageEvent, new GetGuestRoomEvent());
+            _incomingPackets.Add(1918, (IPacketEvent)new ToggleStaffPickEvent());
         }
 
         private void RegisterRoomCamera()
