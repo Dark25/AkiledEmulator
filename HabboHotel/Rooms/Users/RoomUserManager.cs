@@ -1,25 +1,26 @@
-﻿using Akiled.Core;
+﻿using Akiled.Communication.Packets.Outgoing;
+using Akiled.Communication.Packets.Outgoing.Structure;
+using Akiled.Communication.Packets.Outgoing.WebSocket;
+using Akiled.Core;
+using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
-using Akiled.HabboHotel.Rooms.Pathfinding;
 using Akiled.HabboHotel.Pets;
 using Akiled.HabboHotel.Quests;
-using Akiled.HabboHotel.Rooms.RoomBots;
+using Akiled.HabboHotel.Roleplay;
+using Akiled.HabboHotel.Roleplay.Enemy;
+using Akiled.HabboHotel.Roleplay.Player;
 using Akiled.HabboHotel.Rooms.Games;
-using Akiled.Communication.Packets.Outgoing;
+using Akiled.HabboHotel.Rooms.Map.Movement;
+using Akiled.HabboHotel.Rooms.Pathfinding;
+using Akiled.HabboHotel.Rooms.RoomBots;
 using Akiled.Utilities;
-using Akiled.Database.Interfaces;
+using AkiledEmulator.HabboHotel.Rooms;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Collections.Concurrent;
-using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.Communication.Packets.Outgoing.WebSocket;
-using Akiled.HabboHotel.Roleplay;
-using Akiled.HabboHotel.Roleplay.Player;
-using Akiled.HabboHotel.Roleplay.Enemy;
-using Akiled.HabboHotel.Rooms.Map.Movement;
 
 namespace Akiled.HabboHotel.Rooms
 {
@@ -408,31 +409,50 @@ namespace Akiled.HabboHotel.Rooms
                 }
             }
 
-        if (!User.IsBot && Session.GetHabbo().Rank > 15)
-      {
-                User.SetStatus("flatctrl", "5");
-        Session.SendPacket((IServerPacket) new YouAreOwnerComposer());
-        Session.SendPacket((IServerPacket) new YouAreControllerComposer(5));
-      }
-      else if (this._room.CheckRights(Session, true))
-      {
-                User.SetStatus("flatctrl", "useradmin");
-        Session.SendPacket((IServerPacket) new YouAreOwnerComposer());
-        Session.SendPacket((IServerPacket) new YouAreControllerComposer(4));
-        if (Session.GetHabbo().HasFuse("ads_background"))
-          Session.SendPacket((IServerPacket) new UserRightsComposer(5));
-      }
-      else if (this._room.CheckRights(Session))
-      {
-                User.SetStatus("flatctrl", "1");
-        Session.SendPacket((IServerPacket) new YouAreControllerComposer(1));
-      }
-      else
-      {
-        if (Session.GetHabbo().HasFuse("ads_background"))
-          Session.SendPacket((IServerPacket) new UserRightsComposer(Session.GetHabbo().Rank));
-        Session.SendPacket((IServerPacket) new YouAreNotControllerComposer());
-      }
+            RoomRightLevels level = RoomRightLevels.NONE;
+
+            if (_room.CheckRights(Session, true))
+            {
+                level = RoomRightLevels.MODERATOR;
+                Session.SendMessage(new YouAreOwnerComposer());
+            }
+            else if (_room.CheckRights(Session, false) && _room.RoomData.Group == null)
+                level = RoomRightLevels.RIGHTS;
+            else if (_room.RoomData.Group != null && this._room.CheckRights(Session))
+                level = _room.RoomData.Group.getGroupRightLevel(Session.GetHabbo());
+
+            User.SetStatus("flatctrl", ((int)level).ToString());
+
+            Session.SendMessage(new YouAreControllerComposer(level));
+
+            if (level == RoomRightLevels.NONE)
+                Session.SendMessage(new YouAreNotControllerComposer());
+
+            //if (!User.IsBot && Session.GetHabbo().Rank > 15)
+            //{
+            //    User.SetStatus("flatctrl", "5");
+            //    Session.SendPacket((IServerPacket)new YouAreOwnerComposer());
+            //    Session.SendPacket((IServerPacket)new YouAreControllerComposer(5));
+            //}
+            //else if (this._room.CheckRights(Session, true))
+            //{
+            //    User.SetStatus("flatctrl", "useradmin");
+            //    Session.SendPacket((IServerPacket)new YouAreOwnerComposer());
+            //    Session.SendPacket((IServerPacket)new YouAreControllerComposer(4));
+            //    if (Session.GetHabbo().HasFuse("ads_background"))
+            //        Session.SendPacket((IServerPacket)new UserRightsComposer(5));
+            //}
+            //else if (this._room.CheckRights(Session))
+            //{
+            //    User.SetStatus("flatctrl", "1");
+            //    Session.SendPacket((IServerPacket)new YouAreControllerComposer(1));
+            //}
+            //else
+            //{
+            //    if (Session.GetHabbo().HasFuse("ads_background"))
+            //        Session.SendPacket((IServerPacket)new UserRightsComposer(Session.GetHabbo().Rank));
+            //    Session.SendPacket((IServerPacket)new YouAreNotControllerComposer());
+            //}
 
             if (!User.IsBot && Session.GetHabbo().Rank > 2)
             {

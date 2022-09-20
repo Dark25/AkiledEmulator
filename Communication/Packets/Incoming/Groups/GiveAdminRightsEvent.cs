@@ -3,6 +3,7 @@ using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Groups;
 using Akiled.HabboHotel.Rooms;
 using Akiled.HabboHotel.Users;
+using AkiledEmulator.HabboHotel.Rooms;
 
 namespace Akiled.Communication.Packets.Incoming.Structure
 {
@@ -32,11 +33,12 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                 RoomUser User = Room.GetRoomUserManager().GetRoomUserByHabboId(UserId);
                 if (User != null)
                 {
-                    if (!User.Statusses.ContainsKey("flatctrl 3"))
-                        User.SetStatus("flatctrl 3", "");
+                    User.SetStatus("flatctrl", "3");
+
                     User.UpdateNeeded = true;
+
                     if (User.GetClient() != null)
-                        User.GetClient().SendPacket(new YouAreControllerComposer(3));
+                        User.GetClient().SendPacket(new YouAreControllerComposer(RoomRightLevels.GUILD_ADMIN));
                 }
             }
 

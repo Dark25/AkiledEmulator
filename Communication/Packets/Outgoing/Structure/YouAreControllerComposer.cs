@@ -1,11 +1,13 @@
+using AkiledEmulator.HabboHotel.Rooms;
+
 namespace Akiled.Communication.Packets.Outgoing.Structure
 {
     class YouAreControllerComposer : ServerPacket
     {
-        public YouAreControllerComposer(int Setting)
+        public YouAreControllerComposer(RoomRightLevels level)
             : base(ServerPacketHeader.YouAreControllerMessageComposer)
         {
-            WriteInteger(Setting);
+            base.WriteInteger((int)level);
         }
     }
 }

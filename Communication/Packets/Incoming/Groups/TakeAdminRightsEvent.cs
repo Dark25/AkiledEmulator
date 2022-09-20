@@ -1,5 +1,7 @@
 using Akiled.Communication.Packets.Outgoing.Structure;using Akiled.HabboHotel.GameClients;using Akiled.HabboHotel.Groups;using Akiled.HabboHotel.Rooms;
-using Akiled.HabboHotel.Users;namespace Akiled.Communication.Packets.Incoming.Structure{    class TakeAdminRightsEvent : IPacketEvent    {        public void Parse(GameClient Session, ClientPacket Packet)        {            int GroupId = Packet.PopInt();
+using Akiled.HabboHotel.Users;using AkiledEmulator.HabboHotel.Rooms;
+
+namespace Akiled.Communication.Packets.Incoming.Structure{    class TakeAdminRightsEvent : IPacketEvent    {        public void Parse(GameClient Session, ClientPacket Packet)        {            int GroupId = Packet.PopInt();
             int UserId = Packet.PopInt();
 
             Group Group = null;
@@ -21,11 +23,14 @@ using Akiled.HabboHotel.Users;namespace Akiled.Communication.Packets.Incoming.
                 RoomUser User = Room.GetRoomUserManager().GetRoomUserByHabboId(UserId);
                 if (User != null)
                 {
-                    if (User.Statusses.ContainsKey("flatctrl 3"))
-                        User.RemoveStatus("flatctrl 3");
+                    RoomRightLevels level = Group.getGroupRightLevel(Habbo);
+
+                    User.SetStatus("flatctrl", ((int)level).ToString());
+
                     User.UpdateNeeded = true;
+
                     if (User.GetClient() != null)
-                        User.GetClient().SendPacket(new YouAreControllerComposer(0));
+                        User.GetClient().SendPacket(new YouAreControllerComposer(level));
                 }
             }
 

@@ -1,5 +1,6 @@
 using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.Database.Interfaces;using Akiled.HabboHotel.GameClients;using Akiled.HabboHotel.Groups;using Akiled.HabboHotel.Rooms;using System.Linq;
+using Akiled.Database.Interfaces;using Akiled.HabboHotel.GameClients;using Akiled.HabboHotel.Groups;using Akiled.HabboHotel.Rooms;using AkiledEmulator.HabboHotel.Rooms;
+using System.Linq;
 
 namespace Akiled.Communication.Packets.Incoming.Structure{    class UpdateGroupSettingsEvent : IPacketEvent    {        public void Parse(GameClient Session, ClientPacket Packet)        {
             int GroupId = Packet.PopInt();
@@ -63,17 +64,17 @@ namespace Akiled.Communication.Packets.Incoming.Structure{    class UpdateGrou
 
                 if (FurniOptions == 1)
                 {
-                    User.RemoveStatus("flatctrl 1");
+                    User.SetStatus("flatctrl", "0");
                     User.UpdateNeeded = true;
 
-                    User.GetClient().SendPacket(new YouAreControllerComposer(0));
+                    User.GetClient().SendPacket(new YouAreControllerComposer(RoomRightLevels.NONE));
                 }
-                else if (FurniOptions == 0 && !User.Statusses.ContainsKey("flatctrl 1"))
+                else if (FurniOptions == 0 && !User.Statusses.ContainsKey("flatctrl"))
                 {
-                    User.SetStatus("flatctrl 1", "");
+                    User.SetStatus("flatctrl", "2");
                     User.UpdateNeeded = true;
 
-                    User.GetClient().SendPacket(new YouAreControllerComposer(1));
+                    User.GetClient().SendPacket(new YouAreControllerComposer(RoomRightLevels.GUILD_RIGHTS));
                 }
             }
 

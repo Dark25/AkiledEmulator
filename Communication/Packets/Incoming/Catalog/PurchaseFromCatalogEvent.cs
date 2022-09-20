@@ -493,19 +493,21 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                     }
                     if (flag2)
                         break;
-                    if (!string.IsNullOrEmpty(catalogItem.Badge) && !Session.GetHabbo().GetBadgeComponent().HasBadge(catalogItem.Badge))
-                    {
-                        Session.GetHabbo().GetBadgeComponent().GiveBadge(catalogItem.Badge,0, true);
-                        Session.SendPacket((IServerPacket)new ReceiveBadgeComposer(catalogItem.Badge));
-                        Session.SendPacket((IServerPacket)new FurniListNotificationComposer(0, 4));
-                        Session.SendMessage((IServerPacket)new RoomCustomizedAlertComposer("¡ Recibiste una nueva placa, revisa tu inventario !"));
-                    }
-                    Session.SendPacket((IServerPacket)new PurchaseOKComposer(catalogItem, catalogItem.Data));
                     break;
                 default:
                     str1 = "";
                     goto case InteractionType.PREFIX_NAME;
             }
+
+            if (!string.IsNullOrEmpty(catalogItem.Badge) && !Session.GetHabbo().GetBadgeComponent().HasBadge(catalogItem.Badge))
+            {
+                Session.GetHabbo().GetBadgeComponent().GiveBadge(catalogItem.Badge, 0, true);
+                Session.SendPacket((IServerPacket)new ReceiveBadgeComposer(catalogItem.Badge));
+                Session.SendPacket((IServerPacket)new FurniListNotificationComposer(0, 4));
+                Session.SendMessage((IServerPacket)new RoomCustomizedAlertComposer("¡ Recibiste una nueva placa, revisa tu inventario !"));
+            }
+
+            Session.SendPacket((IServerPacket)new PurchaseOKComposer(catalogItem, catalogItem.Data));
         }
     }
 }

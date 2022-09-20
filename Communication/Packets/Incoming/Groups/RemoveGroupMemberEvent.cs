@@ -4,6 +4,7 @@ using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Groups;
 using Akiled.HabboHotel.Rooms;
 using Akiled.HabboHotel.Users;
+using AkiledEmulator.HabboHotel.Rooms;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -40,11 +41,11 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                     RoomUser User = Room.GetRoomUserManager().GetRoomUserByHabboId(Session.GetHabbo().Id);
                     if (User != null)
                     {
-                        User.RemoveStatus("flatctrl 1");
+                        User.SetStatus("flatctrl", "0");
                         User.UpdateNeeded = true;
 
                         if (User.GetClient() != null)
-                            User.GetClient().SendPacket(new YouAreControllerComposer(0));
+                            User.GetClient().SendPacket(new YouAreControllerComposer(RoomRightLevels.NONE));
                     }
                 }
 
@@ -76,11 +77,11 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                         RoomUser User = Room.GetRoomUserManager().GetRoomUserByHabboId(Session.GetHabbo().Id);
                         if (User != null)
                         {
-                            User.RemoveStatus("flatctrl 1");
+                            User.SetStatus("flatctrl", "0");
                             User.UpdateNeeded = true;
 
                             if (User.GetClient() != null)
-                                User.GetClient().SendPacket(new YouAreControllerComposer(0));
+                                User.GetClient().SendPacket(new YouAreControllerComposer(RoomRightLevels.NONE));
                         }
                     }
 

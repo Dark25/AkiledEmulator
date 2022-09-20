@@ -4,6 +4,7 @@ using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Rooms;
 using Akiled.HabboHotel.Users;
+using AkiledEmulator.HabboHotel.Rooms;
 
 namespace Akiled.Communication.Packets.Incoming.Structure
 {
@@ -48,11 +49,10 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                 if (roomUserByHabbo == null || roomUserByHabbo.IsBot)
                     return;
 
-                roomUserByHabbo.RemoveStatus("flatctrl 0");
-                roomUserByHabbo.SetStatus("flatctrl 1", "");
+                roomUserByHabbo.SetStatus("flatctrl", "1");
                 roomUserByHabbo.UpdateNeeded = true;
-                
-                roomUserByHabbo.GetClient().SendPacket(new YouAreControllerComposer(1));
+
+                roomUserByHabbo.GetClient().SendPacket(new YouAreControllerComposer(RoomRightLevels.RIGHTS));
             }
         }
     }

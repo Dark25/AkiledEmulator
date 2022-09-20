@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System;
+using AkiledEmulator.HabboHotel.Rooms;
+using Akiled.HabboHotel.Users;
 
 namespace Akiled.HabboHotel.Groups
 {
@@ -263,6 +265,20 @@ namespace Akiled.HabboHotel.Groups
 
             if (this._requests.Contains(Id))
                 this._requests.Remove(Id);
+        }
+
+        public RoomRightLevels getGroupRightLevel(Habbo habbo)
+        {
+            if (this.Id > 0 && this.IsMember(habbo.Id) || this.IsAdmin(habbo.Id))
+            {
+                if (this.IsAdmin(habbo.Id))
+                    return RoomRightLevels.GUILD_ADMIN;
+
+                if (this.AdminOnlyDeco == 0)
+                    return RoomRightLevels.GUILD_RIGHTS;
+            }
+
+            return RoomRightLevels.NONE;
         }
 
         public void ClearRequests() => this._requests.Clear();
