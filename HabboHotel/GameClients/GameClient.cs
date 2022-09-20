@@ -96,15 +96,16 @@ namespace Akiled.HabboHotel.GameClients
                     this.SendPacket(new AuthenticationOKComposer());
                     this.SendPacket(new FavouritesComposer(this.Habbo.FavoriteRooms));
                     this.SendPacket(new FigureSetIdsComposer(this.Habbo.GetClothing().GetClothingParts));
-                   
-                    if (this.Habbo.HasFuse("fuse_mod"))
-                    {
-                        this.SendPacket(new UserRightsComposer(this.Habbo.Rank < 2 ? 2 : this.GetHabbo().Rank));
-                    }
-                    else
-                    {
-                        this.SendPacket(new UserRightsComposer(this.Habbo.Rank < 2 ? 2 : 2));
-                    }
+
+                    //if (this.Habbo.HasFuse("fuse_mod"))
+                    //{
+                    //    this.SendPacket(new UserRightsComposer(this.Habbo.Rank < 2 ? 2 : this.GetHabbo().Rank));
+                    //}
+                    //else
+                    //{
+                    //    this.SendPacket(new UserRightsComposer(this.Habbo.Rank < 2 ? 2 : 2));
+                    //}
+
                     this.SendPacket(new AvailabilityStatusComposer());
                     this.SendPacket(new AchievementScoreComposer(this.Habbo.AchievementPoints));
                     this.SendPacket(new BuildersClubMembershipComposer());
@@ -113,6 +114,8 @@ namespace Akiled.HabboHotel.GameClients
                     this.SendPacket(new SoundSettingsComposer(this.Habbo.ClientVolume, false, false, false, 1));
                     this.SendPacket(new AvatarEffectsComposer(AkiledEnvironment.GetGame().GetEffectsInventoryManager().GetEffects()));
                     SendPacket(new UserHomeRoomComposer(this.Habbo.HomeRoom, this.Habbo.HomeRoom));
+
+                    this.SendPacket(new UserRightsComposer(this.Habbo.Rank));
 
                     this.Habbo.UpdateActivityPointsBalance();
                     this.Habbo.UpdateCreditsBalance();

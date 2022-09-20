@@ -413,15 +413,24 @@ namespace Akiled.HabboHotel.Rooms
 
             if (_room.CheckRights(Session, true))
             {
+                //Session.SendNotification("owner");
                 level = RoomRightLevels.MODERATOR;
                 Session.SendMessage(new YouAreOwnerComposer());
             }
             else if (_room.CheckRights(Session, false) && _room.RoomData.Group == null)
+            {
+                //Session.SendNotification("rights");
                 level = RoomRightLevels.RIGHTS;
+            }
             else if (_room.RoomData.Group != null && this._room.CheckRights(Session))
+            {
+                //Session.SendNotification("group");
                 level = _room.RoomData.Group.getGroupRightLevel(Session.GetHabbo());
+            }
 
             User.SetStatus("flatctrl", ((int)level).ToString());
+
+            //Session.SendNotification(User.Statusses["flatctrl"]);
 
             Session.SendMessage(new YouAreControllerComposer(level));
 

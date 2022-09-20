@@ -386,7 +386,7 @@ namespace Akiled.HabboHotel.Rooms
             DataTable dataTable = new DataTable();
             using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {
-                queryreactor.SetQuery("SELECT room_rights.user_id FROM room_rights WHERE room_id = " + this.RoomData.Id);
+                queryreactor.SetQuery("SELECT user_id FROM room_rights WHERE room_id = " + this.RoomData.Id);
                 dataTable = queryreactor.GetTable();
             }
             if (dataTable == null)
@@ -415,25 +415,41 @@ namespace Akiled.HabboHotel.Rooms
         {
             if (Session == null || Session.GetHabbo() == null)
                 return false;
+
             if (Session.GetHabbo().Username == this.RoomData.OwnerName || Session.GetHabbo().HasFuse("fuse_any_room_controller"))
+            {
+                //Session.SendNotification("session u: " + Session.GetHabbo().Username + " | roomdata ownername: " + this.RoomData.OwnerName);
+                //Session.SendNotification("01, fuse? " + Session.GetHabbo().HasFuse("fuse_any_room_controller") + ", owner room? " + Session.GetHabbo().Username.Equals(this.RoomData.OwnerName));
                 return true;
+            }
+
             if (!RequireOwnership)
             {
                 if (Session.GetHabbo().HasFuse("fuse_any_room_rights") || this.UsersWithRights.Contains(Session.GetHabbo().Id))
+                {
+                    //Session.SendNotification("02");
                     return true;
-                if (this.EveryoneGotRights)
-                    return true;
+                }
+
+                //if (this.EveryoneGotRights)
+                //    return true;
 
                 if (this.RoomData.Group == null)
                     return false;
 
                 if (this.RoomData.Group.IsAdmin(Session.GetHabbo().Id))
+                {
+                    //Session.SendNotification("room group admin");
                     return true;
+                }
 
                 if (this.RoomData.Group.AdminOnlyDeco == 0)
                 {
                     if (this.RoomData.Group.IsAdmin(Session.GetHabbo().Id))
+                    {
+                        //Session.SendNotification("room group admin can deco");
                         return true;
+                    }
                 }
             }
             return false;
