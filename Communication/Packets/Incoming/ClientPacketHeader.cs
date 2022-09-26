@@ -256,7 +256,10 @@
         public const int GetClubGiftsMessageEvent = 487;
         public const int GetHabboClubCenterInfoMessageEvent = 869;
         public const int GetIgnoredUsersMessageEvent = 3878;
-        
+        public const int PurchaseRoomPromotionMessageEvent = 3878;
+        public const int GetYouTubeTelevisionMessageEvent = 336;
+
+
 
 
     }

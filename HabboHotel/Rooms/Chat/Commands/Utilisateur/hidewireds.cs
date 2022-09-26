@@ -1,20 +1,17 @@
-    using Akiled.Communication.Packets.Outgoing;
-    using Akiled.Communication.Packets.Outgoing.Structure;
-    using Akiled.Database.Interfaces;
-    using Akiled.HabboHotel.GameClients;
-    using System.Collections.Generic;
+using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.GameClients;
 
-    namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
+namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
+{
+    class hidewireds : IChatCommand
     {
-        class hidewireds : IChatCommand
+        public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)
         {
-            public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)
-            {
-                Room currentRoom = Session.GetHabbo().CurrentRoom;
-                if (currentRoom == null)
-                    return;
+            Room currentRoom = Session.GetHabbo().CurrentRoom;
+            if (currentRoom == null)
+                return;
 
-                currentRoom.HideWired = !currentRoom.HideWired;
+            currentRoom.HideWired = !currentRoom.HideWired;
 
             using (IQueryAdapter con = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {
@@ -25,20 +22,11 @@
             }
 
             if (currentRoom.HideWired)
-                {
-                    UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.hidewireds.true", Session.Langue));
-               
-                }
-                else
-                {
-                    UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.hidewireds.false", Session.Langue));
-               
-                }
-                List<ServerPacket> list = new List<ServerPacket>();
+                UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.hidewireds.true", Session.Langue));
+            else
+                UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.hidewireds.false", Session.Langue));
 
-                list = Room.HideWiredMessages(currentRoom.HideWired);
-
-                Room.SendMessage(list);
-            }
+            Room.SendMessage(Room.HideWiredMessages(currentRoom.HideWired));
         }
     }
+}

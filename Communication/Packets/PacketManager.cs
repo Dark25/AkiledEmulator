@@ -6,6 +6,7 @@ using Akiled.Communication.Packets.Incoming.Rooms.AI.Pets.Horse;
 using Akiled.Communication.Packets.Incoming.Rooms.Engine;
 using Akiled.Communication.Packets.Incoming.Rooms.Furni;
 using Akiled.Communication.Packets.Incoming.Rooms.Furni.Moodlight;
+using Akiled.Communication.Packets.Incoming.Rooms.Furni.YouTubeTelevisions;
 using Akiled.Communication.Packets.Incoming.Sound;
 using Akiled.Communication.Packets.Incoming.Structure;
 using Akiled.Communication.Packets.Incoming.Users;
@@ -376,6 +377,7 @@ namespace Akiled.Communication.Packets
         private void RegisterFurni()
         {
             _incomingPackets.Add(ClientPacketHeader.UpdateMagicTileMessageEvent, new UpdateMagicTileEvent());
+            _incomingPackets.Add(ClientPacketHeader.GetYouTubeTelevisionMessageEvent, new GetYouTubeTelevisionEvent());
             _incomingPackets.Add(ClientPacketHeader.SaveWiredTriggerConfigMessageEvent, new SaveWiredConfigEvent());
             _incomingPackets.Add(ClientPacketHeader.SaveWiredEffectConfigMessageEvent, new SaveWiredConfigEvent());
             _incomingPackets.Add(ClientPacketHeader.SaveWiredConditionConfigMessageEvent, new SaveWiredConfigEvent());

@@ -1,22 +1,22 @@
-﻿using Akiled.Core;
+﻿using Akiled.Communication.Packets.Outgoing;
+using Akiled.Communication.Packets.Outgoing.Structure;
+using Akiled.Core;
+using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.ChatMessageStorage;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Pets;
-using Akiled.HabboHotel.Rooms.RoomBots;
+using Akiled.HabboHotel.Roleplay;
 using Akiled.HabboHotel.Rooms.Games;
+using Akiled.HabboHotel.Rooms.Janken;
+using Akiled.HabboHotel.Rooms.Projectile;
+using Akiled.HabboHotel.Rooms.RoomBots;
+using Akiled.HabboHotel.Rooms.TraxMachine;
 using Akiled.HabboHotel.Rooms.Wired;
-using Akiled.Communication.Packets.Outgoing;
-using Akiled.Database.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Akiled.HabboHotel.Rooms.Janken;
-using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.HabboHotel.Rooms.Projectile;
-using Akiled.HabboHotel.Roleplay;
-using Akiled.HabboHotel.Rooms.TraxMachine;
 
 namespace Akiled.HabboHotel.Rooms
 {
@@ -69,7 +69,7 @@ namespace Akiled.HabboHotel.Rooms
         public bool FreezeRoom;
         public bool PushPullAllowed;
         public bool CloseFullRoom;
-        public bool OldFoot=true;
+        public bool OldFoot = true;
         public bool RoomIngameChat;
         public bool SexEnabled;
         public bool BurnEnabled;
@@ -101,7 +101,7 @@ namespace Akiled.HabboHotel.Rooms
                 return this.roomUserManager.GetRoomUserCount();
             }
         }
-        
+
 
         public int Id
         {
@@ -127,7 +127,7 @@ namespace Akiled.HabboHotel.Rooms
                 this.RpTimeSpeed = false;
                 this.RpHour = -1;
             }
-            
+
             this.SaveTimer = 0;
             this.Disposed = false;
             this.Bans = new Dictionary<int, double>();
@@ -328,26 +328,22 @@ namespace Akiled.HabboHotel.Rooms
         {
             List<ServerPacket> list = new List<ServerPacket>();
             Item[] items = this.GetRoomItemHandler().GetFloor.ToArray();
-            if (hideWired)
+
+            if (items.Count() > 0)
             {
                 for (int i = 0; i < items.Count(); i++)
                 {
                     Item item = items[i];
                     if (!item.IsWired)
                         continue;
-                    list.Add(new ObjectRemoveMessageComposer(item.Id, item.OwnerId));
+
+                    if (hideWired)
+                        list.Add(new ObjectRemoveMessageComposer(item.Id, 0));
+                    else
+                        list.Add(new ObjectAddComposer(item, item.Username, item.OwnerId));
                 }
             }
-            else
-            {
-                for (int i = 0; i < items.Count(); i++)
-                {
-                    Item item = items[i];
-                    if (!item.IsWired)
-                        continue;
-                    list.Add(new ObjectAddComposer(item, item.Username, item.OwnerId));
-                }
-            }
+
             return list;
         }
 
@@ -388,7 +384,7 @@ namespace Akiled.HabboHotel.Rooms
                 {
                     Pet PetData = new Pet(Convert.ToInt32(Row["id"]), Convert.ToInt32(Row["user_id"]), Convert.ToInt32(Row["room_id"]), (string)Row["name"], Convert.ToInt32(Row["type"]), (string)Row["race"], (string)Row["color"], (int)Row["expirience"], (int)Row["energy"], (int)Row["nutrition"], (int)Row["respect"], (double)Row["createstamp"], (int)Row["x"], (int)Row["y"], (double)Row["z"], (int)Row["have_saddle"], (int)Row["hairdye"], (int)Row["pethair"], (string)(Row["anyone_ride"]) == "1");
                     List<string> list = new List<string>();
-                    this.roomUserManager.DeployBot(new RoomBot(PetData.PetId, PetData.OwnerId, this.Id,  AIType.Pet, true, PetData.Name, "", "", PetData.Look, PetData.X, PetData.Y, PetData.Z, 0, false, "", 0, false, 0, 0, 0), PetData);
+                    this.roomUserManager.DeployBot(new RoomBot(PetData.PetId, PetData.OwnerId, this.Id, AIType.Pet, true, PetData.Name, "", "", PetData.Look, PetData.X, PetData.Y, PetData.Z, 0, false, "", 0, false, 0, 0, 0), PetData);
                 }
             }
         }
@@ -513,7 +509,7 @@ namespace Akiled.HabboHotel.Rooms
                     continue;
 
                 Session.SendPacket(new UsersComposer(RoomUser));
-                
+
                 if (RoomUser.IsDancing)
                     Session.SendPacket(new DanceComposer(RoomUser, RoomUser.DanceId));
 
@@ -624,7 +620,7 @@ namespace Akiled.HabboHotel.Rooms
             else
                 RpHourNow = RpHourNow + 8;
 
-            if(this.RpTimeSpeed)
+            if (this.RpTimeSpeed)
                 RpHourNow = (int)Math.Floor((double)(Now.Second / 2.5));
 
             if (this.RpMinute != RpMinuteNow)
@@ -643,7 +639,8 @@ namespace Akiled.HabboHotel.Rooms
             if (RpHour >= 8 && RpHour < 20) //Journée
             {
                 Intensity = 255;
-            } else if(RpHour >= 20 && RpHour < 21)  //Crépuscule
+            }
+            else if (RpHour >= 20 && RpHour < 21)  //Crépuscule
             {
                 Intensity = 200;
             }

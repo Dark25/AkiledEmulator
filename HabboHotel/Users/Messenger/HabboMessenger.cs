@@ -6,12 +6,15 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Akiled.Communication.Packets.Outgoing.Structure;
+using System.Linq;
+using Akiled.Communication.Packets.Outgoing.Messenger;
 
 namespace Akiled.HabboHotel.Users.Messenger
 {
     public class HabboMessenger
     {
         private readonly int UserId;
+        private Dictionary<int, MessengerBuddy> _friends;
         public Dictionary<int, MessengerRequest> requests;
         private Dictionary<int, MessengerBuddy> friends;
         public Dictionary<int, Relationship> relation;
@@ -73,7 +76,7 @@ namespace Akiled.HabboHotel.Users.Messenger
             this.friends[Id].UpdateRelation(Type);
         }
 
-        public void OnStatusChanged()
+        public void OnStatusChanged(bool notification)
         {
             if (friends == null)
                 return;
@@ -419,12 +422,23 @@ namespace Akiled.HabboHotel.Users.Messenger
             }
         }
 
-        private GameClient GetClient()
+        public void BroadcastAchievement(int userId, MessengerEventTypes type, string data)
         {
-            return AkiledEnvironment.GetGame().GetClientManager().GetClientByUserID(this.UserId);
+            IEnumerable<GameClient> myFriends = AkiledEnvironment.GetGame().GetClientManager().GetClientsById(_friends.Keys);
+
+            foreach (GameClient client in myFriends.ToList())
+            {
+                if (client.GetHabbo() != null && client.GetHabbo().GetMessenger() != null)
+                {
+                    client.SendPacket(new FriendNotificationComposer(userId, type, data));
+                    client.GetHabbo().GetMessenger().OnStatusChanged(true);
+                }
+            }
         }
 
-      
+        private GameClient GetClient() => AkiledEnvironment.GetGame().GetClientManager().GetClientByUserID(this.UserId);
+
+
         public ICollection<MessengerBuddy> GetFriends()
         {
             return this.friends.Values;

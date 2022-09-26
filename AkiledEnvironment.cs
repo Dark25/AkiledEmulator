@@ -4,6 +4,7 @@ using Akiled.Communication.Packets.Outgoing;
 using Akiled.Communication.WebSocket;
 using Akiled.Core;
 using Akiled.Core.FigureData;
+using Akiled.Core.Settings;
 using Akiled.Database;
 using Akiled.Database.Interfaces;
 using Akiled.HabboHotel;
@@ -125,6 +126,8 @@ namespace Akiled
         private static ConnectionHandeling _connectionManager;
         private static WebSocketManager _webSocketManager;
         private static Game _game;
+
+        private static SettingsManager _settingsManager;
         private static DatabaseManager _datebasemanager;
         private static RCONSocket _rcon;
         private static FigureDataManager _figureManager;
@@ -201,6 +204,8 @@ namespace Akiled
                     AkiledEnvironment._rcon = new RCONSocket(int.Parse(AkiledEnvironment.GetConfig().data["mus.tcp.port"]), AkiledEnvironment.GetConfig().data["mus.tcp.allowedaddr"].Split(';'));
                 AkiledEnvironment.StaticEvents = AkiledEnvironment._configuration.data["static.events"] == "true";
                 Logging.WriteLine("VARIABLES -> CARGADAS y LISTAS!");
+                _settingsManager = new SettingsManager();
+                _settingsManager.Init();
                 // Allow services to self initialize
                 foreach (var task in _startableTasks)
                     await task.Start();
@@ -386,6 +391,11 @@ namespace Akiled
         public static Game GetGame() => AkiledEnvironment._game;
 
         public static DatabaseManager GetDatabaseManager() => AkiledEnvironment._datebasemanager;
+
+        public static SettingsManager GetSettingsManager()
+        {
+            return _settingsManager;
+        }
 
         public static ICollection<Habbo> GetUsersCached() => AkiledEnvironment._usersCached.Values;
 

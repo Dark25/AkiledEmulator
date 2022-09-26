@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Akiled.HabboHotel.GameClients;
+using Akiled.Utilities;
 
 namespace Akiled.HabboHotel.Rooms
 {
@@ -71,6 +72,8 @@ namespace Akiled.HabboHotel.Rooms
                 return this.Tags.Count;
             }
         }
+      
+
 
         public RoomModel Model
         {
@@ -133,7 +136,11 @@ namespace Akiled.HabboHotel.Rooms
             this.MatarEnabled = false;
             this.GolpeEnabled = false;
             this.BurnEnabled = false;
+            LoadPromotions();
         }
+
+        public RoomPromotion Promotion { get; set; }
+
 
         public void Fill(DataRow Row)
         {
@@ -251,6 +258,8 @@ namespace Akiled.HabboHotel.Rooms
             this.mModel = AkiledEnvironment.GetGame().GetRoomManager().GetModel(this.ModelName, this.Id);
         }
 
+      
+
         public void SerializeRoomData(ServerPacket Message, GameClient Session)
         {
             SerializeRoomData(Message, Session, true);
@@ -314,6 +323,31 @@ namespace Akiled.HabboHotel.Rooms
             {
                 Console.WriteLine("Ligne 400 roomdata : " + ex);
             }
+        }
+
+        public void LoadPromotions()
+        {
+            using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
+            {
+                dbClient.SetQuery("SELECT * FROM `room_promotions` WHERE `room_id` = " + Id + " LIMIT 1;");
+                DataRow getPromotion = dbClient.GetRow();
+
+                if (getPromotion != null)
+                {
+                    if (Convert.ToDouble(getPromotion["timestamp_expire"]) > UnixTimestamp.GetNow())
+                        Promotion = new RoomPromotion(Convert.ToString(getPromotion["title"]), Convert.ToString(getPromotion["description"]), Convert.ToDouble(getPromotion["timestamp_start"]), Convert.ToDouble(getPromotion["timestamp_expire"]), Convert.ToInt32(getPromotion["category_id"]));
+                }
+            }
+        }
+
+        public bool HasActivePromotion => Promotion != null;
+
+        public void EndPromotion()
+        {
+            if (!HasActivePromotion)
+                return;
+
+            Promotion = null;
         }
     }
 }

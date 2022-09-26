@@ -249,5 +249,8 @@
         public const int ModeratorUserRoomVisitsMessageComposer = 1752;
         public const int ClubGiftsMessageComposer = 619;
         public const int IgnoredUsersMessageComposer = 126;
+        public const int RoomEventMessageComposer = 1840;
+        public const int FriendNotificationMessageComposer = 3082;
+
     }
 }

@@ -6,7 +6,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-            Session.GetHabbo().GetMessenger().OnStatusChanged();
+            Session.GetHabbo().GetMessenger().OnStatusChanged(false);
 
             Session.SendPacket(Session.GetHabbo().GetMessenger().SerializeCategories());
             Session.SendPacket(Session.GetHabbo().GetMessenger().SerializeFriends());

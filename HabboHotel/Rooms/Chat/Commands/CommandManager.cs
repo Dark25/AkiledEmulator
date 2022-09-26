@@ -153,7 +153,6 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands
             this._commands.Add(CommandId, Command);
         }
 
-
         public static string MergeParams(string[] Params, int Start)
         {
             StringBuilder stringBuilder = new StringBuilder();

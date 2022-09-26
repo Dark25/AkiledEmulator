@@ -8,14 +8,14 @@ namespace Akiled.Communication.Packets.Incoming.Structure
 {
     class GetRoomEntryDataEvent : IPacketEvent
     {
-      
-        
+
+
         public void Parse(GameClient Session, ClientPacket Packet)
         {
             if (Session == null || Session.GetHabbo() == null || Session.GetHabbo().LoadingRoomId == 0)
                 return;
 
-            
+
             Room Room = AkiledEnvironment.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().LoadingRoomId);
             if (Room == null)
                 return;
@@ -24,7 +24,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             {
                 if (!Session.GetHabbo().AllowDoorBell)
                     return;
-                    Session.GetHabbo().AllowDoorBell = false;
+                Session.GetHabbo().AllowDoorBell = false;
             }
 
             if (Session.GetHabbo().InRoom)
@@ -35,18 +35,16 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                 if (oldRoom.GetRoomUserManager() != null)
                     oldRoom.GetRoomUserManager().RemoveUserFromRoom(Session, false, false);
             }
-            
+
             if (!Room.GetRoomUserManager().AddAvatarToRoom(Session))
             {
-                Room.GetRoomUserManager().RemoveUserFromRoom(Session, false, false );
-                return; 
+                Room.GetRoomUserManager().RemoveUserFromRoom(Session, false, false);
+                return;
             }
 
             Room.SendObjects(Session);
 
             if (Room.HideWired && Room.CheckRights(Session, true))
-
-
                 Session.SendMessage(new RoomNotificationComposer("furni_placement_error", "message", "Wired Foi Fechado nesse qiarto."));
 
             Session.SendPacket(new RoomEntryInfoComposer(Room.Id, Room.CheckRights(Session, true)));
@@ -57,8 +55,11 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             if (ThisUser != null)
                 Room.SendPacket(new UserChangeComposer(ThisUser, false));
 
-            if(!ThisUser.IsSpectator)
+            if (!ThisUser.IsSpectator)
                 Room.GetRoomUserManager().UserEnter(ThisUser);
+
+            if (Room.RoomData.HideWired)
+                Room.SendMessage(Room.HideWiredMessages(Room.RoomData.HideWired));
 
             if (Session.GetHabbo().Nuxenable)
             {
@@ -80,12 +81,12 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                 }
             }
 
-                if (Room.RoomData.OwnerId != Session.GetHabbo().Id)
-                    AkiledEnvironment.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_RoomEntry", 1);
-                if (!Session.GetHabbo().Username.Contains(">") && !Session.GetHabbo().Username.Contains("<") && !Session.GetHabbo().Username.Contains("="))
-                    return;
-            
-        }
+            if (Room.RoomData.OwnerId != Session.GetHabbo().Id)
+                AkiledEnvironment.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_RoomEntry", 1);
+
+            if (!Session.GetHabbo().Username.Contains(">") && !Session.GetHabbo().Username.Contains("<") && !Session.GetHabbo().Username.Contains("="))
+                return;
         }
     }
+}
 
