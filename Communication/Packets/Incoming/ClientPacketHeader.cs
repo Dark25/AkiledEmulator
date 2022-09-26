@@ -252,6 +252,12 @@
         public const int GetCraftingRecipesAvailableMessageEvent = 3086;
         public const int YoutubeRequestPlaylists = 336;
         public const int ToggleStaffPickEvent = 1918;
+        public const int GetEventCategoriesMessageEvent = 1782;
+        public const int GetClubGiftsMessageEvent = 487;
+        public const int GetHabboClubCenterInfoMessageEvent = 869;
+        public const int GetIgnoredUsersMessageEvent = 3878;
+        
+
 
     }
 }

@@ -47,7 +47,7 @@ namespace Akiled.HabboHotel.Rooms
         public int GroupId;
         public int TrocStatus;
         public Group Group;
-        public bool HideWireds;
+        public bool HideWired;
         public int SellPrice;
         public bool SexEnabled;
         public bool BurnEnabled;
@@ -121,7 +121,7 @@ namespace Akiled.HabboHotel.Rooms
             this.Group = null;
             this.AllowRightsOverride = false;
             this.mModel = AkiledEnvironment.GetGame().GetRoomManager().GetModel(this.ModelName, pId);
-            this.HideWireds = false;
+            this.HideWired = false;
             this.SellPrice = 0;
             this.BesarEnabled = false;
             this.PushEnabled = false;
@@ -200,7 +200,7 @@ namespace Akiled.HabboHotel.Rooms
             Group Group;
             AkiledEnvironment.GetGame().GetGroupManager().TryGetGroup(this.GroupId, out Group);
             this.Group = Group;
-            this.HideWireds = AkiledEnvironment.EnumToBool(Row["allow_hidewireds"].ToString());
+            this.HideWired = AkiledEnvironment.EnumToBool(Row["allow_hidewireds"].ToString());
             this.PushEnabled = AkiledEnvironment.EnumToBool(Row["push_enabled"].ToString());
             this.PullEnabled = AkiledEnvironment.EnumToBool(Row["pull_enabled"].ToString());
             this.SPushEnabled = AkiledEnvironment.EnumToBool(Row["spush_enabled"].ToString());

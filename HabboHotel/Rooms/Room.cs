@@ -92,6 +92,7 @@ namespace Akiled.HabboHotel.Rooms
         //Question
         public int VotedYesCount;
         public int VotedNoCount;
+        private bool _hideWired;
 
         public int UserCount
         {
@@ -100,6 +101,7 @@ namespace Akiled.HabboHotel.Rooms
                 return this.roomUserManager.GetRoomUserCount();
             }
         }
+        
 
         public int Id
         {
@@ -164,6 +166,7 @@ namespace Akiled.HabboHotel.Rooms
             this.LoadBots();
             this.InitPets();
             this.lastTimerReset = DateTime.Now;
+            this._hideWired = Data.HideWired;
         }
 
         public Gamemap GetGameMap() => this.gamemap;
@@ -320,6 +323,39 @@ namespace Akiled.HabboHotel.Rooms
         public void ClearTags() => this.RoomData.Tags.Clear();
 
         public void AddTagRange(List<string> tags) => this.RoomData.Tags.AddRange(tags);
+
+        public List<ServerPacket> HideWiredMessages(bool hideWired)
+        {
+            List<ServerPacket> list = new List<ServerPacket>();
+            Item[] items = this.GetRoomItemHandler().GetFloor.ToArray();
+            if (hideWired)
+            {
+                for (int i = 0; i < items.Count(); i++)
+                {
+                    Item item = items[i];
+                    if (!item.IsWired)
+                        continue;
+                    list.Add(new ObjectRemoveMessageComposer(item.Id, item.OwnerId));
+                }
+            }
+            else
+            {
+                for (int i = 0; i < items.Count(); i++)
+                {
+                    Item item = items[i];
+                    if (!item.IsWired)
+                        continue;
+                    list.Add(new ObjectAddComposer(item, item.Username, item.OwnerId));
+                }
+            }
+            return list;
+        }
+
+        public bool HideWired
+        {
+            get { return this._hideWired; }
+            set { this._hideWired = value; }
+        }
 
         private void LoadBots()
         {

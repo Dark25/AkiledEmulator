@@ -1,11 +1,14 @@
 ﻿using Akiled.Communication.Packets.Incoming;
+using Akiled.Communication.Packets.Incoming.Catalog;
 using Akiled.Communication.Packets.Incoming.Marketplace;
+using Akiled.Communication.Packets.Incoming.Navigator;
 using Akiled.Communication.Packets.Incoming.Rooms.AI.Pets.Horse;
 using Akiled.Communication.Packets.Incoming.Rooms.Engine;
 using Akiled.Communication.Packets.Incoming.Rooms.Furni;
 using Akiled.Communication.Packets.Incoming.Rooms.Furni.Moodlight;
 using Akiled.Communication.Packets.Incoming.Sound;
 using Akiled.Communication.Packets.Incoming.Structure;
+using Akiled.Communication.Packets.Incoming.Users;
 using Akiled.Communication.Packets.Incoming.WebSocket;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.WebClients;
@@ -165,6 +168,8 @@ namespace Akiled.Communication.Packets
             _incomingPackets.Add(ClientPacketHeader.GetMarketplaceConfigurationMessageEvent, new GetMarketplaceConfigurationEvent());
             _incomingPackets.Add(ClientPacketHeader.CameraPurchaseMessageEvent, new CameraPurchaseEvent());
             _incomingPackets.Add(ClientPacketHeader.RequestCameraConfigurationMessageEvent, new RequestCameraConfigurationEvent());
+            _incomingPackets.Add(ClientPacketHeader.GetClubGiftsMessageEvent, new GetClubGiftsEvent());
+
 
         }
 
@@ -190,7 +195,9 @@ namespace Akiled.Communication.Packets
             _incomingPackets.Add(ClientPacketHeader.CanCreateRoomMessageEvent, new CanCreateRoomEvent());
             _incomingPackets.Add(ClientPacketHeader.CreateFlatMessageEvent, new CreateFlatEvent());
             _incomingPackets.Add(ClientPacketHeader.GetGuestRoomMessageEvent, new GetGuestRoomEvent());
+            _incomingPackets.Add(ClientPacketHeader.GetEventCategoriesMessageEvent, new GetNavigatorFlatsEvent());
             _incomingPackets.Add(1918, (IPacketEvent)new ToggleStaffPickEvent());
+
         }
 
         private void RegisterRoomCamera()
@@ -415,6 +422,7 @@ namespace Akiled.Communication.Packets
             _incomingPackets.Add(ClientPacketHeader.CheckValidNameMessageEvent, new CheckValidNameEvent());
             _incomingPackets.Add(ClientPacketHeader.ChangeNameMessageEvent, new ChangeNameEvent());
             _incomingPackets.Add(ClientPacketHeader.GetHabboGroupBadgesMessageEvent, new GetHabboGroupBadgesEvent());
+            _incomingPackets.Add(ClientPacketHeader.GetIgnoredUsersMessageEvent, new GetIgnoredUsersEvent());
         }
 
         private void RegisterSound()

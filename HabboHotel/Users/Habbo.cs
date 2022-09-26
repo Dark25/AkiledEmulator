@@ -21,6 +21,7 @@ using Akiled.HabboHotel.Users.Clothing;
 using JNogueira.Discord.Webhook.Client;
 using System.Threading.Tasks;
 using AkiledEmulator.HabboHotel.Camera;
+using Akiled.HabboHotel.Users.Ignores;
 
 namespace Akiled.HabboHotel.Users
 {
@@ -189,6 +190,7 @@ namespace Akiled.HabboHotel.Users
         public bool[] calendarGift;
         internal double DiamondsCycleUpdate;
         internal double MoedasCycleUpdate;
+        private IgnoresComponent _ignores;
 
         public bool InRoom
         {
@@ -490,6 +492,10 @@ namespace Akiled.HabboHotel.Users
             this.UpdateRooms();
             this.InitClothing();
         }
+        public IgnoresComponent GetIgnores()
+        {
+            return _ignores;
+        }
 
 
         public void UpdateRooms()
@@ -637,6 +643,13 @@ namespace Akiled.HabboHotel.Users
             this._clothing = new ClothingComponent();
 
             return _clothing.Init(this);
+        }
+
+        public bool InitIgnores()
+        {
+            _ignores = new IgnoresComponent();
+
+            return _ignores.Init(this);
         }
 
 

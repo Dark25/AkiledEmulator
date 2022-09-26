@@ -1,31 +1,44 @@
-using Akiled.Database.Interfaces;
-using Akiled.HabboHotel.GameClients;
+    using Akiled.Communication.Packets.Outgoing;
+    using Akiled.Communication.Packets.Outgoing.Structure;
+    using Akiled.Database.Interfaces;
+    using Akiled.HabboHotel.GameClients;
+    using System.Collections.Generic;
 
-namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
-{
-    class hidewireds : IChatCommand
+    namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
     {
-        public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)
+        class hidewireds : IChatCommand
         {
-            Room currentRoom = Session.GetHabbo().CurrentRoom;
-            if (currentRoom == null)
-                return;
-
-            currentRoom.RoomData.HideWireds = !currentRoom.RoomData.HideWireds;
-
-            using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
+            public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)
             {
-                queryreactor.RunQuery("UPDATE rooms SET allow_hidewireds = '" + (currentRoom.RoomData.HideWireds ? 1 : 0) + "' WHERE id = " + currentRoom.Id);
+                Room currentRoom = Session.GetHabbo().CurrentRoom;
+                if (currentRoom == null)
+                    return;
+
+                currentRoom.HideWired = !currentRoom.HideWired;
+
+            using (IQueryAdapter con = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
+            {
+                con.SetQuery("UPDATE `rooms` SET `allow_hidewireds` = @enum WHERE `id` = @id LIMIT 1");
+                con.AddParameter("enum", AkiledEnvironment.BoolToEnum(Room.HideWired));
+                con.AddParameter("id", Room.Id);
+                con.RunQuery();
             }
 
-            if (currentRoom.RoomData.HideWireds)
-            {
-                UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.hidewireds.true", Session.Langue));
-            }
-            else
-            {
-                UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.hidewireds.false", Session.Langue));
+            if (currentRoom.HideWired)
+                {
+                    UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.hidewireds.true", Session.Langue));
+               
+                }
+                else
+                {
+                    UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.hidewireds.false", Session.Langue));
+               
+                }
+                List<ServerPacket> list = new List<ServerPacket>();
+
+                list = Room.HideWiredMessages(currentRoom.HideWired);
+
+                Room.SendMessage(list);
             }
         }
     }
-}

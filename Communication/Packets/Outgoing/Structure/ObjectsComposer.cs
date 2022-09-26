@@ -19,7 +19,7 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
             WriteInteger(Objects.Length);
             foreach (Item Item in Objects)
             {
-                WriteFloorItem(Item, Item.OwnerId, Room.RoomData.HideWireds);
+                WriteFloorItem(Item, Item.OwnerId, Room.HideWired);
             }
         }
 

@@ -318,6 +318,85 @@ namespace Akiled.HabboHotel.Items
             }
         }
 
+        public bool IsWired
+        {
+            get
+            {
+                switch (GetBaseItem().InteractionType)
+                {
+                    case InteractionType.triggertimer:
+                    case InteractionType.triggerroomenter:
+                    case InteractionType.triggergameend:
+                    case InteractionType.triggergamestart:
+                    case InteractionType.triggerrepeater:
+                    case InteractionType.triggerrepeaterlong:
+                    case InteractionType.triggeronusersay:
+                    case InteractionType.triggercommand:
+                    case InteractionType.triggercollisionuser:
+                    case InteractionType.triggerscoreachieved:
+                    case InteractionType.triggerstatechanged:
+                    case InteractionType.triggerwalkonfurni:
+                    case InteractionType.triggerwalkofffurni:
+                    case InteractionType.triggercollision:
+                    case InteractionType.actiongivescore:
+                    case InteractionType.actionposreset:
+                    case InteractionType.actionmoverotate:
+                    case InteractionType.actionresettimer:
+                    case InteractionType.actionshowmessage:
+                    case InteractionType.highscore:
+                    case InteractionType.highscorepoints:
+                    case InteractionType.actiongivereward:
+                    case InteractionType.superwired:
+                    case InteractionType.superwiredcondition:
+                    case InteractionType.actionteleportto:
+                    case InteractionType.wf_act_endgame_team:
+                    case InteractionType.wf_act_call_stacks:
+                    case InteractionType.actiontogglestate:
+                    case InteractionType.actionkickuser:
+                    case InteractionType.actionflee:
+                    case InteractionType.actionchase:
+                    case InteractionType.collisioncase:
+                    case InteractionType.collisionteam:
+                    case InteractionType.actionmovetodir:
+                    case InteractionType.conditionfurnishaveusers:
+                    case InteractionType.conditionfurnishavenousers:
+                    case InteractionType.conditionhasfurnionfurni:
+                    case InteractionType.conditionhasfurnionfurniNegative:
+                    case InteractionType.conditionstatepos:
+                    case InteractionType.wf_cnd_stuff_is:
+                    case InteractionType.wf_cnd_not_stuff_is:
+                    case InteractionType.conditionstateposNegative:
+                    case InteractionType.conditiontimelessthan:
+                    case InteractionType.conditiontimemorethan:
+                    case InteractionType.conditiontriggeronfurni:
+                    case InteractionType.conditiontriggeronfurniNegative:
+                    case InteractionType.conditionactoringroup:
+                    case InteractionType.conditionnotingroup:
+                    case InteractionType.wf_trg_bot_reached_stf:
+                    case InteractionType.wf_trg_bot_reached_avtr:
+                    case InteractionType.wf_act_bot_clothes:
+                    case InteractionType.wf_act_bot_teleport:
+                    case InteractionType.wf_act_bot_follow_avatar:
+                    case InteractionType.wf_act_bot_give_handitem:
+                    case InteractionType.wf_act_bot_move:
+                    case InteractionType.wf_act_user_move:
+                    case InteractionType.wf_act_bot_talk_to_avatar:
+                    case InteractionType.wf_act_bot_talk:
+                    case InteractionType.wf_cnd_has_handitem:
+                    case InteractionType.wf_act_join_team:
+                    case InteractionType.wf_act_leave_team:
+                    case InteractionType.wf_act_give_score_tm:
+                    case InteractionType.wf_cnd_actor_in_team:
+                    case InteractionType.wf_cnd_not_in_team:
+                    case InteractionType.wf_cnd_not_user_count:
+                    case InteractionType.wf_cnd_user_count_in:
+                        return true;
+                }
+
+                return false;
+            }
+        }
+
         public Item(int mId, int fOwnerId, int RoomId, int mBaseItem, string ExtraData, int limitedNumber, int limitedStack, int X, int Y, double Z, int Rot, string wallCoord, Room pRoom = null)
         {
             ItemData Data = null;
