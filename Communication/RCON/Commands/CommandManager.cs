@@ -25,7 +25,7 @@ namespace Akiled.Communication.RCON.Commands
             string cmd = data.Split(Convert.ToChar(1))[0];
 
             IRCONCommand command = null;
-            if(this._commands.TryGetValue(cmd.ToLower(), out command))
+            if (this._commands.TryGetValue(cmd.ToLower(), out command))
             {
                 string[] parameters = null;
                 if (data.Split(Convert.ToChar(1))[1] != null)
@@ -50,6 +50,7 @@ namespace Akiled.Communication.RCON.Commands
             this.Register("useralert", new UserAlertCommand());
             this.Register("senduser", new SendUserCommand());
             this.Register("follow", new FollowCommand());
+
         }
 
         private void RegisterHotel()
@@ -57,11 +58,10 @@ namespace Akiled.Communication.RCON.Commands
             this.Register("unload", new UnloadCommand());
             this.Register("updatenavigator", new UpdateNavigatorCommand());
             this.Register("shutdown", new ShutdownCommand());
+            this.Register("updatecata", new ReloadCatalogCommand());
+            this.Register("updateitems", new ReloadItemsCommand());
         }
 
-        public void Register(string commandText, IRCONCommand command)
-        {
-            this._commands.Add(commandText, command);
-        }
+        public void Register(string commandText, IRCONCommand command) => this._commands.Add(commandText, command);
     }
 }

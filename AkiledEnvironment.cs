@@ -26,7 +26,7 @@ using System.Threading.Tasks;
 
 namespace Akiled
 {
-    public class AkiledEnvironment : IAkiledEnvironment
+    public class AkiledEnvironment
     {
         private static ConcurrentDictionary<int, Habbo> _usersCached = new ConcurrentDictionary<int, Habbo>();
         private readonly IEnumerable<IStartable> _startableTasks;
@@ -140,7 +140,7 @@ namespace Akiled
 
 
 
-        public async Task<bool> Start()
+        public static async Task<bool> Initialize()
         {
             Console.Clear();
             AkiledEnvironment.ServerStarted = DateTime.Now;
@@ -207,8 +207,7 @@ namespace Akiled
                 _settingsManager = new SettingsManager();
                 _settingsManager.Init();
                 // Allow services to self initialize
-                foreach (var task in _startableTasks)
-                    await task.Start();
+
 
                 TimeSpan TimeUsed = DateTime.Now - ServerStarted;
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
@@ -392,10 +391,7 @@ namespace Akiled
 
         public static DatabaseManager GetDatabaseManager() => AkiledEnvironment._datebasemanager;
 
-        public static SettingsManager GetSettingsManager()
-        {
-            return _settingsManager;
-        }
+        public static SettingsManager GetSettingsManager() => _settingsManager;
 
         public static ICollection<Habbo> GetUsersCached() => AkiledEnvironment._usersCached.Values;
 

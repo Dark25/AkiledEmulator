@@ -45,7 +45,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             Room.SendObjects(Session);
 
             if (Room.HideWired && Room.CheckRights(Session, true))
-                Session.SendMessage(new RoomNotificationComposer("furni_placement_error", "message", "Wired Foi Fechado nesse qiarto."));
+                Session.SendMessage(new RoomNotificationComposer("furni_placement_error", "message", "Wireds ocultos en la sala"));
 
             Session.SendPacket(new RoomEntryInfoComposer(Room.Id, Room.CheckRights(Session, true)));
             Session.SendPacket(new RoomVisualizationSettingsComposer(Room.RoomData.WallThickness, Room.RoomData.FloorThickness, Room.RoomData.Hidewall));

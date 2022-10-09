@@ -68,7 +68,7 @@ namespace Akiled.HabboHotel.Users.UserData
                         //ChangeName = true;
                     }
 
-                    queryreactor.RunQuery("UPDATE users SET online = '1', auth_ticket = '' WHERE id = '" + userId + "'");
+                    queryreactor.RunQuery("UPDATE users SET online = '1' WHERE id = '" + userId + "'");
 
 
                     queryreactor.SetQuery("SELECT * FROM user_stats WHERE id = '" + userId + "';");

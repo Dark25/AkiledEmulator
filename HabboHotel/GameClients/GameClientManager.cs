@@ -2,8 +2,11 @@
 using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Core;
 using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.Rooms;
 using Akiled.HabboHotel.Users.Messenger;
+using Akin.HabboHotel.Misc;
 using ConnectionManager;
+using JNogueira.Discord.Webhook.Client;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -11,10 +14,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using Akin.HabboHotel.Misc;
-using JNogueira.Discord.Webhook.Client;
 using System.Threading.Tasks;
-using Akiled.HabboHotel.Rooms;
 
 namespace Akiled.HabboHotel.GameClients
 {
@@ -34,13 +34,7 @@ namespace Akiled.HabboHotel.GameClients
         private readonly List<int> _userStaff;
 
 
-        public int Count
-        {
-            get
-            {
-                return this._userIDRegister.Count;
-            }
-        }
+        public int Count => _userIDRegister.Count;
 
         public GameClientManager()
         {
@@ -56,7 +50,7 @@ namespace Akiled.HabboHotel.GameClients
         {
             List<GameClient> Users = new List<GameClient>();
 
-            foreach(int UserId in this._userStaff)
+            foreach (int UserId in this._userStaff)
             {
                 GameClient Client = this.GetClientByUserID(UserId);
                 if (Client == null || Client.GetHabbo() == null)
@@ -83,14 +77,9 @@ namespace Akiled.HabboHotel.GameClients
 
         public GameClient GetClientByUsername(string username)
         {
-            if (_usernameRegister.ContainsKey(username.ToLower()))
-            {
-                GameClient Client = null;
-                if (!TryGetClient(_usernameRegister[username.ToLower()], out Client))
-                    return null;
-                return Client;
-            }
-            return null;
+            if (!this._usernameRegister.ContainsKey(username.ToLower()))
+                return (GameClient)null;
+            return !this.TryGetClient(this._usernameRegister[username.ToLower()], out GameClient Client) ? (GameClient)null : Client;
         }
 
         public int GetUserIdByUsername(string Username)
@@ -121,10 +110,7 @@ namespace Akiled.HabboHotel.GameClients
             return true;
         }
 
-        public bool TryGetClient(int ClientId, out GameClient Client)
-        {
-            return this._clients.TryGetValue(ClientId, out Client);
-        }
+        public bool TryGetClient(int ClientId, out GameClient Client) => this._clients.TryGetValue(ClientId, out Client);
 
         public string GetNameById(int Id)
         {
@@ -299,7 +285,7 @@ namespace Akiled.HabboHotel.GameClients
                 client.SendPacket(Message);
             }
         }
-         public void StaffWhisper(string Text, int Colour = 0, int Exclude = 0)
+        public void StaffWhisper(string Text, int Colour = 0, int Exclude = 0)
         {
             foreach (GameClient Client in this.GetClients.ToList())
             {
@@ -356,7 +342,7 @@ namespace Akiled.HabboHotel.GameClients
                 return;
 
             if (Client != null)
-               await Client.Dispose();
+                await Client.Dispose().ConfigureAwait(true);
 
             this._clients.TryRemove(clientID, out Client);
         }
@@ -403,7 +389,7 @@ namespace Akiled.HabboHotel.GameClients
 
         public void CloseAll()
         {
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new();
 
             foreach (GameClient client in this.GetClients.ToList())
             {
@@ -491,16 +477,16 @@ namespace Akiled.HabboHotel.GameClients
             }
             if (MachineBan)
             {
-                await this.BanUserAsync(Client, Moderator, LengthSeconds, Reason, true, false);
+                await BanUserAsync(Client, Moderator, LengthSeconds, Reason, true, false).ConfigureAwait(false);
             }
             else if (IpBan)
             {
-                await this.BanUserAsync(Client, Moderator, LengthSeconds, Reason, false, false);
+                await BanUserAsync(Client, Moderator, LengthSeconds, Reason, false, false).ConfigureAwait(false);
             }
             else
             {
                 Client.Disconnect();
-                
+
                 string Webhook = AkiledEnvironment.GetConfig().data["Webhook"];
                 string Webhook_bans_ProfilePicture = AkiledEnvironment.GetConfig().data["Webhook_bans_Image"];
                 string Webhook_bans_UserNameD = AkiledEnvironment.GetConfig().data["Webhook_bans_Username"];
@@ -535,7 +521,7 @@ namespace Akiled.HabboHotel.GameClients
         )
             }
             );
-                   await client.SendToDiscord(message);
+                    await client.SendToDiscord(message).ConfigureAwait(true);
 
                     Console.WriteLine("Ban enviado a Discord ", ConsoleColor.DarkCyan);
 
@@ -543,10 +529,7 @@ namespace Akiled.HabboHotel.GameClients
             }
         }
 
-        public void SendSuperNotif(string Title, string Notice, string Picture, string Link, string LinkTitle, bool Broadcast, bool Event)
-        {
-            this.SendMessage(new RoomNotificationComposer(Title, Notice, Picture, LinkTitle, Link));
-        }
+        public void SendSuperNotif(string Title, string Notice, string Picture, string Link, string LinkTitle, bool Broadcast, bool Event) => this.SendMessage(new RoomNotificationComposer(Title, Notice, Picture, LinkTitle, Link));
 
         private void GiveDiamonds()
         {

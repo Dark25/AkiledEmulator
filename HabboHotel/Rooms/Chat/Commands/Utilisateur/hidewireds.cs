@@ -11,17 +11,17 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             if (currentRoom == null)
                 return;
 
-            currentRoom.HideWired = !currentRoom.HideWired;
+            Room.RoomData.HideWired = !Room.RoomData.HideWired;
 
             using (IQueryAdapter con = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {
                 con.SetQuery("UPDATE `rooms` SET `allow_hidewireds` = @enum WHERE `id` = @id LIMIT 1");
-                con.AddParameter("enum", AkiledEnvironment.BoolToEnum(Room.HideWired));
-                con.AddParameter("id", Room.Id);
+                con.AddParameter("enum", AkiledEnvironment.BoolToEnum(Room.RoomData.HideWired));
+                con.AddParameter("id", currentRoom.Id);
                 con.RunQuery();
             }
 
-            if (currentRoom.HideWired)
+            if (Room.RoomData.HideWired)
                 UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.hidewireds.true", Session.Langue));
             else
                 UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.hidewireds.false", Session.Langue));
