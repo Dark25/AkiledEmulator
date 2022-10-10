@@ -8,6 +8,7 @@ using Akiled.HabboHotel.Rooms.Chat.Commands.Cmd;
 using Akiled.Core;
 using Akiled.HabboHotel.Rooms.Chat.Commands.SpecialPvP;
 using Akiled.HabboHotel.Rooms.Chat.Commands.Moderator;
+using System;
 
 namespace Akiled.HabboHotel.Rooms.Chat.Commands
 {
@@ -29,6 +30,8 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands
         {
             this.InitInvokeableRegister();
             this.RegisterCommand();
+
+            Console.WriteLine("Comandos -> Listo!");
         }
 
 
@@ -81,6 +84,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands
 
             Cmd.Execute(Session, Session.GetHabbo().CurrentRoom, User, Split);
             return true;
+          
         }
 
         private void InitInvokeableRegister()

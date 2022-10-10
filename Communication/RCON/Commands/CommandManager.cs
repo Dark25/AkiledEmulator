@@ -60,6 +60,9 @@ namespace Akiled.Communication.RCON.Commands
             this.Register("shutdown", new ShutdownCommand());
             this.Register("updatecata", new ReloadCatalogCommand());
             this.Register("updateitems", new ReloadItemsCommand());
+            this.Register("updatecomandos", new ReloadCMDSCommand()); 
+            this.Register("updateexternaltext", new ReloadexternaltextCommand());
+            this.Register("updatepermissions", new ReloadpermissionsCommand());
         }
 
         public void Register(string commandText, IRCONCommand command) => this._commands.Add(commandText, command);

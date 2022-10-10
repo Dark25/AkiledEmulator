@@ -4,7 +4,7 @@ namespace Akiled.Communication.RCON.Commands.Hotel
 {
     class ReloadCatalogCommand : IRCONCommand
     {
-     
+
 
         public bool TryExecute(string[] parameters)
         {
