@@ -50,6 +50,15 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             bool flag1 = false;
             int LimitedNumber = 0;
             int LimitedStack = 0;
+
+            Console.WriteLine("badge: " + catalogItem.Badge);
+            if (!string.IsNullOrEmpty(catalogItem.Badge))
+            {
+                Console.WriteLine("tried");
+                Session.GetHabbo().GetBadgeComponent().GiveBadge(catalogItem.Badge, 0, true, Session);
+                Session.SendMessage(new RoomCustomizedAlertComposer("¡ Recibiste una nueva placa, revisa tu inventario !"));
+            }
+
             switch (catalogItem.Data.InteractionType)
             {
                 case InteractionType.NONE:
@@ -201,14 +210,6 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                     if (!AkiledEnvironment.GetGame().GetGroupManager().TryGetGroup(result, out Group))
                         break;
                     str1 = "0;" + Group.Id.ToString();
-                    goto case InteractionType.PREFIX_NAME;
-                case InteractionType.BADGE:
-                    if (Session.GetHabbo().GetBadgeComponent().HasBadge(catalogItem.Badge))
-                    {
-                        Session.SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("notif.buybadge.error", Session.Langue));
-                        Session.SendPacket((IServerPacket)new PurchaseOKComposer());
-                        break;
-                    }
                     goto case InteractionType.PREFIX_NAME;
                 case InteractionType.PREFIX_NAME:
                     if (catalogItem.Data.InteractionType == InteractionType.PREFIX_NAME && (str1.Length < 2 || str1.Length > 8 || !AkiledEnvironment.IsValidAlphaNumeric(str1)))
@@ -497,14 +498,6 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                 default:
                     str1 = "";
                     goto case InteractionType.PREFIX_NAME;
-            }
-
-            if (!string.IsNullOrEmpty(catalogItem.Badge) && !Session.GetHabbo().GetBadgeComponent().HasBadge(catalogItem.Badge))
-            {
-                Session.GetHabbo().GetBadgeComponent().GiveBadge(catalogItem.Badge, 0, true);
-                Session.SendPacket((IServerPacket)new ReceiveBadgeComposer(catalogItem.Badge));
-                Session.SendPacket((IServerPacket)new FurniListNotificationComposer(0, 4));
-                Session.SendMessage((IServerPacket)new RoomCustomizedAlertComposer("¡ Recibiste una nueva placa, revisa tu inventario !"));
             }
 
             Session.SendPacket((IServerPacket)new PurchaseOKComposer(catalogItem, catalogItem.Data));

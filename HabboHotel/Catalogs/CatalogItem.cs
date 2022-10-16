@@ -1,5 +1,4 @@
 ﻿using Akiled.HabboHotel.Items;
-using System.Text;
 
 namespace Akiled.HabboHotel.Catalog
 {
@@ -21,7 +20,7 @@ namespace Akiled.HabboHotel.Catalog
         public string Badge;
 
         public CatalogItem(int Id, int ItemId, ItemData Data, string CatalogName, int PageId, int CostCredits, int CostPixels,
-            int CostDiamonds, int Amount, int LimitedEditionSells, int LimitedEditionStack, bool HaveOffer, string Badge)
+            int CostDiamonds, int Amount, int LimitedEditionSells, int LimitedEditionStack, bool HaveOffer, string badge)
         {
             this.Id = Id;
             this.Name = CatalogName;
@@ -36,7 +35,7 @@ namespace Akiled.HabboHotel.Catalog
             this.LimitedEditionStack = LimitedEditionStack;
             this.IsLimited = (LimitedEditionStack > 0);
             this.HaveOffer = HaveOffer;
-            this.Badge = Badge;
+            this.Badge = badge;
         }
     }
 }

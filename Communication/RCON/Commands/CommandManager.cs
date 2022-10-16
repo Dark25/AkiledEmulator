@@ -50,7 +50,7 @@ namespace Akiled.Communication.RCON.Commands
             this.Register("useralert", new UserAlertCommand());
             this.Register("senduser", new SendUserCommand());
             this.Register("follow", new FollowCommand());
-
+            this.Register("autofloor", new AutoFloorCommand());
         }
 
         private void RegisterHotel()
