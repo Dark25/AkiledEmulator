@@ -31,7 +31,7 @@ namespace Akiled.HabboHotel.Rooms
                 this.SqState = new SquareState[this.MapSizeX, this.MapSizeY];
                 this.SqFloorHeight = new short[this.MapSizeX, this.MapSizeY];
                 this.MurHeight = Murheight;
-                
+
                 for (int y = 0; y < MapSizeY; y++)
                 {
                     string line = tmpHeightmap[y];
@@ -61,7 +61,7 @@ namespace Akiled.HabboHotel.Rooms
                 //throw ex;
             }
         }
-        
+
         public static short Parse(char input)
         {
             switch (input)

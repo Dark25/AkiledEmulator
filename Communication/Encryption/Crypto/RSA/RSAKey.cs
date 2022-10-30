@@ -1,6 +1,5 @@
-﻿using System;
-
-using Akiled.Utilities;
+﻿using Akiled.Utilities;
+using System;
 
 namespace Akiled.Communication.Encryption.Crypto.RSA
 {
@@ -112,7 +111,7 @@ namespace Akiled.Communication.Encryption.Crypto.RSA
             }
             else
             {
-                return new RSAKey(new BigInteger(n, 16), Convert.ToInt32(e, 16), new BigInteger(d, 16), new BigInteger(p, 16), new BigInteger(q, 16), 
+                return new RSAKey(new BigInteger(n, 16), Convert.ToInt32(e, 16), new BigInteger(d, 16), new BigInteger(p, 16), new BigInteger(q, 16),
                     new BigInteger(dmp1, 16), new BigInteger(dmq1, 16), new BigInteger(coeff, 16));
             }
         }

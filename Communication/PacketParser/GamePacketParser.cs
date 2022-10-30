@@ -1,12 +1,12 @@
-﻿using Akiled.HabboHotel.GameClients;
+﻿using Akiled.Communication.Packets.Incoming;
+using Akiled.Communication.WebSocket;
+using Akiled.HabboHotel.GameClients;
+using Akiled.Utilities;
 using SharedPacketLib;
 using System;
 using System.IO;
-using Akiled.Communication.Packets.Incoming;
-using System.Text;
-using Akiled.Utilities;
 using System.Security.Cryptography;
-using Akiled.Communication.WebSocket;
+using System.Text;
 
 namespace Akiled.Net
 {
@@ -174,6 +174,6 @@ namespace Akiled.Net
         }
 
         public delegate void HandlePacket(ClientPacket message);
-        
+
     }
 }

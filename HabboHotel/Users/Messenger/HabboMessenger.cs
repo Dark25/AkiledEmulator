@@ -1,13 +1,12 @@
-﻿using Akiled.HabboHotel.GameClients;
-using Akiled.Communication.Packets.Outgoing;
+﻿using Akiled.Communication.Packets.Outgoing;
+using Akiled.Communication.Packets.Outgoing.Messenger;
+using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Database.Interfaces;
-
+using Akiled.HabboHotel.GameClients;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using Akiled.Communication.Packets.Outgoing.Structure;
 using System.Linq;
-using Akiled.Communication.Packets.Outgoing.Messenger;
 
 namespace Akiled.HabboHotel.Users.Messenger
 {
@@ -309,11 +308,11 @@ namespace Akiled.HabboHotel.Users.Messenger
                 return;
 
 
-         
+
             LogPM(UserId, ToId, Message);
             Client.SendPacket(new NewConsoleMessageComposer(this.UserId, Message));
-         
-    }
+
+        }
 
         public ServerPacket SerializeCategories()
         {

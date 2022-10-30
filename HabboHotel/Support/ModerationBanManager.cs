@@ -1,7 +1,7 @@
-﻿using Akiled.HabboHotel.GameClients;
-using Akiled.Database.Interfaces;
-using System;
+﻿using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.GameClients;
 using JNogueira.Discord.Webhook.Client;
+using System;
 using System.Threading.Tasks;
 
 namespace Akiled.HabboHotel.Support
@@ -49,7 +49,7 @@ namespace Akiled.HabboHotel.Support
             else
             {
                 Client.Disconnect();
-                
+
                 string Webhook = AkiledEnvironment.GetConfig().data["Webhook"];
                 string Webhook_bans_ProfilePicture = AkiledEnvironment.GetConfig().data["Webhook_bans_Image"];
                 string Webhook_bans_UserNameD = AkiledEnvironment.GetConfig().data["Webhook_bans_Username"];
@@ -85,7 +85,7 @@ namespace Akiled.HabboHotel.Support
             }
             );
                     await client.SendToDiscord(message);
-                    
+
                     Console.WriteLine("Ban enviado a Discord ", ConsoleColor.DarkCyan);
 
                 }

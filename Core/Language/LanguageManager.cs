@@ -1,7 +1,6 @@
 ﻿using Akiled.Database.Interfaces;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 
 namespace Akiled.Core
 {

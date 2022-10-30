@@ -29,7 +29,7 @@ namespace Akiled.HabboHotel.Roleplay.Troc
 
         public void AddItemId(int ItemId)
         {
-            if(!this.ItemIds.ContainsKey(ItemId))
+            if (!this.ItemIds.ContainsKey(ItemId))
                 this.ItemIds.Add(ItemId, 1);
             else
             {

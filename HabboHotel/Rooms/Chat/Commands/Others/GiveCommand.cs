@@ -58,7 +58,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 case "esmeralda":
                 case "esmeraldas":
                 case "esme":
-                
+
                     {
                         if (!Session.GetHabbo().HasFuse("give_command"))
                         {
@@ -75,7 +75,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 
                                 if (Target.GetHabbo().Id != Session.GetHabbo().Id)
                                     Target.SendNotification(Session.GetHabbo().Username + " te ha enviado " + Amount.ToString() + " " + name_monedaoficial2 + "!");
-                                Session.SendWhisper("Le enviaste " + Amount + " " + name_monedaoficial2 + " a " + Target.GetHabbo().Username + "!"); 
+                                Session.SendWhisper("Le enviaste " + Amount + " " + name_monedaoficial2 + " a " + Target.GetHabbo().Username + "!");
                                 break;
                             }
                             else
@@ -88,7 +88,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 
                 case "planetas":
                 case "Planeta":
-                
+
                     {
                         if (!Session.GetHabbo().HasFuse("give_command"))
                         {

@@ -1,14 +1,14 @@
-﻿using Akiled.HabboHotel.GameClients;
+﻿using Aki.HabboHotel.Items;
+using Akiled.Communication.Packets.Outgoing.Structure;
+using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Pets;
-using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.Users.Inventory.Bots;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
-using System.Collections.Concurrent;
-using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.HabboHotel.Users.Inventory.Bots;
-using Aki.HabboHotel.Items;
 using System.Linq;
 
 namespace Akiled.HabboHotel.Users.Inventory
@@ -97,7 +97,7 @@ namespace Akiled.HabboHotel.Users.Inventory
                 }
             }
 
-                this.GetClient().SendPacket(new FurniListUpdateComposer());
+            this.GetClient().SendPacket(new FurniListUpdateComposer());
         }
 
         public void UpdateItems(bool FromDatabase)
@@ -112,7 +112,7 @@ namespace Akiled.HabboHotel.Users.Inventory
         }
 
         internal Item GetFirstItemByBaseId(int id) => this._UserItems.Values.Where<Item>((Func<Item, bool>)(item => item != null && item.GetBaseItem() != null && item.GetBaseItem().Id == id)).FirstOrDefault<Item>();
-        
+
         private int GetUserInventaryId()
         {
             if (InventaryUserId > 0)
@@ -231,7 +231,7 @@ namespace Akiled.HabboHotel.Users.Inventory
 
         public bool TryAddItem(Item item)
         {
-           if(_client != null)
+            if (_client != null)
                 _client.SendPacket(new FurniListAddComposer(item));
             return this._UserItems.TryAdd(item.Id, item);
         }
@@ -291,7 +291,7 @@ namespace Akiled.HabboHotel.Users.Inventory
                 this._botItems.TryAdd(Convert.ToInt32(Row["id"]), new Bot(Convert.ToInt32(Row["id"]), Convert.ToInt32(Row["user_id"]), (string)Row["name"], (string)Row["motto"], (string)Row["look"], (string)Row["gender"], (string)Row["walk_enabled"] == "1", (string)Row["chat_enabled"] == "1", (string)Row["chat_text"], (int)Row["chat_seconds"], (string)Row["is_dancing"] == "1", (int)Row["enable"], (int)Row["handitem"], Convert.ToInt32((string)Row["status"])));
             }
         }
-        
+
 
         public int getFloorInventoryAmount()
         {
@@ -336,7 +336,7 @@ namespace Akiled.HabboHotel.Users.Inventory
                 Item ToRemove = null;
                 this._UserItems.TryRemove(Id, out ToRemove);
             }
-            
+
             this.GetClient().SendPacket(new FurniListRemoveComposer(Id));
         }
 

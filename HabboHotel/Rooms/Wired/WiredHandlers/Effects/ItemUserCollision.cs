@@ -1,12 +1,12 @@
-﻿using Akiled.HabboHotel.GameClients;
+﻿using Akiled.Communication.Packets.Outgoing;
+using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
-using Akiled.Database.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
-using Akiled.Communication.Packets.Outgoing;
 
 namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
 {
@@ -55,7 +55,7 @@ namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
             if (room.GetRoomItemHandler().GetItem(item.Id) == null)
                 return;
 
-            
+
             foreach (Point Coord in item.GetCoords)
             {
                 RoomUser roomUser = room.GetRoomUserManager().GetUserForSquare(Coord.X, Coord.Y);

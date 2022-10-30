@@ -1,12 +1,12 @@
-﻿using System.Threading.Tasks;
-using Akiled.Utilities.DependencyInjection;
+﻿using Akiled.Utilities.DependencyInjection;
+using System.Threading.Tasks;
 
 namespace Akiled.Core
 {
     [Transient]
     public interface IStartable
     {
-         Task Start();
-    
+        Task Start();
+
     }
 }

@@ -11,7 +11,7 @@ namespace Akiled.Utilities
             {
                 return 0;
             }
-            return (v[0] << 24) + (v[1] << 16) + (v[2] << 8) + (v[3]); 
+            return (v[0] << 24) + (v[1] << 16) + (v[2] << 8) + (v[3]);
 
         }
 
@@ -24,6 +24,6 @@ namespace Akiled.Utilities
             int result = (v[0] << 8) + (v[1]);
             return (Int16)result;
         }
-        
+
     }
 }

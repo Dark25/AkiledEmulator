@@ -12,7 +12,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             if (Room == null)
                 return;
 
-             if(!Room.CheckRights(Session, true) && !Session.GetHabbo().HasFuse("fuse_settings_room"))
+            if (!Room.CheckRights(Session, true) && !Session.GetHabbo().HasFuse("fuse_settings_room"))
                 return;
 
             Session.SendPacket(new RoomSettingsDataComposer(Room.RoomData));

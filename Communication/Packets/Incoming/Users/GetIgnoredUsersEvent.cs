@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Akiled.Communication.Packets.Outgoing.Users;
+﻿using Akiled.Communication.Packets.Outgoing.Users;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Users;
+using System.Collections.Generic;
 
 namespace Akiled.Communication.Packets.Incoming.Users
 {

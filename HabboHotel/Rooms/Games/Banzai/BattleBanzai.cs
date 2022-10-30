@@ -1,13 +1,12 @@
-﻿using Akiled.HabboHotel.GameClients;
+﻿using Akiled.Communication.Packets.Outgoing;
+using Akiled.Communication.Packets.Outgoing.Structure;
+using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
-using Akiled.Communication.Packets.Outgoing;
 using Enclosure;
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using Akiled.Communication.Packets.Outgoing.Structure;
 
 namespace Akiled.HabboHotel.Rooms.Games
 {
@@ -183,7 +182,7 @@ namespace Akiled.HabboHotel.Rooms.Games
                 return;
 
             Team winningTeam = this.room.GetGameManager().getWinningTeam();
-            
+
             foreach (RoomUser user in this.room.GetTeamManager().GetAllPlayer())
                 this.EndGame(user, winningTeam);
         }
@@ -238,9 +237,9 @@ namespace Akiled.HabboHotel.Rooms.Games
                 Message.WriteInteger(0);
                 this.room.SendPacket(Message);
             }
-            
+
             if (!this.banzaiStarted) return;
-            
+
             this.HandleBanzaiTiles(new Point(newX, newY), team, this.room.GetRoomUserManager().GetRoomUserByHabboId(mover.GetHabbo().Id));
         }
 

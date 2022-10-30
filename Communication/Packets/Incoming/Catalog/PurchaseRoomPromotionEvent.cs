@@ -1,5 +1,4 @@
-﻿using Akiled.Communication.Packets.Outgoing.Catalog;
-using Akiled.Communication.Packets.Outgoing.Rooms.Engine;
+﻿using Akiled.Communication.Packets.Outgoing.Rooms.Engine;
 using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.GameClients;
@@ -24,7 +23,7 @@ namespace Akiled.Communication.Packets.Incoming.Catalog
             int categoryId = packet.PopInt();
 
 
-           
+
             RoomData data = null;
 
             if (data.OwnerId != session.GetHabbo().Id)

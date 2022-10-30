@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Akiled.Core;
+using Akiled.Database.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Threading.Tasks;
-using Akiled.Core;
-using Akiled.Database.Interfaces;
 
 namespace Akiled.HabboHotel.Navigators
 {
@@ -83,7 +82,7 @@ namespace Akiled.HabboHotel.Navigators
                     }
                 }
             }
-            Console.WriteLine("Navegador -> Listo!");    
+            Console.WriteLine("Navegador -> Listo!");
         }
 
         public List<SearchResultList> GetCategorysForSearch(string Category)
@@ -169,7 +168,7 @@ namespace Akiled.HabboHotel.Navigators
         {
             return this._featuredRooms.Values;//.Where(F => F.Langue == Langue).ToList();
         }
-    
+
 
     }
 }

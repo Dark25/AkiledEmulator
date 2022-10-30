@@ -12,7 +12,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             if (room == null)
                 return;
 
-            if(room.IsRoleplay)
+            if (room.IsRoleplay)
             {
                 RoomUser RoomUser = room.GetRoomUserManager().GetRoomUserByHabboId(Session.GetHabbo().Id);
                 RoomUser RoomUserTarget = room.GetRoomUserManager().GetRoomUserByVirtualId(Packet.PopInt());

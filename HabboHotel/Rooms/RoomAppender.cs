@@ -1,6 +1,5 @@
 ﻿using Akiled.Communication.Packets.Outgoing;
 using Akiled.HabboHotel.Navigators;
-using System;
 
 namespace Akiled.HabboHotel.Rooms
 {

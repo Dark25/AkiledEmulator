@@ -7,7 +7,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-            Session.SendPacket(new CanCreateRoomComposer(false , 200));
+            Session.SendPacket(new CanCreateRoomComposer(false, 200));
         }
     }
 }

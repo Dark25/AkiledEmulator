@@ -1,7 +1,5 @@
 using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.HabboHotel.GameClients;using JNogueira.Discord.Webhook.Client;
-using System;
-
+using Akiled.HabboHotel.GameClients;
 namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd{    class ban : IChatCommand    {        public async void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)        {            if (Params.Length < 2)                return;
 
             GameClient clientByUsername = AkiledEnvironment.GetGame().GetClientManager().GetClientByUsername(Params[1]);            if (clientByUsername == null || clientByUsername.GetHabbo() == null)
@@ -28,7 +26,9 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd{    class ban : IChatComma
                 Session.SendWhisper("Excelente has baneado la ip del usuario '" + clientByUsername + "' por la razon: '" + Raison + "'!");
                 if (Session.Antipub(Raison, "<CMD>", Room.Id))
                     return;
-                
-              
+
+
             }
-                    }    }}
+
+
+        }    }}

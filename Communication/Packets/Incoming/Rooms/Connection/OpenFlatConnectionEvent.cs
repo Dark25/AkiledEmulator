@@ -11,7 +11,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
 
             int RoomId = Packet.PopInt();
             string Password = Packet.PopString();
-            
+
             Session.GetHabbo().PrepareRoom(RoomId, Password);
         }
     }

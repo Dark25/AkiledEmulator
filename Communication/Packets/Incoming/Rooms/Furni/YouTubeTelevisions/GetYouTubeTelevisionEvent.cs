@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Akiled.Communication.Packets.Outgoing.WebSocket;
+﻿using Akiled.Communication.Packets.Outgoing.WebSocket;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Rooms;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Akiled.Communication.Packets.Incoming.Rooms.Furni.YouTubeTelevisions
 {
@@ -13,12 +13,12 @@ namespace Akiled.Communication.Packets.Incoming.Rooms.Furni.YouTubeTelevisions
 
         bool UserHasRights;
         private static Item Item;
-        
+
         public void Parse(GameClient Session, ClientPacket packet)
         {
             if (Session == null || Session.GetHabbo() == null)
                 return;
-            
+
 
             if (Session.GetHabbo().SendWebPacket(new YoutubeTvComposer((UserHasRights) ? Item.Id : 0, Item.ExtraData)))
                 return;
@@ -41,9 +41,9 @@ namespace Akiled.Communication.Packets.Incoming.Rooms.Furni.YouTubeTelevisions
 
                 roomUser.LoaderVideoId = "";
             }
-            }
+        }
 
-            private static IEnumerable<TValue> RandomValues<TKey, TValue>(IDictionary<TKey, TValue> dict)
+        private static IEnumerable<TValue> RandomValues<TKey, TValue>(IDictionary<TKey, TValue> dict)
         {
             Random rand = new();
             List<TValue> values = dict.Values.ToList();

@@ -3,7 +3,6 @@ using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Rooms;
 using System;
-using System.Linq;
 
 namespace Akiled.Communication.Packets.Incoming.Structure
 {

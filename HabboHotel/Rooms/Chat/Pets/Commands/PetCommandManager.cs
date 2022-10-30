@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-
-using Akiled.Database.Interfaces;
+﻿using Akiled.Database.Interfaces;
+using System.Collections.Generic;
 using System.Data;
 
 namespace Akiled.HabboHotel.Rooms.Chat.Pets.Commands
@@ -8,7 +7,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Pets.Commands
     public class PetCommandManager
     {
         private Dictionary<string, PetCommand> _petCommands;
-        
+
         public PetCommandManager()
         {
             this._petCommands = new Dictionary<string, PetCommand>();

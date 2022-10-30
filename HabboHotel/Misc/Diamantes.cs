@@ -2,10 +2,6 @@
 using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.HabboHotel.GameClients;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Akin.HabboHotel.Misc
 {
@@ -13,8 +9,8 @@ namespace Akin.HabboHotel.Misc
     {
         internal static void GiveCycleDiamonds(GameClient Session)
         {
-           /* if (EmuSettings.DIAMONDS_ENABLED == false)
-                return;*/
+            /* if (EmuSettings.DIAMONDS_ENABLED == false)
+                 return;*/
             string cantdiamonds = (AkiledEnvironment.GetConfig().data["cantdiamonds"]);
 
             if ((AkiledEnvironment.GetUnixTimestamp() - Session.GetHabbo().DiamondsCycleUpdate) > 1 * 6)

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Akiled.Communication.Packets.Outgoing.Rooms.Camera
+﻿namespace Akiled.Communication.Packets.Outgoing.Rooms.Camera
 {
     public class CameraPhotoPurchaseOkComposer : ServerPacket
     {

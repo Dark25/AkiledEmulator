@@ -8,7 +8,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
     {
         public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)
         {
-            if(Params.Length != 2)
+            if (Params.Length != 2)
             {
                 UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("roomsell.error.1", Session.Langue));
                 return;
@@ -30,13 +30,13 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 return;
             }
 
-            if(Room.RoomData.Group != null)
+            if (Room.RoomData.Group != null)
             {
                 UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("roomsell.error.5", Session.Langue));
                 return;
             }
 
-            if(Room.RoomData.SellPrice > 0)
+            if (Room.RoomData.SellPrice > 0)
             {
                 UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("roomsell.error.6", Session.Langue));
                 return;
@@ -49,7 +49,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 queryreactor.AddParameter("price", Prix);
                 queryreactor.RunQuery();
             }
-            
+
             Room.RoomData.SellPrice = Prix;
 
             UserRoom.SendWhisperChat(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("roomsell.valide", Session.Langue), Prix));

@@ -1,7 +1,5 @@
-﻿using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.Communication.Packets.Outgoing.WebSocket;
+﻿using Akiled.Communication.Packets.Outgoing.WebSocket;
 using Akiled.HabboHotel.GameClients;
-using System.Text;
 
 namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 {

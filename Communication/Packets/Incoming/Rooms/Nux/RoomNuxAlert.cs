@@ -1,6 +1,5 @@
 ﻿using Akiled.Communication.Packets.Outgoing;
 using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.Users;
 
 namespace Akiled.Communication.Packets.Incoming.Structure
@@ -13,7 +12,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
 
             habbo.PassedNuxCount++;
 
-             if (habbo.PassedNuxCount == 2)
+            if (habbo.PassedNuxCount == 2)
             {
                 Session.SendPacket(new NuxAlertComposer("helpBubble/add/BOTTOM_BAR_CATALOGUE/nux.bot.info.shop.1"));
             }
@@ -37,7 +36,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             {
                 Session.SendPacket(new NuxAlertComposer("nux/lobbyoffer/show"));
                 habbo.Nuxenable = false;
-                
+
                 ServerPacket nuxStatus = new ServerPacket(ServerPacketHeader.NuxAlertComposer);
                 nuxStatus.WriteInteger(0);
                 Session.SendPacket(nuxStatus);

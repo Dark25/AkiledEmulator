@@ -39,7 +39,7 @@ namespace Akiled.Communication.RCON.Commands.User
                 queryreactor.AddParameter("photoid", PhotoId);
                 queryreactor.RunQuery();
             }
-            
+
             Client.SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("notif.buyphoto.valide", Client.Langue));
 
             return true;

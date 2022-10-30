@@ -1,4 +1,3 @@
-using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Rooms.RoomBots;
 using System.Collections.Generic;
@@ -22,12 +21,13 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                         {
                             RoomUser superBot = Room.GetRoomUserManager().DeploySuperBot(new RoomBot(-i, Session.GetHabbo().Id, Room.Id, AIType.SuperBot, false, Session.GetHabbo().Username, "SuperBot", Session.GetHabbo().Gender, Session.GetHabbo().Look, UserRoom.X, UserRoom.Y, 0, 2, false, "", 0, false, 0, 0, 0));
                             superBot.BotData.FollowUser = UserRoom.VirtualId;
-                        } else
+                        }
+                        else
                         {
-                           Room.GetRoomUserManager().DeploySuperBot(new RoomBot(-i, Session.GetHabbo().Id, Room.Id, AIType.SuperBot, false, Session.GetHabbo().Username, "SuperBot", Session.GetHabbo().Gender, Session.GetHabbo().Look, UserRoom.X, UserRoom.Y, 0, 2, false, "", 0, false, 0, 0, 0));
+                            Room.GetRoomUserManager().DeploySuperBot(new RoomBot(-i, Session.GetHabbo().Id, Room.Id, AIType.SuperBot, false, Session.GetHabbo().Username, "SuperBot", Session.GetHabbo().Gender, Session.GetHabbo().Look, UserRoom.X, UserRoom.Y, 0, 2, false, "", 0, false, 0, 0, 0));
                         }
                     }
-                } 
+                }
                 else if (Params.Length > 2)
                 {
                     RoomUser GetUserRoom = Session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(Params[1]);
@@ -53,7 +53,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 ICollection<GameClient> Users = AkiledEnvironment.GetGame().GetClientManager().GetClients;
 
                 if (Users == null) return;
-                
+
                 foreach (GameClient GameClient in Users)
                 {
                     if (GameClient.GetHabbo() == null) continue;

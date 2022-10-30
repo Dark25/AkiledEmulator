@@ -21,7 +21,7 @@ using Akiled.Database.Interfaces;using Akiled.HabboHotel.GameClients;using Aki
             else
                 Pet.PetData.AnyoneCanRide = true;
 
-            if(!Pet.PetData.AnyoneCanRide)
+            if (!Pet.PetData.AnyoneCanRide)
             {
                 if (Pet.RidingHorse)
                 {

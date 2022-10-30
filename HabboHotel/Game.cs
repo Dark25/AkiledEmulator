@@ -1,32 +1,31 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Threading;
+﻿using Akiled.Communication.Packets;
 using Akiled.Core;
+using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.Achievements;
+using Akiled.HabboHotel.Animations;
+using Akiled.HabboHotel.Cache;
 using Akiled.HabboHotel.Catalog;
+using Akiled.HabboHotel.EffectsInventory;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Groups;
+using Akiled.HabboHotel.Guides;
+using Akiled.HabboHotel.HotelView;
 using Akiled.HabboHotel.Items;
+using Akiled.HabboHotel.Items.Crafting;
 using Akiled.HabboHotel.Navigators;
+using Akiled.HabboHotel.NotifTop;
 using Akiled.HabboHotel.Quests;
+using Akiled.HabboHotel.Roleplay;
 using Akiled.HabboHotel.Roles;
 using Akiled.HabboHotel.Rooms;
-using Akiled.HabboHotel.Support;
-using Akiled.HabboHotel.HotelView;
-using Akiled.Database.Interfaces;
-using System.Diagnostics;
-using Akiled.HabboHotel.Guides;
-using Akiled.Communication.Packets;
 using Akiled.HabboHotel.Rooms.Chat;
-using Akiled.HabboHotel.EffectsInventory;
-using Akiled.HabboHotel.WebClients;
-using Akiled.HabboHotel.Roleplay;
-using Akiled.HabboHotel.Animations;
-using Akiled.HabboHotel.NotifTop;
-using Akiled.HabboHotel.Users.Messenger;
 using Akiled.HabboHotel.Subscriptions;
-using Akiled.HabboHotel.Cache;
-using Akiled.HabboHotel.Items.Crafting;
+using Akiled.HabboHotel.Support;
+using Akiled.HabboHotel.Users.Messenger;
+using Akiled.HabboHotel.WebClients;
+using System;
+using System.Diagnostics;
+using System.Threading;
 
 namespace Akiled.HabboHotel
 {
@@ -106,7 +105,7 @@ namespace Akiled.HabboHotel
             this._effectsInventory.init();
 
             this._achievementManager = new AchievementManager();
-            
+
             this._animationManager = new AnimationManager();
             this._animationManager.Init();
             this._subscriptionManager = new SubscriptionManager();
@@ -231,7 +230,7 @@ namespace Akiled.HabboHotel
         {
             return this._hotelViewManager;
         }
-        
+
         #endregion
 
         public void StartGameLoop()
@@ -257,7 +256,7 @@ namespace Akiled.HabboHotel
 
             //this.gameLoop.Dispose();
         }
-       
+
         public CacheManager GetCacheManager() => this._cacheManager;
         internal CrackableManager GetPinataManager() => this._crackableManager;
         private void MainGameLoop()

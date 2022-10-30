@@ -1,6 +1,5 @@
 ﻿using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.HabboHotel.GameClients;
-using Akiled.HabboHotel.Rooms;
 using System.Drawing;
 
 namespace Akiled.HabboHotel.Rooms.RoomBots
@@ -51,7 +50,7 @@ namespace Akiled.HabboHotel.Rooms.RoomBots
             if (OwnerUser == null)
             {
                 this.GetRoom().GetRoomUserManager().RemoveBot(this._virtualId, false);
-                
+
                 return;
             }
 
@@ -95,7 +94,7 @@ namespace Akiled.HabboHotel.Rooms.RoomBots
 
                 this.GetRoom().SendPacket(new UserChangeComposer(this.GetRoomUser()));
             }*/
-            
+
             if (this.GetBotData().FollowUser > 0)
             {
                 RoomUser user = this.GetRoom().GetRoomUserManager().GetRoomUserByVirtualId(this.GetBotData().FollowUser);

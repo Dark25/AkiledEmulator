@@ -30,7 +30,7 @@ namespace Akiled
         }
 
         [MTAThread]
-        public static async Task  InitEnvironment()
+        public static async Task InitEnvironment()
         {
             Console.ForegroundColor = ConsoleColor.White;
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(MyHandler);

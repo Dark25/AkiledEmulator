@@ -16,7 +16,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 || CurrentEnable == 49 || CurrentEnable == 50 || CurrentEnable == 51 || CurrentEnable == 52
                 || CurrentEnable == 33 || CurrentEnable == 34 || CurrentEnable == 35 || CurrentEnable == 36)
                 return;
-            
+
             if (UserRoom.CurrentEffect == 569)
                 UserRoom.ApplyEffect(0);
             else

@@ -15,7 +15,7 @@ namespace ConnectionManager
         private int acceptedConnections;
         private IDataParser parser;
         private ConcurrentDictionary<string, int> _ipConnectionsCount;
-        
+
         public event ConnectionEvent connectionEvent;
 
         public void init(int portID, int connectionsPerIP, IDataParser parser, bool DisabledProtect = false)
@@ -35,7 +35,7 @@ namespace ConnectionManager
                 this.connectionListener.SendBufferSize = GameSocketManagerStatics.BUFFER_SIZE;
                 this.connectionListener.ReceiveBufferSize = GameSocketManagerStatics.BUFFER_SIZE;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 this.Destroy();
                 Console.WriteLine(ex);
@@ -76,7 +76,7 @@ namespace ConnectionManager
                     Interlocked.Increment(ref this.acceptedConnections);
 
                     ConnectionInformation connection = new ConnectionInformation(dataStream, this.acceptedConnections, this.parser.Clone() as IDataParser, Ip);
-                    
+
                     connection.connectionClose += new ConnectionInformation.ConnectionChange(this.c_connectionChanged);
 
                     reportUserLogin(Ip);

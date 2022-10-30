@@ -1,7 +1,7 @@
-﻿using System;
+﻿using AStar.Algorithm;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using AStar.Algorithm;
 
 namespace Astar.Algorithm
 {
@@ -55,7 +55,7 @@ namespace Astar.Algorithm
             Size = Width * Height;
             mSearchSpace = new PathNode[Height, Width];
             mOrderedOpenSet = new PriorityQueue<PathNode, double>(PathNode.Comparer, Width + Height);
-            
+
         }
 
         private void resetSearchSpace()
@@ -76,7 +76,7 @@ namespace Astar.Algorithm
         /// <param name="calculator"></param>
         private void setHeuristictype(AStarHeuristicType calculator)
         {
-            switch(calculator)
+            switch (calculator)
             {
                 case AStarHeuristicType.FAST_SEARCH: this.CalculationMethod = CalculateHeuristicFast; break;
                 case AStarHeuristicType.BETWEEN: this.CalculationMethod = CalculateHeuristicBetween; break;
@@ -171,7 +171,7 @@ namespace Astar.Algorithm
             else
                 neighborNodes = new PathNode[4];
 
-            
+
 
             tieBreaker = 0;
 
@@ -189,7 +189,7 @@ namespace Astar.Algorithm
             Boolean scoreResultBetter;
             PathNode y;
             PathNode x;
-         
+
             while ((x = mOrderedOpenSet.Pop()) != null)
             {
                 if (x == endNode)
@@ -264,7 +264,7 @@ namespace Astar.Algorithm
                     }
                 }
             }
-            
+
             return null;
         }
         #endregion
@@ -277,49 +277,49 @@ namespace Astar.Algorithm
 
             if ((x > 0) && (y > 0))
             {
-                inNeighbors[0] = mSearchSpace[y - 1,x - 1 ];
+                inNeighbors[0] = mSearchSpace[y - 1, x - 1];
             }
             else
                 inNeighbors[0] = null;
 
             if (y > 0)
-                inNeighbors[1] = mSearchSpace[y - 1,x];
+                inNeighbors[1] = mSearchSpace[y - 1, x];
             else
                 inNeighbors[1] = null;
 
             if ((x < Width - 1) && (y > 0))
             {
-                inNeighbors[2] = mSearchSpace[ y - 1,x + 1];
+                inNeighbors[2] = mSearchSpace[y - 1, x + 1];
             }
             else
                 inNeighbors[2] = null;
 
             if (x > 0)
-                inNeighbors[3] = mSearchSpace[y,x - 1];
+                inNeighbors[3] = mSearchSpace[y, x - 1];
             else
                 inNeighbors[3] = null;
 
             if (x < Width - 1)
-                inNeighbors[4] = mSearchSpace[y,x + 1];
+                inNeighbors[4] = mSearchSpace[y, x + 1];
             else
                 inNeighbors[4] = null;
 
             if ((x > 0) && (y < Height - 1))
             {
-                inNeighbors[5] = mSearchSpace[y + 1,x - 1];
+                inNeighbors[5] = mSearchSpace[y + 1, x - 1];
 
             }
             else
                 inNeighbors[5] = null;
 
             if (y < Height - 1)
-                inNeighbors[6] = mSearchSpace[y + 1,x];
+                inNeighbors[6] = mSearchSpace[y + 1, x];
             else
                 inNeighbors[6] = null;
 
             if ((x < Width - 1) && (y < Height - 1))
             {
-                inNeighbors[7] = mSearchSpace[y + 1,x + 1];
+                inNeighbors[7] = mSearchSpace[y + 1, x + 1];
             }
             else
                 inNeighbors[7] = null;
@@ -330,22 +330,22 @@ namespace Astar.Algorithm
             int y = inAround.Y;
 
             if (y > 0)
-                inNeighbors[0] = mSearchSpace[y - 1,x];
+                inNeighbors[0] = mSearchSpace[y - 1, x];
             else
                 inNeighbors[0] = null;
 
             if (x > 0)
-                inNeighbors[1] = mSearchSpace[y,x - 1];
+                inNeighbors[1] = mSearchSpace[y, x - 1];
             else
                 inNeighbors[1] = null;
 
             if (x < Width - 1)
-                inNeighbors[2] = mSearchSpace[y,x + 1];
+                inNeighbors[2] = mSearchSpace[y, x + 1];
             else
                 inNeighbors[2] = null;
 
             if (y < Height - 1)
-                inNeighbors[3] = mSearchSpace[y + 1,x];
+                inNeighbors[3] = mSearchSpace[y + 1, x];
             else
                 inNeighbors[3] = null;
         }
@@ -450,7 +450,7 @@ namespace Astar.Algorithm
 
             public PathNode parent;
 
-            public Boolean IsBlocked(int X,int Y, bool lastTile)
+            public Boolean IsBlocked(int X, int Y, bool lastTile)
             {
                 return UserItem.IsBlocked(X, Y, lastTile);
             }

@@ -11,7 +11,7 @@ namespace Akiled.Communication.Packets.Outgoing.WebSocket.Troc
             WriteInteger(UserId);
             WriteInteger(Items.Count);
 
-            foreach(KeyValuePair<int, int> Item in Items)
+            foreach (KeyValuePair<int, int> Item in Items)
             {
                 RPItem RpItem = AkiledEnvironment.GetGame().GetRoleplayManager().GetItemManager().GetItem(Item.Key);
 

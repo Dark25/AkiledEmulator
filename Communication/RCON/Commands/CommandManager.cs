@@ -24,20 +24,20 @@ namespace Akiled.Communication.RCON.Commands
 
             string cmd = data.Split(Convert.ToChar(1))[0];
 
-            IRCONCommand command = null;
-            if (this._commands.TryGetValue(cmd.ToLower(), out command))
+            if (this._commands.TryGetValue(cmd.ToLower(), out IRCONCommand command))
             {
+                string param = null;
                 string[] parameters = null;
                 if (data.Split(Convert.ToChar(1))[1] != null)
                 {
-                    parameters = data.Split(Convert.ToChar(1));
+                    param = data.Split(Convert.ToChar(1))[1];
+                    parameters = param.ToString().Split(':');
                 }
 
                 return command.TryExecute(parameters);
             }
             return false;
         }
-
         private void RegisterUser()
         {
             this.Register("addphoto", new AddPhotoCommand());
@@ -51,6 +51,7 @@ namespace Akiled.Communication.RCON.Commands
             this.Register("senduser", new SendUserCommand());
             this.Register("follow", new FollowCommand());
             this.Register("autofloor", new AutoFloorCommand());
+            this.Register("give", new GiveUserCurrencyCommand());
         }
 
         private void RegisterHotel()
@@ -60,7 +61,7 @@ namespace Akiled.Communication.RCON.Commands
             this.Register("shutdown", new ShutdownCommand());
             this.Register("updatecata", new ReloadCatalogCommand());
             this.Register("updateitems", new ReloadItemsCommand());
-            this.Register("updatecomandos", new ReloadCMDSCommand()); 
+            this.Register("updatecomandos", new ReloadCMDSCommand());
             this.Register("updateexternaltext", new ReloadexternaltextCommand());
             this.Register("updatepermissions", new ReloadpermissionsCommand());
         }

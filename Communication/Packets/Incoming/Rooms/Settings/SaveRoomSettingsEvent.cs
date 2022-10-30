@@ -17,11 +17,11 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             Room room = AkiledEnvironment.GetGame().GetRoomManager().GetRoom(RoomId);
             if (room == null)
                 return;
-                
-            if(!room.CheckRights(Session, true) && !Session.GetHabbo().HasFuse("fuse_settings_room"))
+
+            if (!room.CheckRights(Session, true) && !Session.GetHabbo().HasFuse("fuse_settings_room"))
                 return;
 
-            
+
             string Name = Packet.PopString();
             string Description = Packet.PopString();
             int State = Packet.PopInt();
@@ -69,7 +69,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
 
             if (TrocStatus < 0 || TrocStatus > 2)
                 TrocStatus = 0;
-            
+
             if (TagCount > 2 || mutefuse != 0 && mutefuse != 1 || kickfuse != 0 && kickfuse != 1 && kickfuse != 2 || banfuse != 0 && banfuse != 1)
                 return;
 
@@ -138,7 +138,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             Response.WriteInteger(room.RoomData.ChatSpeed);
             Response.WriteInteger(room.RoomData.ChatMaxDistance);
             Response.WriteInteger(room.RoomData.ChatFloodProtection);
-            
+
 
             Session.GetHabbo().CurrentRoom.SendPacket(Response);
 

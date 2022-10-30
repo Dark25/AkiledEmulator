@@ -1,7 +1,6 @@
-﻿using Akiled.Utilities;
-using Akiled.Communication.Packets.Outgoing;
-using Akiled.HabboHotel.Rooms;
+﻿using Akiled.HabboHotel.Rooms;
 using Akiled.HabboHotel.Users;
+using Akiled.Utilities;
 using System.Collections.Generic;
 
 namespace Akiled.Communication.Packets.Outgoing.Structure

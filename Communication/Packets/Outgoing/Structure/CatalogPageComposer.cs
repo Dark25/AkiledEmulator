@@ -1,9 +1,8 @@
-using System.Linq;
-
-using Akiled.HabboHotel.Items;
+using Akiled.Core;
 using Akiled.HabboHotel.Catalog;
 using Akiled.HabboHotel.Catalog.Utilities;
-using Akiled.Core;
+using Akiled.HabboHotel.Items;
+using System.Linq;
 
 namespace Akiled.Communication.Packets.Outgoing.Structure
 {

@@ -1,5 +1,5 @@
-﻿using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
-using Akiled.HabboHotel.Items;
+﻿using Akiled.HabboHotel.Items;
+using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
 
 namespace Akiled.HabboHotel.Rooms.Wired
 {

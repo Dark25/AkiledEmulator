@@ -12,7 +12,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-			TimeSpan timeSpan = DateTime.Now - Session.GetHabbo().FloodTime;
+            TimeSpan timeSpan = DateTime.Now - Session.GetHabbo().FloodTime;
             if (timeSpan.Seconds > 4)
                 Session.GetHabbo().FloodCount = 0;
             if (timeSpan.Seconds < 4 && Session.GetHabbo().FloodCount > 5 && Session.GetHabbo().Rank < 5U)

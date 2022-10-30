@@ -1,12 +1,12 @@
-﻿using Akiled.Core;
-using Akiled.HabboHotel.Groups;
-using Akiled.Communication.Packets.Outgoing;
+﻿using Akiled.Communication.Packets.Outgoing;
+using Akiled.Core;
 using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.GameClients;
+using Akiled.HabboHotel.Groups;
+using Akiled.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using Akiled.HabboHotel.GameClients;
-using Akiled.Utilities;
 
 namespace Akiled.HabboHotel.Rooms
 {
@@ -72,7 +72,7 @@ namespace Akiled.HabboHotel.Rooms
                 return this.Tags.Count;
             }
         }
-      
+
 
 
         public RoomModel Model
@@ -258,7 +258,7 @@ namespace Akiled.HabboHotel.Rooms
             this.mModel = AkiledEnvironment.GetGame().GetRoomManager().GetModel(this.ModelName, this.Id);
         }
 
-      
+
 
         public void SerializeRoomData(ServerPacket Message, GameClient Session)
         {

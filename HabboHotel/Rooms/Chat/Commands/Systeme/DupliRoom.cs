@@ -68,13 +68,14 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 
                     if (WiredUtillity.TypeIsWired(Data.InteractionType))
                     {
-                        if(Data.InteractionType == InteractionType.superwired)
+                        if (Data.InteractionType == InteractionType.superwired)
                         {
                             //trigger_data check
                             dbClient.RunQuery("INSERT INTO `wired_items` (`trigger_id`, `trigger_data_2`, `trigger_data`, `all_user_triggerable`, `triggers_item`) " +
                             "SELECT '" + ItemId + "', trigger_data_2, '', all_user_triggerable, triggers_item FROM wired_items WHERE trigger_id = '" + OldItemId + "'");
 
-                        } else
+                        }
+                        else
                         {
                             dbClient.RunQuery("INSERT INTO `wired_items` (`trigger_id`, `trigger_data_2`, `trigger_data`, `all_user_triggerable`, `triggers_item`) " +
                             "SELECT '" + ItemId + "', trigger_data_2, trigger_data, all_user_triggerable, triggers_item FROM wired_items WHERE trigger_id = '" + OldItemId + "'");

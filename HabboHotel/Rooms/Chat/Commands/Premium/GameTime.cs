@@ -1,7 +1,4 @@
-﻿using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.Database.Interfaces;
-using Akiled.HabboHotel.GameClients;
-using Akiled.HabboHotel.Rooms.Games;
+﻿using Akiled.HabboHotel.GameClients;
 
 namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 {
@@ -13,7 +10,8 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             {
                 string Time = AkiledEnvironment.GetGame().GetAnimationManager().GetTime();
                 UserRoom.SendWhisperChat("Prochaine animation de Jack & Daisy dans " + Time);
-            } else
+            }
+            else
             {
                 UserRoom.SendWhisperChat("Animation de Jack & Daisy désactiver");
             }

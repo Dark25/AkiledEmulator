@@ -16,5 +16,5 @@ using Akiled.HabboHotel.GameClients;using Akiled.HabboHotel.Users;
                     AkiledEnvironment.GetGame().GetClientManager().StaffAlert(RoomNotificationComposer.SendBubble("baneo", "El usuario: " + clientByUsername.GetHabbo().Username + " ha sido baneado, por favor verifiquen la razon del baneo, para evitar malos entendidos"));
                     Session.SendWhisper("Excelente has baneado la ip del usuario '" + Username + "' por la razon: '" + Raison + "'!");                }                if (clientByUsername.GetHabbo().Rank > 8 && Session.GetHabbo().Rank < 12)
                 {
-                  await   AkiledEnvironment.GetGame().GetClientManager().BanUserAsync(Session, "Robot", (double)788922000, "Su cuenta ha sido prohibida por seguridad", false, false).ConfigureAwait(false);
+                    await AkiledEnvironment.GetGame().GetClientManager().BanUserAsync(Session, "Robot", (double)788922000, "Su cuenta ha sido prohibida por seguridad", false, false).ConfigureAwait(false);
                 }            }        }    }}

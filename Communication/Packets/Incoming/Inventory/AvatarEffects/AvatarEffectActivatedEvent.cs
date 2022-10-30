@@ -12,8 +12,8 @@ namespace Akiled.Communication.Packets.Incoming.Structure
 
             if (NumEnable < 0)
                 return;
-            
-            if(!AkiledEnvironment.GetGame().GetEffectsInventoryManager().HaveEffect(NumEnable, Session.GetHabbo().HasFuse("fuse_sysadmin")))
+
+            if (!AkiledEnvironment.GetGame().GetEffectsInventoryManager().HaveEffect(NumEnable, Session.GetHabbo().HasFuse("fuse_sysadmin")))
                 return;
 
             Room Room = Session.GetHabbo().CurrentRoom;

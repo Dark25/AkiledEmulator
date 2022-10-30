@@ -4,7 +4,7 @@
     {
         public RPTrocUser UserOne;
         public RPTrocUser UserTwo;
-        
+
         public int Id;
         public int RPId;
 
@@ -34,14 +34,16 @@
 
         public bool AllAccepted
         {
-            get {
+            get
+            {
                 return UserOne.Accepted == true && UserTwo.Accepted == true;
             }
         }
-        
+
         public bool AllConfirmed
         {
-            get {
+            get
+            {
                 return UserOne.Confirmed == true && UserTwo.Confirmed == true;
             }
         }

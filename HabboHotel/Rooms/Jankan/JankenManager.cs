@@ -145,8 +145,8 @@ namespace Akiled.HabboHotel.Rooms.Janken
                 party.ChoixOne = Choix;
             else
                 party.ChoixTwo = Choix;
-            
-            if(User.GetClient() != null)
+
+            if (User.GetClient() != null)
                 User.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("janken.confirmechoice", User.GetClient().Langue) + this.GetStringChoix(Choix, User.GetClient().Langue));
 
             return true;
@@ -236,7 +236,7 @@ namespace Akiled.HabboHotel.Rooms.Janken
 
         private string GetStringChoix(JankenEnum Choix, Language langue)
         {
-            switch(Choix)
+            switch (Choix)
             {
                 case JankenEnum.Ciseaux:
                     return AkiledEnvironment.GetLanguageManager().TryGetValue("janken.ciseaux", langue);

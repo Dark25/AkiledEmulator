@@ -1,6 +1,6 @@
+using Akiled.HabboHotel.Users.Inventory.Bots;
 using System.Collections.Generic;
 using System.Linq;
-using Akiled.HabboHotel.Users.Inventory.Bots;
 
 namespace Akiled.Communication.Packets.Outgoing.Structure
 {

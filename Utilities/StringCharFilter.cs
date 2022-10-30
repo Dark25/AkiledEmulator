@@ -6,7 +6,7 @@ namespace Akiled.Utilities
     static class StringCharFilter
     {
         private static readonly Regex _allowedChars = new Regex("[^a-zA-Z0-9]");
-        
+
         public static bool IsValid(string input)
         {
             return _allowedChars.IsMatch(input);

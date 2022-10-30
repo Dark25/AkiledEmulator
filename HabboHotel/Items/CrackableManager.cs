@@ -59,34 +59,34 @@ namespace Akiled.HabboHotel.Items
                             {
                                 if (!(crackableRewardType == "diamonds"))
                                 {
-                                   
-                                        if (crackableRewardType == "badge")
-                                        {
-                                            if (user.GetClient().GetHabbo().GetBadgeComponent().HasBadge(reward.CrackableReward))
-                                                return;
-                                            user.GetClient().SendMessage((IServerPacket)RoomNotificationComposer.SendBubble("award", "Du hast ein Badge gezogen: " + int.Parse(reward.CrackableReward).ToString() + "."));
-                                            user.GetClient().SendMessage((IServerPacket)RoomNotificationComposer.SendBubble("award", "Du hast die Kiste erfolgreich geknackt!"));
-                                            user.GetClient().GetHabbo().GetBadgeComponent().GiveBadge(reward.CrackableReward, 0, true, user.GetClient());
-                                            room.GetRoomItemHandler().RemoveFurniture(user.GetClient(), item.Id);
-                                            queryReactor.RunQuery("DELETE FROM items WHERE id = " + item.Id.ToString());
-                                            return;
-                                        }
-                                        AkiledEnvironment.GetGame().GetAchievementManager().ProgressAchievement(user.GetClient(), "ACH_PinataWhacker", 1);
-                                        AkiledEnvironment.GetGame().GetAchievementManager().ProgressAchievement(user.GetClient(), "ACH_PinataBreaker", 1);
-                                        room.GetRoomItemHandler().RemoveFurniture(user.GetClient(), item.Id);
-                                        queryReactor.RunQuery("UPDATE items SET base_item = " + int.Parse(reward.CrackableReward).ToString() + ", extra_data = '' WHERE id = " + item.Id.ToString());
-                                        item.BaseItem = int.Parse(reward.CrackableReward);
-                                        item.ResetBaseItem();
-                                        item.ExtraData = string.Empty;
-                                        if (!room.GetRoomItemHandler().SetFloorItem(user.GetClient(), item, item.GetX, item.GetY, item.Rotation, true, false, true))
-                                        {
-                                            queryReactor.RunQuery("UPDATE items SET room_id = 0 WHERE id = " + item.Id.ToString());
-                                            user.GetClient().GetHabbo().GetInventoryComponent().UpdateItems(true);
-                                        }
-                                    }
-                                    else
+
+                                    if (crackableRewardType == "badge")
                                     {
-                                   
+                                        if (user.GetClient().GetHabbo().GetBadgeComponent().HasBadge(reward.CrackableReward))
+                                            return;
+                                        user.GetClient().SendMessage((IServerPacket)RoomNotificationComposer.SendBubble("award", "Du hast ein Badge gezogen: " + int.Parse(reward.CrackableReward).ToString() + "."));
+                                        user.GetClient().SendMessage((IServerPacket)RoomNotificationComposer.SendBubble("award", "Du hast die Kiste erfolgreich geknackt!"));
+                                        user.GetClient().GetHabbo().GetBadgeComponent().GiveBadge(reward.CrackableReward, 0, true, user.GetClient());
+                                        room.GetRoomItemHandler().RemoveFurniture(user.GetClient(), item.Id);
+                                        queryReactor.RunQuery("DELETE FROM items WHERE id = " + item.Id.ToString());
+                                        return;
+                                    }
+                                    AkiledEnvironment.GetGame().GetAchievementManager().ProgressAchievement(user.GetClient(), "ACH_PinataWhacker", 1);
+                                    AkiledEnvironment.GetGame().GetAchievementManager().ProgressAchievement(user.GetClient(), "ACH_PinataBreaker", 1);
+                                    room.GetRoomItemHandler().RemoveFurniture(user.GetClient(), item.Id);
+                                    queryReactor.RunQuery("UPDATE items SET base_item = " + int.Parse(reward.CrackableReward).ToString() + ", extra_data = '' WHERE id = " + item.Id.ToString());
+                                    item.BaseItem = int.Parse(reward.CrackableReward);
+                                    item.ResetBaseItem();
+                                    item.ExtraData = string.Empty;
+                                    if (!room.GetRoomItemHandler().SetFloorItem(user.GetClient(), item, item.GetX, item.GetY, item.Rotation, true, false, true))
+                                    {
+                                        queryReactor.RunQuery("UPDATE items SET room_id = 0 WHERE id = " + item.Id.ToString());
+                                        user.GetClient().GetHabbo().GetInventoryComponent().UpdateItems(true);
+                                    }
+                                }
+                                else
+                                {
+
                                     AkiledEnvironment.GetGame().GetAchievementManager().ProgressAchievement(user.GetClient(), "ACH_PinataWhacker", 1);
                                     AkiledEnvironment.GetGame().GetAchievementManager().ProgressAchievement(user.GetClient(), "ACH_PinataBreaker", 1);
                                     user.GetClient().GetHabbo().AkiledPoints += int.Parse(reward.CrackableReward);
@@ -155,33 +155,33 @@ namespace Akiled.HabboHotel.Items
                             {
                                 if (!(crackableRewardType == "diamonds"))
                                 {
-                                  
-                                        if (crackableRewardType == "badge")
-                                        {
-                                            if (user.GetClient().GetHabbo().GetBadgeComponent().HasBadge(reward.CrackableReward))
-                                                return;
-                                            user.GetClient().SendMessage((IServerPacket)RoomNotificationComposer.SendBubble("award", "Du hast ein Badge gezogen: " + int.Parse(reward.CrackableReward).ToString() + "."));
-                                            user.GetClient().SendMessage((IServerPacket)RoomNotificationComposer.SendBubble("award", "Du hast die Kiste erfolgreich geknackt!"));
-                                            user.GetClient().GetHabbo().GetBadgeComponent().GiveBadge(reward.CrackableReward, 0, true, user.GetClient());
-                                            room.GetRoomItemHandler().RemoveFurniture(user.GetClient(), item.Id);
-                                            queryReactor.RunQuery("DELETE FROM items WHERE id = " + item.Id.ToString());
-                                        }
-                                        else
-                                        {
-                                            AkiledEnvironment.GetGame().GetAchievementManager().ProgressAchievement(user.GetClient(), "ACH_PinataWhacker", 1);
-                                            AkiledEnvironment.GetGame().GetAchievementManager().ProgressAchievement(user.GetClient(), "ACH_PinataBreaker", 1);
-                                            room.GetRoomItemHandler().RemoveFurniture(user.GetClient(), item.Id);
-                                            queryReactor.RunQuery("UPDATE items SET base_item = " + int.Parse(reward.CrackableReward).ToString() + ", extra_data = '' WHERE id = " + item.Id.ToString());
-                                            item.BaseItem = int.Parse(reward.CrackableReward);
-                                            item.ResetBaseItem();
-                                            item.ExtraData = string.Empty;
-                                            queryReactor.RunQuery("UPDATE items SET room_id = 0, user_id = " + user.UserId.ToString() + " WHERE id = " + item.Id.ToString());
-                                            user.GetClient().GetHabbo().GetInventoryComponent().UpdateItems(true);
-                                        }
+
+                                    if (crackableRewardType == "badge")
+                                    {
+                                        if (user.GetClient().GetHabbo().GetBadgeComponent().HasBadge(reward.CrackableReward))
+                                            return;
+                                        user.GetClient().SendMessage((IServerPacket)RoomNotificationComposer.SendBubble("award", "Du hast ein Badge gezogen: " + int.Parse(reward.CrackableReward).ToString() + "."));
+                                        user.GetClient().SendMessage((IServerPacket)RoomNotificationComposer.SendBubble("award", "Du hast die Kiste erfolgreich geknackt!"));
+                                        user.GetClient().GetHabbo().GetBadgeComponent().GiveBadge(reward.CrackableReward, 0, true, user.GetClient());
+                                        room.GetRoomItemHandler().RemoveFurniture(user.GetClient(), item.Id);
+                                        queryReactor.RunQuery("DELETE FROM items WHERE id = " + item.Id.ToString());
                                     }
                                     else
                                     {
-                                    
+                                        AkiledEnvironment.GetGame().GetAchievementManager().ProgressAchievement(user.GetClient(), "ACH_PinataWhacker", 1);
+                                        AkiledEnvironment.GetGame().GetAchievementManager().ProgressAchievement(user.GetClient(), "ACH_PinataBreaker", 1);
+                                        room.GetRoomItemHandler().RemoveFurniture(user.GetClient(), item.Id);
+                                        queryReactor.RunQuery("UPDATE items SET base_item = " + int.Parse(reward.CrackableReward).ToString() + ", extra_data = '' WHERE id = " + item.Id.ToString());
+                                        item.BaseItem = int.Parse(reward.CrackableReward);
+                                        item.ResetBaseItem();
+                                        item.ExtraData = string.Empty;
+                                        queryReactor.RunQuery("UPDATE items SET room_id = 0, user_id = " + user.UserId.ToString() + " WHERE id = " + item.Id.ToString());
+                                        user.GetClient().GetHabbo().GetInventoryComponent().UpdateItems(true);
+                                    }
+                                }
+                                else
+                                {
+
                                     AkiledEnvironment.GetGame().GetAchievementManager().ProgressAchievement(user.GetClient(), "ACH_PinataWhacker", 1);
                                     AkiledEnvironment.GetGame().GetAchievementManager().ProgressAchievement(user.GetClient(), "ACH_PinataBreaker", 1);
                                     user.GetClient().GetHabbo().AkiledPoints += int.Parse(reward.CrackableReward);

@@ -24,7 +24,7 @@ namespace Akiled.HabboHotel.Roles
                 DataTable table1 = dbClient.GetTable();
 
                 if (table1 == null) return;
-                
+
                 foreach (DataRow dataRow in table1.Rows) this.Rights.Add((string)dataRow["fuse"], Convert.ToInt32(dataRow["rank"]));
             }
             Console.WriteLine("Permisos -> Listo!");

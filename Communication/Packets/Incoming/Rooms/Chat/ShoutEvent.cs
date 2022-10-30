@@ -24,11 +24,11 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             if (User == null)
                 return;
 
-            if(Room.IsRoleplay)
+            if (Room.IsRoleplay)
             {
-                    RolePlayer Rp = User.Roleplayer;
-                    if (Rp != null && Rp.Dead)
-                        return;
+                RolePlayer Rp = User.Roleplayer;
+                if (Rp != null && Rp.Dead)
+                    return;
             }
 
             string Message = StringCharFilter.Escape(Packet.PopString());
@@ -94,7 +94,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             {
                 Session.GetHabbo().spamProtectionTime = 30;
                 Session.GetHabbo().spamEnable = true;
-                
+
                 User.GetClient().SendPacket(new FloodControlComposer(Session.GetHabbo().spamProtectionTime - timeSpan.Seconds));
 
                 return;
@@ -103,7 +103,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             {
                 User.LastMessageCount = 0;
                 User.LastMessage = "";
-                
+
                 Session.GetHabbo().spamProtectionTime = 10;
                 Session.GetHabbo().spamEnable = true;
                 User.GetClient().SendPacket(new FloodControlComposer(Session.GetHabbo().spamProtectionTime - timeSpan.Seconds));

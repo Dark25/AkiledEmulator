@@ -53,7 +53,7 @@ namespace Akiled.HabboHotel.EffectsInventory
         public bool HaveEffect(int EffectId, bool Staff = false)
         {
             if (this._effects.Contains(EffectId)) return true;
-            
+
             if (Staff && this._effectsStaff.Contains(EffectId)) return true;
 
             return false;

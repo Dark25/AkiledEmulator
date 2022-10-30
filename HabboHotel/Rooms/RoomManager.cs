@@ -1,14 +1,13 @@
-﻿using Akiled.HabboHotel.GameClients;
+﻿using Akiled.Core;
 using Akiled.Database.Interfaces;
-
+using Akiled.HabboHotel.GameClients;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
-using System.Collections.Concurrent;
-using Akiled.Core;
 
 namespace Akiled.HabboHotel.Rooms
 {
@@ -89,7 +88,7 @@ namespace Akiled.HabboHotel.Rooms
             return roomData;
         }
 
-      
+
 
         public Room LoadRoom(int Id)
         {
@@ -163,7 +162,7 @@ namespace Akiled.HabboHotel.Rooms
                 int RoomId = 0;
                 using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                 {
-                    dbClient.SetQuery("INSERT INTO `rooms` (`caption`,`description`,`owner`,`model_name`,`category`,`users_max`,`TrocStatus`) VALUES (@caption, @desc, @username, @model, @cat, @usmax, '"+ TradeSettings +"');");
+                    dbClient.SetQuery("INSERT INTO `rooms` (`caption`,`description`,`owner`,`model_name`,`category`,`users_max`,`TrocStatus`) VALUES (@caption, @desc, @username, @model, @cat, @usmax, '" + TradeSettings + "');");
                     dbClient.AddParameter("caption", Name);
                     dbClient.AddParameter("desc", Desc);
                     dbClient.AddParameter("username", Session.GetHabbo().Username);
@@ -174,7 +173,7 @@ namespace Akiled.HabboHotel.Rooms
                 }
                 RoomData roomData = this.GenerateRoomData(RoomId);
                 Session.GetHabbo().UsersRooms.Add(roomData);
-                
+
                 return roomData;
             }
         }
@@ -293,7 +292,7 @@ namespace Akiled.HabboHotel.Rooms
                  select RoomInstance.Value.RoomData).Take(Amount);
             return rooms.ToList();
         }
-        
+
         public List<KeyValuePair<string, int>> GetPopularRoomTags()
         {
             IEnumerable<List<string>> Tags =
@@ -363,23 +362,23 @@ namespace Akiled.HabboHotel.Rooms
         {
             if (roomCycleStopwatch.ElapsedMilliseconds >= 500)
             {
-                    roomCycleStopwatch.Restart();
-                    foreach (Room Room in this._rooms.Values.ToList())
+                roomCycleStopwatch.Restart();
+                foreach (Room Room in this._rooms.Values.ToList())
+                {
+                    if (!Room.isCycling && !Room.Disposed)
                     {
-                        if (!Room.isCycling && !Room.Disposed)
+                        ThreadPool.QueueUserWorkItem(new WaitCallback(Room.ProcessRoom), null); //QueueUserWorkItem
+                        Room.IsLagging = 0;
+                    }
+                    else
+                    {
+                        Room.IsLagging++;
+                        if (Room.IsLagging > 20)
                         {
-                            ThreadPool.QueueUserWorkItem(new WaitCallback(Room.ProcessRoom), null); //QueueUserWorkItem
-                            Room.IsLagging = 0;
-                        }
-                        else
-                        {
-                            Room.IsLagging++;
-                            if (Room.IsLagging > 20)
-                            {
-                                UnloadRoom(Room);
-                            }
+                            UnloadRoom(Room);
                         }
                     }
+                }
             }
         }
 
@@ -387,7 +386,7 @@ namespace Akiled.HabboHotel.Rooms
         {
             int count = this._rooms.Count;
             int num = 0;
-            
+
             foreach (Room Room in this._rooms.Values.ToList())
             {
                 if (Room == null) continue;

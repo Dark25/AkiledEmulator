@@ -1,7 +1,6 @@
 ﻿using Akiled.Communication.Packets.Outgoing.WebSocket;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.WebClients;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Akiled.Communication.Packets.Incoming.WebSocket

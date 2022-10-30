@@ -1,6 +1,4 @@
-﻿using Akiled.HabboHotel.Achievements;
-
-namespace Akiled.Communication.Packets.Outgoing.Structure
+﻿namespace Akiled.Communication.Packets.Outgoing.Structure
 {
     class CameraURLComposer : ServerPacket
     {

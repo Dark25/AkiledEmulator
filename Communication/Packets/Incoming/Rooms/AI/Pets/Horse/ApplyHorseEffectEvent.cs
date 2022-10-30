@@ -12,7 +12,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
         {
             if (!Session.GetHabbo().InRoom)
                 return;
-            
+
             if (!AkiledEnvironment.GetGame().GetRoomManager().TryGetRoom(Session.GetHabbo().CurrentRoomId, out Room Room))
                 return;
 

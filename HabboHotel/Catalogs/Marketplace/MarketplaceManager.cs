@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Akiled.Database.Interfaces;
+using System;
 using System.Collections.Generic;
-
-using Akiled.Database.Interfaces;
 
 namespace Akiled.HabboHotel.Catalog.Marketplace
 {
@@ -47,7 +46,7 @@ namespace Akiled.HabboHotel.Catalog.Marketplace
 
             if (num2 > 0)
                 return Convert.ToInt32(Math.Ceiling((double)(num / num2)));
-            
+
             return 0;
         }
 

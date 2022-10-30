@@ -1,13 +1,13 @@
-﻿using Akiled.HabboHotel.GameClients;
-using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
-using Akiled.Communication.Packets.Outgoing;
-using Akiled.Database.Interfaces;
-using System.Data;
-using Akiled.HabboHotel.Items;
-using System.Collections.Generic;
+﻿using Akiled.Communication.Packets.Outgoing;
 using Akiled.Communication.Packets.Outgoing.WebSocket;
-using System;
+using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.GameClients;
+using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Rooms.RoomBots;
+using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
 {
@@ -44,7 +44,7 @@ namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
             TextMessage = TextMessage.Replace("#vote_yes#", this.handler.GetRoom().VotedYesCount.ToString());
             TextMessage = TextMessage.Replace("#vote_no#", this.handler.GetRoom().VotedNoCount.ToString());
 
-            if(IsMurmur && TextMessage.Contains(" : ") && (room.IsRoleplay || room.RoomData.OwnerName == "LieuPublic"))
+            if (IsMurmur && TextMessage.Contains(" : ") && (room.IsRoleplay || room.RoomData.OwnerName == "LieuPublic"))
             {
                 SendBotChoose(TextMessage, user, Bot.BotData);
             }

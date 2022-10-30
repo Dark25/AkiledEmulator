@@ -1,14 +1,4 @@
-﻿using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.Database.Interfaces;
-using Akiled.HabboHotel.GameClients;
-using Akiled.HabboHotel.Items;
-using Akiled.HabboHotel.Rooms.Games;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-
-namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
+﻿namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 {
     class ViewInventory : IChatCommand
     {

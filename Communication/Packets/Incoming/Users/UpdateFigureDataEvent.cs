@@ -1,4 +1,3 @@
-using Akiled.Communication.Packets.Outgoing;
 using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.GameClients;
@@ -52,7 +51,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             //UpdateBarLook.WriteString(Session.GetHabbo().Look);
             //UpdateBarLook.WriteString(Session.GetHabbo().Gender);
             //Session.SendMessage(UpdateBarLook);
-            Session.SendMessage(new FigureUpdateMessageComposer(Session.GetHabbo().Look,Session.GetHabbo().Gender));
+            Session.SendMessage(new FigureUpdateMessageComposer(Session.GetHabbo().Look, Session.GetHabbo().Gender));
         }
-}
+    }
 }

@@ -14,10 +14,10 @@ namespace Akiled.Communication.Packets.Outgoing.Users
             WriteInteger(IgnoredUsers.Count);
             foreach (string username in IgnoredUsers)
             {
-               WriteString(username);
+                WriteString(username);
             }
         }
 
-       
-        }
+
     }
+}

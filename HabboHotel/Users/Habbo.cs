@@ -1,27 +1,26 @@
-﻿using Akiled.Core;
+﻿using Akiled.Communication.Packets.Outgoing;
+using Akiled.Communication.Packets.Outgoing.Structure;
+using Akiled.Core;
+using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.Achievements;
 using Akiled.HabboHotel.ChatMessageStorage;
 using Akiled.HabboHotel.GameClients;
+using Akiled.HabboHotel.Roleplay;
+using Akiled.HabboHotel.Roleplay.Player;
 using Akiled.HabboHotel.Rooms;
 using Akiled.HabboHotel.Users.Badges;
+using Akiled.HabboHotel.Users.Clothing;
+using Akiled.HabboHotel.Users.Ignores;
 using Akiled.HabboHotel.Users.Inventory;
 using Akiled.HabboHotel.Users.Messenger;
-using Akiled.Communication.Packets.Outgoing;
-using Akiled.Database.Interfaces;
-
+using Akiled.HabboHotel.WebClients;
+using AkiledEmulator.HabboHotel.Camera;
+using JNogueira.Discord.Webhook.Client;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.HabboHotel.Roleplay;
-using Akiled.HabboHotel.Roleplay.Player;
-using Akiled.HabboHotel.WebClients;
-using Akiled.HabboHotel.Users.Clothing;
-using JNogueira.Discord.Webhook.Client;
 using System.Threading.Tasks;
-using AkiledEmulator.HabboHotel.Camera;
-using Akiled.HabboHotel.Users.Ignores;
 
 namespace Akiled.HabboHotel.Users
 {
@@ -64,7 +63,7 @@ namespace Akiled.HabboHotel.Users
         public List<int> ClientVolume;
         public string MachineId;
         public Language Langue;
-        public bool PickupItemsStatus = false;        
+        public bool PickupItemsStatus = false;
 
         public List<RoomData> RoomRightsList;
         public List<RoomData> FavoriteRooms;
@@ -130,7 +129,7 @@ namespace Akiled.HabboHotel.Users
         public int RolePlayId;
 
         public bool IgnoreAll;
-        private DateTime _timeCached;        
+        private DateTime _timeCached;
         public string _guardar;
         public string _sexWith;
         public int _guardar2;
@@ -292,7 +291,7 @@ namespace Akiled.HabboHotel.Users
             this._allowBotSpeech = BotsMuted;
             this._lastClothingUpdateTime = DateTime.Now;
             this._clothingUpdateWarnings = 0;
-            this._sessionClothingBlocked = false;            
+            this._sessionClothingBlocked = false;
 
             if (clientVolume.Contains(','))
             {
@@ -620,7 +619,7 @@ namespace Akiled.HabboHotel.Users
                 }
             }
 
-            if(room.RoomData.OwnerName == "AkiledGames")
+            if (room.RoomData.OwnerName == "AkiledGames")
             {
                 if (room.GetRoomUserManager().GetUserByTracker(this.IP, this.GetClient().GetConnection().getIp(), this.GetClient().MachineId) != null)
                 {
@@ -732,13 +731,13 @@ namespace Akiled.HabboHotel.Users
             else if (this.Langue == Language.SPANISH) AkiledEnvironment.GetGame().GetClientManager().OnlineUsersEs--;
 
             if (this.HasFuse("fuse_mod"))
-                
+
                 AkiledEnvironment.GetGame().GetClientManager().RemoveUserStaff(this.Id);
 
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine("El Usuario : " + this.Username + " Se ha Desconectado del Hotel.",
             ConsoleColor.DarkGreen);
-            
+
             string Webhook = AkiledEnvironment.GetConfig().data["Webhook"];
             string Webhook_login_logout_ProfilePicture = AkiledEnvironment.GetConfig().data["Webhook_on_off_Image"];
             string Webhook_login_logout_UserNameD = AkiledEnvironment.GetConfig().data["Webhook_on_off_Username"];
@@ -784,9 +783,9 @@ namespace Akiled.HabboHotel.Users
                     queryreactor.RunQuery("UPDATE users SET online = '0', last_online = '" + AkiledEnvironment.GetUnixTimestamp() + "', activity_points = " + this.Duckets + ", activity_points_lastupdate = '" + this.LastActivityPointsUpdate + "', credits = " + this.Credits + " WHERE id = " + this.Id + " ;");
                     queryreactor.RunQuery("UPDATE user_stats SET groupid = " + this.FavouriteGroupId + ",  OnlineTime = OnlineTime + " + TimeOnlineSec + ", quest_id = '" + this.CurrentQuestId + "', Respect = '" + this.Respect + "', DailyRespectPoints = '" + this.DailyRespectPoints + "', DailyPetRespectPoints = '" + this.DailyPetRespectPoints + "' WHERE id = " + this.Id + " ;");
                 }
-               
+
             }
-            
+
 
             if (this.InRoom && this.CurrentRoom != null)
             {
@@ -859,7 +858,7 @@ namespace Akiled.HabboHotel.Users
                 Messenger.Destroy();
             }
 
-           
+
 
             if (_clothing != null)
                 _clothing.Dispose();
@@ -1033,7 +1032,7 @@ namespace Akiled.HabboHotel.Users
                 string str3 = "";
                 string str4 = "";
                 RoomUser roomUserByHabboId = this.GetClient().GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabboId(this.GetClient().GetHabbo().Id);
-                RolePlayer roleplayer = roomUserByHabboId.Roleplayer;                
+                RolePlayer roleplayer = roomUserByHabboId.Roleplayer;
                 using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                 {
                     queryReactor.SetQuery("SELECT * FROM `game_happyhour` LIMIT 1");

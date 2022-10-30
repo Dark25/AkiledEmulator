@@ -1,8 +1,6 @@
 using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Database.Interfaces;
-using Akiled.HabboHotel.GameClients;using Akiled.HabboHotel.Users;
-using Akiled.HabboHotel.WebClients;
-using System;
+using Akiled.HabboHotel.GameClients;using System;
 using System.Data;
 using System.Text;
 
@@ -122,7 +120,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd{    class UserInfo : IChat
                     HabboInfo.Append("IP Web: " + TargetClient.GetHabbo().IP + "\r");
                     HabboInfo.Append("IP Emulador: " + TargetClient.GetConnection().getIp() + "\r");
 
-                    
+
                 }
                 Session.SendPacket(new RoomNotificationComposer("Información de " + Username + ":", (HabboInfo.ToString()), "fig/" + Session.GetHabbo().Look + "", "", ""));
             }

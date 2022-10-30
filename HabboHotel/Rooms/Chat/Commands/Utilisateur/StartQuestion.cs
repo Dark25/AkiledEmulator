@@ -9,7 +9,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
         {
             string Question = CommandManager.MergeParams(Params, 1);
 
-            if(string.IsNullOrWhiteSpace(Question))
+            if (string.IsNullOrWhiteSpace(Question))
             {
                 UserRoom.SendWhisperChat("Escribe el mensaje para la escuenta o pregunta.");
                 return;

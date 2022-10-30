@@ -1,14 +1,13 @@
-﻿using Akiled.HabboHotel.GameClients;
-using System.Collections.Generic;
-using System.Text;
-
+﻿using Akiled.Core;
 using Akiled.Database.Interfaces;
-using System.Data;
+using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Rooms.Chat.Commands.Cmd;
-using Akiled.Core;
-using Akiled.HabboHotel.Rooms.Chat.Commands.SpecialPvP;
 using Akiled.HabboHotel.Rooms.Chat.Commands.Moderator;
+using Akiled.HabboHotel.Rooms.Chat.Commands.SpecialPvP;
 using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Text;
 
 namespace Akiled.HabboHotel.Rooms.Chat.Commands
 {
@@ -84,7 +83,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands
 
             Cmd.Execute(Session, Session.GetHabbo().CurrentRoom, User, Split);
             return true;
-          
+
         }
 
         private void InitInvokeableRegister()

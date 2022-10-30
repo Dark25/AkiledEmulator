@@ -6,7 +6,7 @@ namespace Akiled.HabboHotel.Catalog.Utilities
     {
         public static bool CanGiftItem(CatalogItem Item)
         {
-            if (Item.Data.InteractionType == InteractionType.TROPHY) 
+            if (Item.Data.InteractionType == InteractionType.TROPHY)
                 return true;
 
             if (!Item.Data.AllowGift || Item.IsLimited || Item.Amount > 1 || Item.Data.InteractionType == InteractionType.EXCHANGE ||

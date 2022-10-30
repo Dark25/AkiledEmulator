@@ -2,13 +2,13 @@
 
 namespace Akiled.HabboHotel.Quests.Composer
 {
-  public class QuestAbortedComposer
-  {
-    public static ServerPacket Compose()
+    public class QuestAbortedComposer
     {
-      ServerPacket serverMessage = new ServerPacket(ServerPacketHeader.QuestAbortedMessageComposer);
-      serverMessage.WriteBoolean(false);
-      return serverMessage;
+        public static ServerPacket Compose()
+        {
+            ServerPacket serverMessage = new ServerPacket(ServerPacketHeader.QuestAbortedMessageComposer);
+            serverMessage.WriteBoolean(false);
+            return serverMessage;
+        }
     }
-  }
 }

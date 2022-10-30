@@ -140,7 +140,7 @@ namespace Akiled
 
 
 
-        public static async Task<bool> Initialize()
+        public static Task<bool> Initialize()
         {
             Console.Clear();
             AkiledEnvironment.ServerStarted = DateTime.Now;
@@ -187,7 +187,7 @@ namespace Akiled
                         Logging.WriteLine("Error al conectar con el Mysql Server.");
                         Console.ReadKey(true);
                         Environment.Exit(1);
-                        return false;
+                        return Task.FromResult(false);
                     }
                 }
                 HabboEncryptionV2.Initialize(new RSAKeys());
@@ -230,14 +230,14 @@ namespace Akiled
                 Logging.WriteLine("Press any key to shut down ...");
                 Logging.WriteLine(ex.ToString());
                 Console.ReadKey(true);
-                return false;
+                return Task.FromResult(false);
             }
             catch (InvalidOperationException ex)
             {
                 Logging.WriteLine("Failed to initialize AkiledEmulator: " + ex.Message);
                 Logging.WriteLine("Press any key to shut down ...");
                 Console.ReadKey(true);
-                return false;
+                return Task.FromResult(false);
             }
             catch (Exception ex)
             {
@@ -245,9 +245,9 @@ namespace Akiled
                 Console.WriteLine("Press a key to exit");
                 Console.ReadKey();
                 Environment.Exit(1);
-                return false;
+                return Task.FromResult(false);
             }
-            return true;
+            return Task.FromResult(true);
         }
 
 

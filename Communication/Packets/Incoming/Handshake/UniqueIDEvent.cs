@@ -12,7 +12,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             string Junk = Packet.PopString();
 
             string Head = (string.IsNullOrWhiteSpace(CookieId) || CookieId.Length != 13) ? IDGenerator.Instance.Next : CookieId;
-            
+
             Session.MachineId = Head + McId + Junk;
 
             Session.SendPacket(new SetUniqueIdComposer(Head));

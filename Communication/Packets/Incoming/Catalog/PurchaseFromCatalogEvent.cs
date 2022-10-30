@@ -422,7 +422,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                                 if (catalogItem.Data.InteractionType == InteractionType.PREFIX_COLORNAME)
                                 {
                                     string str2 = Session.GetHabbo().Prefixnamecolor.Split(';')[1];
-                                    Session.GetHabbo().Prefixnamecolor = string.IsNullOrEmpty(str2) ?   catalogItem.Data.ItemName + ";": catalogItem.Data.ItemName + ";" + str2;
+                                    Session.GetHabbo().Prefixnamecolor = string.IsNullOrEmpty(str2) ? catalogItem.Data.ItemName + ";" : catalogItem.Data.ItemName + ";" + str2;
                                     using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                                     {
                                         queryReactor.SetQuery("UPDATE `users` SET `prefixnamecolor` = @prefixnamecolor WHERE `id` = '" + Session.GetHabbo().Id.ToString() + "' LIMIT 1");
@@ -435,7 +435,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                                     Session.SendPacket((IServerPacket)new FurniListUpdateComposer());
                                     flag2 = true;
                                 }
-                               
+
                                 if (catalogItem.Data.InteractionType == InteractionType.PREFIX_SIZENAME)
                                 {
                                     string str2 = Session.GetHabbo().PrefixSize.Split(';')[0];

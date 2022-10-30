@@ -1,6 +1,5 @@
 ﻿using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Users;
-using Akiled.HabboHotel.WebClients;
 using System.Text;
 
 namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
@@ -45,7 +44,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 stringBuilder.Append("IP Emu: " + clientByUsername.GetConnection().getIp() + "\r");
                 stringBuilder.Append("Langue: " + clientByUsername.Langue.ToString() + "\r");
 
-               
+
             }
 
             Session.SendNotification(stringBuilder.ToString());

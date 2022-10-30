@@ -51,7 +51,7 @@ namespace Akiled.HabboHotel.Roleplay.Weapon
                         if (this._weaponCac.ContainsKey(Convert.ToInt32(dataRow["id"])) || this._weaponFar.ContainsKey(Convert.ToInt32(dataRow["id"])))
                             continue;
 
-                        if((string)dataRow["type"] == "cac")
+                        if ((string)dataRow["type"] == "cac")
                             this._weaponCac.Add((int)dataRow["id"], new RPWeapon((int)dataRow["id"], (int)dataRow["domage_min"], (int)dataRow["domage_max"], RPWeaponInteractions.GetTypeFromString((string)dataRow["interaction"]), (int)dataRow["enable"], (int)dataRow["freeze_time"], (int)dataRow["distance"]));
                         else
                             this._weaponFar.Add((int)dataRow["id"], new RPWeapon((int)dataRow["id"], (int)dataRow["domage_min"], (int)dataRow["domage_max"], RPWeaponInteractions.GetTypeFromString((string)dataRow["interaction"]), (int)dataRow["enable"], (int)dataRow["freeze_time"], (int)dataRow["distance"]));

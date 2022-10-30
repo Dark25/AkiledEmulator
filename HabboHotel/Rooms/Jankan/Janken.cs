@@ -4,7 +4,7 @@
     {
         public int UserOne;
         public int UserTwo;
-        
+
         public JankenEnum ChoixOne;
         public JankenEnum ChoixTwo;
 

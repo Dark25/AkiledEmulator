@@ -40,8 +40,8 @@ namespace Akiled.Net
 
                 if (!AkiledEnvironment.GetRCONSocket().GetCommands().Parse(data))
                 {
-                   Logging.WriteLine("Failed to execute a MUS command. Raw data: " + data);
-                    
+                    Logging.WriteLine("Failed to execute a MUS command. Raw data: " + data);
+
                 }
             }
             catch (Exception ex)

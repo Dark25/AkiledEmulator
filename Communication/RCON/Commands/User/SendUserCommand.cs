@@ -30,7 +30,7 @@ namespace Akiled.Communication.RCON.Commands.User
             Room room = AkiledEnvironment.GetGame().GetRoomManager().LoadRoom(RoomId);
             if (room == null)
                 return false;
-            
+
             Client.SendPacket(new GetGuestRoomResultComposer(Client, room.RoomData, false, true));
             return true;
         }

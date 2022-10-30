@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using Akiled.Communication.Packets.Outgoing;
+﻿using Akiled.Communication.Packets.Outgoing;
 using Akiled.Communication.Packets.Outgoing.WebSocket;
 using Akiled.Core;
 using Akiled.Database.Interfaces;
@@ -11,6 +6,11 @@ using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Roleplay.Weapon;
 using Akiled.HabboHotel.Rooms;
 using Akiled.HabboHotel.WebClients;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 namespace Akiled.HabboHotel.Roleplay.Player
 {
@@ -41,7 +41,7 @@ namespace Akiled.HabboHotel.Roleplay.Player
         public int AggroTimer;
         public int PlayerOutTimer;
         public bool PvpEnable;
-        
+
         public int TradeId;
         public bool NeedUpdate;
         public bool Dispose;
@@ -140,7 +140,7 @@ namespace Akiled.HabboHotel.Roleplay.Player
                     this._inventory.TryAdd((int)dataRow["item_id"], new RolePlayInventoryItem((int)dataRow["id"], (int)dataRow["item_id"], (int)dataRow["count"]));
             }
 
-           
+
             this.SendWebPacket(new LoadInventoryRpComposer(this._inventory));
         }
 
@@ -162,7 +162,7 @@ namespace Akiled.HabboHotel.Roleplay.Player
             {
                 using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                 {
-                    dbClient.SetQuery("INSERT INTO `user_rpitems` (`user_id`, `rp_id`, `item_id`, `count`) VALUES ('" + this._id + "', '" + this._rpId + "', '" + pItemId + "', '"+ pCount + "')");
+                    dbClient.SetQuery("INSERT INTO `user_rpitems` (`user_id`, `rp_id`, `item_id`, `count`) VALUES ('" + this._id + "', '" + this._rpId + "', '" + pItemId + "', '" + pCount + "')");
                     int Id = Convert.ToInt32(dbClient.InsertQuery());
                     this._inventory.TryAdd(pItemId, new RolePlayInventoryItem(Id, pItemId, pCount));
                 }
@@ -171,10 +171,10 @@ namespace Akiled.HabboHotel.Roleplay.Player
             {
                 Item.Count += pCount;
                 using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
-                    dbClient.RunQuery("UPDATE user_rpitems SET count = count + '"+ pCount + "' WHERE id = '" + Item.Id + "' LIMIT 1");
+                    dbClient.RunQuery("UPDATE user_rpitems SET count = count + '" + pCount + "' WHERE id = '" + Item.Id + "' LIMIT 1");
             }
 
-            
+
             this.SendWebPacket(new AddInventoryItemRpComposer(RPItem, pCount));
         }
 
@@ -198,8 +198,8 @@ namespace Akiled.HabboHotel.Roleplay.Player
                 using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                     dbClient.RunQuery("DELETE FROM user_rpitems WHERE id = '" + Item.Id + "' LIMIT 1");
             }
-            
-             this.SendWebPacket(new RemoveItemInventoryRpComposer(ItemId, Count));
+
+            this.SendWebPacket(new RemoveItemInventoryRpComposer(ItemId, Count));
         }
 
         public void SendWebPacket(IServerPacket Message)
@@ -334,7 +334,7 @@ namespace Akiled.HabboHotel.Roleplay.Player
                 User.IsLay = true;
                 User.UpdateNeeded = true;
 
-                if(User.GetClient() != null)
+                if (User.GetClient() != null)
                     User.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("rp.userdead", User.GetClient().Langue));
 
                 if (this.Money > 10)
@@ -363,7 +363,7 @@ namespace Akiled.HabboHotel.Roleplay.Player
                     this.SlowTimer = 6;
                 }
 
-                if(Aggro) this.AggroTimer = 30;
+                if (Aggro) this.AggroTimer = 30;
 
                 if (User.GetClient() != null)
                 {
@@ -382,7 +382,7 @@ namespace Akiled.HabboHotel.Roleplay.Player
 
         public void SendUpdate(bool SendNow = false)
         {
-            if(SendNow)
+            if (SendNow)
                 this.SendWebPacket(new RpStatsComposer((!this.Dispose) ? this._rpId : 0, this.Health, this.HealthMax, this.Energy, this.Money, this.Munition, this.Level));
             else
                 this.NeedUpdate = true;
@@ -398,16 +398,17 @@ namespace Akiled.HabboHotel.Roleplay.Player
                 this.SlowTimer--;
 
                 User.BreakWalkEnable = true;
-            } else
+            }
+            else
             {
                 User.BreakWalkEnable = false;
             }
 
-            if(this.PlayerOutTimer > 0)
+            if (this.PlayerOutTimer > 0)
             {
                 this.PlayerOutTimer--;
 
-                if(PlayerOutTimer == 0)
+                if (PlayerOutTimer == 0)
                 {
                     this.AddEnergy(10);
                     this.NeedUpdate = true;
@@ -420,7 +421,8 @@ namespace Akiled.HabboHotel.Roleplay.Player
                         User.UpdateNeeded = true;
                     }
                 }
-            } else
+            }
+            else
             {
                 if (this.Energy <= 0)
                 {
@@ -438,18 +440,19 @@ namespace Akiled.HabboHotel.Roleplay.Player
                     User.SendWhisperChat("Te caíste, descansa 30 segundos", true);
                 }
             }
-                
 
-            if(this.GunLoadTimer > 0)
+
+            if (this.GunLoadTimer > 0)
             {
                 this.GunLoadTimer--;
-                if(this.GunLoadTimer == 0)
+                if (this.GunLoadTimer == 0)
                 {
                     this.GunLoad = 6;
                 }
-            } else
+            }
+            else
             {
-                if(this.GunLoad == 0)
+                if (this.GunLoad == 0)
                 {
                     this.GunLoadTimer = 6;
                     User.OnChat("@green@ *Recargando mi Arma*");
@@ -458,7 +461,7 @@ namespace Akiled.HabboHotel.Roleplay.Player
             }
 
 
-            if(this.AggroTimer > 0)
+            if (this.AggroTimer > 0)
                 this.AggroTimer--;
 
             if (this.SendPrison)
@@ -487,7 +490,7 @@ namespace Akiled.HabboHotel.Roleplay.Player
                 }
             }
 
-            if(this.NeedUpdate)
+            if (this.NeedUpdate)
             {
                 this.NeedUpdate = false;
                 this.SendWebPacket(new RpStatsComposer((!this.Dispose) ? this._rpId : 0, this.Health, this.HealthMax, this.Energy, this.Money, this.Munition, this.Level));

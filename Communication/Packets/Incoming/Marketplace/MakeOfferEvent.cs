@@ -1,8 +1,7 @@
-﻿using Akiled.HabboHotel.Items;
-using Akiled.HabboHotel.Catalog.Utilities;
+﻿using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Database.Interfaces;
-
-using Akiled.Communication.Packets.Outgoing.Structure;
+using Akiled.HabboHotel.Catalog.Utilities;
+using Akiled.HabboHotel.Items;
 
 namespace Akiled.Communication.Packets.Incoming.Marketplace
 {
@@ -46,7 +45,7 @@ namespace Akiled.Communication.Packets.Incoming.Marketplace
                 dbClient.AddParameter("public_name", Item.GetBaseItem().ItemName);
                 dbClient.AddParameter("extra_data", Item.ExtraData);
                 dbClient.RunQuery();
-                
+
             }
 
             Session.GetHabbo().GetInventoryComponent().RemoveItem(ItemId);

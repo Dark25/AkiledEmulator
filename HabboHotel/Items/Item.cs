@@ -1,16 +1,14 @@
-﻿using Akiled.Core;
+﻿using Akiled.Communication.Packets.Outgoing.Structure;
+using Akiled.Core;
 using Akiled.HabboHotel.Items.Interactors;
-using Akiled.HabboHotel.Rooms.Pathfinding;
 using Akiled.HabboHotel.Rooms;
 using Akiled.HabboHotel.Rooms.Games;
+using Akiled.HabboHotel.Rooms.Map.Movement;
+using Akiled.HabboHotel.Rooms.Pathfinding;
 using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
-
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.Database.Interfaces;
-using Akiled.HabboHotel.Rooms.Map.Movement;
 using System.Linq;
 
 namespace Akiled.HabboHotel.Items
@@ -713,7 +711,7 @@ namespace Akiled.HabboHotel.Items
                     int NewY = this.GetY;
 
                     Point NewPoint = this.GetMoveCoord(OldX, OldY, 1);
-                    
+
                     if (this.interactionCountHelper > 3)
                     {
                         Length = 3;
@@ -770,7 +768,7 @@ namespace Akiled.HabboHotel.Items
 
                         this.interactionCountHelper--;
                     }
-                    
+
                     double Z = this.GetRoom().GetGameMap().SqAbsoluteHeight(NewX, NewY);
                     this.GetRoom().GetRoomItemHandler().PositionReset(this, NewX, NewY, Z);
 

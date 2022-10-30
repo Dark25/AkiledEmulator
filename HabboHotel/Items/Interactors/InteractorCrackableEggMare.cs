@@ -46,8 +46,8 @@ namespace Akiled.HabboHotel.Items.Interactors
             {
                 int result = 0;
                 if (int.TryParse(Item.ExtraData, out result))
-                    
-                Item.ExtraData = (result <= 0 ? 1 : (result < modes ? result + 1 : 0)).ToString();
+
+                    Item.ExtraData = (result <= 0 ? 1 : (result < modes ? result + 1 : 0)).ToString();
                 Item.UpdateState();
                 try
                 {

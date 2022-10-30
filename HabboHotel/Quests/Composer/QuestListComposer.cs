@@ -1,6 +1,5 @@
-﻿using Akiled.HabboHotel.GameClients;
-using Akiled.Communication.Packets.Outgoing;
-
+﻿using Akiled.Communication.Packets.Outgoing;
+using Akiled.HabboHotel.GameClients;
 using System.Collections.Generic;
 
 namespace Akiled.HabboHotel.Quests.Composer

@@ -87,23 +87,23 @@ namespace Akiled.HabboHotel.GameClients
                         }
                     }
 
-                   this.Habbo.Init(this, userData);
+                    this.Habbo.Init(this, userData);
                     this.Habbo.LoadData(userData);
                     this.Habbo.InitProcess();
-                   this.Habbo.Look = AkiledEnvironment.GetFigureManager().ProcessFigure(this.Habbo.Look, this.Habbo.Gender, true);
+                    this.Habbo.Look = AkiledEnvironment.GetFigureManager().ProcessFigure(this.Habbo.Look, this.Habbo.Gender, true);
                     await IsNewUserAsync().ConfigureAwait(true);
                     SendPacket(new AuthenticationOKComposer());
                     SendPacket(new FavouritesComposer(this.Habbo.FavoriteRooms));
                     SendPacket(new FigureSetIdsComposer(this.Habbo.GetClothing().GetClothingParts));
 
                     if (this.Habbo.HasFuse("fuse_mod"))
-                   {
-                       SendPacket(new UserRightsComposer(this.Habbo.Rank < 2 ? 2 : GetHabbo().Rank));
+                    {
+                        SendPacket(new UserRightsComposer(this.Habbo.Rank < 2 ? 2 : GetHabbo().Rank));
                     }
-                   else
+                    else
                     {
                         SendPacket(new UserRightsComposer(this.Habbo.Rank < 2 ? 2 : 2));
-                   }
+                    }
 
                     SendPacket(new AvailabilityStatusComposer());
                     SendPacket(new AchievementScoreComposer(this.Habbo.AchievementPoints));

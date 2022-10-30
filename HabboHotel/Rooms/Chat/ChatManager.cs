@@ -13,7 +13,7 @@ namespace Akiled.HabboHotel.Rooms.Chat
         /// Chat Emoticons.
         /// </summary>
         private readonly ChatEmotionsManager _emotions;
-        
+
         /// <summary>
         /// Filter Manager.
         /// </summary>
@@ -28,7 +28,7 @@ namespace Akiled.HabboHotel.Rooms.Chat
         /// Pet Commands.
         /// </summary>
         private readonly PetCommandManager _petCommands;
-        
+
         /// <summary>
         /// Chat styles.
         /// </summary>

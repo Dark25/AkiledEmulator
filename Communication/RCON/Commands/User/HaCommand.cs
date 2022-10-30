@@ -7,7 +7,7 @@ namespace Akiled.Communication.RCON.Commands.User
     {
         public bool TryExecute(string[] parameters)
         {
-            if(parameters.Length != 3)
+            if (parameters.Length != 3)
                 return false;
 
             int Userid = 0;

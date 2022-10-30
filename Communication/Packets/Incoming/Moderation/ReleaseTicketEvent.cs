@@ -6,7 +6,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-   if (!Session.GetHabbo().HasFuse("fuse_mod"))
+            if (!Session.GetHabbo().HasFuse("fuse_mod"))
                 return;
             int num = Packet.PopInt();
             for (int index = 0; index < num; ++index)

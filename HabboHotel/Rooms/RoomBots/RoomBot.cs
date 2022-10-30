@@ -31,7 +31,7 @@ namespace Akiled.HabboHotel.Rooms.RoomBots
         public bool IsDancing;
         public AIType AiType;
         public RoleBot RoleBot;
-        
+
         public bool IsPet
         {
             get
@@ -88,7 +88,7 @@ namespace Akiled.HabboHotel.Rooms.RoomBots
 
             if (this.RandomSpeech.Count > 0)
                 this.RandomSpeech.Clear();
-            
+
             foreach (string Message in Text.Split(new char[] { '\r' }))
                 if (!string.IsNullOrWhiteSpace(Message))
                     this.RandomSpeech.Add((Message.Length > 150) ? Message.Substring(0, 150) : Message);

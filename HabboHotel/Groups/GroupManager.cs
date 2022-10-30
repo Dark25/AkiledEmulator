@@ -1,10 +1,9 @@
 ﻿using Akiled.Database.Interfaces;
-
+using Akiled.HabboHotel.Users;
 using System;
 using System.Collections.Concurrent;
-using System.Data;
 using System.Collections.Generic;
-using Akiled.HabboHotel.Users;
+using System.Data;
 
 namespace Akiled.HabboHotel.Groups
 {
@@ -119,7 +118,7 @@ namespace Akiled.HabboHotel.Groups
                 Player.MyGroups.Add(Group.Id);
 
                 if (!this._groups.TryAdd(Group.Id, Group)) return false;
-                
+
                 else
                 {
                     dbClient.SetQuery("UPDATE `rooms` SET `groupId` = @gid WHERE `id` = @rid LIMIT 1");

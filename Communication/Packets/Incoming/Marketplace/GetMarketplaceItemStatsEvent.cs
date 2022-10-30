@@ -1,8 +1,7 @@
-﻿using System;
-using System.Data;
-
+﻿using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Database.Interfaces;
-using Akiled.Communication.Packets.Outgoing.Structure;
+using System;
+using System.Data;
 
 namespace Akiled.Communication.Packets.Incoming.Marketplace
 {
@@ -20,7 +19,7 @@ namespace Akiled.Communication.Packets.Incoming.Marketplace
                 dbClient.AddParameter("SpriteId", SpriteId);
                 Row = dbClient.GetRow();
             }
-            
+
             Session.SendPacket(new MarketplaceItemStatsComposer(ItemId, SpriteId, (Row != null ? Convert.ToInt32(Row["avgprice"]) : 0)));
         }
     }

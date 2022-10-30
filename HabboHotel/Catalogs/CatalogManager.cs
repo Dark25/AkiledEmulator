@@ -1,15 +1,13 @@
-﻿using System;
-using System.Data;
-using System.Collections.Generic;
-
-using Akiled.HabboHotel.Items;
+﻿using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.Catalog.Clothing;
+using Akiled.HabboHotel.Catalog.Marketplace;
 using Akiled.HabboHotel.Catalog.Pets;
 using Akiled.HabboHotel.Catalog.Vouchers;
-using Akiled.HabboHotel.Catalog.Marketplace;
-using Akiled.HabboHotel.Catalog.Clothing;
-
-using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.GameClients;
+using Akiled.HabboHotel.Items;
+using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace Akiled.HabboHotel.Catalog
 {
@@ -48,12 +46,12 @@ namespace Akiled.HabboHotel.Catalog
 
         public void Init(ItemDataManager ItemDataManager)
         {
-            if (this._pages.Count > 0)      this._pages.Clear();
+            if (this._pages.Count > 0) this._pages.Clear();
             if (this._botPresets.Count > 0) this._botPresets.Clear();
-            if (this._items.Count > 0)      this._items.Clear();
+            if (this._items.Count > 0) this._items.Clear();
             if (this._promotions.Count > 0) this._promotions.Clear();
-            if (this._itemsPage.Count > 0)  this._itemsPage.Clear();
-            if (this._badges.Count > 0)     this._badges.Clear();
+            if (this._itemsPage.Count > 0) this._itemsPage.Clear();
+            if (this._badges.Count > 0) this._badges.Clear();
 
             using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {
@@ -106,11 +104,11 @@ namespace Akiled.HabboHotel.Catalog
                 {
                     foreach (DataRow Row in CatalogPages.Rows)
                     {
-                            this._pages.Add(Convert.ToInt32(Row["id"]), new CatalogPage(Convert.ToInt32(Row["id"]), Convert.ToInt32(Row["parent_id"]), Row["enabled"].ToString(), Convert.ToString(Row["caption"]),
-                                Convert.ToString(Row["page_link"]), Convert.ToInt32(Row["icon_image"]), Convert.ToInt32(Row["min_rank"]), Convert.ToString(Row["page_layout"]),
-                                Convert.ToString(Row["page_strings_1"]), Convert.ToString(Row["page_strings_2"]), Convert.ToString(Row["caption_en"]),
-                                Convert.ToString(Row["caption_br"]), Convert.ToString(Row["page_strings_2_en"]), Convert.ToString(Row["page_strings_2_br"]),
-                                this._items.ContainsKey(Convert.ToInt32(Row["id"])) ? this._items[Convert.ToInt32(Row["id"])] : new Dictionary<int, CatalogItem>()));
+                        this._pages.Add(Convert.ToInt32(Row["id"]), new CatalogPage(Convert.ToInt32(Row["id"]), Convert.ToInt32(Row["parent_id"]), Row["enabled"].ToString(), Convert.ToString(Row["caption"]),
+                            Convert.ToString(Row["page_link"]), Convert.ToInt32(Row["icon_image"]), Convert.ToInt32(Row["min_rank"]), Convert.ToString(Row["page_layout"]),
+                            Convert.ToString(Row["page_strings_1"]), Convert.ToString(Row["page_strings_2"]), Convert.ToString(Row["caption_en"]),
+                            Convert.ToString(Row["caption_br"]), Convert.ToString(Row["page_strings_2_en"]), Convert.ToString(Row["page_strings_2_br"]),
+                            this._items.ContainsKey(Convert.ToInt32(Row["id"])) ? this._items[Convert.ToInt32(Row["id"])] : new Dictionary<int, CatalogItem>()));
                     }
                 }
 

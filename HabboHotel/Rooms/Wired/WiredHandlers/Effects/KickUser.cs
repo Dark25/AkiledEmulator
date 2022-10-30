@@ -1,9 +1,8 @@
-﻿using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
+﻿using Akiled.Communication.Packets.Outgoing;
 using Akiled.Database.Interfaces;
-
-using Akiled.Communication.Packets.Outgoing;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
+using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
 
 namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
 {
@@ -43,14 +42,14 @@ namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
             {
                 if (User.GetClient().GetHabbo().HasFuse("fuse_mod") || mRoom.RoomData.OwnerId == User.UserId)
                 {
-                    if(User.GetClient() != null)
+                    if (User.GetClient() != null)
                         User.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("wired.kick.exception", User.GetClient().Langue));
                     return;
                 }
 
                 User.ApplyEffect(4);
                 User.Freeze = true;
-                if(!string.IsNullOrEmpty(this.message))
+                if (!string.IsNullOrEmpty(this.message))
                     User.SendWhisperChat(this.message);
 
                 this.handler.RequestCycle(new WiredCycle(this, User, null, this.Delay));

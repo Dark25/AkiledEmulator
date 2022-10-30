@@ -34,7 +34,8 @@ namespace Akiled.Communication.Packets.Incoming.WebSocket
             {
                 User.GoalX = User.SetX + (-mX * 1000);
                 User.GoalY = User.SetY + (-mY * 1000);
-            } else
+            }
+            else
             {
                 User.GoalX = User.SetX + (mX * 1000);
                 User.GoalY = User.SetY + (mY * 1000);

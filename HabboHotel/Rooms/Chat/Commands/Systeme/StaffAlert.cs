@@ -10,7 +10,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
         {
             if (Params.Length < 2) return;
 
-           string MessageTxt = CommandManager.MergeParams(Params, 1);
+            string MessageTxt = CommandManager.MergeParams(Params, 1);
 
             if (string.IsNullOrEmpty(MessageTxt)) return;
 

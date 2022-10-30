@@ -1,6 +1,4 @@
-﻿using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.Communication.Packets.Outgoing.WebSocket;
-using Akiled.HabboHotel.GameClients;
+﻿using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Users;
 using System;
 using System.Collections.Generic;

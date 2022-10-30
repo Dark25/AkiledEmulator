@@ -62,7 +62,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             {
                 UserTwo.GetClient().SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("notif.lovelock.error.2", UserTwo.GetClient().Langue));
                 UserTwo.LLPartner = 0;
-                
+
                 UserOne.GetClient().SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("notif.lovelock.error.2", UserOne.GetClient().Langue));
                 UserOne.LLPartner = 0;
 

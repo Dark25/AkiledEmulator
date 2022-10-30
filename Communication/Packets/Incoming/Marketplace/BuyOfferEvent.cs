@@ -1,15 +1,12 @@
-﻿using System;
-using System.Text;
-using System.Data;
-using System.Collections.Generic;
-
-using Akiled.HabboHotel.GameClients;
-
-using Akiled.HabboHotel.Items;
-using Akiled.HabboHotel.Catalog.Marketplace;
-
+﻿using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Database.Interfaces;
-using Akiled.Communication.Packets.Outgoing.Structure;
+using Akiled.HabboHotel.Catalog.Marketplace;
+using Akiled.HabboHotel.GameClients;
+using Akiled.HabboHotel.Items;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Text;
 
 namespace Akiled.Communication.Packets.Incoming.Marketplace
 {
@@ -81,7 +78,7 @@ namespace Akiled.Communication.Packets.Incoming.Marketplace
                     Session.GetHabbo().GetInventoryComponent().TryAddItem(GiveItem);
                     Session.SendPacket(new FurniListNotificationComposer(GiveItem.Id, 1));
 
-                    Session.SendPacket(new PurchaseOKComposer());  
+                    Session.SendPacket(new PurchaseOKComposer());
                 }
 
 

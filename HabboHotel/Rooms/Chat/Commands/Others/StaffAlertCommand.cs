@@ -1,8 +1,6 @@
-﻿using Akiled.Communication.Packets.Outgoing;
-using Akiled.Communication.Packets.Outgoing.Structure;
+﻿using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.HabboHotel.GameClients;
 using System;
-using System.Linq;
 
 namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 {

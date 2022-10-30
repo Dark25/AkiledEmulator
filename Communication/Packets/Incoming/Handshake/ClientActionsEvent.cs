@@ -1,8 +1,4 @@
-﻿using Akiled.Communication.Encryption;
-using Akiled.Communication.Encryption.Crypto.Prng;
-using Akiled.Utilities;
-using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.HabboHotel.GameClients;
+﻿using Akiled.HabboHotel.GameClients;
 
 namespace Akiled.Communication.Packets.Incoming.Structure
 {

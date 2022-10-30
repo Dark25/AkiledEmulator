@@ -1,8 +1,7 @@
-﻿using System;
-using System.Data;
+﻿using Akiled.Database.Interfaces;
+using System;
 using System.Collections.Generic;
-
-using Akiled.Database.Interfaces;
+using System.Data;
 
 namespace Akiled.HabboHotel.Catalog.Vouchers
 {

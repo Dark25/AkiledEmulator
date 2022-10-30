@@ -1,9 +1,8 @@
 using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.HabboHotel.GameClients;using Akiled.HabboHotel.Rooms.Games;
-
+using Akiled.HabboHotel.GameClients;
 namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd{    class Copylook : IChatCommand    {        public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)        {
             //if (UserRoom.team != Team.none || UserRoom.InGame)
-                //return;
+            //return;
 
             if (Room.IsRoleplay && !Room.CheckRights(Session))                return;            if (Params.Length != 2)                return;            string Username = Params[1];            GameClient clientByUsername = AkiledEnvironment.GetGame().GetClientManager().GetClientByUsername(Username);            if (clientByUsername == null || clientByUsername.GetHabbo() == null)
             {

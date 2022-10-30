@@ -7,7 +7,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-   if (!Session.GetHabbo().HasFuse("fuse_chatlogs"))
+            if (!Session.GetHabbo().HasFuse("fuse_chatlogs"))
                 return;
             Session.SendPacket(ModerationManager.SerializeUserChatlog(Packet.PopInt(), Session.GetHabbo().CurrentRoomId));
 

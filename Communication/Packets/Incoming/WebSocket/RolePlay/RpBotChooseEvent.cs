@@ -1,6 +1,4 @@
 ﻿using Akiled.HabboHotel.GameClients;
-using Akiled.HabboHotel.Roleplay;
-using Akiled.HabboHotel.Roleplay.Player;
 using Akiled.HabboHotel.Rooms;
 using Akiled.HabboHotel.WebClients;
 

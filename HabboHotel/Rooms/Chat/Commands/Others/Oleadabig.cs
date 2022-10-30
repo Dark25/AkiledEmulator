@@ -1,7 +1,6 @@
 ﻿using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Communication.Packets.Outgoing.WebSocket;
 using Akiled.HabboHotel.GameClients;
-using System.Text;
 
 namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 {
@@ -22,7 +21,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             "<br>¿De qué trata este evento?<br><font color='#084B8A'><b>Trata de seguir las instrucciones de los guías de la oleada para participar y así ganar tu premio!</b></font><br>¡Te esperamos!" +
             "\r\n";
 
-            AkiledEnvironment.GetGame().GetClientManager().SendMessage(RoomNotificationComposer.SendBubble("hoteloleada","¡Hay una nueva oleada de públicidad! Para ganar distintas recompensas por participar, ve a la sala de públicidad. - Click Aquí.", "event:navigator/goto/" + Session.GetHabbo().CurrentRoomId));
+            AkiledEnvironment.GetGame().GetClientManager().SendMessage(RoomNotificationComposer.SendBubble("hoteloleada", "¡Hay una nueva oleada de públicidad! Para ganar distintas recompensas por participar, ve a la sala de públicidad. - Click Aquí.", "event:navigator/goto/" + Session.GetHabbo().CurrentRoomId));
             Session.GetHabbo().last_oleada = AkiledEnvironment.GetIUnixTimestamp();
             AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer(oleada_alert, "Comunicado Staff", AlertMessage, "Ir a la Oleada !", Session.GetHabbo().CurrentRoomId, ""), Session.Langue);
 

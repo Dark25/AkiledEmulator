@@ -1,9 +1,8 @@
-﻿using System;
-using System.Data;
-
-using MySql.Data.MySqlClient;
+﻿using Akiled.Database.Adapter;
 using Akiled.Database.Interfaces;
-using Akiled.Database.Adapter;
+using MySql.Data.MySqlClient;
+using System;
+using System.Data;
 
 namespace Akiled.Database
 {

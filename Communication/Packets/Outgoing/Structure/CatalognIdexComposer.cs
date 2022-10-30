@@ -26,7 +26,7 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
             base.WriteString("NORMAL");
         }
 
-    public void Append(GameClient session, CatalogPage page, Language Langue)
+        public void Append(GameClient session, CatalogPage page, Language Langue)
         {
             ICollection<CatalogPage> pages = AkiledEnvironment.GetGame().GetCatalog().GetPages(session, page.Id);
 

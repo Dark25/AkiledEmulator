@@ -1,8 +1,8 @@
-﻿using System;
-using System.Data;
-using Akiled.Database.Interfaces;
+﻿using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Users.Inventory.Bots;
+using System;
+using System.Data;
 
 namespace Akiled.HabboHotel.Catalog.Utilities
 {

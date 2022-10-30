@@ -1,11 +1,11 @@
-﻿using Akiled.HabboHotel.GameClients;
+﻿using Akiled.Communication.Packets.Outgoing.Structure;
+using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
-using Akiled.Database.Interfaces;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Akiled.Communication.Packets.Outgoing.Structure;
 
 namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
 {
@@ -28,7 +28,7 @@ namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
 
             if (Scores.ContainsKey(ListUsernameScore[0]))
             {
-                if(user.WiredPoints > Scores[ListUsernameScore[0]])
+                if (user.WiredPoints > Scores[ListUsernameScore[0]])
                     Scores[ListUsernameScore[0]] = user.WiredPoints;
             }
             else
@@ -39,7 +39,7 @@ namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
             Room room = this.item.GetRoom();
             if (room == null)
                 return;
-            
+
             room.SendPacket(new ObjectUpdateComposer(this.item, room.RoomData.OwnerId));
 
         }
@@ -97,9 +97,9 @@ namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
                         Pseudo += ':' + score2[i];
                 }
 
-                    //List<string> ListUsernameScore = new List<string>() { score2[0] };
-                    if (!this.item.Scores.ContainsKey(Pseudo))
-                        this.item.Scores.Add(Pseudo, ScoreNum);
+                //List<string> ListUsernameScore = new List<string>() { score2[0] };
+                if (!this.item.Scores.ContainsKey(Pseudo))
+                    this.item.Scores.Add(Pseudo, ScoreNum);
             }
         }
 
