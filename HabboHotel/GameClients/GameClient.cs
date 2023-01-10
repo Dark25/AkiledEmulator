@@ -151,6 +151,8 @@ namespace Akiled.HabboHotel.GameClients
                         string Webhook_login_logout_ProfilePicture = AkiledEnvironment.GetConfig().data["Webhook_on_off_Image"];
                         string Webhook_login_logout_UserNameD = AkiledEnvironment.GetConfig().data["Webhook_on_off_Username"];
                         string Webhook_login_logout_WebHookurl = AkiledEnvironment.GetConfig().data["Webhook_on_off_URL"];
+                        string Webhooka_avatar = AkiledEnvironment.GetConfig().data["Webhook_avatar"];
+
 
                         if (Webhook == "true")
                         {
@@ -169,12 +171,16 @@ namespace Akiled.HabboHotel.GameClients
                                  color: 4833120,
                                 author: new DiscordMessageEmbedAuthor(GetHabbo().Username),
                                 description: "Ha ingresado al cliente del hotel",
-                                thumbnail: new DiscordMessageEmbedThumbnail("https://hrecu.site/habbo-imaging/avatar/" + GetHabbo().Look),
+                                thumbnail: new DiscordMessageEmbedThumbnail(Webhooka_avatar + GetHabbo().Look),
                                 footer: new DiscordMessageEmbedFooter("Creado por "+Webhook_login_logout_UserNameD, Webhook_login_logout_ProfilePicture)
         )
                     }
                     );
-                            await client.SendToDiscord(message);
+
+                            //agrega un catch
+
+                            await client.SendToDiscord(message).ContinueWith(task => { if (task.IsFaulted) { Console.WriteLine("Error al enviar el mensaje: " + task.Exception.Message); } }).ConfigureAwait(true);
+
                             Console.WriteLine("login enviado a Discord ", ConsoleColor.DarkCyan);
 
                         }
@@ -237,6 +243,7 @@ namespace Akiled.HabboHotel.GameClients
             string ProfilePicture = AkiledEnvironment.GetConfig().data["Webhook_Image"];
             string UserNameD = AkiledEnvironment.GetConfig().data["Webhook_Username"];
             string WebHookurl = AkiledEnvironment.GetConfig().data["Webhook_URL"];
+            string Webhooka_avatar = AkiledEnvironment.GetConfig().data["Webhook_avatar"];
 
 
             if (GetHabbo().NewUser && GetHabbo().Gender.ToUpper() != "M")
@@ -291,7 +298,7 @@ namespace Akiled.HabboHotel.GameClients
                                  color: 1824480,
                                 author: new DiscordMessageEmbedAuthor(GetHabbo().Username),
                                 description: "Ha ingresado al cliente del hotel por primera vez",
-                                thumbnail: new DiscordMessageEmbedThumbnail("https://hrecu.site/habbo-imaging/avatar/" + GetHabbo().Look),
+                                thumbnail: new DiscordMessageEmbedThumbnail(Webhooka_avatar + GetHabbo().Look),
                                 footer: new DiscordMessageEmbedFooter("Creado por "+UserNameD, ProfilePicture)
         )
             }
@@ -353,7 +360,7 @@ namespace Akiled.HabboHotel.GameClients
                                  color: 1824480,
                                 author: new DiscordMessageEmbedAuthor(GetHabbo().Username),
                                 description: "Ha ingresado al cliente del hotel por primera vez",
-                                thumbnail: new DiscordMessageEmbedThumbnail("https://hrecu.site/habbo-imaging/avatar/" + GetHabbo().Look),
+                                thumbnail: new DiscordMessageEmbedThumbnail(Webhooka_avatar + GetHabbo().Look),
                                 footer: new DiscordMessageEmbedFooter("Creado por "+UserNameD, ProfilePicture)
         )
             }

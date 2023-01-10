@@ -1,5 +1,6 @@
 ﻿using Akiled.Communication.RCON.Commands.Hotel;
 using Akiled.Communication.RCON.Commands.User;
+using AkiledEmulator.Communication.RCON.Commands.User;
 using System;
 using System.Collections.Generic;
 
@@ -17,6 +18,11 @@ namespace Akiled.Communication.RCON.Commands
             this.RegisterHotel();
         }
 
+               /// <summary>
+        /// Request the text to parse and check for commands that need to be executed.
+        /// </summary>
+        /// <param name="data">A string of data split by char(1), the first part being the command and the second part being the parameters.</param>
+        /// <returns>True if parsed or false if not.</returns>
         public bool Parse(string data)
         {
             if (data.Length == 0 || string.IsNullOrEmpty(data))
@@ -24,18 +30,19 @@ namespace Akiled.Communication.RCON.Commands
 
             string cmd = data.Split(Convert.ToChar(1))[0];
 
-            IRCONCommand command = null;
-            if (this._commands.TryGetValue(cmd.ToLower(), out command))
-            {
-                string[] parameters = null;
-                if (data.Split(Convert.ToChar(1))[1] != null)
-                {
-                    parameters = data.Split(Convert.ToChar(1));
-                }
+			if (this._commands.TryGetValue(cmd.ToLower(), out IRCONCommand command))
+			{
+				string param = null;
+				string[] parameters = null;
+				if (data.Split(Convert.ToChar(1))[1] != null)
+				{
+					param = data.Split(Convert.ToChar(1))[1];
+					parameters = param.ToString().Split(':');
+				}
 
-                return command.TryExecute(parameters);
-            }
-            return false;
+				return command.TryExecute(parameters);
+			}
+			return false;
         }
 
         private void RegisterUser()
@@ -51,6 +58,7 @@ namespace Akiled.Communication.RCON.Commands
             this.Register("senduser", new SendUserCommand());
             this.Register("follow", new FollowCommand());
             this.Register("autofloor", new AutoFloorCommand());
+            this.Register("givebadge", new GivebadgeCommand());
         }
 
         private void RegisterHotel()
