@@ -45,7 +45,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 
                         int.TryParse(Params[3], out int IntValue);
 
-                        if(Bot.CarryItemID != IntValue)
+                        if (Bot.CarryItemID != IntValue)
                             Bot.CarryItem(IntValue, true);
 
                         if (Bot.BotData.Handitem != IntValue)

@@ -1,16 +1,15 @@
-﻿using Akiled.HabboHotel.GameClients;
+﻿using Akiled.Communication.Packets.Incoming;
+using Akiled.Communication.Packets.Outgoing;
+using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
+using Akiled.HabboHotel.Rooms.Map.Movement;
 using Akiled.HabboHotel.Rooms.Wired.WiredHandlers;
 using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Conditions;
 using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects;
 using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
 using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Triggers;
-using Akiled.Communication.Packets.Outgoing;
-using Akiled.Database.Interfaces;
-using Akiled.Communication.Packets.Incoming;
-
 using System.Collections.Generic;
-using Akiled.HabboHotel.Rooms.Map.Movement;
 
 namespace Akiled.HabboHotel.Rooms.Wired
 {
@@ -711,7 +710,7 @@ namespace Akiled.HabboHotel.Rooms.Wired
             roomItem.WiredHandler = handler;
             manager.RemoveFurniture(roomItem);
             manager.AddFurniture(roomItem);
-            
+
             using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                 handler.SaveToDatabase(queryreactor);
         }

@@ -41,7 +41,7 @@ namespace Akiled.Communication.Packets.Incoming.WebSocket
             if (RpItem == null)
                 return;
 
-            if(!RpItem.AllowStack && Rp.GetInventoryItem(RpItem.Id) != null)
+            if (!RpItem.AllowStack && Rp.GetInventoryItem(RpItem.Id) != null)
             {
                 User.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("rp.itemown", Client.Langue));
                 return;

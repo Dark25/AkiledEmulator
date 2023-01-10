@@ -42,7 +42,7 @@ namespace Akiled.Communication.WebSocket
                 Logging.LogException((ex).ToString());
             }
         }
-        
+
         public void Destroy()
         {
             this.manager.Destroy();

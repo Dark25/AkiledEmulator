@@ -15,9 +15,9 @@ namespace Akiled.Communication.Packets.Outgoing
             this.WriteShort(Header);
         }
 
-       
 
-      
+
+
 
         public void WriteByte(byte b)
         {
@@ -36,7 +36,7 @@ namespace Akiled.Communication.Packets.Outgoing
 
         public void WriteBoolean(bool b)
         {
-            this.WriteByte(new byte[1]{ b ? (byte) 1 : (byte) 0}, false);
+            this.WriteByte(new byte[1] { b ? (byte)1 : (byte)0 }, false);
         }
 
         public void WriteString(string s)

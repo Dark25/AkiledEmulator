@@ -29,13 +29,13 @@ namespace Akiled.Core
                         {
                             if (line.Length < 1 || line.StartsWith("#")) continue;
 
-                                int delimiterIndex = line.IndexOf('=');
-                                if (delimiterIndex == -1) continue;
+                            int delimiterIndex = line.IndexOf('=');
+                            if (delimiterIndex == -1) continue;
 
-                                string key = line.Substring(0, delimiterIndex);
-                                string val = line.Substring(delimiterIndex + 1);
+                            string key = line.Substring(0, delimiterIndex);
+                            string val = line.Substring(delimiterIndex + 1);
 
-                                data.Add(key, val);
+                            data.Add(key, val);
                         }
                         streamReader.Close();
                     }

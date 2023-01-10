@@ -1,6 +1,5 @@
 using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.HabboHotel.GameClients;using Akiled.HabboHotel.Rooms.Games;
-using System;
 
 namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd{    class Little : IChatCommand    {        public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)        {
             if (Params.Length != 2)
@@ -14,7 +13,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd{    class Little : IChatCo
                 Session.SendHugeNotif(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.littleorbig.help", Session.Langue));
                 return;
             }
-            
+
             UserRoom.transformation = true;
 
             Room.SendPacket(new UserRemoveComposer(UserRoom.VirtualId));

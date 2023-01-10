@@ -2,7 +2,7 @@
 {
     public interface IServerPacket
     {
-        
+
         byte[] GetBytes();
     }
 }

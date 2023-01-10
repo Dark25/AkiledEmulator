@@ -1,6 +1,5 @@
 ﻿using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.HabboHotel.GameClients;
-using System.Text;
 
 namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 {
@@ -22,7 +21,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             }
 
             string Message = CommandManager.MergeParams(Params, 1);
-            AkiledEnvironment.GetGame().GetClientManager().SendMessage(RoomNotificationComposer.SendBubble("LOCOSON", "¡DJ " + Message + " está emitiendo en vivo! Sintoniza RadioFM ahora mismo y disfruta al máximo." , "event:navigator/goto/" + Session.GetHabbo().CurrentRoomId));
+            AkiledEnvironment.GetGame().GetClientManager().SendMessage(RoomNotificationComposer.SendBubble("LOCOSON", "¡DJ " + Message + " está emitiendo en vivo! Sintoniza RadioFM ahora mismo y disfruta al máximo.", "event:navigator/goto/" + Session.GetHabbo().CurrentRoomId));
             Session.GetHabbo().last_dj = AkiledEnvironment.GetIUnixTimestamp();
             return;
         }

@@ -1,5 +1,4 @@
 ﻿using Akiled.Core;
-using System.Text;
 
 namespace Akiled.HabboHotel.Catalog
 {

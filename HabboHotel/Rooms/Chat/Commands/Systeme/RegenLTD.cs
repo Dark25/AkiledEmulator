@@ -3,9 +3,6 @@ using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.Catalog;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
-using Akiled.HabboHotel.Rooms.Wired;
-using System;
-using System.Collections.Generic;
 using System.Data;
 
 namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
@@ -22,7 +19,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 {
                     int LimitedStack = Item.LimitedEditionStack;
 
-                    for(int LimitedNumber = 1; LimitedNumber < LimitedStack + 1; LimitedNumber++)
+                    for (int LimitedNumber = 1; LimitedNumber < LimitedStack + 1; LimitedNumber++)
                     {
                         dbClient.SetQuery("SELECT id FROM items WHERE id IN (SELECT item_id FROM items_limited WHERE limited_number = '" + LimitedNumber + "' AND limited_stack = '" + LimitedStack + "') AND base_item = '" + Item.ItemId + "' LIMIT 1");
                         DataRow Row = dbClient.GetRow();

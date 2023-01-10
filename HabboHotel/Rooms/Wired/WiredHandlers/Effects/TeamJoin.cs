@@ -1,11 +1,11 @@
-﻿using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
+﻿using Akiled.Communication.Packets.Outgoing;
 using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.GameClients;
+using Akiled.HabboHotel.Items;
+using Akiled.HabboHotel.Rooms.Games;
+using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
 using System;
 using System.Data;
-using Akiled.Communication.Packets.Outgoing;
-using Akiled.HabboHotel.GameClients;
-using Akiled.HabboHotel.Rooms.Games;
-using Akiled.HabboHotel.Items;
 
 namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
 {
@@ -27,10 +27,10 @@ namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
         {
             if (user != null && !user.IsBot && user.GetClient() != null && user.Room != null)
             {
-                
+
                 TeamManager managerForFreeze = user.Room.GetTeamManager();
                 //if (!managerForFreeze.CanEnterOnTeam(this.team))
-                    //return;
+                //return;
 
                 if (user.Team != Team.none)
                 {
@@ -61,7 +61,7 @@ namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
             dbClient.SetQuery("SELECT trigger_data FROM wired_items WHERE trigger_id = @id ");
             dbClient.AddParameter("id", this.itemID);
             DataRow row = dbClient.GetRow();
-            if(row == null)
+            if (row == null)
                 return;
             int number;
             bool result = Int32.TryParse(row[0].ToString(), out number);

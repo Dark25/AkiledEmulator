@@ -1,14 +1,14 @@
 ﻿using Akiled.Communication.Packets.Incoming;
 using Akiled.Communication.Packets.Outgoing;
+using Akiled.Communication.Packets.Outgoing.WebSocket;
+using Akiled.Communication.WebSocket;
 using Akiled.Core;
 using Akiled.Database.Interfaces;
-using Akiled.Communication.WebSocket;
 using Akiled.Net;
 using ConnectionManager;
 using SharedPacketLib;
 using System;
 using System.Data;
-using Akiled.Communication.Packets.Outgoing.WebSocket;
 
 namespace Akiled.HabboHotel.WebClients
 {
@@ -143,7 +143,7 @@ namespace Akiled.HabboHotel.WebClients
         public void SendPacket(IServerPacket Message)
         {
             if (Message == null || this.GetConnection() == null) return;
-            
+
             this.GetConnection().SendData(EncodeDecode.EncodeMessage(Message.GetBytes()));
         }
     }

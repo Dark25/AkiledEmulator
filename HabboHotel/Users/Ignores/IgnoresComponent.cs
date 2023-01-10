@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Akiled.Database.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using Akiled.Database.Interfaces;
 
 namespace Akiled.HabboHotel.Users.Ignores
 {

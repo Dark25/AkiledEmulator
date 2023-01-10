@@ -1,5 +1,4 @@
-﻿using Akiled.Communication.Packets.Outgoing;
-using Akiled.HabboHotel.GameClients;
+﻿using Akiled.HabboHotel.GameClients;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,7 +23,8 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 return;
             }
 
-            userBooth.ForEach(x => {
+            userBooth.ForEach(x =>
+            {
                 x.ExtraData = "0";
                 x.UpdateState();
             });

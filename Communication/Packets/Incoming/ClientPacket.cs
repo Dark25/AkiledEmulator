@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text;
-using Akiled.Utilities;
 
 namespace Akiled.Communication.Packets.Incoming
 {
@@ -53,7 +52,7 @@ namespace Akiled.Communication.Packets.Incoming
         public byte[] ReadFixedValue()
         {
             int len = 0;
-            if(RemainingLength >= 2) len = DecodeInt16(ReadBytes(2));
+            if (RemainingLength >= 2) len = DecodeInt16(ReadBytes(2));
 
             return ReadBytes(len);
         }

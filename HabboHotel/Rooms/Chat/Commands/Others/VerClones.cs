@@ -1,7 +1,6 @@
 ﻿using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.GameClients;
-using System;
 using System.Data;
 using System.Text;
 

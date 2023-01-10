@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Akiled.Communication.Packets.Outgoing.Structure
+﻿namespace Akiled.Communication.Packets.Outgoing.Structure
 {
     public class ChatComposer : ServerPacket
     {

@@ -72,7 +72,7 @@ namespace Akiled.HabboHotel.Users.Badges
             Session.SendMessage(new BadgesComposer(Session));
             Session.SendMessage(new FurniListNotificationComposer(1, 4));
         }
-        public ICollection<Badge> GetBadges() => (ICollection<Badge>) this._badges.Values;
+        public ICollection<Badge> GetBadges() => (ICollection<Badge>)this._badges.Values;
 
         public void GiveBadge(string Badge, int Slot, bool InDatabase)
         {

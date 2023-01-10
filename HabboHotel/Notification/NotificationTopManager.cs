@@ -24,7 +24,7 @@ namespace Akiled.HabboHotel.NotifTop
 
         public List<string> GetAllMessages()
         {
-           return this._message.OrderBy(a => Guid.NewGuid()).ToList();
+            return this._message.OrderBy(a => Guid.NewGuid()).ToList();
         }
     }
 }

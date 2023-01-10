@@ -5,7 +5,7 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
         public TradingStartMessageComposer()
             : base(ServerPacketHeader.TradingStartMessageComposer)
         {
-			
+
         }
     }
 }

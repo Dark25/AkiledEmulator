@@ -8,7 +8,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands
         {
             Room.OldFoot = !Room.OldFoot;
 
-            if(Room.OldFoot)
+            if (Room.OldFoot)
                 UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.oldfoot.true", Session.Langue));
             else
                 UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.oldfoot.false", Session.Langue));

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Data;
+﻿using Akiled.Database.Interfaces;
+using System;
 using System.Collections.Generic;
-using Akiled.Database.Interfaces;
+using System.Data;
 
 namespace Akiled.HabboHotel.Catalog.Clothing
 {
@@ -25,7 +25,7 @@ namespace Akiled.HabboHotel.Catalog.Clothing
                 dbClient.SetQuery("SELECT `id`,`clothing_name`,`clothing_parts` FROM `catalog_clothing`");
                 data = dbClient.GetTable();
             }
-            
+
             if (data != null)
             {
                 foreach (DataRow row in data.Rows)

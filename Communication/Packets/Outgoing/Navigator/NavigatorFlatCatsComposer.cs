@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Akiled.HabboHotel.Navigators;
+using System.Collections.Generic;
 using System.Linq;
-using Akiled.HabboHotel.Navigators;
 
 namespace Akiled.Communication.Packets.Outgoing.Navigator
 {
@@ -16,12 +16,12 @@ namespace Akiled.Communication.Packets.Outgoing.Navigator
             WriteInteger(Categories.Count);
             foreach (SearchResultList category in Categories.ToList())
             {
-             WriteInteger(category.Id);
-             WriteString(category.PublicName);
-             WriteBoolean(true); // TODO
+                WriteInteger(category.Id);
+                WriteString(category.PublicName);
+                WriteBoolean(true); // TODO
             }
         }
 
-       
+
     }
 }

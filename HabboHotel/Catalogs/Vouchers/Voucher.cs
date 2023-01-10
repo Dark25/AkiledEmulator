@@ -22,7 +22,7 @@ namespace Akiled.HabboHotel.Catalog.Vouchers
         public void UpdateUses()
         {
             this.CurrentUses += 1;
-            
+
             using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.RunQuery("UPDATE `catalog_vouchers` SET `current_uses` = `current_uses` + '1' WHERE `voucher` = '" + this._code + "' LIMIT 1");

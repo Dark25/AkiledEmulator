@@ -44,7 +44,6 @@ namespace Akiled.Communication.RCON.Commands
 			}
 			return false;
         }
-
         private void RegisterUser()
         {
             this.Register("addphoto", new AddPhotoCommand());
@@ -68,7 +67,7 @@ namespace Akiled.Communication.RCON.Commands
             this.Register("shutdown", new ShutdownCommand());
             this.Register("updatecata", new ReloadCatalogCommand());
             this.Register("updateitems", new ReloadItemsCommand());
-            this.Register("updatecomandos", new ReloadCMDSCommand()); 
+            this.Register("updatecomandos", new ReloadCMDSCommand());
             this.Register("updateexternaltext", new ReloadexternaltextCommand());
             this.Register("updatepermissions", new ReloadpermissionsCommand());
         }

@@ -1,18 +1,17 @@
-﻿using Akiled.HabboHotel.GameClients;
+﻿using Akiled.Communication.Packets.Outgoing;
 using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
-using Akiled.Communication.Packets.Outgoing;
-using Akiled.HabboHotel.Items;
-using Akiled.Database.Interfaces;
-using System.Data;
-using System.Collections.Generic;
-using Akiled.HabboHotel.Roleplay;
-using Akiled.HabboHotel.Roleplay.Player;
-using Akiled.HabboHotel.Roleplay.Enemy;
 using Akiled.Communication.Packets.Outgoing.WebSocket;
-using System.Linq;
+using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.GameClients;
+using Akiled.HabboHotel.Items;
+using Akiled.HabboHotel.Roleplay;
+using Akiled.HabboHotel.Roleplay.Enemy;
+using Akiled.HabboHotel.Roleplay.Player;
+using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
 using System;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 
 namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
@@ -273,7 +272,7 @@ namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
                                     if (!int.TryParse(Params[2], out int ParamInt))
                                         break;
 
-                                    if (ParamInt <= 0)   ParamInt = 0;
+                                    if (ParamInt <= 0) ParamInt = 0;
                                     if (ParamInt > 9999) ParamInt = 9999;
 
                                     RPEnemyConfig.Health = ParamInt;
@@ -1333,39 +1332,39 @@ namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
                 case "addreward":
                     {
 
-        int RewardDiamonds = 0;
-        int Rewardcredits = 0;
-        int RewardDuckets = 0;
-                    using (IQueryAdapter dbQuery = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
-                    {
-                        dbQuery.SetQuery("SELECT * FROM `game_rewardscash` LIMIT 1");
-                        DataTable gUsersTable = dbQuery.GetTable();
-
-                        foreach (DataRow Row in gUsersTable.Rows)
+                        int RewardDiamonds = 0;
+                        int Rewardcredits = 0;
+                        int RewardDuckets = 0;
+                        using (IQueryAdapter dbQuery = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                         {
-                            Rewardcredits = Convert.ToInt32(Row["credits"]);
-                            RewardDiamonds = Convert.ToInt32(Row["Akiledcoins"]);
-                            RewardDuckets = Convert.ToInt32(Row["diamantes"]);
-                        }
-                    }
-                    Session.GetHabbo().Credits += Rewardcredits;
-Session.SendPacket(new CreditBalanceComposer(Session.GetHabbo().Credits));
-Session.GetHabbo().Duckets += RewardDuckets;
-Session.SendPacket(new HabboActivityPointNotificationComposer(Session.GetHabbo().Duckets, RewardDuckets));
-Session.GetHabbo().AkiledPoints += RewardDiamonds;
-Session.SendPacket(new HabboActivityPointNotificationComposer(Session.GetHabbo().AkiledPoints, RewardDiamonds, 105));
-using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
-    queryreactor.RunQuery("UPDATE users SET vip_points = vip_points + " + RewardDiamonds + " WHERE id = " + Session.GetHabbo().Id + " LIMIT 1");
-if (!AkiledEnvironment.GetGame().GetRoomManager().TryGetRoom(Session.GetHabbo().CurrentRoomId, out TargetRoom))
-    return;
-//Session.SendPacket(new RoomForwardComposer(Session.GetHabbo().CurrentRoomId));
-Session.SendPacket(RoomNotificationComposer.SendBubble("ganador", "Has recibido " + Rewardcredits + " Créditos, " + RewardDuckets + " Diamantes, " + RewardDiamonds + " Kakacoin's por haber ganado el juego o evento.", ""));
-AkiledEnvironment.GetGame().GetClientManager().SendMessage(RoomNotificationComposer.SendBubble("ganador", "" + Session.GetHabbo().Username + " acaba de ganar el evento. felicitaciones :)", ""));
-break;
-            }
+                            dbQuery.SetQuery("SELECT * FROM `game_rewardscash` LIMIT 1");
+                            DataTable gUsersTable = dbQuery.GetTable();
 
+                            foreach (DataRow Row in gUsersTable.Rows)
+                            {
+                                Rewardcredits = Convert.ToInt32(Row["credits"]);
+                                RewardDiamonds = Convert.ToInt32(Row["Akiledcoins"]);
+                                RewardDuckets = Convert.ToInt32(Row["diamantes"]);
+                            }
+                        }
+                        Session.GetHabbo().Credits += Rewardcredits;
+                        Session.SendPacket(new CreditBalanceComposer(Session.GetHabbo().Credits));
+                        Session.GetHabbo().Duckets += RewardDuckets;
+                        Session.SendPacket(new HabboActivityPointNotificationComposer(Session.GetHabbo().Duckets, RewardDuckets));
+                        Session.GetHabbo().AkiledPoints += RewardDiamonds;
+                        Session.SendPacket(new HabboActivityPointNotificationComposer(Session.GetHabbo().AkiledPoints, RewardDiamonds, 105));
+                        using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
+                            queryreactor.RunQuery("UPDATE users SET vip_points = vip_points + " + RewardDiamonds + " WHERE id = " + Session.GetHabbo().Id + " LIMIT 1");
+                        if (!AkiledEnvironment.GetGame().GetRoomManager().TryGetRoom(Session.GetHabbo().CurrentRoomId, out TargetRoom))
+                            return;
+                        //Session.SendPacket(new RoomForwardComposer(Session.GetHabbo().CurrentRoomId));
+                        Session.SendPacket(RoomNotificationComposer.SendBubble("ganador", "Has recibido " + Rewardcredits + " Créditos, " + RewardDuckets + " Diamantes, " + RewardDiamonds + " Kakacoin's por haber ganado el juego o evento.", ""));
+                        AkiledEnvironment.GetGame().GetClientManager().SendMessage(RoomNotificationComposer.SendBubble("ganador", "" + Session.GetHabbo().Username + " acaba de ganar el evento. felicitaciones :)", ""));
+                        break;
+                    }
+
+            }
         }
-    }
         private void UserCommand(string Cmd, string Value, RoomUser User, Item TriggerItem)
         {
             if (User == null || User.IsBot || User.GetClient() == null)
@@ -1586,7 +1585,7 @@ break;
                         User.WiredPoints += Points;
 
                         break;
-                    } 
+                    }
 
                 case "removepoint":
                     {
@@ -1746,7 +1745,7 @@ break;
                     }
                 case "badge":
                     {
-                        User.GetClient().GetHabbo().GetBadgeComponent().GiveBadge(Value,0, true);
+                        User.GetClient().GetHabbo().GetBadgeComponent().GiveBadge(Value, 0, true);
                         User.GetClient().SendPacket(new ReceiveBadgeComposer(Value));
                         break;
                     }

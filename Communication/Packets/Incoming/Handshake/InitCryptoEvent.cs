@@ -6,9 +6,6 @@ namespace Akiled.Communication.Packets.Incoming.Structure
 {
     class InitCryptoEvent : IPacketEvent
     {
-        public void Parse(GameClient Session, ClientPacket Packet)
-        {
-            Session.SendPacket(new InitCryptoComposer(HabboEncryptionV2.GetRsaDiffieHellmanPrimeKey(), HabboEncryptionV2.GetRsaDiffieHellmanGeneratorKey()));
-        }
+        public void Parse(GameClient Session, ClientPacket Packet) => Session.SendPacket(new InitCryptoComposer(HabboEncryptionV2.GetRsaDiffieHellmanPrimeKey(), HabboEncryptionV2.GetRsaDiffieHellmanGeneratorKey()));
     }
 }

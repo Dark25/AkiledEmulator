@@ -9,7 +9,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-   if (Session.GetHabbo() == null)
+            if (Session.GetHabbo() == null)
                 return;
             int i = Packet.PopInt();
             RoomData roomdata = AkiledEnvironment.GetGame().GetRoomManager().GenerateRoomData(i);

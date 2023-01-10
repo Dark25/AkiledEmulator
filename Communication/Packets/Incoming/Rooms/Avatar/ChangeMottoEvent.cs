@@ -48,7 +48,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
 
                 if (roomUserByHabbo.transformation || roomUserByHabbo.IsSpectator)
                     return;
-                
+
                 currentRoom.SendPacket(new UserChangeComposer(roomUserByHabbo, false));
             }
             AkiledEnvironment.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_Motto", 1);

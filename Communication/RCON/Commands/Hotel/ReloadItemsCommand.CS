@@ -2,7 +2,7 @@
 {
     class ReloadItemsCommand : IRCONCommand
     {
-     
+
         public bool TryExecute(string[] parameters)
         {
             AkiledEnvironment.GetGame().GetItemManager().Init();

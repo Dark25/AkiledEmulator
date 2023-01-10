@@ -10,8 +10,7 @@ using Akiled.HabboHotel.GameClients;using Akiled.HabboHotel.Users;
                 return;
             }            if (clientByUsername.GetHabbo().Rank >= Session.GetHabbo().Rank)            {                Session.SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("action.notallowed", Session.Langue));                 AkiledEnvironment.GetGame().GetClientManager().BanUserAsync(Session, "Robot", (double)788922000, "Su cuenta ha sido prohibida por seguridad", false, false);            }            else            {                int num = 788922000;
                 if (Params.Length == 3)
-                    int.TryParse(Params[2], out num);                if (num <= 600)                    Session.SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("ban.toolesstime", Session.Langue));                else                {
-                    string Raison = "";
+                    int.TryParse(Params[2], out num);                if (num <= 600)                    Session.SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("ban.toolesstime", Session.Langue));                else                {                    string Raison = "";
                     if (Params.Length > 2)
                     {
                         for (int i = 2; i < Params.Length; i++)

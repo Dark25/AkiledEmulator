@@ -1,20 +1,17 @@
-﻿using System;
-using System.Linq;
-using System.Data;
-using System.Collections.Generic;
-using System.Collections.Concurrent;
-
-
+﻿using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.Users.Clothing.Parts;
-
-using Akiled.Database.Interfaces;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 namespace Akiled.HabboHotel.Users.Clothing
 {
     public sealed class ClothingComponent
     {
         private Habbo _habbo;
-        
+
         /// <summary>
         /// Effects stored by ID > Effect.
         /// </summary>
@@ -23,7 +20,7 @@ namespace Akiled.HabboHotel.Users.Clothing
         public ClothingComponent()
         {
         }
-        
+
         /// <summary>
         /// Initializes the EffectsComponent.
         /// </summary>

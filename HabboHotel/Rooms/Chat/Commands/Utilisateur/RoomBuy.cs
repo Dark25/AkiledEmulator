@@ -13,14 +13,14 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             if (Session == null || Session.GetHabbo() == null)
                 return;
 
-            if(Room.RoomData.SellPrice == 0)
+            if (Room.RoomData.SellPrice == 0)
                 return;
 
             Session.GetHabbo().AkiledPoints -= Room.RoomData.SellPrice;
             Session.GetHabbo().UpdateDiamondsBalance();
 
             GameClient ClientOwner = AkiledEnvironment.GetGame().GetClientManager().GetClientByUserID(Room.RoomData.OwnerId);
-            if(ClientOwner != null && ClientOwner.GetHabbo() != null)
+            if (ClientOwner != null && ClientOwner.GetHabbo() != null)
             {
                 ClientOwner.GetHabbo().AkiledPoints += Room.RoomData.SellPrice;
                 ClientOwner.GetHabbo().UpdateDiamondsBalance();
@@ -46,7 +46,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 
             List<RoomUser> UsersToReturn = Room.GetRoomUserManager().GetRoomUsers().ToList();
             AkiledEnvironment.GetGame().GetRoomManager().UnloadRoom(Room);
-            
+
             foreach (RoomUser User in UsersToReturn)
             {
                 if (User == null || User.GetClient() == null)

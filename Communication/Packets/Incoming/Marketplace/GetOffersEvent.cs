@@ -1,12 +1,10 @@
-﻿using System;
-using System.Text;
-using System.Data;
-using System.Collections.Generic;
-
-using Akiled.HabboHotel.Catalog.Marketplace;
-
+﻿using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Database.Interfaces;
-using Akiled.Communication.Packets.Outgoing.Structure;
+using Akiled.HabboHotel.Catalog.Marketplace;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Text;
 
 namespace Akiled.Communication.Packets.Incoming.Marketplace
 {
@@ -51,7 +49,7 @@ namespace Akiled.Communication.Packets.Incoming.Marketplace
             {
                 dbClient.SetQuery("SELECT `offer_id`, `item_type`, `sprite_id`, `total_price`, `limited_number`,`limited_stack` FROM `catalog_marketplace_offers` " + builder.ToString() + " " + str + " LIMIT 500");
                 dbClient.AddParameter("search_query", SearchQuery.Replace("%", "\\%").Replace("_", "\\_") + "%");
-                
+
                 table = dbClient.GetTable();
             }
 

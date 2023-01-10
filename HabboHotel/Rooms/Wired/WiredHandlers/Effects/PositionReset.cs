@@ -1,12 +1,12 @@
-﻿using Akiled.HabboHotel.GameClients;
+﻿using Akiled.Communication.Packets.Outgoing;
+using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
-using Akiled.Database.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Data;
-using Akiled.Communication.Packets.Outgoing;
 
 namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
 {
@@ -58,7 +58,7 @@ namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
 
         public void Handle(RoomUser user, Item TriggerItem)
         {
-            if(this.Delay > 0)
+            if (this.Delay > 0)
                 this.handler.RequestCycle(new WiredCycle(this, user, TriggerItem, this.Delay));
             else
                 this.HandleItems();

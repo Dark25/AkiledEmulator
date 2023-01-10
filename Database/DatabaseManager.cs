@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Akiled.Database.Interfaces;
 using MySql.Data.MySqlClient;
-using Akiled.Database.Interfaces;
+using System;
 
 
 namespace Akiled.Database
@@ -37,7 +37,7 @@ namespace Akiled.Database
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             try
             {
-               
+
                 MySqlConnection con = new MySqlConnection(this._connectionStr);
                 con.Open();
                 MySqlCommand CMD = con.CreateCommand();

@@ -35,7 +35,7 @@ namespace Akiled.HabboHotel.Roleplay.Enemy
             this._enemyPet.TryGetValue(Id, out enemy);
             return enemy;
         }
-        
+
         public void Init()
         {
             this._enemyBot.Clear();
@@ -72,7 +72,7 @@ namespace Akiled.HabboHotel.Roleplay.Enemy
             using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                 queryreactor.RunQuery("INSERT INTO `roleplay_enemy` (`id`, `type`) VALUES ('" + BotId + "', 'bot');");
 
-            RPEnemy EnemyConfig = new RPEnemy(BotId, 100, 1, 4, 30, 0, 0, 5461, 0, 0 , 0, true, 12, false);
+            RPEnemy EnemyConfig = new RPEnemy(BotId, 100, 1, 4, 30, 0, 0, 5461, 0, 0, 0, true, 12, false);
             this._enemyBot.Add(BotId, EnemyConfig);
             return this.GetEnemyBot(BotId);
         }
@@ -96,7 +96,7 @@ namespace Akiled.HabboHotel.Roleplay.Enemy
                 return;
 
             using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
-                queryreactor.RunQuery("DELETE FROM roleplay_enemy WHERE id = '"+ BotId + "'");
+                queryreactor.RunQuery("DELETE FROM roleplay_enemy WHERE id = '" + BotId + "'");
 
             this._enemyBot.Remove(BotId);
         }

@@ -9,7 +9,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
         {
             if (Room == null || !Room.CheckRights(Session, true))
                 return;
-            if(Room.RoomData.SellPrice > 0)
+            if (Room.RoomData.SellPrice > 0)
             {
                 UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("roomsell.pickall", Session.Langue));
                 return;

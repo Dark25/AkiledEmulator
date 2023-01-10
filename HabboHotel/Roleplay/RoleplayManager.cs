@@ -70,7 +70,7 @@ namespace Akiled.HabboHotel.Roleplay
                 {
                     foreach (DataRow dataRow in table1.Rows)
                     {
-                        if(!this._rolePlay.ContainsKey(Convert.ToInt32(dataRow["ownerid"])))
+                        if (!this._rolePlay.ContainsKey(Convert.ToInt32(dataRow["ownerid"])))
                             this._rolePlay.TryAdd(Convert.ToInt32(dataRow["ownerid"]), new RolePlayerManager(Convert.ToInt32(dataRow["ownerid"]), Convert.ToInt32(dataRow["hopital_id"]), Convert.ToInt32(dataRow["prison_id"])));
                         else
                         {

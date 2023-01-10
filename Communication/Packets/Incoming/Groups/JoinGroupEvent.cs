@@ -17,7 +17,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
 
             if (Group.IsMember(Session.GetHabbo().Id) || Group.IsAdmin(Session.GetHabbo().Id) || (Group.HasRequest(Session.GetHabbo().Id) && Group.GroupType == GroupType.LOCKED) || Group.GroupType == GroupType.PRIVATE)
                 return;
-            
+
             if (Session.GetHabbo().MyGroups.Count >= 50)
             {
                 Session.SendNotification("¡Vaya, parece que has alcanzado el límite de membresía de grupo!Solo puedes unirte hasta 50 grupos.");

@@ -13,7 +13,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                 return;
 
             Trade userTrade = room.GetUserTrade(Session.GetHabbo().Id);
-            if (userTrade == null) 
+            if (userTrade == null)
                 return;
 
             int ItemCount = Packet.PopInt();

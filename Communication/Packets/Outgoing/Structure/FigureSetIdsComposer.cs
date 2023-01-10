@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using Akiled.HabboHotel.Users.Clothing.Parts;
 using System.Collections.Generic;
-using Akiled.HabboHotel.Users.Clothing.Parts;
+using System.Linq;
 
 namespace Akiled.Communication.Packets.Outgoing.Inventory.AvatarEffects
 {
@@ -20,7 +20,7 @@ namespace Akiled.Communication.Packets.Outgoing.Inventory.AvatarEffects
             {
                 WriteString(Part.Part);
             }
-            
+
         }
     }
 }

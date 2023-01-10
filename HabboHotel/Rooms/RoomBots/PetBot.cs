@@ -1,7 +1,7 @@
 ﻿using Akiled.Core;
 using Akiled.HabboHotel.GameClients;
-using Akiled.HabboHotel.Rooms.Pathfinding;
 using Akiled.HabboHotel.Pets;
+using Akiled.HabboHotel.Rooms.Pathfinding;
 using System;
 using System.Drawing;
 

@@ -236,7 +236,7 @@ namespace Akiled.HabboHotel.Rooms
             this.RelativeSerialized = false;
             this.HeightmapSerialized = false;
         }
-        
+
 
         public void Destroy()
         {

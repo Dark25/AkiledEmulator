@@ -1,13 +1,13 @@
-﻿using Akiled.HabboHotel.GameClients;
-using Akiled.HabboHotel.Items;
-using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
+﻿using Akiled.Communication.Packets.Outgoing;
 using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.GameClients;
+using Akiled.HabboHotel.Items;
+using Akiled.HabboHotel.Rooms.Map.Movement;
+using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
-using Akiled.Communication.Packets.Outgoing;
-using Akiled.HabboHotel.Rooms.Map.Movement;
 
 namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
 {
@@ -1232,7 +1232,7 @@ namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
                         this.movetodirMovement = (MovementDirection)new Random().Next(1, 7);
                         break;
                     }
-                #endregion
+                    #endregion
             }
 
             newPoint = MovementManagement.HandleMovementDir(item.GetX, item.GetY, this.movetodirMovement);

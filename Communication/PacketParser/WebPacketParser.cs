@@ -1,12 +1,12 @@
-﻿using SharedPacketLib;
-using System;
-using System.IO;
-using Akiled.Communication.Packets.Incoming;
+﻿using Akiled.Communication.Packets.Incoming;
 using Akiled.Communication.WebSocket;
-using System.Text;
-using System.Security.Cryptography;
 using Akiled.HabboHotel.WebClients;
 using Akiled.Utilities;
+using SharedPacketLib;
+using System;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Akiled.Net
 {
@@ -29,7 +29,7 @@ namespace Akiled.Net
                 if (onNewPacket == null)
                     return;
 
-                if(Data[0] == 71 && Data[1] == 69)
+                if (Data[0] == 71 && Data[1] == 69)
                 {
                     PolicyRequest(Data);
                     return;
@@ -51,7 +51,7 @@ namespace Akiled.Net
                     int MsgLen = HabboEncoding.DecodeInt32(Reader.ReadBytes(4));
 
                     if ((Reader.BaseStream.Length) < MsgLen) return;
-                    
+
                     if (MsgLen < 0 || MsgLen > 5120) return;
 
                     byte[] Packet = Reader.ReadBytes(MsgLen);

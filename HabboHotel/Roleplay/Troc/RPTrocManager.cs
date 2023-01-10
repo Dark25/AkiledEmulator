@@ -34,7 +34,7 @@ namespace Akiled.HabboHotel.Roleplay.Troc
 
             if (!Troc.AllConfirmed)
                 return;
-            
+
             if (!EndTrade(Troc))
             {
                 //SendPacket erreur ?
@@ -61,8 +61,8 @@ namespace Akiled.HabboHotel.Roleplay.Troc
             else
                 UserTroc.Accepted = true;
 
-            
-             this.SendPacketUsers(new RpTrocAccepteComposer(UserId, UserTroc.Accepted), Troc);
+
+            this.SendPacketUsers(new RpTrocAccepteComposer(UserId, UserTroc.Accepted), Troc);
         }
 
 

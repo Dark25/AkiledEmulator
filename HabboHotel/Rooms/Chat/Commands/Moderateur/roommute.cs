@@ -8,7 +8,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
         {
             Room.RoomMuted = !Room.RoomMuted;
 
-            foreach(RoomUser User in Room.GetRoomUserManager().GetRoomUsers())
+            foreach (RoomUser User in Room.GetRoomUserManager().GetRoomUsers())
             {
                 if (User == null) continue;
 

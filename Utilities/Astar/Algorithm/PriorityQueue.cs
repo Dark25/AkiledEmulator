@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-//using System.Diagnostics;
+﻿//using System.Diagnostics;
 using AStar.Algorithm;
+using System.Collections.Generic;
 
 namespace Astar.Algorithm
 {
@@ -9,13 +9,13 @@ namespace Astar.Algorithm
         public List<T> InnerList;
         protected IComparer<T> mComparer;
 
-        
-        public PriorityQueue(IComparer<T> comparer,int size)
+
+        public PriorityQueue(IComparer<T> comparer, int size)
         {
             mComparer = comparer;
             InnerList = new List<T>(size);
         }
-        
+
         protected virtual int OnCompare(int i, int j)
         {
             return mComparer.Compare(InnerList[i], InnerList[j]);
@@ -79,7 +79,7 @@ namespace Astar.Algorithm
             Push(element);
         }
 
-      
+
 
     }
 }

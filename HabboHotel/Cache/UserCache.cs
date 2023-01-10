@@ -9,7 +9,7 @@ namespace Akiled.HabboHotel.Cache
         public string Username { get; set; }
 
         public string Motto { get; set; }
-        
+
         public string Look { get; set; }
 
         public DateTime AddedTime { get; set; }

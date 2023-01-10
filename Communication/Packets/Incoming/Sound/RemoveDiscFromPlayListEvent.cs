@@ -7,22 +7,22 @@ using Akiled.HabboHotel.Rooms.TraxMachine;
 
 namespace Akiled.Communication.Packets.Incoming.Sound
 {
-  internal class RemoveDiscFromPlayListEvent : IPacketEvent
-  {
-    public void Parse(GameClient Session, ClientPacket Packet)
+    internal class RemoveDiscFromPlayListEvent : IPacketEvent
     {
-      Room currentRoom = Session.GetHabbo().CurrentRoom;
-      if (!currentRoom.CheckRights(Session))
-        return;
-      int index = Packet.PopInt();
-      RoomTraxManager traxManager = currentRoom.GetTraxManager();
-      if (traxManager.Playlist.Count >= index)
-      {
-        Item obj = traxManager.Playlist[index];
-        if (traxManager.RemoveDisc(obj))
-          return;
-      }
-      Session.SendMessage((IServerPacket) new RoomNotificationComposer("", "Oeps! Haal het oude item eerst uit de Jukebox.", "error", "", ""));
+        public void Parse(GameClient Session, ClientPacket Packet)
+        {
+            Room currentRoom = Session.GetHabbo().CurrentRoom;
+            if (!currentRoom.CheckRights(Session))
+                return;
+            int index = Packet.PopInt();
+            RoomTraxManager traxManager = currentRoom.GetTraxManager();
+            if (traxManager.Playlist.Count >= index)
+            {
+                Item obj = traxManager.Playlist[index];
+                if (traxManager.RemoveDisc(obj))
+                    return;
+            }
+            Session.SendMessage((IServerPacket)new RoomNotificationComposer("", "Oeps! Haal het oude item eerst uit de Jukebox.", "error", "", ""));
+        }
     }
-  }
 }

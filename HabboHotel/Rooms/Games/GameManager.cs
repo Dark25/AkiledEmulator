@@ -147,7 +147,7 @@ namespace Akiled.HabboHotel.Rooms.Games
 
         private static bool IsScoreItem(InteractionType type)
         {
-            switch(type)
+            switch (type)
             {
                 case InteractionType.banzaiscoreblue:
                 case InteractionType.banzaiscorered:
@@ -220,19 +220,19 @@ namespace Akiled.HabboHotel.Rooms.Games
 
         private void LockGate(Item item)
         {
-                switch (item.GetBaseItem().InteractionType)
-                {
-                    case InteractionType.freezebluegate:
-                    case InteractionType.freezegreengate:
-                    case InteractionType.freezeredgate:
-                    case InteractionType.freezeyellowgate:
-                    case InteractionType.banzaigateblue:
-                    case InteractionType.banzaigategreen:
-                    case InteractionType.banzaigatered:
-                    case InteractionType.banzaigateyellow:
-                        //this.room.GetGameMap().UpdateGameMap(item, false);
-                        break;
-                }
+            switch (item.GetBaseItem().InteractionType)
+            {
+                case InteractionType.freezebluegate:
+                case InteractionType.freezegreengate:
+                case InteractionType.freezeredgate:
+                case InteractionType.freezeyellowgate:
+                case InteractionType.banzaigateblue:
+                case InteractionType.banzaigategreen:
+                case InteractionType.banzaigatered:
+                case InteractionType.banzaigateyellow:
+                    //this.room.GetGameMap().UpdateGameMap(item, false);
+                    break;
+            }
         }
 
         public void UpdateGatesTeamCounts()
@@ -249,46 +249,46 @@ namespace Akiled.HabboHotel.Rooms.Games
 
         private void UpdateGateTeamCount(Item item)
         {
-                switch (item.GetBaseItem().InteractionType)
-                {
-                    case InteractionType.banzaigateblue:
-                    case InteractionType.freezebluegate:
-                        item.ExtraData = this.room.GetTeamManager().BlueTeam.Count.ToString();
-                        item.UpdateState();
-                        break;
-                    case InteractionType.banzaigatered:
-                    case InteractionType.freezeredgate:
-                        item.ExtraData = this.room.GetTeamManager().RedTeam.Count.ToString();
-                        item.UpdateState();
-                        break;
-                    case InteractionType.banzaigategreen:
-                    case InteractionType.freezegreengate:
-                        item.ExtraData = this.room.GetTeamManager().GreenTeam.Count.ToString();
-                        item.UpdateState();
-                        break;
-                    case InteractionType.banzaigateyellow:
-                    case InteractionType.freezeyellowgate:
-                        item.ExtraData = this.room.GetTeamManager().YellowTeam.Count.ToString();
-                        item.UpdateState();
-                        break;
-                }
+            switch (item.GetBaseItem().InteractionType)
+            {
+                case InteractionType.banzaigateblue:
+                case InteractionType.freezebluegate:
+                    item.ExtraData = this.room.GetTeamManager().BlueTeam.Count.ToString();
+                    item.UpdateState();
+                    break;
+                case InteractionType.banzaigatered:
+                case InteractionType.freezeredgate:
+                    item.ExtraData = this.room.GetTeamManager().RedTeam.Count.ToString();
+                    item.UpdateState();
+                    break;
+                case InteractionType.banzaigategreen:
+                case InteractionType.freezegreengate:
+                    item.ExtraData = this.room.GetTeamManager().GreenTeam.Count.ToString();
+                    item.UpdateState();
+                    break;
+                case InteractionType.banzaigateyellow:
+                case InteractionType.freezeyellowgate:
+                    item.ExtraData = this.room.GetTeamManager().YellowTeam.Count.ToString();
+                    item.UpdateState();
+                    break;
+            }
         }
 
         private void UnlockGate(Item item)
         {
-                switch (item.GetBaseItem().InteractionType)
-                {
-                    case InteractionType.banzaigateblue:
-                    case InteractionType.freezebluegate:
-                    case InteractionType.freezegreengate:
-                    case InteractionType.banzaigategreen:
-                    case InteractionType.freezeredgate:
-                    case InteractionType.banzaigatered:
-                    case InteractionType.freezeyellowgate:
-                    case InteractionType.banzaigateyellow:
-                            //this.room.GetGameMap().UpdateGameMap(item, true);
-                        break;
-                }
+            switch (item.GetBaseItem().InteractionType)
+            {
+                case InteractionType.banzaigateblue:
+                case InteractionType.freezebluegate:
+                case InteractionType.freezegreengate:
+                case InteractionType.banzaigategreen:
+                case InteractionType.freezeredgate:
+                case InteractionType.banzaigatered:
+                case InteractionType.freezeyellowgate:
+                case InteractionType.banzaigateyellow:
+                    //this.room.GetGameMap().UpdateGameMap(item, true);
+                    break;
+            }
         }
 
         public void LockGates()

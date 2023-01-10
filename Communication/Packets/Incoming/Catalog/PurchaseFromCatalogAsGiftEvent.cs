@@ -63,7 +63,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
 
             if (Session.GetHabbo().SessionGiftBlocked) return;
 
-            string ED = Session.GetHabbo().Id + ";" + GiftMessage +  Convert.ToChar(5) + Ribbon + Convert.ToChar(5) + Colour;
+            string ED = Session.GetHabbo().Id + ";" + GiftMessage + Convert.ToChar(5) + Ribbon + Convert.ToChar(5) + Colour;
 
             int NewItemId = 0;
             using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
@@ -90,7 +90,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                         if (Groupid == 0)
                             return;
                         Group groupItem;
-                        if(AkiledEnvironment.GetGame().GetGroupManager().TryGetGroup(Groupid, out groupItem))
+                        if (AkiledEnvironment.GetGame().GetGroupManager().TryGetGroup(Groupid, out groupItem))
                             ItemExtraData = "0;" + groupItem.Id;
                         break;
 

@@ -10,7 +10,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
         public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)
         {
             if (Room == null || !Room.CheckRights(Session, true))
-                return;            
+                return;
             List<RoomUser> UsersToReturn = Room.GetRoomUserManager().GetRoomUsers().ToList();
             AkiledEnvironment.GetGame().GetRoomManager().UnloadRoom(Session.GetHabbo().CurrentRoom);
             foreach (RoomUser User in UsersToReturn)

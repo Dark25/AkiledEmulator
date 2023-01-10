@@ -4,13 +4,13 @@ using Akiled.HabboHotel.GameClients;
 
 namespace Akiled.Communication.Packets.Incoming.Sound
 {
-  internal class GetJukeboxPlayListEvent : IPacketEvent
-  {
-    public void Parse(GameClient Session, ClientPacket Packet)
+    internal class GetJukeboxPlayListEvent : IPacketEvent
     {
-      if (Session.GetHabbo().CurrentRoom == null)
-        return;
-      Session.SendMessage((IServerPacket) new SetJukeboxPlayListComposer(Session.GetHabbo().CurrentRoom));
+        public void Parse(GameClient Session, ClientPacket Packet)
+        {
+            if (Session.GetHabbo().CurrentRoom == null)
+                return;
+            Session.SendMessage((IServerPacket)new SetJukeboxPlayListComposer(Session.GetHabbo().CurrentRoom));
+        }
     }
-  }
 }

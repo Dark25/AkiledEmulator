@@ -1,10 +1,9 @@
-﻿using Akiled.HabboHotel.GameClients;
-using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
-using Akiled.Communication.Packets.Outgoing;
+﻿using Akiled.Communication.Packets.Outgoing;
 using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
+using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
 using System.Data;
-using System.Threading.Tasks;
 
 namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
 {

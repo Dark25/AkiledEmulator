@@ -11,7 +11,7 @@ namespace Akiled.Communication.Packets.Outgoing.WebSocket
         {
             WriteInteger(Items.Count);
 
-            foreach(RolePlayInventoryItem Item in Items.Values)
+            foreach (RolePlayInventoryItem Item in Items.Values)
             {
                 RPItem RpItem = AkiledEnvironment.GetGame().GetRoleplayManager().GetItemManager().GetItem(Item.ItemId);
 

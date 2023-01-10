@@ -10,7 +10,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 return;
 
             int RoomId;            if (!int.TryParse(Params[1], out RoomId))                return;
-            
+
             Room.GetRoomItemHandler().LoadFurniture(RoomId);
             Room.GetGameMap().GenerateMaps();
             UserRoom.SendWhisperChat("Furnis en la sala " + RoomId + " cargados!");

@@ -1,8 +1,6 @@
 ﻿using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.Communication.Packets.Outgoing.WebSocket;
 using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.GameClients;
-using Akiled.HabboHotel.Rooms.Chat.Styles;
 using System.Collections.Generic;
 using System.Linq;
 

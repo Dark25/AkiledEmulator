@@ -1,7 +1,6 @@
 using Akiled.HabboHotel.GameClients;
-using Akiled.HabboHotel.Rooms.Pathfinding;
 using Akiled.HabboHotel.Rooms;
-using System.Drawing;
+using Akiled.HabboHotel.Rooms.Pathfinding;
 
 namespace Akiled.Communication.Packets.Incoming.Structure
 {
@@ -29,7 +28,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                 }
                 return;
             }
-            
+
             int Rotation2 = Rotation.Calculate(User.X, User.Y, X2, Y2);
             User.SetRot(Rotation2, false);
         }

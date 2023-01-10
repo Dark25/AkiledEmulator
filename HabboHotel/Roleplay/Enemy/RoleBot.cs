@@ -1,15 +1,13 @@
-﻿using Akiled.HabboHotel.Items;
-using Akiled.HabboHotel.Rooms.Pathfinding;
-using Akiled.HabboHotel.Roleplay;
-using Akiled.HabboHotel.Roleplay.Enemy;
+﻿using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Roleplay.Player;
 using Akiled.HabboHotel.Roleplay.Weapon;
 using Akiled.HabboHotel.Rooms;
 using Akiled.HabboHotel.Rooms.Map.Movement;
+using Akiled.HabboHotel.Rooms.Pathfinding;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using Akiled.Database.Interfaces;
 
 namespace Akiled.HabboHotel.Roleplay.Enemy
 {
@@ -96,7 +94,7 @@ namespace Akiled.HabboHotel.Roleplay.Enemy
         {
             if (this.SlowTimer > 0 || this.Config.ZombieMode)
             {
-                if(this.SlowTimer > 0)
+                if (this.SlowTimer > 0)
                     this.SlowTimer--;
 
                 if (!Bot.BreakWalkEnable)
@@ -160,7 +158,7 @@ namespace Akiled.HabboHotel.Roleplay.Enemy
                         Rp.AddExp(this.Config.Health);
                     }
                 }
-                
+
                 this.Health = 0;
                 this.Dead = true;
                 this.DeadTimer = this.Config.DeadTimer;
@@ -289,11 +287,12 @@ namespace Akiled.HabboHotel.Roleplay.Enemy
                 return;
             }
 
-            if(this.AggroTimer > 120)
+            if (this.AggroTimer > 120)
             {
                 this.ResetAggro();
                 return;
-            } else
+            }
+            else
                 this.AggroTimer++;
 
             if (!User.IsBot)
@@ -593,7 +592,7 @@ namespace Akiled.HabboHotel.Roleplay.Enemy
                 }
             }
         }
-        
+
         private void FreeTimeCycle(RoomUser Bot)
         {
             if (!this.IsAllowZone(Bot) || this.Health != this.Config.Health)

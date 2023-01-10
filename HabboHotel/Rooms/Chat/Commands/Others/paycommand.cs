@@ -85,7 +85,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 
                         Session.SendWhisper("Enviaste con éxito " + Amount + " créditos de su cuenta a la cuenta de " + TargetClient.GetHabbo().Username + " !");
                         TargetClient.SendWhisper("Has recibido del usuario " + Session.GetHabbo().Username + " " + Amount + " créditos!");
-                    
+
                         Session.GetHabbo().last_pay = AkiledEnvironment.GetIUnixTimestamp();
                         break;
                     }

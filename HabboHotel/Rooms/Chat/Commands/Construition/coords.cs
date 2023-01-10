@@ -13,7 +13,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             RoomUser roomUserByHabbo = room.GetRoomUserManager().GetRoomUserByHabboId(Session.GetHabbo().Id);
             if (roomUserByHabbo == null)
                 return;
-            
+
             Session.SendNotification("X: " + roomUserByHabbo.X + " - Y: " + roomUserByHabbo.Y + " - Z: " + roomUserByHabbo.Z + " - Rot: " + roomUserByHabbo.RotBody);
 
         }

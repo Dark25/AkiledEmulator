@@ -31,7 +31,7 @@ namespace Akiled.HabboHotel.Items
 
         public ItemData(int Id, int Sprite, string Name, string Public_name, string Type, int Width, int Length, double Height, bool Stackable, bool Walkable, bool IsSeat,
             bool AllowRecycle, bool AllowTrade, bool AllowGift, bool AllowInventoryStack, InteractionType InteractionType, int behaviourData, int Modes,
-            string VendingIds, string AdjustableHeights, int EffectId,  bool IsRare)
+            string VendingIds, string AdjustableHeights, int EffectId, bool IsRare)
         {
             this.Id = Id;
             this.SpriteId = Sprite;
@@ -83,8 +83,9 @@ namespace Akiled.HabboHotel.Items
                 }
 
                 else if (!String.IsNullOrEmpty(AdjustableHeights) && (double.Parse(AdjustableHeights)) > 0) this.AdjustableHeights.Add(double.Parse(AdjustableHeights));
-                
-            } catch(Exception e)
+
+            }
+            catch (Exception e)
             {
                 Console.WriteLine("Erreur ID ( " + this.Id + " ) : " + e);
             }

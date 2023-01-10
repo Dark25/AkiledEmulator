@@ -1,6 +1,6 @@
 ﻿namespace Akiled.Communication.Packets.Outgoing.WebSocket
 {
-    class InRoomComposer: ServerPacket
+    class InRoomComposer : ServerPacket
     {
         public InRoomComposer(bool InRoom)
             : base(5)

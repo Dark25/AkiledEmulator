@@ -6,7 +6,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
     {
         public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)
         {
-            foreach(GameClient User in AkiledEnvironment.GetGame().GetClientManager().GetClients)
+            foreach (GameClient User in AkiledEnvironment.GetGame().GetClientManager().GetClients)
             {
                 if (User == null) continue;
 

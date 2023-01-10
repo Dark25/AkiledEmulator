@@ -73,7 +73,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
 
             if (pet.DBState != DatabaseUpdateState.NeedsInsert)
                 pet.DBState = DatabaseUpdateState.NeedsUpdate;
-            
+
             using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                 queryreactor.RunQuery("UPDATE user_pets SET room_id = '0' WHERE id ='" + pet.PetId + "' LIMIT 1");
 

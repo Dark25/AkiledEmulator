@@ -24,7 +24,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
 
             if (Exchange.Data.InteractionType != InteractionType.EXCHANGE)
                 return;
-            
+
             using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())                queryreactor.RunQuery("DELETE items, items_limited FROM items LEFT JOIN items_limited ON (items_limited.item_id = items.id) WHERE items.id = " + Exchange.Id);
             Room.GetRoomItemHandler().RemoveFurniture(null, Exchange.Id);            int Value = int.Parse(Exchange.GetBaseItem().ItemName.Split(new char[1] { '_' })[1]);            if (Value > 0)            {                if (Exchange.GetBaseItem().ItemName.StartsWith("CF_") || Exchange.GetBaseItem().ItemName.StartsWith("CFC_"))                {                    Session.GetHabbo().Credits += Value;                    Session.GetHabbo().UpdateCreditsBalance();                }
 

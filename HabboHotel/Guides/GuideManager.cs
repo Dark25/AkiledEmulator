@@ -27,7 +27,7 @@ namespace Akiled.HabboHotel.Guides
             }
 
             if (List.Count == 0) return 0;
-            
+
             int RandomId = List[AkiledEnvironment.GetRandomNumber(0, List.Count - 1)];
             this.GuidesOnDuty[RandomId] = true;
 
@@ -37,21 +37,21 @@ namespace Akiled.HabboHotel.Guides
         public void EndService(int Id)
         {
             if (!this.GuidesOnDuty.ContainsKey(Id)) return;
-            
+
             this.GuidesOnDuty[Id] = false;
         }
 
         public void AddGuide(int guide)
         {
             if (this.GuidesOnDuty.ContainsKey(guide)) return;
-            
+
             this.GuidesOnDuty.Add(guide, false);
         }
 
         public void RemoveGuide(int guide)
         {
             if (!this.GuidesOnDuty.ContainsKey(guide)) return;
-            
+
             this.GuidesOnDuty.Remove(guide);
         }
     }

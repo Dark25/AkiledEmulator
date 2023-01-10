@@ -69,7 +69,7 @@ namespace Akiled.HabboHotel.Rooms.Chat
 
             if (this.minrank > 2 && session.GetHabbo().Rank < 13 && RoomLangue != session.Langue)
                 return 5;
-            
+
             if (this.minrank > 0)
             {
                 if (this.minrank <= session.GetHabbo().Rank)

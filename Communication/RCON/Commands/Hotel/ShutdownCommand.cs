@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Akiled.Communication.RCON.Commands.Hotel
+﻿namespace Akiled.Communication.RCON.Commands.Hotel
 {
     class ShutdownCommand : IRCONCommand
     {

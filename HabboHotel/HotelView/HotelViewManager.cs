@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Akiled.Communication.Packets.Outgoing;
+using Akiled.Database.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using Akiled.Communication.Packets.Outgoing;
-using Akiled.Database.Interfaces;
 
 
 namespace Akiled.HabboHotel.HotelView
@@ -19,7 +19,7 @@ namespace Akiled.HabboHotel.HotelView
         public void InitHotelViewPromo()
         {
             HotelViewPromosIndexers.Clear();
-            
+
             using (IQueryAdapter DbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {
                 DbClient.SetQuery("SELECT * from hotelview_promos WHERE hotelview_promos.enabled = '1' ORDER BY hotelview_promos.`index` ASC");
@@ -29,7 +29,7 @@ namespace Akiled.HabboHotel.HotelView
                 {
                     HotelViewPromosIndexers.Add(new SmallPromo(Convert.ToInt32(dRow[0]), (string)dRow[1], (string)dRow[2], (string)dRow[3], Convert.ToInt32(dRow[4]), (string)dRow[5], (string)dRow[6]));
                 }
-            }  
+            }
         }
 
         public ServerPacket SmallPromoComposer(ServerPacket Message)

@@ -1,10 +1,10 @@
-﻿using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.HabboHotel.GameClients;
-using Akiled.Communication.Packets.Incoming;
+﻿using Akiled.Communication.Packets.Incoming;
+using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.GameClients;
+using Akiled.HabboHotel.Rooms;
 using System.Collections.Generic;
 using System.Linq;
-using Akiled.HabboHotel.Rooms;
 
 namespace Akiled.HabboHotel.Achievements
 {
@@ -80,7 +80,7 @@ namespace Akiled.HabboHotel.Achievements
                 int ProgressRemainder = NewProgress - TargetLevelData.Requirement;
                 NewProgress = 0;
 
-                Session.GetHabbo().GetBadgeComponent().GiveBadge(AchievementGroup + TargetLevel, 0,true);
+                Session.GetHabbo().GetBadgeComponent().GiveBadge(AchievementGroup + TargetLevel, 0, true);
                 Session.SendPacket(new ReceiveBadgeComposer(AchievementGroup + TargetLevel));
 
                 if (NewTarget > TotalLevels)

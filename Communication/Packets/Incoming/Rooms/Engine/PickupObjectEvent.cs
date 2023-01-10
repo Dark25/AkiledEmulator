@@ -1,8 +1,8 @@
+using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Quests;
 using Akiled.HabboHotel.Rooms;
-using Akiled.Database.Interfaces;
 
 namespace Akiled.Communication.Packets.Incoming.Structure
 {

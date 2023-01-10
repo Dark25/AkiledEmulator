@@ -9,7 +9,7 @@ namespace Akiled.Communication.Packets.Outgoing.WebSocket
         {
             WriteInteger(Messages.Count);
 
-            foreach(string Message in Messages)
+            foreach (string Message in Messages)
                 WriteString(Message);
         }
     }

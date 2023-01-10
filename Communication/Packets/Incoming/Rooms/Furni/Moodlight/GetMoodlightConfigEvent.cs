@@ -1,9 +1,8 @@
-using System.Linq;
-using Akiled.HabboHotel.Rooms;
-using Akiled.HabboHotel.Items;
-
-using Akiled.HabboHotel.GameClients;
 using Akiled.Communication.Packets.Outgoing.Structure;
+using Akiled.HabboHotel.GameClients;
+using Akiled.HabboHotel.Items;
+using Akiled.HabboHotel.Rooms;
+using System.Linq;
 
 namespace Akiled.Communication.Packets.Incoming.Rooms.Furni.Moodlight
 {

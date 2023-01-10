@@ -1,11 +1,11 @@
-﻿using Akiled.HabboHotel.Items;
-using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
+﻿using Akiled.Communication.Packets.Outgoing;
 using Akiled.Database.Interfaces;
-using System;
-using Akiled.Communication.Packets.Outgoing;
 using Akiled.HabboHotel.GameClients;
-using Akiled.HabboHotel.Rooms.Games;
+using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Roleplay.Player;
+using Akiled.HabboHotel.Rooms.Games;
+using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
+using System;
 
 namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Conditions
 {
@@ -157,7 +157,7 @@ namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Conditions
                 case "itemdistanceplus":
                 case "itemdistancemoins":
                     this.Effet = effet;
-                    if(message.Contains(":"))
+                    if (message.Contains(":"))
                         this.Value = message.Split(new char[] { ':' })[1];
                     break;
                 default:
@@ -184,7 +184,7 @@ namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Conditions
 
             if (Bool == false)
                 Bool = RpGlobalCommand(this.item.GetRoom());
-            
+
             if (Bool == false && TriggerItem != null)
                 Bool = ItemCommand(TriggerItem, user);
 

@@ -39,33 +39,33 @@ namespace Akiled.HabboHotel.Roleplay
             switch (Type)
             {
                 case "openguide":
-                        return 1;
+                    return 1;
                 case "hit":
-                        return 2;
+                    return 2;
                 case "enable":
-                        return 1;
+                    return 1;
                 case "showtime":
-                        return 1;
+                    return 1;
                 case "money":
-                        return 2;
+                    return 2;
                 case "munition":
-                        return 2;
+                    return 2;
                 case "energytired":
-                        return 2;
+                    return 2;
                 case "healthtired":
-                        return 2;
+                    return 2;
                 case "healthenergy":
-                        return 2;
+                    return 2;
                 case "energy":
-                        return 2;
+                    return 2;
                 case "health":
-                        return 2;
+                    return 2;
                 case "weapon_cac":
-                        return 1;
+                    return 1;
                 case "weapon_far":
-                        return 1;
+                    return 1;
                 default:
-                        return 0;
+                    return 0;
             }
         }
 

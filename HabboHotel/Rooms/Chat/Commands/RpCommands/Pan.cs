@@ -56,7 +56,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 
                 int Dmg = AkiledEnvironment.GetRandomNumber(Rp.WeaponGun.DmgMin, Rp.WeaponGun.DmgMax);
 
-               if (Rp.WeaponGun.Id == 21)
+                if (Rp.WeaponGun.Id == 21)
                 {
                     Room.GetProjectileManager().AddGrenade(UserRoom.VirtualId, UserRoom.SetX, UserRoom.SetY, UserRoom.SetZ, movement, Dmg, Rp.WeaponGun.Distance);
                 }

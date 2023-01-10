@@ -32,7 +32,7 @@ namespace Akiled.HabboHotel.HotelView
             Composer.WriteInteger(inGamePromo);
             Composer.WriteString(SpecialAction);
             Composer.WriteString(Image);
-            
+
             return Composer;
         }
 

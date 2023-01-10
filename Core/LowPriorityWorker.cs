@@ -1,5 +1,5 @@
-﻿using System;
-using Akiled.Database.Interfaces;
+﻿using Akiled.Database.Interfaces;
+using System;
 using System.Diagnostics;
 
 namespace Akiled.Core

@@ -1,38 +1,22 @@
 using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.HabboHotel.GameClients;
-using Akiled.HabboHotel.Users;
+using Akiled.HabboHotel.GameClients;using Akiled.HabboHotel.Users;
 using JNogueira.Discord.Webhook.Client;
 using System;
 
-namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
-{
-    class ban : IChatCommand
-    {
-        public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)
-        {
-            if (Params.Length < 2)
-                return;
+namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd{    class ban : IChatCommand    {        public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)
+        {            if (Params.Length < 2)                return;
          
 
-            GameClient clientByUsername = AkiledEnvironment.GetGame().GetClientManager().GetClientByUsername(Params[1]);
-            Habbo Habbo = AkiledEnvironment.GetHabboByUsername(Params[1]);
+            GameClient clientByUsername = AkiledEnvironment.GetGame().GetClientManager().GetClientByUsername(Params[1]);            Habbo Habbo = AkiledEnvironment.GetHabboByUsername(Params[1]);
             if (clientByUsername == null || clientByUsername.GetHabbo() == null)
             {
                 Session.SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("input.usernotfound", Session.Langue));
                 return;
-            }
-
-            if (Session.Langue != clientByUsername.Langue)
+            }            if (Session.Langue != clientByUsername.Langue)
             {
                 UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue(string.Format("cmd.authorized.langue.user", clientByUsername.Langue), Session.Langue));
                 return;
-            }
-
-            if (clientByUsername.GetHabbo().Rank >= Session.GetHabbo().Rank)
-            {
-                Session.SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("action.notallowed", Session.Langue));
-                return;
-            }
+            }            if (clientByUsername.GetHabbo().Rank >= Session.GetHabbo().Rank)            {                Session.SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("action.notallowed", Session.Langue));                return;            }
 
             int num = 0;
             int.TryParse(Params[2], out num);
@@ -54,11 +38,8 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 Session.SendWhisper("Excelente has baneado la ip del usuario '" + Username + "' por la razon: '" + Raison + "'!");
                 if (Session.Antipub(Raison, "<CMD>", Room.Id))
                     return;
-                
-              
-            }
-            
 
-        }
-    }
-}
+
+            }
+
+        }    }}

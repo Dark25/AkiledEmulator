@@ -3,7 +3,6 @@ using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Rooms;
 using System;
-using System.Linq;
 
 namespace Akiled.Communication.Packets.Incoming.Structure
 {
@@ -11,7 +10,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-		   Room room = AkiledEnvironment.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
+            Room room = AkiledEnvironment.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
             if (room == null || !room.CheckRights(Session))
                 return;
             int pId = Packet.PopInt();

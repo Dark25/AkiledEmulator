@@ -1,8 +1,7 @@
-﻿using System;
-using System.Data;
-
+﻿using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Database.Interfaces;
-using Akiled.Communication.Packets.Outgoing.Structure;
+using System;
+using System.Data;
 
 namespace Akiled.Communication.Packets.Incoming.Marketplace
 {
@@ -15,8 +14,8 @@ namespace Akiled.Communication.Packets.Incoming.Marketplace
             DataTable Table = null;
             using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {
-               dbClient.SetQuery("SELECT `asking_price` FROM `catalog_marketplace_offers` WHERE `user_id` = '" + Session.GetHabbo().Id + "' AND `state` = '2'");
-               Table = dbClient.GetTable();
+                dbClient.SetQuery("SELECT `asking_price` FROM `catalog_marketplace_offers` WHERE `user_id` = '" + Session.GetHabbo().Id + "' AND `state` = '2'");
+                Table = dbClient.GetTable();
             }
 
             if (Table != null)

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
-
-using Akiled.Communication.Packets.Outgoing;
-using Akiled.HabboHotel.Users;
-using System.Collections.Generic;
+﻿using Akiled.Communication.Packets.Outgoing;
 using Akiled.HabboHotel.Groups;
+using Akiled.HabboHotel.Users;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Akiled.HabboHotel.Items
 {
@@ -147,7 +146,7 @@ namespace Akiled.HabboHotel.Items
                         Message.WriteString("");
                     }
                     break;
-                    
+
                 case InteractionType.EXTRABOX:
                     {
                         Message.WriteInteger(0);
@@ -295,7 +294,7 @@ namespace Akiled.HabboHotel.Items
                     Message.WriteInteger(0);
                     Message.WriteInteger(2);
                     Message.WriteInteger(4);
-                    
+
                     if (Item.ExtraData.Contains(Convert.ToChar(9).ToString()))
                     {
                         string[] BadgeData = Item.ExtraData.Split(Convert.ToChar(9));

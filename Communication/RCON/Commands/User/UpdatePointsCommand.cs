@@ -23,7 +23,7 @@ namespace Akiled.Communication.RCON.Commands.User
                 return false;
             if (NbWb == 0)
                 return false;
-            
+
             Client.GetHabbo().AkiledPoints += NbWb;
             Client.GetHabbo().UpdateDiamondsBalance();
 

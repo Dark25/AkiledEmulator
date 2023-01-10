@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Data;
+﻿using Akiled.Database.Interfaces;
 using log4net;
-using Akiled.Database.Interfaces;
+using System.Collections.Generic;
+using System.Data;
 
 namespace Akiled.Core.Settings
 {

@@ -30,7 +30,7 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
                 WriteString(Tag);
             }
 
-           
+
             if (Data.Group != null)
             {
                 WriteInteger(58);//What?

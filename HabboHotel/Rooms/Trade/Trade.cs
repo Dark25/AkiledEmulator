@@ -1,12 +1,11 @@
-﻿using Akiled.Core;
+﻿using Akiled.Communication.Packets.Outgoing;
+using Akiled.Communication.Packets.Outgoing.Structure;
+using Akiled.Core;
+using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.Items;
-using Akiled.Communication.Packets.Outgoing;
-
+using JNogueira.Discord.Webhook.Client;
 using System;
 using System.Collections.Generic;
-using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.Database.Interfaces;
-using JNogueira.Discord.Webhook.Client;
 using System.Threading.Tasks;
 
 namespace Akiled.HabboHotel.Rooms
@@ -15,7 +14,7 @@ namespace Akiled.HabboHotel.Rooms
     {
         private readonly TradeUser[] Users;
         private int TradeStage;
-     
+
         private readonly int RoomId;
         private readonly int oneId;
         private readonly int twoId;
@@ -301,7 +300,7 @@ namespace Akiled.HabboHotel.Rooms
             Message2.WriteInteger(list2.Count);
             foreach (Item userItem in list2)
                 Message2.WriteInteger(userItem.Id);
-          
+
 
             this.GetTradeUser(this.oneId).GetClient().SendPacket(Message2);
 
@@ -317,13 +316,13 @@ namespace Akiled.HabboHotel.Rooms
                 queryReactor.AddParameter("2items", items2);
                 queryReactor.RunQuery();
             }
-            
+
             string Webhook = AkiledEnvironment.GetConfig().data["Webhook"];
             string Webhook_trade_ProfilePicture = AkiledEnvironment.GetConfig().data["Webhook_trade_Image"];
             string Webhook_trade_Thumbnail = AkiledEnvironment.GetConfig().data["Webhook_trade_Thumbnail"];
             string Webhook_trade_UserNameD = AkiledEnvironment.GetConfig().data["Webhook_trade_Username"];
             string Webhook_trade_WebHookurl = AkiledEnvironment.GetConfig().data["Webhook_trade_URL"];
-            
+
             if (Webhook == "true")
             {
 
@@ -354,7 +353,7 @@ namespace Akiled.HabboHotel.Rooms
         )
         }
         );
-               await client.SendToDiscord(message);
+                await client.SendToDiscord(message);
 
                 Console.WriteLine("Trade enviado a Discord ", ConsoleColor.DarkCyan);
 

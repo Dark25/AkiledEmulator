@@ -1,7 +1,5 @@
-﻿using Akiled.Communication.Packets.Outgoing;
-using Akiled.HabboHotel.GameClients;
+﻿using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Rooms;
-using Akiled.HabboHotel.Users;
 
 namespace Akiled.Communication.Packets.Incoming.Structure
 {

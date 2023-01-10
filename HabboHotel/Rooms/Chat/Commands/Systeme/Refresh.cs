@@ -39,15 +39,16 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                     }
                 case "autogame":
                     {
-                        
-                        if(!AkiledEnvironment.GetGame().GetAnimationManager().ToggleForceDisabled())
+
+                        if (!AkiledEnvironment.GetGame().GetAnimationManager().ToggleForceDisabled())
                         {
                             UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.autogame.false", Session.Langue));
-                        } else
+                        }
+                        else
                         {
                             UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.autogame.true", Session.Langue));
                         }
-                         
+
                         break;
                     }
                 case "rpitems":

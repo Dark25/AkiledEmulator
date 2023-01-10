@@ -1,5 +1,4 @@
-﻿using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.Communication.Packets.Outgoing.WebSocket;
+﻿using Akiled.Communication.Packets.Outgoing.WebSocket;
 using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.GameClients;
 using System;

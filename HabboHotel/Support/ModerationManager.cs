@@ -1,15 +1,15 @@
-﻿using Akiled.Core;
+﻿using Akiled.Communication.Packets.Outgoing;
+using Akiled.Communication.Packets.Outgoing.Structure;
+using Akiled.Core;
+using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.ChatMessageStorage;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Rooms;
-using Akiled.Communication.Packets.Outgoing;
-using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.Users;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.HabboHotel.Users;
 
 namespace Akiled.HabboHotel.Support
 {

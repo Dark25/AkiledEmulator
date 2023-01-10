@@ -46,7 +46,7 @@ namespace Akiled.HabboHotel.Rooms.RoomBots
             {
                 if (this.GetBotData().RandomSpeech.Count > 0 && this.GetBotData().AutomaticChat)
                     this.GetRoomUser().OnChat(this.GetBotData().GetRandomSpeech(), 2, false);
-                    
+
                 this.SpeechTimer = this.GetBotData().SpeakingInterval * 2;
             }
             else

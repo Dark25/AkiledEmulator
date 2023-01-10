@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.Users;
-using Akiled.Database.Interfaces;
+using System;
+using System.Collections.Generic;
 
 
 namespace Akiled.HabboHotel.Items
@@ -24,7 +23,7 @@ namespace Akiled.HabboHotel.Items
                 Item.Id = Convert.ToInt32(dbClient.InsertQuery());
 
                 if (LimitedNumber > 0)
-                    dbClient.RunQuery("INSERT INTO items_limited VALUES (" + Item.Id + "," + LimitedNumber + ","+ LimitedStack + ")");
+                    dbClient.RunQuery("INSERT INTO items_limited VALUES (" + Item.Id + "," + LimitedNumber + "," + LimitedStack + ")");
 
                 return Item;
             }
@@ -54,7 +53,7 @@ namespace Akiled.HabboHotel.Items
             Item Item = new Item(ItemId, Habbo.Id, 0, Data.Id, ExtraData, LimitedNumber, LimitedStack, 0, 0, 0, 0, "", null);
             return Item;
         }
-        
+
         public static List<Item> CreateMultipleItems(ItemData Data, Habbo Habbo, string ExtraData, int Amount)
         {
             if (Data == null) throw new InvalidOperationException("Data cannot be null.");

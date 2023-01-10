@@ -1,5 +1,5 @@
-﻿using Akiled.HabboHotel.GameClients;
-using Akiled.Communication.Packets.Outgoing;
+﻿using Akiled.Communication.Packets.Outgoing;
+using Akiled.HabboHotel.GameClients;
 
 namespace Akiled.HabboHotel.Users.Messenger
 {

@@ -1,5 +1,4 @@
 ﻿using Akiled.Communication.Packets.Outgoing;
-using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Rooms;
 
@@ -30,7 +29,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
 
             Value = (Value != "0" && Value != "1") ? "0" : Value;
 
-            if(Value == "0") room.VotedNoCount++;
+            if (Value == "0") room.VotedNoCount++;
 
             else room.VotedYesCount++;
 

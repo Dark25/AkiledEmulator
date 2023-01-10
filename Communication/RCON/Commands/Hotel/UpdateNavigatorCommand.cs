@@ -4,7 +4,7 @@
     {
         public bool TryExecute(string[] parameters)
         {
-                AkiledEnvironment.GetGame().GetNavigator().Init();
+            AkiledEnvironment.GetGame().GetNavigator().Init();
             return true;
         }
     }

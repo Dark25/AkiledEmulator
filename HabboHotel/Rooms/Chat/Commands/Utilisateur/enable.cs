@@ -1,5 +1,4 @@
 using Akiled.HabboHotel.GameClients;
-using Akiled.HabboHotel.Rooms.Games;
 
 namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 {

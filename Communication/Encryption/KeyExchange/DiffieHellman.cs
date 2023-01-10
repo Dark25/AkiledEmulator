@@ -1,6 +1,5 @@
-﻿using System;
-
-using Akiled.Utilities;
+﻿using Akiled.Utilities;
+using System;
 
 namespace Akiled.Communication.Encryption.KeyExchange
 {

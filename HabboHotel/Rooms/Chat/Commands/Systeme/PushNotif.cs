@@ -10,7 +10,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             string Message = CommandManager.MergeParams(Params, 1);
             if (string.IsNullOrEmpty(Message))
                 return;
-            
+
             AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifTopComposer(Message), Session.Langue);
         }
     }

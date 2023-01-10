@@ -1,10 +1,9 @@
-﻿using Akiled.HabboHotel.Items;
-using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
+﻿using Akiled.Communication.Packets.Outgoing;
 using Akiled.Database.Interfaces;
-using System;
-
-using Akiled.Communication.Packets.Outgoing;
 using Akiled.HabboHotel.GameClients;
+using Akiled.HabboHotel.Items;
+using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
+using System;
 
 namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Triggers
 {

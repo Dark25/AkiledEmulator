@@ -1,10 +1,8 @@
-﻿using System;
-using System.Data;
-
-using Akiled.HabboHotel.Items;
-
+﻿using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Database.Interfaces;
-using Akiled.Communication.Packets.Outgoing.Structure;
+using Akiled.HabboHotel.Items;
+using System;
+using System.Data;
 
 namespace Akiled.Communication.Packets.Incoming.Marketplace
 {
@@ -31,7 +29,7 @@ namespace Akiled.Communication.Packets.Incoming.Marketplace
                 return;
             }
 
-            if(Convert.ToString(Row["state"]) == "2")
+            if (Convert.ToString(Row["state"]) == "2")
             {
                 Session.SendPacket(new MarketplaceCancelOfferResultComposer(OfferId, false));
                 return;

@@ -1,8 +1,8 @@
 ﻿using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Collections.Concurrent;
 
 namespace Akiled.HabboHotel.Rooms.Wired
 {
@@ -141,7 +141,7 @@ namespace Akiled.HabboHotel.Rooms.Wired
 
                         if (handler.IWiredCycleable.Disposed())
                             continue;
-                        
+
                         if (handler.OnCycle())
                             toAdd.Add(handler);
                     }
@@ -167,7 +167,7 @@ namespace Akiled.HabboHotel.Rooms.Wired
                     }
                 }
             }
-            
+
             foreach (List<Item> list in this.ConditionStacks.Values)
             {
                 foreach (Item roomItem in list)

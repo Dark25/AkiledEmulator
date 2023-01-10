@@ -3,39 +3,39 @@
 namespace Akiled.HabboHotel.Items.Interactors
 {
     public class InteractorCrackable : FurniInteractor
-  {
-    private readonly int Modes;
-
-    public InteractorCrackable(int Modes)
     {
-      this.Modes = Modes - 1;
-      if (this.Modes >= 0) return;
+        private readonly int Modes;
 
-      this.Modes = 0;
-    }
+        public InteractorCrackable(int Modes)
+        {
+            this.Modes = Modes - 1;
+            if (this.Modes >= 0) return;
 
-    public override void OnPlace(GameClient Session, Item Item)
-    {
-    }
+            this.Modes = 0;
+        }
 
-    public override void OnRemove(GameClient Session, Item Item)
-    {
-    }
+        public override void OnPlace(GameClient Session, Item Item)
+        {
+        }
 
-    public override void OnTrigger(GameClient Session, Item Item, int Request, bool UserHasRights)
-    {
-      if (!UserHasRights || this.Modes == 0)
-        return;
+        public override void OnRemove(GameClient Session, Item Item)
+        {
+        }
 
-      int.TryParse(Item.ExtraData, out int NumMode);
+        public override void OnTrigger(GameClient Session, Item Item, int Request, bool UserHasRights)
+        {
+            if (!UserHasRights || this.Modes == 0)
+                return;
 
-      NumMode++;
+            int.TryParse(Item.ExtraData, out int NumMode);
 
-      if (NumMode > this.Modes) NumMode = 0;
+            NumMode++;
 
-      Item.ExtraData = NumMode.ToString();
-      Item.UpdateState();
-    }
+            if (NumMode > this.Modes) NumMode = 0;
+
+            Item.ExtraData = NumMode.ToString();
+            Item.UpdateState();
+        }
         public override void OnTrigger2(GameClient Session, Item Ball, int Request)
         {
         }

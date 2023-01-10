@@ -1,6 +1,5 @@
-﻿using System;
-
-using Akiled.Database.Interfaces;
+﻿using Akiled.Database.Interfaces;
+using System;
 
 namespace Akiled.Database.Adapter
 {

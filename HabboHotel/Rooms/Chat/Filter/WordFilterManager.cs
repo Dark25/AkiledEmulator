@@ -1,9 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Data;
+﻿using Akiled.Database.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using System.Text.RegularExpressions;
-using Akiled.Database.Interfaces;
 
 namespace Akiled.HabboHotel.Rooms.Chat.Filter
 {

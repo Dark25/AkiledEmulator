@@ -1,12 +1,12 @@
-﻿using Akiled.HabboHotel.Items;
-using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
+﻿using Akiled.Communication.Packets.Outgoing;
 using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.GameClients;
+using Akiled.HabboHotel.Items;
+using Akiled.HabboHotel.Rooms.Games;
+using Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using Akiled.Communication.Packets.Outgoing;
-using Akiled.HabboHotel.GameClients;
-using Akiled.HabboHotel.Rooms.Games;
 
 namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
 {
@@ -28,37 +28,37 @@ namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
 
         public void Handle(RoomUser user, Item TriggerItem)
         {
-                TeamManager managerForBanzai = this.room.GetTeamManager();
+            TeamManager managerForBanzai = this.room.GetTeamManager();
 
-                List<RoomUser> ListTeam = new List<RoomUser>();
+            List<RoomUser> ListTeam = new List<RoomUser>();
 
-                if (this.team == Team.blue)
-                    ListTeam.AddRange(managerForBanzai.BlueTeam);
-                else if (this.team == Team.green)
-                    ListTeam.AddRange(managerForBanzai.GreenTeam);
-                else if (this.team == Team.red)
-                    ListTeam.AddRange(managerForBanzai.RedTeam);
-                else if (this.team == Team.yellow)
-                    ListTeam.AddRange(managerForBanzai.YellowTeam);
-                else
-                    return;
+            if (this.team == Team.blue)
+                ListTeam.AddRange(managerForBanzai.BlueTeam);
+            else if (this.team == Team.green)
+                ListTeam.AddRange(managerForBanzai.GreenTeam);
+            else if (this.team == Team.red)
+                ListTeam.AddRange(managerForBanzai.RedTeam);
+            else if (this.team == Team.yellow)
+                ListTeam.AddRange(managerForBanzai.YellowTeam);
+            else
+                return;
 
-                Item ExitTeleport = this.room.GetGameItemHandler().GetExitTeleport();
+            Item ExitTeleport = this.room.GetGameItemHandler().GetExitTeleport();
 
-                foreach (RoomUser teamuser in ListTeam)
-                {
-                    if (teamuser == null)
-                        continue;
+            foreach (RoomUser teamuser in ListTeam)
+            {
+                if (teamuser == null)
+                    continue;
 
-                    managerForBanzai.OnUserLeave(teamuser);
-                    this.room.GetGameManager().UpdateGatesTeamCounts();
-                    teamuser.ApplyEffect(0);
-                    teamuser.Team = Team.none;
+                managerForBanzai.OnUserLeave(teamuser);
+                this.room.GetGameManager().UpdateGatesTeamCounts();
+                teamuser.ApplyEffect(0);
+                teamuser.Team = Team.none;
 
-                    
-                    if (ExitTeleport != null)
-                        this.room.GetGameMap().TeleportToItem(teamuser, ExitTeleport);
-                }
+
+                if (ExitTeleport != null)
+                    this.room.GetGameMap().TeleportToItem(teamuser, ExitTeleport);
+            }
         }
 
         public void Dispose()

@@ -36,7 +36,7 @@ using Akiled.Communication.Packets.Outgoing.Structure;using Akiled.Database.Int
                     Session.GetHabbo().GetInventoryComponent().RemoveItem(Present.Id);
                     return;
                 }
-                
+
                 ItemData BaseItem = null;
                 if (!AkiledEnvironment.GetGame().GetItemManager().GetItem(Convert.ToInt32(Data["base_id"]), out BaseItem))
                 {
@@ -51,7 +51,7 @@ using Akiled.Communication.Packets.Outgoing.Structure;using Akiled.Database.Int
                     Session.GetHabbo().GetInventoryComponent().RemoveItem(Present.Id);
                     return;
                 }
-                
+
                 FinishOpenGift(Session, BaseItem, Present, Room, Data);
             }
             else if (Present.GetBaseItem().InteractionType == InteractionType.EXTRABOX)
@@ -64,7 +64,7 @@ using Akiled.Communication.Packets.Outgoing.Structure;using Akiled.Database.Int
             {
                 ItemExtrabox.OpenLegendBox(Session, Present, Room);
             }
-            else if(Present.GetBaseItem().InteractionType == InteractionType.BADGEBOX)
+            else if (Present.GetBaseItem().InteractionType == InteractionType.BADGEBOX)
             {
                 ItemExtrabox.OpenBadgeBox(Session, Present, Room);
             }        }        private void FinishOpenGift(GameClient Session, ItemData BaseItem, Item Present, Room Room, DataRow Row)
