@@ -4,6 +4,7 @@ using Akiled.Core;
 using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
+using Akiled.HabboHotel.Rooms.Chat.Commands.Cmd;
 using Akiled.HabboHotel.Rooms.Map.Movement;
 using Akiled.HabboHotel.Rooms.Pathfinding;
 using Akiled.HabboHotel.Rooms.Wired;
@@ -646,6 +647,16 @@ namespace Akiled.HabboHotel.Rooms
             if (!newItem)
                 NeedsReAdd = this._room.GetGameMap().RemoveFromMap(Item);
 
+            RoomUser User = null;
+            if (Session.GetHabbo().CurrentRoom != null)
+                User = this._room.GetRoomUserManager().GetRoomUserByHabboId(Session.GetHabbo().Id);
+            
+            int setRotate = (User != null && User.setRotate != -1) ? User.setRotate : newRot;
+            newRot = setRotate;
+
+            string extraData = (User != null && User?.setState != -1 && Item.Data.Modes > 0 && Item.InteractionsAllowed(Item)) ? User.setState.ToString() : Item.ExtraData;
+            Item.ExtraData = extraData;
+
             Dictionary<int, ThreeDCoord> affectedTiles = Gamemap.GetAffectedTiles(Item.GetBaseItem().Length, Item.GetBaseItem().Width, newX, newY, newRot);
             foreach (ThreeDCoord threeDcoord in affectedTiles.Values)
             {
@@ -698,7 +709,7 @@ namespace Akiled.HabboHotel.Rooms
                 pZ = Item.GetZ;
 
             if (ConstruitZMode)
-                pZ = pZ + ConstruitHeigth;
+                pZ += ConstruitHeigth;
             else
             {
                 foreach (Item roomItem in ItemsComplete)
@@ -786,14 +797,15 @@ namespace Akiled.HabboHotel.Rooms
                 userForSquare.AddRange(this._room.GetGameMap().GetRoomUsers(new Point(threeDcoord.X, threeDcoord.Y)));
             }
 
-            foreach (RoomUser User in userForSquare)
+            foreach (RoomUser user in userForSquare)
             {
-                if (User == null)
+                if (user == null)
                     continue;
-                if (User.IsWalking)
+                
+                if (user.IsWalking)
                     continue;
 
-                this._room.GetRoomUserManager().UpdateUserStatus(User, false);
+                this._room.GetRoomUserManager().UpdateUserStatus(user, false);
             }
 
             return true;

@@ -7,20 +7,25 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 {
     class SuperBot : IChatCommand
     {
+        
+
         public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)
         {
+            
             if (Params.Length > 1)
             {
                 int count;
                 if (Params.Length == 2)
                 {
                     int.TryParse(Params[1], out count);
+                   
                     for (int i = 0; i < count; i++)
                     {
                         if (!Room.IsRoleplay)
                         {
                             RoomUser superBot = Room.GetRoomUserManager().DeploySuperBot(new RoomBot(-i, Session.GetHabbo().Id, Room.Id, AIType.SuperBot, false, Session.GetHabbo().Username, "SuperBot", Session.GetHabbo().Gender, Session.GetHabbo().Look, UserRoom.X, UserRoom.Y, 0, 2, false, "", 0, false, 0, 0, 0));
                             superBot.BotData.FollowUser = UserRoom.VirtualId;
+                          
                         }
                         else
                         {
@@ -41,6 +46,8 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                     }
 
                     int.TryParse(Params[2], out count);
+                   
+                    
                     for (int i = 0; i < count; i++)
                     {
                         RoomUser superBot = Room.GetRoomUserManager().DeploySuperBot(new RoomBot(-i, GetUserRoom.GetClient().GetHabbo().Id, Room.Id, AIType.SuperBot, false, GetUserRoom.GetClient().GetHabbo().Username, "SuperBot", GetUserRoom.GetClient().GetHabbo().Gender, GetUserRoom.GetClient().GetHabbo().Look, GetUserRoom.X, GetUserRoom.Y, 0, 2, false, "", 0, false, 0, 0, 0));

@@ -1280,6 +1280,18 @@ namespace Akiled.HabboHotel.Items
             this.GetAffectedTiles = Gamemap.GetAffectedTiles(this.GetBaseItem().Length, this.GetBaseItem().Width, this.GetX, this.GetY, this.Rotation);
         }
 
+        public static bool InteractionsAllowed(Item Item)
+        {
+            switch (Item.GetBaseItem().InteractionType)
+            {
+                case InteractionType.NONE:
+                case InteractionType.GATE:
+                    return true;
+            }
+
+            return false;
+        }
+
         public ItemData GetBaseItem()
         {
             if (this.Data == null)

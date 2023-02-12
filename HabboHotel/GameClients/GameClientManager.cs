@@ -295,7 +295,7 @@ namespace Akiled.HabboHotel.GameClients
                 if (Client.GetHabbo().Rank < 4 || Client.GetHabbo().Id == Exclude)
                     continue;
 
-                RoomUser User = Client.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(Client.GetHabbo().Id);
+                RoomUser User = Client.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabboId(Client.GetHabbo().Id);
                 if (User == null)
                     return;
 

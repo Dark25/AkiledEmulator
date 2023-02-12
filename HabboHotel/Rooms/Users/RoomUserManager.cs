@@ -38,8 +38,6 @@ namespace Akiled.HabboHotel.Rooms
 
         private readonly List<int> _usersRank;
 
-        internal RoomUser GetRoomUserByHabbo(int id) => throw new NotImplementedException();
-
         private int _primaryPrivateUserID;
         public int BotCounter;
 

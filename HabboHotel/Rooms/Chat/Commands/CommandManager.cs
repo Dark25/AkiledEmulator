@@ -255,8 +255,8 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands
             this.Register(122, new givelot());
             this.Register(123, new extrabox());
             this.Register(124, new SayBot());
-            this.Register(126, new setz());
-            this.Register(127, new setzstop());
+            this.Register(126, new SetRotateCommand());
+            this.Register(127, new SetStateCommand());
             this.Register(128, new murmur());
             this.Register(130, new Emptybots());
             this.Register(132, new Vip());
@@ -397,9 +397,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands
             this.Register(274, new EnablePvP());
             this.Register(275, new MinaCommand());
             this.Register(276, new SuschatstaffCommand());
-
-
-
+            this.Register(277, new StackHeightCommand());
         }
     }
 }

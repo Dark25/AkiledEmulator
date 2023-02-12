@@ -111,8 +111,8 @@ namespace Akiled.HabboHotel.GameClients
                     SendPacket(new ActivityPointsComposer(Habbo.Duckets, Habbo.AkiledPoints));
                     SendPacket(new CfhTopicsInitComposer(AkiledEnvironment.GetGame().GetModerationManager().UserActionPresets));
                     SendPacket(new AvatarEffectsComposer(AkiledEnvironment.GetGame().GetEffectsInventoryManager().GetEffects()));
-                    SendPacket(new UserHomeRoomComposer(this.Habbo.HomeRoom, this.Habbo.HomeRoom));
                     SendPacket(new SoundSettingsComposer(this.Habbo.ClientVolume, false, false, false, 1));
+                    SendPacket(new UserHomeRoomComposer(this.Habbo.HomeRoom, this.Habbo.HomeRoom));
 
 
                     this.Habbo.UpdateActivityPointsBalance();

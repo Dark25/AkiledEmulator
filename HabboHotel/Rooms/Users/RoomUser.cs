@@ -105,6 +105,10 @@ namespace Akiled.HabboHotel.Rooms
         public List<string> WhiperGroupUsers;
         public bool muted;
 
+        public int setRotate;
+        public int setState;
+        public double forceHeight;
+
         public int Id => this.RoomData.Id;
 
         public Point Coordinate => new Point(this.X, this.Y);
@@ -163,6 +167,10 @@ namespace Akiled.HabboHotel.Rooms
             this.IsDispose = false;
             this.AllowMoveTo = true;
             this.WhiperGroupUsers = new List<string>();
+
+            this.setRotate = -1;
+            this.setState = -1;
+            this.forceHeight = -1;
         }
 
         public bool Equals(RoomUser comparedUser) => comparedUser != null && comparedUser.VirtualId == this.VirtualId;

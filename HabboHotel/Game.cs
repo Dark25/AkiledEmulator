@@ -221,15 +221,9 @@ namespace Akiled.HabboHotel
             return this._questManager;
         }
 
-        public GroupManager GetGroupManager()
-        {
-            return this._groupManager;
-        }
+        public GroupManager GetGroupManager() => this._groupManager;
 
-        public HotelViewManager GetHotelView()
-        {
-            return this._hotelViewManager;
-        }
+        public HotelViewManager GetHotelView() => this._hotelViewManager;
 
         #endregion
 
@@ -237,8 +231,10 @@ namespace Akiled.HabboHotel
         {
             this.gameLoopActive = true;
             //this.gameLoop = new Task(this.MainGameLoop, TaskCreationOptions.LongRunning);
-            this.gameLoop = new Thread(new ThreadStart(this.MainGameLoop));
-            this.gameLoop.Priority = ThreadPriority.Highest;
+            this.gameLoop = new Thread(new ThreadStart(this.MainGameLoop))
+            {
+                Priority = ThreadPriority.Highest
+            };
             this.gameLoop.Start();
         }
 

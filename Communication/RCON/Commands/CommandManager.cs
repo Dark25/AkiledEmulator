@@ -58,6 +58,12 @@ namespace Akiled.Communication.RCON.Commands
             this.Register("follow", new FollowCommand());
             this.Register("autofloor", new AutoFloorCommand());
             this.Register("givebadge", new GivebadgeCommand());
+            this.Register("maxfloor", new MaxFloorCommand());
+            this.Register("setzon", new SetzCommand());
+            this.Register("setzoff", new SetzStopCommand());
+            this.Register("infofurni", new FurniInfoCommand());
+            this.Register("setrotate", new SetRotateCommand());
+            this.Register("setstate", new SetStateCommand());
         }
 
         private void RegisterHotel()

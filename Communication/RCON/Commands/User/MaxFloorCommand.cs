@@ -2,6 +2,7 @@
 using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Rooms;
+using Nancy.Session;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,7 +10,7 @@ using System.Linq;
 
 namespace Akiled.Communication.RCON.Commands.User
 {
-    class AutoFloorCommand : IRCONCommand
+    class MaxFloorCommand : IRCONCommand
     {
         public bool TryExecute(string[] parameters)
         {
@@ -26,28 +27,34 @@ namespace Akiled.Communication.RCON.Commands.User
 
             if (Client == null)
                 return false;
+            
 
             Room Room = Client.GetHabbo().CurrentRoom;
+            
             if (Room == null || !Room.CheckRights(Client, true))
                 return false;
-
+            
             string Map = "";
             string Line = "";
 
-            for (int y = 0; y < Room.GetGameMap().Model.MapSizeY; y++)
+            int TailleFloor = 50;
+            if (Client.GetHabbo().Rank > 1)
+                TailleFloor = 75;
+
+            for (int y = 0; y < ((Room.GetGameMap().Model.MapSizeY) > TailleFloor ? Room.GetGameMap().Model.MapSizeY : TailleFloor); y++)
             {
                 Line = "";
-                for (int x = 0; x < Room.GetGameMap().Model.MapSizeX; x++)
+                for (int x = 0; x < ((Room.GetGameMap().Model.MapSizeX) > TailleFloor ? Room.GetGameMap().Model.MapSizeX : TailleFloor); x++)
                 {
                     if (x >= Room.GetGameMap().Model.MapSizeX || y >= Room.GetGameMap().Model.MapSizeY)
                     {
-                        Line += "x";
+                        Line += "0";
                     }
                     else
                     {
-                        if (Room.GetGameMap().Model.SqState[x, y] == SquareState.BLOCKED || Room.GetGameMap().GetCoordinatedItems(new Point(x, y)).Count == 0)
+                        if (Room.GetGameMap().Model.SqState[x, y] == SquareState.BLOCKED)
                         {
-                            Line += "x";//x
+                            Line += "0";//x
                         }
                         else
                         {
@@ -84,11 +91,11 @@ namespace Akiled.Communication.RCON.Commands.User
                 if (User == null || User.GetClient() == null)
                     continue;
 
-
                 User.GetClient().SendPacket(new RoomForwardComposer(Room.Id));
             }
             return true;
-        }
+        
+    }
 
         private char parseInvers(double input)
         {
