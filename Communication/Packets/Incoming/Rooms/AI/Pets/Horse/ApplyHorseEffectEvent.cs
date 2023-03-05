@@ -27,7 +27,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             if (!Room.GetRoomUserManager().TryGetPet(PetId, out PetUser))
                 return;
 
-            if (PetUser.PetData == null || PetUser.PetData.OwnerId != Session.GetHabbo().Id || PetUser.PetData.Type != 13)
+            if (PetUser.PetData == null || PetUser.PetData.OwnerId != Session.GetHabbo().Id)
                 return;
 
             if (Item.Data.InteractionType == InteractionType.HORSE_SADDLE_1)
@@ -47,7 +47,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                 PetUser.PetData.Saddle = 10;
                 using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                 {
-                    dbClient.RunQuery("UPDATE `user_pets` SET `have_saddle` = '2' WHERE `id` = '" + PetUser.PetData.PetId + "' LIMIT 1");
+                    dbClient.RunQuery("UPDATE `user_pets` SET `have_saddle` = '10' WHERE `id` = '" + PetUser.PetData.PetId + "' LIMIT 1");
                     dbClient.RunQuery("DELETE items, items_limited FROM items LEFT JOIN items_limited ON (items_limited.item_id = items.id) WHERE items.id = " + Item.Id + "");
                 }
 

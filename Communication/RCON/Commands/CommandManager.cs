@@ -64,6 +64,8 @@ namespace Akiled.Communication.RCON.Commands
             this.Register("infofurni", new FurniInfoCommand());
             this.Register("setrotate", new SetRotateCommand());
             this.Register("setstate", new SetStateCommand());
+            this.Register("givefurni", new GiveFurniCommnad());
+            this.Register("give", new GiveUserCurrencyCommand());
         }
 
         private void RegisterHotel()

@@ -370,12 +370,10 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands
             this.Register(247, new LastCMDSTAFFCommand());
             this.Register(248, new RadioStatus());
             this.Register(249, new Oleadabig());
-
             this.Register(250, new RegenLTD());
             this.Register(251, new ForceOpenGift());
             this.Register(252, new AllFriends());
-            this.Register(253, new GameTime());
-
+            this.Register(253, new GameTime()); 
             this.Register(254, new StartQuestion());
             this.Register(255, new StopQuestion());
             this.Register(256, new PlaySoundRoom());

@@ -12,7 +12,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             string name_monedaoficial2 = (AkiledEnvironment.GetConfig().data["name_monedaoficial2"]);
             if (Params.Length == 1)
             {
-                Session.SendWhisper("Por favor introduce ! (creditos, Esmeraldas, Planetas)");
+                Session.SendWhisper("Por favor introduce ! (Creditos, Esmeraldas, Planetas)");
                 return;
             }
 

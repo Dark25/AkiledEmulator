@@ -29,7 +29,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             if (!Room.GetRoomUserManager().TryGetPet(PetId, out Pet))
                 return;
 
-            if (Pet.PetData == null || Pet.PetData.Type != 13)
+            if (Pet.PetData == null)
                 return;
 
             if (!Pet.PetData.AnyoneCanRide && Pet.PetData.OwnerId != User.UserId)
