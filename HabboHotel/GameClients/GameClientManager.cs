@@ -492,6 +492,25 @@ namespace Akiled.HabboHotel.GameClients
 
         public void SendSuperNotif(string Title, string Notice, string Picture, string Link, string LinkTitle, bool Broadcast, bool Event) => this.SendMessage(new RoomNotificationComposer(Title, Notice, Picture, LinkTitle, Link));
 
+        public void SendWhisper(string Message, int Colour = 0)
+        {
+            try
+            {
+                foreach (GameClient Client in this._clients.Values.ToList())
+                {
+                    RoomUser User = Client.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabbo(Client.GetHabbo().Username);
+                    if (User == null || User.IsBot || User.IsPet)
+                        continue;
+
+                    SendMessage(new WhisperMessageComposer(User.VirtualId, Message, 0, Colour == 0 ? User.LastBubble : Colour));
+                }
+            }
+            catch (Exception e)
+            {
+                Logging.HandleException(e, "GameClientManager.SendWhisper");
+            }
+        }
+
         private void GiveDiamonds()
         {
             if (diamondsQueuee.Count > 0)

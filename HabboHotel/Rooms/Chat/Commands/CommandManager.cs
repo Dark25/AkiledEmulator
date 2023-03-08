@@ -396,6 +396,8 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands
             this.Register(275, new MinaCommand());
             this.Register(276, new SuschatstaffCommand());
             this.Register(277, new StackHeightCommand());
+            this.Register(278, new GiveawayCommand());
+            this.Register(279, new ClearBlocksGiveawayCommand());
         }
     }
 }

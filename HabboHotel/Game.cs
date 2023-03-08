@@ -23,9 +23,11 @@ using Akiled.HabboHotel.Subscriptions;
 using Akiled.HabboHotel.Support;
 using Akiled.HabboHotel.Users.Messenger;
 using Akiled.HabboHotel.WebClients;
+using AkiledEmulator.HabboHotel.Hotel.Giveaway;
 using System;
 using System.Diagnostics;
 using System.Threading;
+using static Akiled.HabboHotel.Rooms.Chat.Commands.Cmd.UserInfo;
 
 namespace Akiled.HabboHotel
 {
@@ -55,6 +57,8 @@ namespace Akiled.HabboHotel
         private readonly CacheManager _cacheManager;
         private readonly CrackableManager _crackableManager;
         private readonly CraftingManager _craftingManager;
+        private readonly GiveAwayBlocksManager _giveAwayBlocksM;
+
         private Thread gameLoop; //Task
         public static bool gameLoopEnabled = true;
         public bool gameLoopActive;
@@ -115,6 +119,7 @@ namespace Akiled.HabboHotel
             this._craftingManager.Init();
             this._notiftopManager = new NotificationTopManager();
             this._notiftopManager.Init();
+
             using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {
                 StaffChat.Initialize(dbClient);
@@ -125,6 +130,8 @@ namespace Akiled.HabboHotel
             LowPriorityWorker.Init();
 
             this.moduleWatch = new Stopwatch();
+
+            this._giveAwayBlocksM = new GiveAwayBlocksManager();
         }
 
         #region Return values
@@ -225,6 +232,8 @@ namespace Akiled.HabboHotel
 
         public HotelViewManager GetHotelView() => this._hotelViewManager;
 
+        public GiveAwayBlocksManager GetGiveAwayBlocks() => _giveAwayBlocksM;
+
         #endregion
 
         public void StartGameLoop()
@@ -264,12 +273,8 @@ namespace Akiled.HabboHotel
                     if (gameLoopEnabled)
                     {
                         moduleWatch.Restart();
-
-
                         LowPriorityWorker.Process();
-
-
-
+                        
                         if (moduleWatch.ElapsedMilliseconds > 500)
                             Console.WriteLine("High latency in LowPriorityWorker.Process ({0} ms)", moduleWatch.ElapsedMilliseconds);
                         moduleWatch.Restart();

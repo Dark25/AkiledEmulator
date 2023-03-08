@@ -14,16 +14,14 @@ namespace Akiled
             InitEnvironment();
             while (true)
             {
-                if (Console.ReadKey(true).Key == ConsoleKey.Enter)
+                //  \/ This                       \/ and this
+                if (!Console.IsInputRedirected && Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Enter)
                 {
                     Console.Write("Akiled Command> ");
-                    string Input = Console.ReadLine();
-
-                    if (Input.Length > 0)
+                    string text = Console.ReadLine();
+                    if (text.Length > 0)
                     {
-                        string s = Input.Split(' ')[0];
-
-                        ConsoleCommands.InvokeCommand(s);
+                        ConsoleCommands.InvokeCommand(text.Split(' ', StringSplitOptions.None)[0]);
                     }
                 }
             }

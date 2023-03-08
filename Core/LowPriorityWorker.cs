@@ -1,4 +1,5 @@
 ﻿using Akiled.Database.Interfaces;
+using AkiledEmulator.HabboHotel.Hotel.Giveaway;
 using System;
 using System.Diagnostics;
 
@@ -28,6 +29,32 @@ namespace Akiled.Core
         private static Stopwatch lowPriorityProcessWatch;
         public static void Process()
         {
+            if (lowPriorityProcessWatch.ElapsedMilliseconds >= 60000 && isExecuted)
+            {
+                try
+                {
+                    if (GiveAwayConfigs.enabled)
+                    {
+                        if (GiveAwayConfigs.timestamp < AkiledEnvironment.GetUnixTimestamp())
+                        {
+                            try
+                            {
+                                GiveAwayConfigs.Stop();
+                                
+                            }
+                            catch (Exception ex)
+                            {
+                                Logging.LogException(ex.ToString());
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+
+                }
+            }
+
             if (lowPriorityProcessWatch.ElapsedMilliseconds >= 60000 || !isExecuted)
             {
                 isExecuted = true;
