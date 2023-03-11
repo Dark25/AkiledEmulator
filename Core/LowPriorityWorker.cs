@@ -8,7 +8,7 @@ namespace Akiled.Core
     public class LowPriorityWorker
     {
         private static int UserPeak;
-        private static bool isExecuted = false;
+        private static bool isExecuted;
 
         private static string mColdTitle;
 
@@ -29,7 +29,7 @@ namespace Akiled.Core
         private static Stopwatch lowPriorityProcessWatch;
         public static void Process()
         {
-            if (lowPriorityProcessWatch.ElapsedMilliseconds >= 60000 && isExecuted)
+            if (lowPriorityProcessWatch.ElapsedMilliseconds >= 1000)
             {
                 try
                 {

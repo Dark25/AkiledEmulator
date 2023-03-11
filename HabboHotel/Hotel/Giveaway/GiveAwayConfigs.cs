@@ -162,7 +162,7 @@ namespace AkiledEmulator.HabboHotel.Hotel.Giveaway
                 }
 
             }
-            
+
 
 
 
@@ -202,13 +202,46 @@ namespace AkiledEmulator.HabboHotel.Hotel.Giveaway
         /// </summary>
         public static void Start()
         {
+            #region Rewards
+            int credits = Convert.ToInt32(AkiledEnvironment.GetSettingsManager().TryGetValue("give_away.give.credits")) < int.MaxValue && !string.IsNullOrEmpty(AkiledEnvironment.GetSettingsManager().TryGetValue("give_away.give.credits")) ? Convert.ToInt32(AkiledEnvironment.GetSettingsManager().TryGetValue("give_away.give.credits")) : 0;
+            int duckets = Convert.ToInt32(AkiledEnvironment.GetSettingsManager().TryGetValue("give_away.give.duckets")) < int.MaxValue && !string.IsNullOrEmpty(AkiledEnvironment.GetSettingsManager().TryGetValue("give_away.give.duckets")) ? Convert.ToInt32(AkiledEnvironment.GetSettingsManager().TryGetValue("give_away.give.duckets")) : 0;
+            int diamonds = Convert.ToInt32(AkiledEnvironment.GetSettingsManager().TryGetValue("give_away.give.diamonds")) < int.MaxValue && !string.IsNullOrEmpty(AkiledEnvironment.GetSettingsManager().TryGetValue("give_away.give.diamonds")) ? Convert.ToInt32(AkiledEnvironment.GetSettingsManager().TryGetValue("give_away.give.diamonds")) : 0;
+            string badge = Convert.ToString(AkiledEnvironment.GetSettingsManager().TryGetValue("give_away.give.badge"));
+            int item = Convert.ToInt32(AkiledEnvironment.GetSettingsManager().TryGetValue("give_away.give.item")) < int.MaxValue && !string.IsNullOrEmpty(AkiledEnvironment.GetSettingsManager().TryGetValue("give_away.give.item")) ? Convert.ToInt32(AkiledEnvironment.GetSettingsManager().TryGetValue("give_away.give.item")) : 0;
+            string giveaway_image = (AkiledEnvironment.GetConfig().data["giveaway_image"]);
+            #endregion
+
+            ItemData ItemData;
+
+            if (!AkiledEnvironment.GetGame().GetItemManager().GetItem(item, out ItemData))
+            {
+                ItemData = null;
+
+            }
+
+
             //Check if is enabled
             if (!enabled)
                 return;
 
             DateTime timeStart = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(timestamp - AkiledEnvironment.GetUnixTimestamp());
 
-            AkiledEnvironment.GetGame().GetClientManager().SendMessage(RoomNotificationComposer.SendBubble("last_success_login", ($"{startedByUsername} ha inciado un sorteo {description}!\r Usa el comando:' :giveaway ' para participar \r El sorteo termina en: {(timeStart.Minute > 0 ? timeStart.Minute + " Minutos " + timeStart.Second + " Segundos!" : timeStart.Second + " " + " segundo")}!")));
+
+            AkiledEnvironment.GetGame().GetClientManager().SendMessage(new RoomNotificationComposer($"¡Nuevo Sorteo abierto! {description}",
+                        $"<b><font color='#9200cc'  style='font-size: 16px;'>Descripción:</font></b>\n<font color='#363636'>{startedByUsername} ha inciado un sorteo!\r Usa el comando:' :giveaway ' para participar </font>\n\n" +
+                         $"<b><font color='#9200cc' style='font-size: 16px;'>Premios:</font></b>\n" +
+                         $"<b><font color='#b8b814'>Créditos:</font></b> {credits}\n" +
+                         $"<b><font color='#00bb92'>Esmeraldas:</font></b> {duckets}\n" +
+                         $"<b><font color='#008af3'>Planetas:</font></b> {diamonds}\n" +
+                         $"<b><font color='#e36a00'>Insignia:</font></b> {(badge ?? "Ninguno")}\n" +
+                         $"<b><font color='#a10005'>Item:</font></b> {(ItemData != null ? ItemData.publicname : "Ninguno")}\n" +
+                         $"<b><font color='#9200cc'>Termina en:</font></b> {(timeStart.Minute > 0 ? timeStart.Minute + " Minutos " + timeStart.Second + " Segundos!" : timeStart.Second + " " + " segundo")}!\n" +
+                         $"<b><font color='#9200cc'>Creado por :</font></b> {startedByUsername}\n"
+                         , giveaway_image, ""));
+
+
+
+
             Console.WriteLine("Se ha inciado un Sorteo por " + startedByUsername + "y termina en " + timeStart.Minute + " Minutos " + timeStart.Second + " Segundos!");
         }
 

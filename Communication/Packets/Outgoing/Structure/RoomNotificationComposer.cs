@@ -117,9 +117,5 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
 
             return cuz;
         }
-        internal static IServerPacket SendBubble(string v1, int v2, string v3, string v4)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
