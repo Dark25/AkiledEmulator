@@ -25,7 +25,7 @@ namespace AkiledEmulator.HabboHotel.Hotel.Giveaway
         /// <summary>
         /// Time to block a user and he can't participate (in minutes)
         /// </summary>
-        public static int durationOfBlock = string.IsNullOrEmpty(AkiledEnvironment.GetSettingsManager().TryGetValue("give_away.block.minutes")) ? 5 : int.Parse(AkiledEnvironment.GetSettingsManager().TryGetValue("give_away.block.minutes"));
+        public static int durationOfBlock = string.IsNullOrEmpty(AkiledEnvironment.GetSettingsManager()?.TryGetValue("give_away.block.minutes")) ? 5 : int.Parse(AkiledEnvironment.GetSettingsManager().TryGetValue("give_away.block.minutes"));
 
         /// <summary>
         /// List of participants

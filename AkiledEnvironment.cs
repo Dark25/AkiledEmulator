@@ -184,6 +184,9 @@ namespace Akiled
                         return Task.FromResult(false);
                     }
                 }
+                _settingsManager = new SettingsManager();
+                _settingsManager.Init();
+
                 HabboEncryptionV2.Initialize(new RSAKeys());
                 _languageManager = new LanguageManager();
                 _languageManager.Init();
@@ -198,8 +201,7 @@ namespace Akiled
                     _rcon = new RCONSocket(int.Parse(GetConfig().data["mus.tcp.port"]), GetConfig().data["mus.tcp.allowedaddr"].Split(';'));
                 StaticEvents = _configuration.data["static.events"] == "true";
                 Logging.WriteLine("VARIABLES -> CARGADAS y LISTAS!");
-                _settingsManager = new SettingsManager();
-                _settingsManager.Init();
+
                 // Allow services to self initialize
 
 
