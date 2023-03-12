@@ -370,7 +370,7 @@ namespace Akiled.HabboHotel.Rooms
                 {
                     if (!Room.isCycling && !Room.Disposed)
                     {
-                        ThreadPool.QueueUserWorkItem(Room.ProcessRoom, null); //QueueUserWorkItem
+                      //  ThreadPool.QueueUserWorkItem(Room.ProcessRoom, null); //QueueUserWorkItem
                         Room.IsLagging = 0;
                     }
                     else
