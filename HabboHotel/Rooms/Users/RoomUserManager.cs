@@ -725,7 +725,7 @@ namespace Akiled.HabboHotel.Rooms
 
         public ICollection<RoomUser> GetUserList() => this._users.Values;
 
-        public RoomUser GetBotByName(string name) => this._bots.Values.Where(b => b.IsBot && b.BotData.Name == name).FirstOrDefault();
+        public RoomUser GetBotByName(string name) => this._bots.Values.FirstOrDefault(b => b.IsBot && b.BotData.Name == name);
 
         public RoomUser GetBotOrPetByName(string name) => _bots.Values.Concat(_pets.Values).FirstOrDefault(b => (b.IsBot && b.BotData.Name == name) || (b.IsPet && b.BotData.Name == name));
 

@@ -104,9 +104,8 @@ namespace Akiled.HabboHotel.Rooms
 
             Room = new Room(Data);
 
-            if (!_rooms.ContainsKey(Room.Id))
-                _rooms.TryAdd(Room.Id, Room);
-
+            _rooms[Room.Id] = Room;
+            
             return Room;
         }
 
@@ -371,7 +370,7 @@ namespace Akiled.HabboHotel.Rooms
                 {
                     if (!Room.isCycling && !Room.Disposed)
                     {
-                        ThreadPool.QueueUserWorkItem(new WaitCallback(Room.ProcessRoom), null); //QueueUserWorkItem
+                        ThreadPool.QueueUserWorkItem(Room.ProcessRoom, null); //QueueUserWorkItem
                         Room.IsLagging = 0;
                     }
                     else

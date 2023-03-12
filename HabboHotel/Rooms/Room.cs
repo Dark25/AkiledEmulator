@@ -17,6 +17,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Akiled.HabboHotel.Rooms
 {
@@ -86,12 +88,17 @@ namespace Akiled.HabboHotel.Rooms
         private ProjectileManager projectileManager;
         private int SaveTimer;
 
+        private CancellationTokenSource _mainProcessSource;
+
+
         public event Room.FurnitureLoad OnFurnisLoad;
 
         //Question
         public int VotedYesCount;
         public int VotedNoCount;
         private bool _hideWired;
+        private bool _processingWireds;
+        private bool _processingItem;
 
         public int UserCount
         {
@@ -160,7 +167,55 @@ namespace Akiled.HabboHotel.Rooms
             this.InitPets();
             this.lastTimerReset = DateTime.Now;
             this._hideWired = Data.HideWired;
+
+
+            _mainProcessSource = new CancellationTokenSource();
+
+            StartRoomProcessing();
+            StartItemProcess();
         }
+
+        /// <summary>
+        /// Starts the room processing.
+        /// </summary>
+        internal void StartRoomProcessing()
+        {
+            if (_mainProcessSource == null)
+            {
+                return;
+            }
+
+            try
+            {
+                new Task(async () =>
+                {
+                    while (!_mainProcessSource.IsCancellationRequested)
+                    {
+                        try
+                        {
+                            var start = AkiledEnvironment.GetIUnixTimestamp();
+                            await ProcessRoom();
+                            var end = AkiledEnvironment.GetIUnixTimestamp();
+                            var wait = 500 - (end - start);
+
+                            if (wait <= 0)
+                                continue;
+
+                            await Task.Delay(wait);
+                        }
+                        catch (Exception e)
+                        {
+                            Logging.HandleException(e, "RoomProcessing");
+                        }
+                    }
+                }, _mainProcessSource.Token, TaskCreationOptions.LongRunning).Start();
+            }
+            catch (Exception e)
+            {
+                Logging.HandleException(e, "StartRoomProcess");
+            }
+        }
+
 
         public Gamemap GetGameMap() => this.gamemap;
 
@@ -169,10 +224,50 @@ namespace Akiled.HabboHotel.Rooms
         public RoomUserManager GetRoomUserManager() => this.roomUserManager;
 
         public Soccer GetSoccer()
-        {
-            if (this.soccer == null)
-                this.soccer = new Soccer(this);
+        { 
+            if (soccer == null)
+            {
+                soccer = new Soccer(this);
+            }
+
             return this.soccer;
+        }
+
+
+        internal void StartItemProcess()
+        {
+            if (_processingItem || _mainProcessSource == null) return;
+
+            _processingItem = true;
+
+            try
+            {
+                new Task(async () =>
+                {
+                    while ((GotSoccer() && !Disposed) && !_mainProcessSource.IsCancellationRequested)
+                    {
+                        var start = AkiledEnvironment.GetUnixTimestamp();
+                        try
+                        {
+                            this.GetRoomItemHandler().OnCycle();
+                        }
+                        catch (Exception e)
+                        {
+                            Logging.LogCriticalException(e.ToString());
+                        }
+
+                        var end = AkiledEnvironment.GetUnixTimestamp() - start;
+                        var wait = 500 - end;
+                        if (wait <= 0)
+                            continue;
+                        await Task.Delay(500 - end);
+                    }
+                }, TaskCreationOptions.LongRunning).Start();
+            }
+            catch (Exception e)
+            {
+                Logging.HandleException(e, "Room Item Process");
+            }
         }
 
         public TeamManager GetTeamManager()
@@ -219,9 +314,45 @@ namespace Akiled.HabboHotel.Rooms
 
         public WiredHandler GetWiredHandler()
         {
-            if (this.wiredHandler == null)
-                this.wiredHandler = new WiredHandler(this);
-            return this.wiredHandler;
+            if (wiredHandler != null)
+                return wiredHandler;
+
+            wiredHandler = new WiredHandler(this);
+            StartWiredsProcess();
+
+            return wiredHandler;
+
+        }
+        
+        internal void StartWiredsProcess()
+        {
+            if (_processingWireds || _mainProcessSource == null) return;
+
+            try
+            {
+                _processingWireds = true;
+
+                new Task(async () =>
+                {
+                    while (wiredHandler != null && !_mainProcessSource.IsCancellationRequested)
+                    {
+                        try
+                        {
+                            wiredHandler.OnCycle();
+                        }
+                        catch (Exception e)
+                        {
+                            Logging.HandleException(e, "WiredProcess");
+                        }
+
+                        await Task.Delay(250);
+                    }
+                }, _mainProcessSource.Token, TaskCreationOptions.LongRunning).Start();
+            }
+            catch (Exception e)
+            {
+                Logging.HandleException(e, "StartWiredProcess");
+            }
         }
 
         public ProjectileManager GetProjectileManager()
@@ -540,7 +671,7 @@ namespace Akiled.HabboHotel.Rooms
             Session.SendPacket(new ItemsComposer(Room.GetRoomItemHandler().GetWall.ToArray(), this));
         }
 
-        public void ProcessRoom(object pCallback)
+        public async Task ProcessRoom(object pCallback = null)
         {
             try
             {
@@ -554,7 +685,6 @@ namespace Akiled.HabboHotel.Rooms
 
                     this.GetRoomUserManager().OnCycle(ref idleCount);
 
-                    this.GetRoomItemHandler().OnCycle();
 
                     this.RpCycleHour();
 
@@ -582,8 +712,6 @@ namespace Akiled.HabboHotel.Rooms
                     if (this.GetGameItemHandler() != null)
                         this.GetGameItemHandler().OnCycle();
 
-                    if (this.GetWiredHandler() != null)
-                        this.GetWiredHandler().OnCycle();
 
                     if (this.GotJanken())
                         this.GetJanken().OnCycle();
@@ -932,6 +1060,7 @@ namespace Akiled.HabboHotel.Rooms
 
             this.SendPacket(new CloseConnectionComposer());
 
+            _mainProcessSource.Cancel();
 
             this.Disposed = true;
             this.mCycleEnded = true;
@@ -956,6 +1085,13 @@ namespace Akiled.HabboHotel.Rooms
             this.GetRoomUserManager().Destroy();
 
             this.gamemap.Destroy();
+            
+            new Task(async () =>
+            {
+                await Task.Delay(2500);
+                _mainProcessSource.Dispose();
+                _mainProcessSource = null;
+            }).Start();
         }
 
         public Dictionary<int, double> getBans() => this.Bans;
