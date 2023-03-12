@@ -2,7 +2,6 @@
 using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Rooms;
-using Nancy.Session;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

@@ -21,7 +21,7 @@ namespace Akiled.Communication.Packets.Incoming.Marketplace
             DataTable table = null;
             StringBuilder builder = new StringBuilder();
             string str = "";
-            builder.Append("WHERE `state` = '1' AND `timestamp` >= " + AkiledEnvironment.GetGame().GetCatalog().GetMarketplace().FormatTimestamp().ToString());
+            builder.Append("WHERE `state` = '1' AND `timestamp` >= " + AkiledEnvironment.GetGame().GetCatalog().GetMarketplace().FormatTimestamp());
             if (MinCost >= 0)
                 builder.Append(" AND `total_price` > " + MinCost);
 

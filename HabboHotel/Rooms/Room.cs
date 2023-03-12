@@ -21,11 +21,14 @@ using System.Linq;
 namespace Akiled.HabboHotel.Rooms
 {
     public delegate void RoomEventDelegate(object sender, EventArgs e);
+
     public delegate void RoomUserSaysDelegate(object sender, UserSaysArgs e, ref bool messageHandled);
+
     public delegate void TriggerUserDelegate(RoomUser user, string ActionType);
+
     public delegate void BotCollisionDelegate(RoomUser user, string BotName);
 
-    public class Room
+    public class Room : IDisposable
     {
         public bool RoomMuted;
         public bool isCycling;
@@ -71,24 +74,20 @@ namespace Akiled.HabboHotel.Rooms
         public bool CloseFullRoom;
         public bool OldFoot = true;
         public bool RoomIngameChat;
-        public bool SexEnabled;
         public bool BurnEnabled;
         public bool MatarEnabled;
         public bool RobarEnabled;
-        public bool BesarEnabled;
         public bool CrispyEnabled;
         public bool GolpeEnabled;
-        public bool PushEnabled;
-        public bool PullEnabled;
         public bool SPushEnabled;
         public bool SPullEnabled;
-        public bool EnablesEnabled;
-        public bool RespectNotificationsEnabled;
         public bool PetMorphsAllowed;
 
         private ProjectileManager projectileManager;
         private int SaveTimer;
+
         public event Room.FurnitureLoad OnFurnisLoad;
+
         //Question
         public int VotedYesCount;
         public int VotedNoCount;
@@ -96,19 +95,13 @@ namespace Akiled.HabboHotel.Rooms
 
         public int UserCount
         {
-            get
-            {
-                return this.roomUserManager.GetRoomUserCount();
-            }
+            get { return this.roomUserManager.GetRoomUserCount(); }
         }
 
 
         public int Id
         {
-            get
-            {
-                return this.RoomData.Id;
-            }
+            get { return this.RoomData.Id; }
         }
 
         public event TriggerUserDelegate TriggerUser;
@@ -249,7 +242,7 @@ namespace Akiled.HabboHotel.Rooms
         public bool GotWired() => this.wiredHandler != null;
 
         public ChatMessageManager GetChatMessageManager()
-        => this.chatMessageManager;
+            => this.chatMessageManager;
 
         public bool AllowsShous(RoomUser user, string message)
         {
@@ -326,23 +319,21 @@ namespace Akiled.HabboHotel.Rooms
 
         public List<ServerPacket> HideWiredMessages(bool hideWired)
         {
-            List<ServerPacket> list = new List<ServerPacket>();
-            Item[] items = this.GetRoomItemHandler().GetFloor.ToArray();
+            List<ServerPacket> list = new();
 
-            if (items.Count() > 0)
+            var items = this.GetRoomItemHandler().GetFloor.ToList();
+
+            foreach (var item in items)
             {
-                for (int i = 0; i < items.Count(); i++)
-                {
-                    Item item = items[i];
-                    if (!item.IsWired)
-                        continue;
+                if (!item.IsWired)
+                    continue;
 
-                    if (hideWired)
-                        list.Add(new ObjectRemoveMessageComposer(item.Id, 0));
-                    else
-                        list.Add(new ObjectAddComposer(item, item.Username, item.OwnerId));
-                }
+                if (hideWired)
+                    list.Add(new ObjectRemoveMessageComposer(item.Id, 0));
+                else
+                    list.Add(new ObjectAddComposer(item, item.Username, item.OwnerId));
             }
+
 
             return list;
         }
@@ -364,7 +355,13 @@ namespace Akiled.HabboHotel.Rooms
                     return;
                 foreach (DataRow Row in table.Rows)
                 {
-                    RoomBot roomBot = new RoomBot(Convert.ToInt32(Row["id"]), Convert.ToInt32(Row["user_id"]), Convert.ToInt32(Row["room_id"]), (this.IsRoleplay) ? AIType.RolePlayBot : AIType.Generic, (string)Row["walk_enabled"] == "1", (string)Row["name"], (string)Row["motto"], (string)Row["gender"], (string)Row["look"], (int)Row["x"], (int)Row["y"], (int)Row["z"], (int)Row["rotation"], (string)Row["chat_enabled"] == "1", (string)Row["chat_text"], (int)Row["chat_seconds"], (string)Row["is_dancing"] == "1", (int)Row["enable"], (int)Row["handitem"], Convert.ToInt32((string)Row["status"]));
+                    RoomBot roomBot = new RoomBot(Convert.ToInt32(Row["id"]), Convert.ToInt32(Row["user_id"]),
+                        Convert.ToInt32(Row["room_id"]), (this.IsRoleplay) ? AIType.RolePlayBot : AIType.Generic,
+                        (string)Row["walk_enabled"] == "1", (string)Row["name"], (string)Row["motto"],
+                        (string)Row["gender"], (string)Row["look"], (int)Row["x"], (int)Row["y"], (int)Row["z"],
+                        (int)Row["rotation"], (string)Row["chat_enabled"] == "1", (string)Row["chat_text"],
+                        (int)Row["chat_seconds"], (string)Row["is_dancing"] == "1", (int)Row["enable"],
+                        (int)Row["handitem"], Convert.ToInt32((string)Row["status"]));
                     RoomUser roomUser = this.GetRoomUserManager().DeployBot(roomBot, (Pet)null);
                     if (roomBot.IsDancing)
                         roomUser.DanceId = 3;
@@ -376,15 +373,24 @@ namespace Akiled.HabboHotel.Rooms
         {
             using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {
-                queryreactor.SetQuery("SELECT id, user_id, room_id, name, type, race, color, expirience, energy, nutrition, respect, createstamp, x, y, z, have_saddle, hairdye, pethair, anyone_ride FROM user_pets WHERE room_id = " + this.Id);
+                queryreactor.SetQuery(
+                    "SELECT id, user_id, room_id, name, type, race, color, expirience, energy, nutrition, respect, createstamp, x, y, z, have_saddle, hairdye, pethair, anyone_ride FROM user_pets WHERE room_id = " +
+                    this.Id);
                 DataTable table = queryreactor.GetTable();
                 if (table == null)
                     return;
                 foreach (DataRow Row in table.Rows)
                 {
-                    Pet PetData = new Pet(Convert.ToInt32(Row["id"]), Convert.ToInt32(Row["user_id"]), Convert.ToInt32(Row["room_id"]), (string)Row["name"], Convert.ToInt32(Row["type"]), (string)Row["race"], (string)Row["color"], (int)Row["expirience"], (int)Row["energy"], (int)Row["nutrition"], (int)Row["respect"], (double)Row["createstamp"], (int)Row["x"], (int)Row["y"], (double)Row["z"], (int)Row["have_saddle"], (int)Row["hairdye"], (int)Row["pethair"], (string)(Row["anyone_ride"]) == "1");
+                    Pet PetData = new Pet(Convert.ToInt32(Row["id"]), Convert.ToInt32(Row["user_id"]),
+                        Convert.ToInt32(Row["room_id"]), (string)Row["name"], Convert.ToInt32(Row["type"]),
+                        (string)Row["race"], (string)Row["color"], (int)Row["expirience"], (int)Row["energy"],
+                        (int)Row["nutrition"], (int)Row["respect"], (double)Row["createstamp"], (int)Row["x"],
+                        (int)Row["y"], (double)Row["z"], (int)Row["have_saddle"], (int)Row["hairdye"],
+                        (int)Row["pethair"], (string)(Row["anyone_ride"]) == "1");
                     List<string> list = new List<string>();
-                    this.roomUserManager.DeployBot(new RoomBot(PetData.PetId, PetData.OwnerId, this.Id, AIType.Pet, true, PetData.Name, "", "", PetData.Look, PetData.X, PetData.Y, PetData.Z, 0, false, "", 0, false, 0, 0, 0), PetData);
+                    this.roomUserManager.DeployBot(
+                        new RoomBot(PetData.PetId, PetData.OwnerId, this.Id, AIType.Pet, true, PetData.Name, "", "",
+                            PetData.Look, PetData.X, PetData.Y, PetData.Z, 0, false, "", 0, false, 0, 0, 0), PetData);
                 }
             }
         }
@@ -421,6 +427,7 @@ namespace Akiled.HabboHotel.Rooms
                 queryreactor.SetQuery("SELECT user_id FROM room_rights WHERE room_id = " + this.RoomData.Id);
                 dataTable = queryreactor.GetTable();
             }
+
             if (dataTable == null)
                 return;
             foreach (DataRow dataRow in dataTable.Rows)
@@ -431,7 +438,8 @@ namespace Akiled.HabboHotel.Rooms
         {
             if (Session == null || Session.GetHabbo() == null)
                 return 0;
-            if (Session.GetHabbo().Username == this.RoomData.OwnerName || Session.GetHabbo().HasFuse("fuse_any_room_controller"))
+            if (Session.GetHabbo().Username == this.RoomData.OwnerName ||
+                Session.GetHabbo().HasFuse("fuse_any_room_controller"))
                 return 4;
             if (Session.GetHabbo().HasFuse("fuse_any_room_rights"))
                 return 3;
@@ -448,7 +456,8 @@ namespace Akiled.HabboHotel.Rooms
             if (Session == null || Session.GetHabbo() == null)
                 return false;
 
-            if (Session.GetHabbo().Username == this.RoomData.OwnerName || Session.GetHabbo().HasFuse("fuse_any_room_controller"))
+            if (Session.GetHabbo().Username == this.RoomData.OwnerName ||
+                Session.GetHabbo().HasFuse("fuse_any_room_controller"))
             {
                 //Session.SendNotification("session u: " + Session.GetHabbo().Username + " | roomdata ownername: " + this.RoomData.OwnerName);
                 //Session.SendNotification("01, fuse? " + Session.GetHabbo().HasFuse("fuse_any_room_controller") + ", owner room? " + Session.GetHabbo().Username.Equals(this.RoomData.OwnerName));
@@ -457,7 +466,8 @@ namespace Akiled.HabboHotel.Rooms
 
             if (!RequireOwnership)
             {
-                if (Session.GetHabbo().HasFuse("fuse_any_room_rights") || this.UsersWithRights.Contains(Session.GetHabbo().Id))
+                if (Session.GetHabbo().HasFuse("fuse_any_room_rights") ||
+                    this.UsersWithRights.Contains(Session.GetHabbo().Id))
                 {
                     //Session.SendNotification("02");
                     return true;
@@ -484,6 +494,7 @@ namespace Akiled.HabboHotel.Rooms
                     }
                 }
             }
+
             return false;
         }
 
@@ -611,7 +622,8 @@ namespace Akiled.HabboHotel.Rooms
 
             DateTime Now = DateTime.Now;
 
-            int RpHourNow = (int)Math.Floor((double)(((Now.Minute * 60) + Now.Second) / 150)); //150sec = 2m30s = 1heure dans le rp
+            int RpHourNow =
+                (int)Math.Floor((double)(((Now.Minute * 60) + Now.Second) / 150)); //150sec = 2m30s = 1heure dans le rp
 
             int RpMinuteNow = (int)Math.Floor((((Now.Minute * 60) + Now.Second) - (RpHourNow * 150)) / 2.5);
 
@@ -640,39 +652,39 @@ namespace Akiled.HabboHotel.Rooms
             {
                 Intensity = 255;
             }
-            else if (RpHour >= 20 && RpHour < 21)  //Crépuscule
+            else if (RpHour >= 20 && RpHour < 21) //Crépuscule
             {
                 Intensity = 200;
             }
-            else if (RpHour >= 21 && RpHour < 22)  //Crépuscule
+            else if (RpHour >= 21 && RpHour < 22) //Crépuscule
             {
                 Intensity = 150;
             }
-            else if (RpHour >= 22 && RpHour < 23)  //Crépuscule
+            else if (RpHour >= 22 && RpHour < 23) //Crépuscule
             {
                 Intensity = 100;
             }
-            else if (RpHour >= 23 && RpHour < 24)  //Crépuscule
+            else if (RpHour >= 23 && RpHour < 24) //Crépuscule
             {
                 Intensity = 75;
             }
-            else if (RpHour >= 0 && RpHour < 4)  //Nuit
+            else if (RpHour >= 0 && RpHour < 4) //Nuit
             {
                 Intensity = 50;
             }
-            else if (RpHour >= 4 && RpHour < 5)  //Aube
+            else if (RpHour >= 4 && RpHour < 5) //Aube
             {
                 Intensity = 75;
             }
-            else if (RpHour >= 5 && RpHour < 6)  //Aube
+            else if (RpHour >= 5 && RpHour < 6) //Aube
             {
                 Intensity = 100;
             }
-            else if (RpHour >= 6 && RpHour < 7)  //Aube
+            else if (RpHour >= 6 && RpHour < 7) //Aube
             {
                 Intensity = 150;
             }
-            else if (RpHour >= 7 && RpHour < 8)  //Aube
+            else if (RpHour >= 7 && RpHour < 8) //Aube
             {
                 Intensity = 200;
             }
@@ -689,7 +701,8 @@ namespace Akiled.HabboHotel.Rooms
 
         private void UpdateRpBlock()
         {
-            List<Item> roomItems = this.GetRoomItemHandler().GetFloor.Where(i => i.GetBaseItem().Id == 99138022).ToList();
+            List<Item> roomItems =
+                this.GetRoomItemHandler().GetFloor.Where(i => i.GetBaseItem().Id == 99138022).ToList();
             if (roomItems == null)
                 return;
 
@@ -732,7 +745,8 @@ namespace Akiled.HabboHotel.Rooms
 
         private void UpdateRpToner()
         {
-            Item roomItem = Enumerable.FirstOrDefault<Item>((IEnumerable<Item>)this.GetRoomItemHandler().GetFloor.Where(i => i.GetBaseItem().InteractionType == InteractionType.TONER));
+            Item roomItem = Enumerable.FirstOrDefault<Item>((IEnumerable<Item>)this.GetRoomItemHandler().GetFloor
+                .Where(i => i.GetBaseItem().InteractionType == InteractionType.TONER));
             if (roomItem == null)
                 return;
 
@@ -743,9 +757,12 @@ namespace Akiled.HabboHotel.Rooms
             roomItem.UpdateState(true, true);
         }
 
-        public void OnRoomCrash(Exception e) => Logging.LogThreadException((e).ToString(), "Room cycle task for room " + this.Id);//AkiledEnvironment.GetGame().GetRoomManager().UnloadRoom(this);
+        public void OnRoomCrash(Exception e) =>
+            Logging.LogThreadException((e).ToString(),
+                "Room cycle task for room " + this.Id); //AkiledEnvironment.GetGame().GetRoomManager().UnloadRoom(this);
 
-        public void SendPacketOnChat(IServerPacket Message, RoomUser ThisUser = null, bool UserMutedOnly = false, bool UserNotIngameOnly = false)
+        public void SendPacketOnChat(IServerPacket Message, RoomUser ThisUser = null, bool UserMutedOnly = false,
+            bool UserNotIngameOnly = false)
         {
             try
             {
@@ -764,13 +781,16 @@ namespace Akiled.HabboHotel.Rooms
                     if (User == null || User.IsBot)
                         continue;
 
-                    if (User.GetClient() == null || User.GetClient().GetConnection() == null || User.GetClient().GetHabbo() == null)
+                    if (User.GetClient() == null || User.GetClient().GetConnection() == null ||
+                        User.GetClient().GetHabbo() == null)
                         continue;
 
-                    if (UserMutedOnly && ThisUser != null && User.GetClient().GetHabbo().MutedUsers.Contains(ThisUser.UserId))
+                    if (UserMutedOnly && ThisUser != null &&
+                        User.GetClient().GetHabbo().MutedUsers.Contains(ThisUser.UserId))
                         continue;
 
-                    if (ThisUser != null && ThisUser.GetClient() != null && ThisUser.GetClient().GetHabbo() != null && ThisUser.GetClient().GetHabbo().IgnoreAll && ThisUser != User)
+                    if (ThisUser != null && ThisUser.GetClient() != null && ThisUser.GetClient().GetHabbo() != null &&
+                        ThisUser.GetClient().GetHabbo().IgnoreAll && ThisUser != User)
                         continue;
 
                     if (!UserMutedOnly && ThisUser == User)
@@ -779,7 +799,9 @@ namespace Akiled.HabboHotel.Rooms
                     if (this.RoomIngameChat && (UserNotIngameOnly && User.Team != Team.none))
                         continue;
 
-                    if (this.RoomData.ChatMaxDistance > 0 && (Math.Abs(ThisUser.X - User.X) > this.RoomData.ChatMaxDistance || Math.Abs(ThisUser.Y - User.Y) > this.RoomData.ChatMaxDistance))
+                    if (this.RoomData.ChatMaxDistance > 0 &&
+                        (Math.Abs(ThisUser.X - User.X) > this.RoomData.ChatMaxDistance ||
+                         Math.Abs(ThisUser.Y - User.Y) > this.RoomData.ChatMaxDistance))
                         continue;
 
                     User.GetClient().SendPacket(Message);
@@ -821,6 +843,7 @@ namespace Akiled.HabboHotel.Rooms
                 Logging.HandleException(ex, "Room.SendMessageWeb (" + this.Id + ")");
             }
         }
+
         public void SendPacket(IServerPacket Message, bool UsersWithRightsOnly = false)
         {
             try
@@ -901,16 +924,15 @@ namespace Akiled.HabboHotel.Rooms
             }
         }
 
-        public void Destroy()
-        {
-            this.SendPacket(new CloseConnectionComposer());
-            this.Dispose();
-        }
 
-        private void Dispose()
+        public void Dispose()
         {
             if (this.Disposed)
                 return;
+
+            this.SendPacket(new CloseConnectionComposer());
+
+
             this.Disposed = true;
             this.mCycleEnded = true;
 
@@ -918,6 +940,7 @@ namespace Akiled.HabboHotel.Rooms
             {
                 this.GetRoomItemHandler().SaveFurniture(queryreactor);
             }
+
             this.RoomData.Tags.Clear();
 
             this.UsersWithRights.Clear();
@@ -948,7 +971,8 @@ namespace Akiled.HabboHotel.Rooms
             this.Bans.Add(pId, (double)(AkiledEnvironment.GetUnixTimestamp() + Time));
         }
 
-        public bool HasBanExpired(int pId) => !this.UserIsBanned(pId) || this.Bans[pId] - (double)AkiledEnvironment.GetUnixTimestamp() <= 0.0;
+        public bool HasBanExpired(int pId) => !this.UserIsBanned(pId) ||
+                                              this.Bans[pId] - (double)AkiledEnvironment.GetUnixTimestamp() <= 0.0;
 
         public Dictionary<int, double> getMute() => this.Mutes;
 
@@ -963,8 +987,11 @@ namespace Akiled.HabboHotel.Rooms
             this.Mutes.Add(pId, (double)(AkiledEnvironment.GetUnixTimestamp() + Time));
         }
 
-        public bool HasMuteExpired(int pId) => !this.UserIsMuted(pId) || this.Mutes[pId] - (double)AkiledEnvironment.GetUnixTimestamp() <= 0.0;
+        public bool HasMuteExpired(int pId) => !this.UserIsMuted(pId) ||
+                                               this.Mutes[pId] - (double)AkiledEnvironment.GetUnixTimestamp() <= 0.0;
+
         public RoomTraxManager GetTraxManager() => this._traxManager;
+
         public bool HasActiveTrade(RoomUser User)
         {
             if (User.IsBot)
@@ -980,6 +1007,7 @@ namespace Akiled.HabboHotel.Rooms
                 if (trade.ContainsUser(UserId))
                     return true;
             }
+
             return false;
         }
 
@@ -990,6 +1018,7 @@ namespace Akiled.HabboHotel.Rooms
                 if (trade.ContainsUser(UserId))
                     return trade;
             }
+
             return (Trade)null;
         }
 
@@ -997,10 +1026,12 @@ namespace Akiled.HabboHotel.Rooms
         {
             if (UserOne == null || UserTwo == null)
                 return;
-            if ((UserOne.IsBot || UserTwo.IsBot) || (UserOne.IsTrading || UserTwo.IsTrading || (this.HasActiveTrade(UserOne) || this.HasActiveTrade(UserTwo))))
+            if ((UserOne.IsBot || UserTwo.IsBot) || (UserOne.IsTrading || UserTwo.IsTrading ||
+                                                     (this.HasActiveTrade(UserOne) || this.HasActiveTrade(UserTwo))))
                 return;
 
-            this.ActiveTrades.Add(new Trade(UserOne.GetClient().GetHabbo().Id, UserTwo.GetClient().GetHabbo().Id, this.Id));
+            this.ActiveTrades.Add(new Trade(UserOne.GetClient().GetHabbo().Id, UserTwo.GetClient().GetHabbo().Id,
+                this.Id));
         }
 
         public void TryStopTrade(int UserId)
@@ -1018,12 +1049,13 @@ namespace Akiled.HabboHotel.Rooms
             using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                 queryreactor.RunQuery(string.Concat(new object[4]
                 {
-                   "UPDATE rooms SET users_max = ",
-                   MaxUsers,
-                   " WHERE id = ",
-                   this.Id
+                    "UPDATE rooms SET users_max = ",
+                    MaxUsers,
+                    " WHERE id = ",
+                    this.Id
                 }));
         }
+
         public delegate void FurnitureLoad();
     }
 }

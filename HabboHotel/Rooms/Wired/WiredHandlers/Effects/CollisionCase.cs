@@ -81,7 +81,7 @@ namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
                     wireditem = row["triggers_item"].ToString();
                 }
 
-                if (wireditem == "" || wireditem == null)
+                if (string.IsNullOrEmpty(wireditem))
                     return;
 
                 foreach (string itemid in wireditem.Split(';'))

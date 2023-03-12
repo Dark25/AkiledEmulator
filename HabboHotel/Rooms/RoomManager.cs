@@ -18,10 +18,7 @@ namespace Akiled.HabboHotel.Rooms
 
         public int Count
         {
-            get
-            {
-                return this._rooms.Count;
-            }
+            get { return this._rooms.Count; }
         }
 
         public RoomManager()
@@ -39,12 +36,16 @@ namespace Akiled.HabboHotel.Rooms
             DataRow row;
             using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {
-                queryreactor.SetQuery("SELECT door_x,door_y,door_z,door_dir,heightmap, wall_height FROM room_models_customs WHERE room_id = " + roomID);
+                queryreactor.SetQuery(
+                    "SELECT door_x,door_y,door_z,door_dir,heightmap, wall_height FROM room_models_customs WHERE room_id = " +
+                    roomID);
                 row = queryreactor.GetRow();
             }
+
             if (row == null)
                 throw new Exception("El room model de la sala " + roomID + " no ha sido encontrado.");
-            return new RoomModel(roomID.ToString(), (int)row["door_x"], (int)row["door_y"], (double)row["door_z"], (int)row["door_dir"], (string)row["heightmap"], (int)row["wall_height"]);
+            return new RoomModel(roomID.ToString(), (int)row["door_x"], (int)row["door_y"], (double)row["door_z"],
+                (int)row["door_dir"], (string)row["heightmap"], (int)row["wall_height"]);
         }
 
         public RoomModel GetModel(string Model, int RoomID)
@@ -79,6 +80,7 @@ namespace Akiled.HabboHotel.Rooms
                 queryreactor.SetQuery("SELECT * FROM rooms WHERE id = " + RoomId);
                 Row = queryreactor.GetRow();
             }
+
             if (Row == null)
                 return (RoomData)null;
 
@@ -87,7 +89,6 @@ namespace Akiled.HabboHotel.Rooms
 
             return roomData;
         }
-
 
 
         public Room LoadRoom(int Id)
@@ -136,7 +137,8 @@ namespace Akiled.HabboHotel.Rooms
                 return (Room)null;
         }
 
-        public RoomData CreateRoom(GameClient Session, string Name, string Desc, string Model, int Category, int MaxVisitors, int TradeSettings)
+        public RoomData CreateRoom(GameClient Session, string Name, string Desc, string Model, int Category,
+            int MaxVisitors, int TradeSettings)
         {
             if (!this._roomModels.ContainsKey(Model))
             {
@@ -144,17 +146,20 @@ namespace Akiled.HabboHotel.Rooms
             }
             else if (Name.Length < 3)
             {
-                Session.SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("room.namelengthshort", Session.Langue));
+                Session.SendNotification(AkiledEnvironment.GetLanguageManager()
+                    .TryGetValue("room.namelengthshort", Session.Langue));
                 return (RoomData)null;
             }
             else if (Name.Length > 200)
             {
-                Session.SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("room.namelengthshort", Session.Langue));
+                Session.SendNotification(AkiledEnvironment.GetLanguageManager()
+                    .TryGetValue("room.namelengthshort", Session.Langue));
                 return (RoomData)null;
             }
             else if (Desc.Length > 200)
             {
-                Session.SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("room.namelengthshort", Session.Langue));
+                Session.SendNotification(AkiledEnvironment.GetLanguageManager()
+                    .TryGetValue("room.namelengthshort", Session.Langue));
                 return (RoomData)null;
             }
             else
@@ -162,7 +167,9 @@ namespace Akiled.HabboHotel.Rooms
                 int RoomId = 0;
                 using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                 {
-                    dbClient.SetQuery("INSERT INTO `rooms` (`caption`,`description`,`owner`,`model_name`,`category`,`users_max`,`TrocStatus`) VALUES (@caption, @desc, @username, @model, @cat, @usmax, '" + TradeSettings + "');");
+                    dbClient.SetQuery(
+                        "INSERT INTO `rooms` (`caption`,`description`,`owner`,`model_name`,`category`,`users_max`,`TrocStatus`) VALUES (@caption, @desc, @username, @model, @cat, @usmax, '" +
+                        TradeSettings + "');");
                     dbClient.AddParameter("caption", Name);
                     dbClient.AddParameter("desc", Desc);
                     dbClient.AddParameter("username", Session.GetHabbo().Username);
@@ -171,6 +178,7 @@ namespace Akiled.HabboHotel.Rooms
                     dbClient.AddParameter("usmax", MaxVisitors);
                     RoomId = (int)dbClient.InsertQuery();
                 }
+
                 RoomData roomData = this.GenerateRoomData(RoomId);
                 Session.GetHabbo().UsersRooms.Add(roomData);
 
@@ -190,7 +198,9 @@ namespace Akiled.HabboHotel.Rooms
                 foreach (DataRow dataRow in table.Rows)
                 {
                     string str = (string)dataRow["id"];
-                    this._roomModels.Add(str, new RoomModel(str, (int)dataRow["door_x"], (int)dataRow["door_y"], (double)dataRow["door_z"], (int)dataRow["door_dir"], (string)dataRow["heightmap"], 0));
+                    this._roomModels.Add(str,
+                        new RoomModel(str, (int)dataRow["door_x"], (int)dataRow["door_y"], (double)dataRow["door_z"],
+                            (int)dataRow["door_dir"], (string)dataRow["heightmap"], 0));
                 }
             }
         }
@@ -211,8 +221,8 @@ namespace Akiled.HabboHotel.Rooms
             catch (OperationCanceledException e)
             {
                 Console.WriteLine("Canceled operation {0}", e);
-
             }
+
             watch.Restart();
         }
 
@@ -220,14 +230,14 @@ namespace Akiled.HabboHotel.Rooms
         {
             IEnumerable<RoomData> InstanceMatches =
                 (from RoomInstance in this._rooms.ToList()
-                 where RoomInstance.Value.RoomData.UsersNow >= 0 &&
-                 RoomInstance.Value.RoomData.State != 3 &&
-                 RoomInstance.Value.RoomData.Group != null &&
-                 (RoomInstance.Value.RoomData.OwnerName.StartsWith(Query) ||
-                 RoomInstance.Value.RoomData.Tags.Contains(Query) ||
-                 RoomInstance.Value.RoomData.Name.Contains(Query))
-                 orderby RoomInstance.Value.RoomData.UsersNow descending
-                 select RoomInstance.Value.RoomData).Take(50);
+                    where RoomInstance.Value.RoomData.UsersNow >= 0 &&
+                          RoomInstance.Value.RoomData.State != 3 &&
+                          RoomInstance.Value.RoomData.Group != null &&
+                          (RoomInstance.Value.RoomData.OwnerName.StartsWith(Query) ||
+                           RoomInstance.Value.RoomData.Tags.Contains(Query) ||
+                           RoomInstance.Value.RoomData.Name.Contains(Query))
+                    orderby RoomInstance.Value.RoomData.UsersNow descending
+                    select RoomInstance.Value.RoomData).Take(50);
             return InstanceMatches.ToList();
         }
 
@@ -235,11 +245,11 @@ namespace Akiled.HabboHotel.Rooms
         {
             IEnumerable<RoomData> InstanceMatches =
                 (from RoomInstance in this._rooms.ToList()
-                 where RoomInstance.Value.RoomData.UsersNow >= 0 &&
-                 RoomInstance.Value.RoomData.State != 3 &&
-                 (RoomInstance.Value.RoomData.Tags.Contains(Query))
-                 orderby RoomInstance.Value.RoomData.UsersNow descending
-                 select RoomInstance.Value.RoomData).Take(50);
+                    where RoomInstance.Value.RoomData.UsersNow >= 0 &&
+                          RoomInstance.Value.RoomData.State != 3 &&
+                          (RoomInstance.Value.RoomData.Tags.Contains(Query))
+                    orderby RoomInstance.Value.RoomData.UsersNow descending
+                    select RoomInstance.Value.RoomData).Take(50);
             return InstanceMatches.ToList();
         }
 
@@ -247,13 +257,13 @@ namespace Akiled.HabboHotel.Rooms
         {
             IEnumerable<RoomData> rooms =
                 (from RoomInstance in this._rooms.ToList()
-                 where RoomInstance.Value != null && RoomInstance.Value.RoomData != null &&
-                 RoomInstance.Value.RoomData.UsersNow > 0 &&
-                 (category == -1 || RoomInstance.Value.RoomData.Category == category) &&
-                 RoomInstance.Value.RoomData.State != 3// && RoomInstance.Value.RoomData.Langue == Langue
-                 orderby RoomInstance.Value.RoomData.Score descending
-                 orderby RoomInstance.Value.RoomData.UsersNow descending
-                 select RoomInstance.Value.RoomData).Take(Amount);
+                    where RoomInstance.Value != null && RoomInstance.Value.RoomData != null &&
+                          RoomInstance.Value.RoomData.UsersNow > 0 &&
+                          (category == -1 || RoomInstance.Value.RoomData.Category == category) &&
+                          RoomInstance.Value.RoomData.State != 3 // && RoomInstance.Value.RoomData.Langue == Langue
+                    orderby RoomInstance.Value.RoomData.Score descending
+                    orderby RoomInstance.Value.RoomData.UsersNow descending
+                    select RoomInstance.Value.RoomData).Take(Amount);
             return rooms.ToList();
         }
 
@@ -261,13 +271,13 @@ namespace Akiled.HabboHotel.Rooms
         {
             IEnumerable<RoomData> Rooms =
                 (from RoomInstance in this._rooms.ToList()
-                 where RoomInstance.Value.RoomData.UsersNow >= 0 &&
-                 RoomInstance.Value.RoomData.Score >= 0 &&
-                 RoomInstance.Value.RoomData.State != 3 &&
-                 RoomInstance.Value.RoomData.Id != CurrentRoomId
-                 orderby RoomInstance.Value.RoomData.Score descending
-                 orderby RoomInstance.Value.RoomData.UsersNow descending
-                 select RoomInstance.Value.RoomData).Take(Amount);
+                    where RoomInstance.Value.RoomData.UsersNow >= 0 &&
+                          RoomInstance.Value.RoomData.Score >= 0 &&
+                          RoomInstance.Value.RoomData.State != 3 &&
+                          RoomInstance.Value.RoomData.Id != CurrentRoomId
+                    orderby RoomInstance.Value.RoomData.Score descending
+                    orderby RoomInstance.Value.RoomData.UsersNow descending
+                    select RoomInstance.Value.RoomData).Take(Amount);
             return Rooms.ToList();
         }
 
@@ -275,9 +285,9 @@ namespace Akiled.HabboHotel.Rooms
         {
             IEnumerable<RoomData> rooms =
                 (from RoomInstance in this._rooms.ToList()
-                 where RoomInstance.Value.RoomData.State != 3
-                 orderby RoomInstance.Value.RoomData.Score descending
-                 select RoomInstance.Value.RoomData).Take(Amount);
+                    where RoomInstance.Value.RoomData.State != 3
+                    orderby RoomInstance.Value.RoomData.Score descending
+                    select RoomInstance.Value.RoomData).Take(Amount);
             return rooms.ToList();
         }
 
@@ -285,11 +295,11 @@ namespace Akiled.HabboHotel.Rooms
         {
             IEnumerable<RoomData> rooms =
                 (from RoomInstance in this._rooms.ToList()
-                 where RoomInstance.Value.RoomData.Category == Category &&
-                 RoomInstance.Value.RoomData.UsersNow > 0 &&
-                 RoomInstance.Value.RoomData.State != 3
-                 orderby RoomInstance.Value.RoomData.UsersNow descending
-                 select RoomInstance.Value.RoomData).Take(Amount);
+                    where RoomInstance.Value.RoomData.Category == Category &&
+                          RoomInstance.Value.RoomData.UsersNow > 0 &&
+                          RoomInstance.Value.RoomData.State != 3
+                    orderby RoomInstance.Value.RoomData.UsersNow descending
+                    select RoomInstance.Value.RoomData).Take(Amount);
             return rooms.ToList();
         }
 
@@ -297,11 +307,11 @@ namespace Akiled.HabboHotel.Rooms
         {
             IEnumerable<List<string>> Tags =
                 (from RoomInstance in this._rooms.ToList()
-                 where RoomInstance.Value.RoomData.UsersNow >= 0 &&
-                 RoomInstance.Value.RoomData.State != 3
-                 orderby RoomInstance.Value.RoomData.UsersNow descending
-                 orderby RoomInstance.Value.RoomData.Score descending
-                 select RoomInstance.Value.RoomData.Tags).Take(50);
+                    where RoomInstance.Value.RoomData.UsersNow >= 0 &&
+                          RoomInstance.Value.RoomData.State != 3
+                    orderby RoomInstance.Value.RoomData.UsersNow descending
+                    orderby RoomInstance.Value.RoomData.Score descending
+                    select RoomInstance.Value.RoomData.Tags).Take(50);
 
             Dictionary<string, int> TagValues = new Dictionary<string, int>();
 
@@ -321,10 +331,7 @@ namespace Akiled.HabboHotel.Rooms
             }
 
             List<KeyValuePair<string, int>> SortedTags = new List<KeyValuePair<string, int>>(TagValues);
-            SortedTags.Sort((FirstPair, NextPair) =>
-            {
-                return FirstPair.Value.CompareTo(NextPair.Value);
-            });
+            SortedTags.Sort((FirstPair, NextPair) => { return FirstPair.Value.CompareTo(NextPair.Value); });
 
             SortedTags.Reverse();
             return SortedTags;
@@ -334,30 +341,27 @@ namespace Akiled.HabboHotel.Rooms
         {
             IEnumerable<RoomData> rooms =
                 (from RoomInstance in this._rooms.ToList()
-                 where RoomInstance.Value.RoomData.Group != null &&
-                 RoomInstance.Value.RoomData.State != 3
-                 orderby RoomInstance.Value.RoomData.Score descending
-                 select RoomInstance.Value.RoomData).Take(Amount);
+                    where RoomInstance.Value.RoomData.Group != null &&
+                          RoomInstance.Value.RoomData.State != 3
+                    orderby RoomInstance.Value.RoomData.Score descending
+                    select RoomInstance.Value.RoomData).Take(Amount);
             return rooms.ToList();
         }
 
         public Room TryGetRandomLoadedRoom()
         {
-            IEnumerable<Room> room =
-                (from RoomInstance in this._rooms.ToList()
-                 where (RoomInstance.Value.RoomData.UsersNow > 0 &&
-                 RoomInstance.Value.RoomData.State == 0 &&
-                 RoomInstance.Value.RoomData.UsersNow < RoomInstance.Value.RoomData.UsersMax)
-                 orderby RoomInstance.Value.RoomData.UsersNow descending
-                 select RoomInstance.Value).Take(1);
-
-            if (room.Count() > 0)
-                return room.First();
-            else
-                return null;
+            return
+                (this._rooms.Values
+                    .Where(RoomInstance => (RoomInstance.RoomData.UsersNow > 0 &&
+                                            RoomInstance.RoomData.State == 0 &&
+                                            RoomInstance.RoomData.UsersNow <
+                                            RoomInstance.RoomData.UsersMax))
+                    .OrderBy(_ => Guid.NewGuid())
+                    .Select(RoomInstance => RoomInstance)).FirstOrDefault();
         }
 
         private Stopwatch roomCycleStopwatch;
+
         public void RoomCycleTask()
         {
             if (roomCycleStopwatch.ElapsedMilliseconds >= 500)
@@ -393,7 +397,8 @@ namespace Akiled.HabboHotel.Rooms
 
                 AkiledEnvironment.GetGame().GetRoomManager().UnloadRoom(Room);
                 Console.Clear();
-                Console.WriteLine("<<- SERVER SHUTDOWN ->> ROOM ITEM SAVE: " + string.Format("{0:0.##}", ((double)num / (double)count * 100.0)) + "%");
+                Console.WriteLine("<<- SERVER SHUTDOWN ->> ROOM ITEM SAVE: " +
+                                  string.Format("{0:0.##}", ((double)num / (double)count * 100.0)) + "%");
                 num++;
             }
 
@@ -407,7 +412,7 @@ namespace Akiled.HabboHotel.Rooms
             Room room = null;
             if (this._rooms.TryRemove(Room.Id, out room))
             {
-                Room.Destroy();
+                Room.Dispose();
             }
         }
     }

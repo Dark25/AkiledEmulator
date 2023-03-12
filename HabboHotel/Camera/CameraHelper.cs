@@ -2,6 +2,7 @@
 using Nancy.Json;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -14,12 +15,10 @@ namespace AkiledEmulator.HabboHotel.Camera
 
         public static string request(string type, int userId, int roomId, string base64)
         {
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(REQUEST_URL);
-            httpWebRequest.ContentType = "application/json";
-            httpWebRequest.Method = "POST";
 
-            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            using (var client = new HttpClient())
             {
+
                 string json = new JavaScriptSerializer().Serialize(new
                 {
                     type,
@@ -29,27 +28,11 @@ namespace AkiledEmulator.HabboHotel.Camera
                     timestamp = AkiledEnvironment.GetUnixTimestamp()
                 });
 
-                streamWriter.Write(json);
+                var httpResponse = client.PostAsJsonAsync(REQUEST_URL, json);
+                
+                return httpResponse.Result.Content.ReadAsStringAsync().Result;
             }
-
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                var result = streamReader.ReadToEnd();
-                return result;
-            }
-        }
-
-        public static string encrypt(string str)
-        {
-            MD5 md5 = MD5.Create();
-            ASCIIEncoding encoding = new ASCIIEncoding();
-            byte[] stream = null;
-            StringBuilder sb = new StringBuilder();
-            stream = md5.ComputeHash(encoding.GetBytes(str));
-            for (int i = 0; i < stream.Length; i++)
-                sb.AppendFormat("{0:x2}", stream[i]);
-            return sb.ToString();
+            
         }
     }
 }
