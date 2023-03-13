@@ -74,7 +74,7 @@ namespace Akiled.HabboHotel.Rooms
         public bool FreezeRoom;
         public bool PushPullAllowed;
         public bool CloseFullRoom;
-        public bool OldFoot = true;
+        public bool OldFoot = false;
         public bool RoomIngameChat;
         public bool BurnEnabled;
         public bool MatarEnabled;
@@ -118,6 +118,8 @@ namespace Akiled.HabboHotel.Rooms
 
         public Room(RoomData Data)
         {
+            _mainProcessSource = new CancellationTokenSource();
+
             RolePlayerManager RPManager = AkiledEnvironment.GetGame().GetRoleplayManager().GetRolePlay(Data.OwnerId);
             if (RPManager != null)
             {
@@ -169,7 +171,6 @@ namespace Akiled.HabboHotel.Rooms
             this._hideWired = Data.HideWired;
 
 
-            _mainProcessSource = new CancellationTokenSource();
 
             StartRoomProcessing();
             StartItemProcess();
@@ -215,6 +216,47 @@ namespace Akiled.HabboHotel.Rooms
                 Logging.HandleException(e, "StartRoomProcess");
             }
         }
+        
+        private bool _processingBall;
+
+
+        internal void StartBallProcess()
+        {
+            if (_processingBall || _mainProcessSource == null) return;
+
+            _processingBall = true;
+
+            try
+            {
+                new Task(async () =>
+                {
+                    while ((GotSoccer() && !Disposed) && !_mainProcessSource.IsCancellationRequested)
+                    {
+                        var start = AkiledEnvironment.GetUnixTimestamp();
+                        try
+                        {
+                            if (!GetSoccer().OnCycle())
+                            {
+                                ;
+                                await Task.Delay(250);
+                                continue;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Logging.LogCriticalException(e.ToString());
+                        }
+
+                        var end = AkiledEnvironment.GetUnixTimestamp() - start;
+                        await Task.Delay(100);
+                    }
+                }, TaskCreationOptions.LongRunning).Start();
+            }
+            catch (Exception e)
+            {
+                Logging.HandleException(e, "Start ball");
+            }
+        }
 
 
         public Gamemap GetGameMap() => this.gamemap;
@@ -228,6 +270,7 @@ namespace Akiled.HabboHotel.Rooms
             if (soccer == null)
             {
                 soccer = new Soccer(this);
+                StartBallProcess();
             }
 
             return this.soccer;
@@ -1060,7 +1103,7 @@ namespace Akiled.HabboHotel.Rooms
 
             this.SendPacket(new CloseConnectionComposer());
 
-            _mainProcessSource.Cancel();
+            _mainProcessSource?.Cancel();
 
             this.Disposed = true;
             this.mCycleEnded = true;
@@ -1089,7 +1132,7 @@ namespace Akiled.HabboHotel.Rooms
             new Task(async () =>
             {
                 await Task.Delay(2500);
-                _mainProcessSource.Dispose();
+                _mainProcessSource?.Dispose();
                 _mainProcessSource = null;
             }).Start();
         }

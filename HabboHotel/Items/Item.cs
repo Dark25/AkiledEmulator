@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Akiled.HabboHotel.GameClients;
 
 namespace Akiled.HabboHotel.Items
 {
@@ -161,6 +162,9 @@ namespace Akiled.HabboHotel.Items
         }
 
         public ItemData Data;
+        public GameClient ballMover;
+
+
         public int ExtradataInt
         {
             get
@@ -394,6 +398,9 @@ namespace Akiled.HabboHotel.Items
                 return false;
             }
         }
+
+        public bool BallIsMoving { get; set; }
+        public int BallValue { get; set; }
 
         public Item(int mId, int fOwnerId, int RoomId, int mBaseItem, string ExtraData, int limitedNumber, int limitedStack, int X, int Y, double Z, int Rot, string wallCoord, Room pRoom = null)
         {
