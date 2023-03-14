@@ -919,6 +919,30 @@ namespace Akiled.HabboHotel.Rooms
                         User.RotBody = roomItem.Rotation;
                         User.UpdateNeeded = true;
                         break;
+                    #region Plantas
+                    case InteractionType.PLANT_SEED:
+                        {
+                            if (User.IsWalking && roomItem.ExtraData.Length > 0)
+                            {
+                                var givenHits = int.Parse(roomItem.ExtraData);
+                                if (givenHits < 1 && User.CurrentEffect == 192)
+                                {
+                                    givenHits++;
+                                    roomItem.ExtraData = givenHits.ToString();
+                                    roomItem.UpdateState();
+
+                                    if (givenHits > 5) AkiledEnvironment.GetGame().GetPinataManager().ReceiveCrackableReward(User, _room, roomItem);
+                                    {
+                                        givenHits = 0;
+                                        roomItem.ExtraData = givenHits.ToString();
+                                        roomItem.UpdateState();
+                                        AkiledEnvironment.GetGame().GetAchievementManager().ProgressAchievement(User.GetClient(), "ACH_PinataWhacker", 1);
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    #endregion
                     case InteractionType.pressurepad:
                     case InteractionType.TRAMPOLINE:
                     case InteractionType.TREADMILL:

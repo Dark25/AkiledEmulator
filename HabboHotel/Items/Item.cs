@@ -1,5 +1,6 @@
 ﻿using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Core;
+using Akiled.HabboHotel.Items.Interactor;
 using Akiled.HabboHotel.Items.Interactors;
 using Akiled.HabboHotel.Rooms;
 using Akiled.HabboHotel.Rooms.Games;
@@ -310,6 +311,8 @@ namespace Akiled.HabboHotel.Items
                         return (FurniInteractor)new InteractorMineria();
                     case InteractionType.PHOTO:
                         return new InteractorIgnore();
+                    case InteractionType.PLANT_SEED:
+                        return new InteractorPlantSeed();
                     default:
                         return new InteractorGenericSwitch(this.GetBaseItem().Modes);
                 }

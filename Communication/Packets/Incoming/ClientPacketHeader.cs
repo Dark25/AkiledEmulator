@@ -235,9 +235,6 @@
         public const int MakeOfferMessageEvent = 3447;
         public const int CancelOfferMessageEvent = 434;
         public const int BuyOfferMessageEvent = 1603;
-        public const int GetJukeboxPlayListEvent = 1435;
-        public const int LoadJukeboxDiscsEvent = 2304;
-        public const int GetJukeboxDiscsDataEvent = 3082;
         public const int AddDiscToPlayListEvent = 753;
         public const int RemoveDiscFromPlayListEvent = 3050;
         public const int RedeemOfferCreditsMessageEvent = 2650;
@@ -258,6 +255,17 @@
         public const int GetIgnoredUsersMessageEvent = 3878;
         public const int PurchaseRoomPromotionMessageEvent = 3878;
         public const int GetYouTubeTelevisionMessageEvent = 336;
+
+        //jukebox
+        public const int JukeBoxRequestTrackCodeEvent = 3189;
+        public const int JukeBoxRequestTrackDataEvent = 3082;
+        public const int JukeBoxRequestPlayListEvent = 1325;
+        public const int JukeBoxEventOne = 2304;
+        public const int JukeBoxEventTwo = 1435;
+        public const int JukeBoxAddSoundTrackEvent = 753;
+        public const int JukeBoxRemoveSoundTrackEvent = 3050;
+
+
 
 
 

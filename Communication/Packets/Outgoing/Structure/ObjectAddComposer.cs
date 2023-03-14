@@ -24,6 +24,21 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
                 WriteInteger(Item.LimitedNo);
                 WriteInteger(Item.LimitedTot);
             }
+            else if (Item.Data.InteractionType == InteractionType.PLANT_SEED)
+            {
+                base.WriteInteger(0);
+                base.WriteInteger(7);
+                base.WriteString(Item.ExtraData);
+                if (Item.ExtraData.Length <= 0)
+                {
+                    base.WriteInteger(0);
+                }
+                else
+                {
+                    base.WriteInteger(int.Parse(Item.ExtraData));
+                }
+                base.WriteInteger(12);
+            }
             else
             {
                 ItemBehaviourUtility.GenerateExtradata(Item, this);

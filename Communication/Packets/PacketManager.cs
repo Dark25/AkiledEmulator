@@ -430,7 +430,7 @@ namespace Akiled.Communication.Packets
         private void RegisterSound()
         {
             _incomingPackets.Add(ClientPacketHeader.SetSoundSettingsMessageEvent, new SetSoundSettingsEvent());
-            _incomingPackets.Add(-1, (IPacketEvent)new GetSongInfoEvent());
+            _incomingPackets.Add(3189, (IPacketEvent)new GetSongInfoEvent());
             _incomingPackets.Add(1435, (IPacketEvent)new GetJukeboxPlayListEvent());
             _incomingPackets.Add(2304, (IPacketEvent)new LoadJukeboxDiscsEvent());
             _incomingPackets.Add(3082, (IPacketEvent)new GetJukeboxDiscsDataEvent());

@@ -378,8 +378,12 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                                         else
                                             break;
                                     case InteractionType.PINATA:
+                                    case InteractionType.PLANT_SEED:
                                     case InteractionType.PINATATRIGGERED:
                                     case InteractionType.CRACKABLE_EGG:
+                                        str1 = "0";
+                                        break;
+
                                     default:
                                         if (Amount > 1)
                                         {

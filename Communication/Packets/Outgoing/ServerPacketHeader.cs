@@ -234,13 +234,20 @@
         public const int RoomCustomizedAlertComposer = 934; // PRODUCTION-201611291003-338511768
         public const int NewYearMesssageComposer = 740; // PRODUCTION-201611291003-338511768
         public const int NuxItemListComposer = 3575;
-
+        
+        //Jukebox
+        
         public const int CostumNotificationComposer = 66; // PRODUCTION-201611291003-338511768
-        public const int TraxSongInfoMessageComposer = 3365;
-        public const int LoadJukeboxUserMusicItemsMessageComposer = 2602;
-        public const int SetJukeboxNowPlayingMessageComposer = 469;
-        public const int SetJukeboxSongMusicDataMessageComposer = 3365;
-        public const int SetJukeboxPlayListMessageComposer = 34;
+        public const int JukeBoxMySongsComposer = 2602; // PRODUCTION-201611291003-338511768
+        public const int JukeBoxNowPlayingMessageComposer = 469; // PRODUCTION-201611291003-338511768
+        public const int JukeBoxPlaylistFullComposer = 105; // PRODUCTION-201611291003-338511768
+        public const int JukeBoxPlayListUpdatedComposer = 1748; // PRODUCTION-201611291003-338511768
+        public const int JukeBoxPlayListAddSongComposer = 1140; // PRODUCTION-201611291003-338511768
+        public const int JukeBoxPlayListComposer = 34; // PRODUCTION-201611291003-338511768
+        public const int JukeBoxTrackDataComposer = 3365; // PRODUCTION-201611291003-338511768
+        public const int JukeBoxTrackCodeComposer = 1381; // PRODUCTION-201611291003-338511768
+
+        
         public const int CraftableProductsMessageComposer = 1000;
         public const int CraftingRecipeMessageComposer = 2774;
         public const int CraftingResultMessageComposer = 3128;

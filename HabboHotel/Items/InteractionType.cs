@@ -200,6 +200,7 @@
         PINATATRIGGERED,
         CRACKABLE_EGG,
         MARECRACKABLE_EGG,
+        PLANT_SEED
 
     }
 
@@ -711,6 +712,8 @@
                     return InteractionType.MARECRACKABLE_EGG;
                 case "CRACKABLE_EGG":
                     return InteractionType.CRACKABLE_EGG;
+                case "PLANT_SEED":
+                    return InteractionType.PLANT_SEED;
                 default:
                     return InteractionType.NONE;
             }
