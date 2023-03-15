@@ -157,7 +157,7 @@ namespace Akiled
             Console.WriteLine(@"");
             Console.WriteLine(@"                           Basado en PlusEmulator y Wibbo Emulator - Akiled Emulator    ");
             Console.WriteLine(@"");
-            Console.WriteLine(@"                                                  Versión: 2.8                            ");
+            Console.WriteLine(@"                                                  Versión: 2.9.55                           ");
             Console.WriteLine(@"");
             Console.WriteLine(@"                           Desarrollado por Carlos Mota --- Todos los derechos reservados");
             Console.WriteLine();

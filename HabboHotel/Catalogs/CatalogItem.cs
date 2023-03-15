@@ -18,9 +18,10 @@ namespace Akiled.HabboHotel.Catalog
         public int LimitedEditionSells;
         public int CostDiamonds;
         public string Badge;
+        public int OfferId { get; set; }
 
         public CatalogItem(int Id, int ItemId, ItemData Data, string CatalogName, int PageId, int CostCredits, int CostPixels,
-            int CostDiamonds, int Amount, int LimitedEditionSells, int LimitedEditionStack, bool HaveOffer, string badge)
+            int CostDiamonds, int Amount, int LimitedEditionSells, int LimitedEditionStack, bool HaveOffer, string badge, int OfferId)
         {
             this.Id = Id;
             this.Name = CatalogName;
@@ -36,6 +37,7 @@ namespace Akiled.HabboHotel.Catalog
             this.IsLimited = (LimitedEditionStack > 0);
             this.HaveOffer = HaveOffer;
             this.Badge = badge;
+            this.OfferId = OfferId;
         }
     }
 }

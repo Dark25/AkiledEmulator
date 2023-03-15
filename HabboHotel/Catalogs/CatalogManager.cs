@@ -19,6 +19,7 @@ namespace Akiled.HabboHotel.Catalog
         private readonly VoucherManager _voucherManager;
         private ClothingManager _clothingManager;
 
+        private Dictionary<int, int> _itemOffers;
         private readonly Dictionary<int, CatalogPage> _pages;
         private readonly Dictionary<int, CatalogBot> _botPresets;
         private readonly Dictionary<int, Dictionary<int, CatalogItem>> _items;
@@ -35,7 +36,7 @@ namespace Akiled.HabboHotel.Catalog
             this._voucherManager.Init();
             this._clothingManager = new ClothingManager();
             this._clothingManager.Init();
-
+            this._itemOffers = new Dictionary<int, int>();
             this._pages = new Dictionary<int, CatalogPage>();
             this._botPresets = new Dictionary<int, CatalogBot>();
             this._items = new Dictionary<int, Dictionary<int, CatalogItem>>();
@@ -55,7 +56,7 @@ namespace Akiled.HabboHotel.Catalog
 
             using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {
-                dbClient.SetQuery("SELECT `id`,`item_id`,`catalog_name`,`cost_credits`,`cost_pixels`,`cost_diamonds`,`amount`,`page_id`,`limited_sells`,`limited_stack`,`offer_active`,`badge` FROM `catalog_items` ORDER by ID DESC");
+                dbClient.SetQuery("SELECT `id`,`item_id`,`catalog_name`,`cost_credits`,`cost_pixels`,`cost_diamonds`,`amount`,`page_id`,`limited_sells`,`limited_stack`,`offer_active`,`badge`,`offer_id` FROM `catalog_items` ORDER by ID DESC");
                 DataTable CatalogueItems = dbClient.GetTable();
 
                 if (CatalogueItems != null)
@@ -68,6 +69,7 @@ namespace Akiled.HabboHotel.Catalog
                         int ItemId = Convert.ToInt32(Row["id"]);
                         int PageId = Convert.ToInt32(Row["page_id"]);
                         int BaseId = Convert.ToInt32(Row["item_id"]);
+                        int OfferId = Convert.ToInt32(Row["offer_id"]);
 
                         ItemData Data = null;
                         if (!ItemDataManager.GetItem(BaseId, out Data))
@@ -82,10 +84,12 @@ namespace Akiled.HabboHotel.Catalog
 
                         if (!this._items.ContainsKey(PageId))
                             this._items[PageId] = new Dictionary<int, CatalogItem>();
+                        if (OfferId != -1 && !this._itemOffers.ContainsKey(OfferId))
+                            this._itemOffers.Add(OfferId, PageId);
 
-                        this._items[PageId].Add(Convert.ToInt32(Row["id"]), new CatalogItem(Convert.ToInt32(Row["id"]), Convert.ToInt32(Row["item_id"]),
+                        this._items[PageId].Add(Convert.ToInt32(Row["id"]), new(Convert.ToInt32(Row["id"]), Convert.ToInt32(Row["item_id"]),
                             Data, Convert.ToString(Row["catalog_name"]), Convert.ToInt32(Row["page_id"]), Convert.ToInt32(Row["cost_credits"]), Convert.ToInt32(Row["cost_pixels"]), Convert.ToInt32(Row["cost_diamonds"]),
-                            Convert.ToInt32(Row["amount"]), Convert.ToInt32(Row["limited_sells"]), Convert.ToInt32(Row["limited_stack"]), AkiledEnvironment.EnumToBool(Row["offer_active"].ToString()), Convert.ToString(Row["badge"])));
+                            Convert.ToInt32(Row["amount"]), Convert.ToInt32(Row["limited_sells"]), Convert.ToInt32(Row["limited_stack"]), AkiledEnvironment.EnumToBool(Row["offer_active"].ToString()), Convert.ToString(Row["badge"]), Convert.ToInt32(Row["offer_id"])));
 
                         this._itemsPage.Add(Convert.ToInt32(Row["id"]), PageId);
                     }
@@ -108,7 +112,8 @@ namespace Akiled.HabboHotel.Catalog
                             Convert.ToString(Row["page_link"]), Convert.ToInt32(Row["icon_image"]), Convert.ToInt32(Row["min_rank"]), Convert.ToString(Row["page_layout"]),
                             Convert.ToString(Row["page_strings_1"]), Convert.ToString(Row["page_strings_2"]), Convert.ToString(Row["caption_en"]),
                             Convert.ToString(Row["caption_br"]), Convert.ToString(Row["page_strings_2_en"]), Convert.ToString(Row["page_strings_2_br"]),
-                            this._items.ContainsKey(Convert.ToInt32(Row["id"])) ? this._items[Convert.ToInt32(Row["id"])] : new Dictionary<int, CatalogItem>()));
+                            this._items.ContainsKey(Convert.ToInt32(Row["id"])) ? this._items[Convert.ToInt32(Row["id"])] : new Dictionary<int, CatalogItem>(),
+                            ref this._itemOffers));
                     }
                 }
 
@@ -165,6 +170,11 @@ namespace Akiled.HabboHotel.Catalog
         public bool TryGetBot(int ItemId, out CatalogBot Bot)
         {
             return this._botPresets.TryGetValue(ItemId, out Bot);
+        }
+
+        public Dictionary<int, int> ItemOffers
+        {
+            get { return this._itemOffers; }
         }
 
         public bool TryGetPage(int pageId, out CatalogPage page)

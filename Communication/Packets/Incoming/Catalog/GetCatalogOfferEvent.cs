@@ -8,22 +8,26 @@ namespace Akiled.Communication.Packets.Incoming.Structure
     {
         public void Parse(GameClient Session, ClientPacket Packet)
         {
-            int id = Packet.PopInt();
-            CatalogItem Item = AkiledEnvironment.GetGame().GetCatalog().FindItem(id, Session.GetHabbo().Rank);
-            if (Item == null)
+            int OfferId = Packet.PopInt();
+            if (!AkiledEnvironment.GetGame().GetCatalog().ItemOffers.ContainsKey(OfferId))
                 return;
 
+            int PageId = AkiledEnvironment.GetGame().GetCatalog().ItemOffers[OfferId];
+
             CatalogPage Page;
-            if (!AkiledEnvironment.GetGame().GetCatalog().TryGetPage(Item.PageID, out Page))
+            if (!AkiledEnvironment.GetGame().GetCatalog().TryGetPage(PageId, out Page))
                 return;
 
             if (!Page.Enabled || Page.MinimumRank > Session.GetHabbo().Rank)
                 return;
-
-            if (Item.IsLimited)
+            
+            CatalogItem Item = null;
+            if (!Page.ItemOffers.ContainsKey(OfferId))
                 return;
 
-            Session.SendPacket(new CatalogOfferComposer(Item));
+            Item = (CatalogItem)Page.ItemOffers[OfferId];
+            if (Item != null)
+                Session.SendMessage(new CatalogOfferComposer(Item));
         }
     }
 }

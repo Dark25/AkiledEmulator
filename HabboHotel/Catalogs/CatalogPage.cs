@@ -1,4 +1,5 @@
 ﻿using Akiled.Core;
+using Akiled.HabboHotel.Items;
 using System.Collections.Generic;
 
 namespace Akiled.HabboHotel.Catalog
@@ -34,7 +35,7 @@ namespace Akiled.HabboHotel.Catalog
         private List<string> PageStrings2Br;
 
         public CatalogPage(int Id, int ParentId, string Enabled, string Caption, string PageLink, int Icon, int MinRank
-            , string Template, string PageStrings1, string PageStrings2, string CaptionEn, string CaptionBr, string PageStrings2En, string PageStrings2Br, Dictionary<int, CatalogItem> Items)
+            , string Template, string PageStrings1, string PageStrings2, string CaptionEn, string CaptionBr, string PageStrings2En, string PageStrings2Br, Dictionary<int, CatalogItem> Items, ref Dictionary<int, int> flatOffers)
         {
             this.Id = Id;
             this.ParentId = ParentId;
@@ -76,17 +77,22 @@ namespace Akiled.HabboHotel.Catalog
             this.Items = Items;
 
             this.ItemOffers = new Dictionary<int, CatalogItem>();
-            if (Template == "default_3x3")
+            foreach (int i in flatOffers.Keys)
             {
-                foreach (CatalogItem item in this.Items.Values)
+                if (flatOffers[i] == Id)
                 {
-                    if (item.IsLimited)
-                        continue;
-                    if (!ItemOffers.ContainsKey(item.Id))
-                        ItemOffers.Add(item.Id, item);
+                    foreach (CatalogItem item in Items.Values)
+                    {
+                        if (item.OfferId == i)
+                        {
+                            if (!ItemOffers.ContainsKey(i))
+                                ItemOffers.Add(i, item);
+                        }
+                    }
                 }
             }
         }
+
 
         public string GetCaptionByLangue(Language Langue)
         {
