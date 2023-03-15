@@ -83,6 +83,9 @@ namespace Akiled.HabboHotel.Catalog
                 {
                     foreach (CatalogItem item in Items.Values)
                     {
+                        if (item.IsLimited)
+                            continue;
+                        
                         if (item.OfferId == i)
                         {
                             if (!ItemOffers.ContainsKey(i))
