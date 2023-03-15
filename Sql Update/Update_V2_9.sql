@@ -48,10 +48,6 @@ INSERT INTO `system_commands` (`id`, `input`, `minrank`, `description_fr`, `desc
 
 INSERT INTO `fuserights` (`id`, `rank`, `fuse`) VALUES (51, 19, 'giveaway_manager_command');
 
--- Dump della struttura del database mezz
-CREATE DATABASE IF NOT EXISTS `mezz` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
-USE `mezz`;
-
 -- Dump della struttura di tabella mezz.catalog_items
 
 ALTER TABLE `catalog_items` ADD `offer_id` INT NOT NULL DEFAULT 1 AFTER `badge`;
