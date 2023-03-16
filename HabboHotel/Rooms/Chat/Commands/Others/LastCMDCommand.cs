@@ -35,6 +35,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 
             GameClient TargetClient = AkiledEnvironment.GetGame().GetClientManager().GetClientByUsername(Username);
 
+            DataTable GetLogs = null;
             StringBuilder HabboInfo = new StringBuilder();
 
             HabboInfo.Append("Estos son los últimos comandos usados por el usuario, recuerda revisar siempre estos casos antes de proceder a banear a menos que sea un  caso evidente de robo o abuso.\n\n");
@@ -42,7 +43,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {
                 dbClient.SetQuery("SELECT `extra_data`,`command` FROM `cmdlogs` WHERE `user_id` = '" + TargetClient.GetHabbo().Id + "' ORDER BY `id` DESC LIMIT 15");
-                DataTable GetLogs = dbClient.GetTable();
+                GetLogs = dbClient.GetTable();
 
                 if (GetLogs == null)
                 {

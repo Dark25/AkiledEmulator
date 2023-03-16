@@ -126,7 +126,6 @@ namespace Akiled.HabboHotel.Rooms.Wired
 
         public void OnCycle()
         {
-
             if (this._doCleanup)
                 ClearWired();
             else
