@@ -725,7 +725,7 @@ namespace Akiled.HabboHotel.Rooms
 
         public ICollection<RoomUser> GetUserList() => this._users.Values;
 
-        public RoomUser GetBotByName(string name) => this._bots.Values.FirstOrDefault(b => b.IsBot && b.BotData.Name == name);
+        public RoomUser GetBotByName(string name) => this._bots.Values.Where(b => b.IsBot && b.BotData.Name == name).FirstOrDefault();
 
         public RoomUser GetBotOrPetByName(string name) => _bots.Values.Concat(_pets.Values).FirstOrDefault(b => (b.IsBot && b.BotData.Name == name) || (b.IsPet && b.BotData.Name == name));
 
@@ -1055,7 +1055,13 @@ namespace Akiled.HabboHotel.Rooms
                             string _gateLook = ((User.GetClient().GetHabbo().Gender.ToUpper() == "M") ? roomItem.ExtraData.Split(',')[0] : roomItem.ExtraData.Split(',')[1]);
                             if (_gateLook == "")
                                 break;
-                            string gateLook = _gateLook.Split('.').Where(part => !part.StartsWith("hd")).Aggregate("", (current, part) => current + (part + "."));
+                            string gateLook = "";
+                            foreach (string part in _gateLook.Split('.'))
+                            {
+                                if (part.StartsWith("hd"))
+                                    continue;
+                                gateLook += part + ".";
+                            }
                             gateLook = gateLook.Substring(0, gateLook.Length - 1);
 
                             // Generating New Look.
@@ -1340,7 +1346,7 @@ namespace Akiled.HabboHotel.Rooms
                 if (User.IsLay)
                     User.IsLay = false;
 
-                this._room.GetSoccer().OnUserWalk(User);
+                this._room.GetSoccer().OnUserWalk(User, nextStep.X == User.GoalX && nextStep.Y == User.GoalY);
                 this._room.GetBanzai().OnUserWalk(User);
             }
         }
@@ -1457,16 +1463,97 @@ namespace Akiled.HabboHotel.Rooms
                     roomItem.UpdateState(false, true);
                 }
 
+                else if (roomItem.GetBaseItem().InteractionType == InteractionType.football)
+                {
+                    if (roomItem.interactionCountHelper > 0)
+                        continue;
+
+                    switch (User.RotBody)
+                    {
+                        case 0:
+                            roomItem.MovementDir = MovementDirection.down;
+                            break;
+                        case 1:
+                            roomItem.MovementDir = MovementDirection.downleft;
+                            break;
+                        case 2:
+                            roomItem.MovementDir = MovementDirection.left;
+                            break;
+                        case 3:
+                            roomItem.MovementDir = MovementDirection.upleft;
+                            break;
+                        case 4:
+                            roomItem.MovementDir = MovementDirection.up;
+                            break;
+                        case 5:
+                            roomItem.MovementDir = MovementDirection.upright;
+                            break;
+                        case 6:
+                            roomItem.MovementDir = MovementDirection.right;
+                            break;
+                        case 7:
+                            roomItem.MovementDir = MovementDirection.downright;
+                            break;
+                    }
+                    int num = User.X - roomItem.GetX;
+                    int num2 = User.Y - roomItem.GetY;
+                    int X = num * -1;
+                    int Y = num2 * -1;
+                    X += roomItem.GetX;
+                    Y += roomItem.GetY;
+
+                    int GoalX = roomItem.GetX;
+                    int GoalY = roomItem.GetY;
+
+                    if (User.GoalX == User.SetX && User.GoalY == User.SetY)
+                    {
+                        /*Point NewPoint = roomItem.GetMoveCoord(GoalX, GoalY, 1);
+                        if (roomItem.GetRoom().OldFoot)
+                        {
+                            roomItem.interactionCountHelper = 0;
+                            if (!roomItem.GetRoom().GetGameMap().CanStackItem(NewPoint.X, NewPoint.Y, true) || roomItem.GetRoom().GetGameMap().SquareHasUsers(X, Y))
+                            {
+                                roomItem.GetNewDir(NewPoint.X, NewPoint.Y);
+                                NewPoint = roomItem.GetMoveCoord(GoalX, GoalY, 0);
+                            }
+                            if (!User.MoveWithBall && roomItem.interactionCountHelper == 0)
+                            {
+                                roomItem.interactionCountHelper = 1;
+                                roomItem.InteractingUser = User.VirtualId;
+                                roomItem.ReqUpdate(1);
+                            }
+                            else
+                            {
+                                if (roomItem.GetRoom().GetGameMap().CanStackItem(X, Y, true) && !roomItem.GetRoom().GetGameMap().SquareHasUsers(X, Y))
+                                    roomItem.GetRoom().GetSoccer().MoveBall(roomItem, NewPoint.X, NewPoint.Y);
+                            }
+                        }
+                        else
+                        {*/
+                        if (!roomItem.GetRoom().OldFoot)
+                        {
+                            roomItem.interactionCountHelper = 6;
+                            roomItem.InteractingUser = User.VirtualId;
+                            roomItem.ReqUpdate(1);
+                        }
+                        //}
+                    }
+                    else
+                    {
+                        if (!roomItem.GetRoom().OldFoot)
+                        {
+                            roomItem.interactionCountHelper = 0;
+
+                            if (roomItem.GetRoom().GetGameMap().CanStackItem(X, Y, true) && !roomItem.GetRoom().GetGameMap().SquareHasUsers(X, Y))
+                                roomItem.GetRoom().GetSoccer().MoveBall(roomItem, X, Y);
+                        }
+                    }
+                }
             }
-            
-            if (_room.GotSoccer())
-                _room.GetSoccer().OnUserWalk(User);
 
             this.UpdateUserStatus(User, true);
             this._room.GetGameMap().RemoveTakingSquare(User.SetX, User.SetY);
 
-
-            
             User.SetStep = false;
             User.AllowMoveToRoller = false;
 

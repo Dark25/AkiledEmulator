@@ -142,8 +142,6 @@ namespace Akiled.HabboHotel.Rooms
             }
         }
 
-        public int HandelingBallStatus { get; set; }
-
         public RoomUser(int HabboId, int RoomId, int VirtualId, Room room)
         {
             this.Freezed = false;
