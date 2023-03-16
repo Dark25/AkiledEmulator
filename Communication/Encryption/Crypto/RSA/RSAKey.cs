@@ -70,9 +70,7 @@ namespace Akiled.Communication.Encryption.Crypto.RSA
 
                 if (this.P < this.Q)
                 {
-                    BigInteger t = this.P;
-                    this.P = this.Q;
-                    this.Q = t;
+                    (this.P, this.Q) = (this.Q, this.P);
                 }
 
                 BigInteger phi = (this.P - 1) * (this.Q - 1);

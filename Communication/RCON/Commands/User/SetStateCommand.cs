@@ -1,6 +1,5 @@
 ﻿using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Rooms;
-using Nancy.Session;
 using System;
 
 namespace Akiled.Communication.RCON.Commands.User

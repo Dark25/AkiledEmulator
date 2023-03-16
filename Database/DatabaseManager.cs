@@ -1,5 +1,5 @@
 ﻿using Akiled.Database.Interfaces;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using System;
 
 
@@ -16,7 +16,7 @@ namespace Akiled.Database
                 ConnectionTimeout = 10,
                 Database = DbName,
                 DefaultCommandTimeout = 30,
-                Logging = false,
+                //Logging = false,
                 MaximumPoolSize = DbPoolMax,
                 MinimumPoolSize = DbPoolMin,
                 Password = DbPassword,

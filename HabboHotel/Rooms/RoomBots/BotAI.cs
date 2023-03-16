@@ -10,10 +10,6 @@ namespace Akiled.HabboHotel.Rooms.RoomBots
         private RoomUser roomUser;
         private Room room;
 
-        public BotAI()
-        {
-        }
-
         public void Init(int pBaseId, int pRoomUserId, int pRoomId, RoomUser user, Room room)
         {
             this.BaseId = pBaseId;

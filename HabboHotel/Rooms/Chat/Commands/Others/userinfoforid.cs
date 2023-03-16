@@ -29,11 +29,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                     switch (idNum)
                     {
                         default:
-                            bool isValid = true;
-                            if (idNum < 1)
-                            {
-                                isValid = false;
-                            }
+                            bool isValid = !(idNum < 1);
 
                             if (idNum > 999999999)
                             {
