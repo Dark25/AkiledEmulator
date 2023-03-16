@@ -17,7 +17,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 int result;
                 if (int.TryParse(Params[1], out result))
                 {
-                    if (Session.GetHabbo().Prefixnamecolor == null || Session.GetHabbo().Prefixnamecolor == string.Empty)
+                    if (string.IsNullOrEmpty(Session.GetHabbo().Prefixnamecolor))
                         Session.GetHabbo().Prefixnamecolor = "000000;";
                     if (result == 12)
                     {

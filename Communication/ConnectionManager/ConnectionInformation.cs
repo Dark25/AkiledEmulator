@@ -7,12 +7,12 @@ namespace ConnectionManager
 {
     public class ConnectionInformation : IDisposable
     {
-        private Socket _dataSocket;
-        private string _ip;
-        private int _connectionID;
+        private readonly Socket _dataSocket;
+        private readonly string _ip;
+        private readonly int _connectionID;
         private bool _isConnected;
-        private byte[] _buffer;
-        private AsyncCallback _sendCallback;
+        private readonly byte[] _buffer;
+        private readonly AsyncCallback _sendCallback;
 
         public IDataParser parser;
         public event ConnectionChange connectionClose;
@@ -52,15 +52,9 @@ namespace ConnectionManager
             }
         }
 
-        public string getIp()
-        {
-            return this._ip;
-        }
+        public string getIp() => this._ip;
 
-        public int getConnectionID()
-        {
-            return this._connectionID;
-        }
+        public int getConnectionID() => _connectionID;
 
         public void disconnect()
         {
@@ -100,14 +94,7 @@ namespace ConnectionManager
                 Console.WriteLine(ex);
             }
         }
-
-        public void Dispose()
-        {
-            if (this._isConnected) this.disconnect();
-
-            GC.SuppressFinalize(this);
-        }
-
+        
         private void _incomingDataPacket(IAsyncResult iAr)
         {
             if (!_isConnected) return;
@@ -180,6 +167,12 @@ namespace ConnectionManager
             {
                 this.disconnect();
             }
+        }
+
+        public void Dispose()
+        {
+            if (this._isConnected)
+                this.disconnect();
         }
     }
 }

@@ -49,5 +49,27 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
             WriteInteger(1); //(Item.GetBaseItem().Modes > 1) ? 1 : 0
             WriteInteger(Item.OwnerId);
         }
+
+        public class UpdateFootBallComposer : ServerPacket
+        {
+
+            public UpdateFootBallComposer(Item Item, int newX, int newY)
+                : base(ServerPacketHeader.ObjectUpdateMessageComposer)
+            {
+                WriteInteger(Item.Id);
+                WriteInteger(Item.GetBaseItem().SpriteId);
+                WriteInteger(newX);
+                WriteInteger(newY);
+                WriteInteger(4); // rot;
+                WriteString((String.Format("{0:0.00}", Item.GetZ)));
+                WriteString((String.Format("{0:0.00}", Item.GetZ)));
+                WriteInteger(0);
+                WriteInteger(0);
+                WriteString(Item.ExtraData);
+                WriteInteger(-1);
+                WriteInteger(0);
+                WriteInteger(Item.OwnerId);
+            }
+        }
     }
 }
