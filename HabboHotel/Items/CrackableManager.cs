@@ -53,11 +53,11 @@ namespace Akiled.HabboHotel.Items
                     using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                     {
                         string crackableRewardType = reward.CrackableRewardType;
-                        if (!(crackableRewardType == "credits"))
+                        if (crackableRewardType != "credits")
                         {
-                            if (!(crackableRewardType == "duckets"))
+                            if (crackableRewardType != "duckets")
                             {
-                                if (!(crackableRewardType == "diamonds"))
+                                if (crackableRewardType != "diamonds")
                                 {
 
                                     if (crackableRewardType == "badge")
