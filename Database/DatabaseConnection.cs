@@ -1,6 +1,6 @@
 ﻿using Akiled.Database.Adapter;
 using Akiled.Database.Interfaces;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using System;
 using System.Data;
 

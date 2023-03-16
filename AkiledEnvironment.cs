@@ -28,97 +28,94 @@ namespace Akiled
 {
     public class AkiledEnvironment
     {
-        private static ConcurrentDictionary<int, Habbo> _usersCached = new ConcurrentDictionary<int, Habbo>();
-        private readonly IEnumerable<IStartable> _startableTasks;
-        public static bool eventStarted = false;
-        public static bool eventDisabled = false;
-        public static Random Random = new Random();
+        private static ConcurrentDictionary<int, Habbo> _usersCached = new();
+        public static Random Random = new();
 
 
-        private static readonly List<char> Allowedchars = new List<char>((IEnumerable<char>)new char[82]
+        private static readonly List<char> Allowedchars = new(new char[82]
         {
-      'a',
-      'b',
-      'c',
-      'd',
-      'e',
-      'f',
-      'g',
-      'h',
-      'i',
-      'j',
-      'k',
-      'l',
-      'm',
-      'n',
-      'o',
-      'p',
-      'q',
-      'r',
-      's',
-      't',
-      'u',
-      'v',
-      'w',
-      'x',
-      'y',
-      'z',
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-      '6',
-      '7',
-      '8',
-      '9',
-      '0',
-      '-',
-      '.',
-      '=',
-      '?',
-      '!',
-      ':',
-      'A',
-      'B',
-      'C',
-      'D',
-      'E',
-      'F',
-      'G',
-      'H',
-      'I',
-      'J',
-      'K',
-      'L',
-      'M',
-      'N',
-      'O',
-      'P',
-      'Q',
-      'R',
-      'S',
-      'T',
-      'U',
-      'V',
-      'W',
-      'X',
-      'Y',
-      'Z',
-      'á',
-      'é',
-      'í',
-      'ó',
-      'ú',
-      'Á',
-      'É',
-      'Í',
-      'Ó',
-      'Ú',
-      'ñ',
-      'Ñ',
-      'ü',
-      'Ü'
+            'a',
+            'b',
+            'c',
+            'd',
+            'e',
+            'f',
+            'g',
+            'h',
+            'i',
+            'j',
+            'k',
+            'l',
+            'm',
+            'n',
+            'o',
+            'p',
+            'q',
+            'r',
+            's',
+            't',
+            'u',
+            'v',
+            'w',
+            'x',
+            'y',
+            'z',
+            '1',
+            '2',
+            '3',
+            '4',
+            '5',
+            '6',
+            '7',
+            '8',
+            '9',
+            '0',
+            '-',
+            '.',
+            '=',
+            '?',
+            '!',
+            ':',
+            'A',
+            'B',
+            'C',
+            'D',
+            'E',
+            'F',
+            'G',
+            'H',
+            'I',
+            'J',
+            'K',
+            'L',
+            'M',
+            'N',
+            'O',
+            'P',
+            'Q',
+            'R',
+            'S',
+            'T',
+            'U',
+            'V',
+            'W',
+            'X',
+            'Y',
+            'Z',
+            'á',
+            'é',
+            'í',
+            'ó',
+            'ú',
+            'Á',
+            'É',
+            'Í',
+            'Ó',
+            'Ú',
+            'ñ',
+            'Ñ',
+            'ü',
+            'Ü'
         });
 
         private static Encoding _defaultEncoding;
@@ -135,15 +132,12 @@ namespace Akiled
         public static DateTime ServerStarted;
         public static bool StaticEvents;
         public static string PatchDir;
-        public AkiledEnvironment(
-       IEnumerable<IStartable> startableTasks) => _startableTasks = startableTasks;
-
-
+ 
 
         public static Task<bool> Initialize()
         {
             Console.Clear();
-            AkiledEnvironment.ServerStarted = DateTime.Now;
+            ServerStarted = DateTime.Now;
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.Clear();
@@ -163,20 +157,20 @@ namespace Akiled
             Console.WriteLine();
             _defaultEncoding = Encoding.Default;
             Console.ForegroundColor = ConsoleColor.Cyan;
-            AkiledEnvironment.PatchDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/";
+            PatchDir = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "/";
             Console.Title = "Cargando Emulator";
 
             try
             {
-                AkiledEnvironment._configuration = new ConfigurationData(AkiledEnvironment.PatchDir + "Settings/configuration.ini", false);
-                AkiledEnvironment._datebasemanager = new DatabaseManager(
+                _configuration = new ConfigurationData(PatchDir + "Settings/configuration.ini", false);
+                _datebasemanager = new DatabaseManager(
                     uint.Parse(GetConfig().data["db.pool.maxsize"]),
-                    uint.Parse(AkiledEnvironment.GetConfig().data["db.pool.minsize"]),
-                    AkiledEnvironment.GetConfig().data["db.hostname"],
-                    uint.Parse(AkiledEnvironment.GetConfig().data["db.port"]),
-                    AkiledEnvironment.GetConfig().data["db.username"],
-                    AkiledEnvironment.GetConfig().data["db.password"],
-                    AkiledEnvironment.GetConfig().data["db.name"]);
+                    uint.Parse(GetConfig().data["db.pool.minsize"]),
+                    GetConfig().data["db.hostname"],
+                    uint.Parse(GetConfig().data["db.port"]),
+                    GetConfig().data["db.username"],
+                    GetConfig().data["db.password"],
+                    GetConfig().data["db.name"]);
                 int num = 0;
                 while (!_datebasemanager.IsConnected())
                 {
@@ -190,22 +184,24 @@ namespace Akiled
                         return Task.FromResult(false);
                     }
                 }
-                HabboEncryptionV2.Initialize(new RSAKeys());
-                AkiledEnvironment._languageManager = new LanguageManager();
-                AkiledEnvironment._languageManager.Init();
-                AkiledEnvironment._game = new Game();
-                AkiledEnvironment._game.StartGameLoop();
-                AkiledEnvironment._figureManager = new FigureDataManager();
-                AkiledEnvironment._figureManager.Init();
-                if (AkiledEnvironment._configuration.data["Websocketenable"] == "true")
-                    AkiledEnvironment._webSocketManager = new WebSocketManager(int.Parse(AkiledEnvironment.GetConfig().data["game.websocketsport"]), int.Parse(AkiledEnvironment.GetConfig().data["game.tcp.conlimit"]));
-                AkiledEnvironment._connectionManager = new ConnectionHandeling(int.Parse(AkiledEnvironment.GetConfig().data["game.tcp.port"]), int.Parse(AkiledEnvironment.GetConfig().data["game.tcp.conlimit"]), int.Parse(AkiledEnvironment.GetConfig().data["game.tcp.conperip"]));
-                if (AkiledEnvironment._configuration.data["Musenable"] == "true")
-                    AkiledEnvironment._rcon = new RCONSocket(int.Parse(AkiledEnvironment.GetConfig().data["mus.tcp.port"]), AkiledEnvironment.GetConfig().data["mus.tcp.allowedaddr"].Split(';'));
-                AkiledEnvironment.StaticEvents = AkiledEnvironment._configuration.data["static.events"] == "true";
-                Logging.WriteLine("VARIABLES -> CARGADAS y LISTAS!");
                 _settingsManager = new SettingsManager();
                 _settingsManager.Init();
+
+                HabboEncryptionV2.Initialize(new RSAKeys());
+                _languageManager = new LanguageManager();
+                _languageManager.Init();
+                _game = new Game();
+                _game.StartGameLoop();
+                _figureManager = new FigureDataManager();
+                _figureManager.Init();
+                if (_configuration.data["Websocketenable"] == "true")
+                    _webSocketManager = new WebSocketManager(int.Parse(GetConfig().data["game.websocketsport"]), int.Parse(GetConfig().data["game.tcp.conlimit"]));
+                _connectionManager = new ConnectionHandeling(int.Parse(GetConfig().data["game.tcp.port"]), int.Parse(GetConfig().data["game.tcp.conlimit"]), int.Parse(GetConfig().data["game.tcp.conperip"]));
+                if (_configuration.data["Musenable"] == "true")
+                    _rcon = new RCONSocket(int.Parse(GetConfig().data["mus.tcp.port"]), GetConfig().data["mus.tcp.allowedaddr"].Split(';'));
+                StaticEvents = _configuration.data["static.events"] == "true";
+                Logging.WriteLine("VARIABLES -> CARGADAS y LISTAS!");
+
                 // Allow services to self initialize
 
 
@@ -266,7 +262,7 @@ namespace Akiled
 
         internal static int GetIUnixTimestamp() => Convert.ToInt32((DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds);
 
-        public static FigureDataManager GetFigureManager() => AkiledEnvironment._figureManager;
+        public static FigureDataManager GetFigureManager() => _figureManager;
 
         private static bool IsValid(char character) => Allowedchars.Contains(character);
 
@@ -274,9 +270,9 @@ namespace Akiled
         {
             if (string.IsNullOrEmpty(inputStr))
                 return false;
-            for (int index = 0; index < inputStr.Length; ++index)
+            foreach (var t in inputStr)
             {
-                if (!AkiledEnvironment.IsValid(inputStr[index]))
+                if (!IsValid(t))
                     return false;
             }
             return true;
@@ -285,10 +281,10 @@ namespace Akiled
         public static bool UsernameExists(string username)
         {
             int integer;
-            using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
+            using (IQueryAdapter queryReactor = GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery("SELECT id FROM users WHERE username = @username LIMIT 1");
-                queryReactor.AddParameter(nameof(username), (object)username);
+                queryReactor.AddParameter(nameof(username), username);
                 integer = queryReactor.GetInteger();
             }
             return integer > 0;
@@ -297,15 +293,15 @@ namespace Akiled
         public static string GetUsernameById(int UserId)
         {
             string str = "Unknown User";
-            GameClient clientByUserId = AkiledEnvironment.GetGame().GetClientManager().GetClientByUserID(UserId);
+            GameClient clientByUserId = GetGame().GetClientManager().GetClientByUserID(UserId);
             if (clientByUserId != null && clientByUserId.GetHabbo() != null)
                 return clientByUserId.GetHabbo().Username;
-            if (AkiledEnvironment._usersCached.ContainsKey(UserId))
-                return AkiledEnvironment._usersCached[UserId].Username;
-            using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
+            if (_usersCached.ContainsKey(UserId))
+                return _usersCached[UserId].Username;
+            using (IQueryAdapter queryReactor = GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery("SELECT `username` FROM `users` WHERE `id` = @id LIMIT 1");
-                queryReactor.AddParameter("id", (object)UserId);
+                queryReactor.AddParameter("id", UserId);
                 str = queryReactor.GetString();
             }
             if (string.IsNullOrEmpty(str))
@@ -317,19 +313,17 @@ namespace Akiled
         {
             try
             {
-                using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
-                {
-                    queryReactor.SetQuery("SELECT `id` FROM `users` WHERE `username` = @user LIMIT 1");
-                    queryReactor.AddParameter("user", (object)UserName);
-                    int integer = queryReactor.GetInteger();
-                    if (integer > 0)
-                        return AkiledEnvironment.GetHabboById(Convert.ToInt32(integer));
-                }
-                return (Habbo)null;
+                using IQueryAdapter queryReactor = GetDatabaseManager().GetQueryReactor();
+                queryReactor.SetQuery("SELECT `id` FROM `users` WHERE `username` = @user LIMIT 1");
+                queryReactor.AddParameter("user", UserName);
+                int integer = queryReactor.GetInteger();
+                if (integer > 0)
+                    return GetHabboById(Convert.ToInt32(integer));
+                return null;
             }
             catch
             {
-                return (Habbo)null;
+                return null;
             }
         }
 
@@ -337,14 +331,14 @@ namespace Akiled
         {
             try
             {
-                GameClient clientByUserId = AkiledEnvironment.GetGame().GetClientManager().GetClientByUserID(UserId);
+                GameClient clientByUserId = GetGame().GetClientManager().GetClientByUserID(UserId);
                 if (clientByUserId != null)
                 {
                     Habbo habbo = clientByUserId.GetHabbo();
-                    if (habbo != null && habbo.Id > 0)
+                    if (habbo is { Id: > 0 })
                     {
-                        if (AkiledEnvironment._usersCached.ContainsKey(UserId))
-                            AkiledEnvironment._usersCached.TryRemove(UserId, out habbo);
+                        if (_usersCached.ContainsKey(UserId))
+                            _usersCached.TryRemove(UserId, out habbo);
                         return habbo;
                     }
                 }
@@ -352,15 +346,15 @@ namespace Akiled
                 {
                     try
                     {
-                        if (AkiledEnvironment._usersCached.ContainsKey(UserId))
-                            return AkiledEnvironment._usersCached[UserId];
-                        Akiled.HabboHotel.Users.UserData.UserData userData = UserDataFactory.GetUserData(UserId);
+                        if (_usersCached.ContainsKey(UserId))
+                            return _usersCached[UserId];
+                        UserData userData = UserDataFactory.GetUserData(UserId);
                         if (userData != null)
                         {
                             Habbo user = userData.user;
                             if (user != null)
                             {
-                                AkiledEnvironment._usersCached.TryAdd(UserId, user);
+                                _usersCached.TryAdd(UserId, user);
                                 return user;
                             }
                         }
@@ -378,24 +372,24 @@ namespace Akiled
             }
         }
 
-        public static LanguageManager GetLanguageManager() => AkiledEnvironment._languageManager;
+        public static LanguageManager GetLanguageManager() => _languageManager;
 
         public static ConfigurationData GetConfig()
-        => AkiledEnvironment._configuration;
+        => _configuration;
 
-        public static ConnectionHandeling GetConnectionManager() => AkiledEnvironment._connectionManager;
+        public static ConnectionHandeling GetConnectionManager() => _connectionManager;
 
-        public static RCONSocket GetRCONSocket() => AkiledEnvironment._rcon;
+        public static RCONSocket GetRCONSocket() => _rcon;
 
-        public static Game GetGame() => AkiledEnvironment._game;
+        public static Game GetGame() => _game;
 
-        public static DatabaseManager GetDatabaseManager() => AkiledEnvironment._datebasemanager;
+        public static DatabaseManager GetDatabaseManager() => _datebasemanager;
 
         public static SettingsManager GetSettingsManager() => _settingsManager;
 
-        public static ICollection<Habbo> GetUsersCached() => AkiledEnvironment._usersCached.Values;
+        public static ICollection<Habbo> GetUsersCached() => _usersCached.Values;
 
-        public static bool RemoveFromCache(int Id, out Habbo Data) => AkiledEnvironment._usersCached.TryRemove(Id, out Data);
+        public static bool RemoveFromCache(int Id, out Habbo Data) => _usersCached.TryRemove(Id, out Data);
 
         internal static void PreformShutDown() => PreformShutDown(false);
 
@@ -404,39 +398,39 @@ namespace Akiled
 
         public static void PreformShutDown(bool restart)
         {
-            StringBuilder builder = new StringBuilder();
+            StringBuilder builder = new();
             DateTime now1 = DateTime.Now;
             DateTime now2 = DateTime.Now;
-            ServerPacket Packet = new ServerPacket(3801);
+            ServerPacket Packet = new(3801);
             Packet.WriteString("<b><font color=\"#ba3733\" size=\"14\">Hotel Apagado</font></b><br><br>El hotel se reiniciará en 10 segundos. Disculpe las molestias. <br> Gracias por visitarnos, volveremos en unos 5 minutos.</br>");
-            AkiledEnvironment.GetGame().GetClientManager().SendMessage(Packet, "");
+            GetGame().GetClientManager().SendMessage(Packet, "");
             Thread.Sleep(10000);
-            AkiledEnvironment.AppendTimeStampWithComment(ref builder, now2, "Hotel pre-warning");
+            AppendTimeStampWithComment(ref builder, now2, "Hotel pre-warning");
             Console.Write("Game loop stopped");
             DateTime now3 = DateTime.Now;
             Console.WriteLine("Server shutting down...");
             Console.Title = "<<- SERVER SHUTDOWN ->>";
-            AkiledEnvironment.GetConnectionManager().destroy();
-            AkiledEnvironment.AppendTimeStampWithComment(ref builder, now3, "Socket close");
+            GetConnectionManager().destroy();
+            AppendTimeStampWithComment(ref builder, now3, "Socket close");
             DateTime now4 = DateTime.Now;
             Console.WriteLine("<<- SERVER SHUTDOWN ->> ROOM SAVE");
-            AkiledEnvironment._game.GetRoomManager().RemoveAllRooms();
-            AkiledEnvironment.AppendTimeStampWithComment(ref builder, now4, "Room destructor");
+            _game.GetRoomManager().RemoveAllRooms();
+            AppendTimeStampWithComment(ref builder, now4, "Room destructor");
             DateTime now5 = DateTime.Now;
-            AkiledEnvironment.GetGame().GetClientManager().CloseAll();
-            AkiledEnvironment.AppendTimeStampWithComment(ref builder, now5, "Furni pre-save and connection close");
+            GetGame().GetClientManager().CloseAll();
+            AppendTimeStampWithComment(ref builder, now5, "Furni pre-save and connection close");
             DateTime now6 = DateTime.Now;
-            if (AkiledEnvironment._connectionManager != null)
-                AkiledEnvironment._connectionManager.destroy();
-            if (AkiledEnvironment._webSocketManager != null)
-                AkiledEnvironment._webSocketManager.Destroy();
-            AkiledEnvironment.AppendTimeStampWithComment(ref builder, now6, "Connection shutdown");
+            if (_connectionManager != null)
+                _connectionManager.destroy();
+            if (_webSocketManager != null)
+                _webSocketManager.Destroy();
+            AppendTimeStampWithComment(ref builder, now6, "Connection shutdown");
             DateTime now7 = DateTime.Now;
-            AkiledEnvironment._game.Destroy();
-            AkiledEnvironment.AppendTimeStampWithComment(ref builder, now7, "Game destroy");
+            _game.Destroy();
+            AppendTimeStampWithComment(ref builder, now7, "Game destroy");
             DateTime now8 = DateTime.Now;
             TimeSpan span = DateTime.Now - now1;
-            builder.AppendLine("Total time on shutdown " + AkiledEnvironment.TimeSpanToString(span));
+            builder.AppendLine("Total time on shutdown " + TimeSpanToString(span));
             builder.AppendLine("You have reached ==> [END OF SESSION]");
             builder.AppendLine();
             builder.AppendLine();
@@ -449,11 +443,11 @@ namespace Akiled
             Environment.Exit(Environment.ExitCode);
         }
 
-        public static string TimeSpanToString(TimeSpan span) => span.Seconds.ToString() + " s, " + (object)span.Milliseconds + " ms";
+        public static string TimeSpanToString(TimeSpan span) => span.Seconds + " s, " + span.Milliseconds + " ms";
 
         public static void AppendTimeStampWithComment(
           ref StringBuilder builder,
           DateTime time,
-          string text) => builder.AppendLine(text + " =>[" + AkiledEnvironment.TimeSpanToString(DateTime.Now - time) + "]");
+          string text) => builder?.AppendLine(text + " =>[" + TimeSpanToString(DateTime.Now - time) + "]");
     }
 }

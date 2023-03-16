@@ -811,6 +811,83 @@ namespace Akiled.HabboHotel.Rooms
             return true;
         }
 
+        public bool CheckPosItem(GameClient Session, Item Item, int newX, int newY, int newRot)
+        {
+            try
+            {
+                var dictionary = Gamemap.GetAffectedTiles(Item.GetBaseItem().Length, Item.GetBaseItem().Width, newX, newY, newRot).Values.ToList();
+                if (!this._room.GetGameMap().ValidTile(newX, newY))
+                    return false;
+
+
+                foreach (ThreeDCoord coord in dictionary)
+                {
+                    if ((this._room.GetGameMap().Model.DoorX == coord.X) && (this._room.GetGameMap().Model.DoorY == coord.Y))
+                        return false;
+                }
+
+                if ((this._room.GetGameMap().Model.DoorX == newX) && (this._room.GetGameMap().Model.DoorY == newY))
+                    return false;
+
+
+                foreach (ThreeDCoord coord in dictionary)
+                {
+                    if (!this._room.GetGameMap().ValidTile(coord.X, coord.Y))
+                        return false;
+                }
+
+                double num = this._room.GetGameMap().Model.SqFloorHeight[newX, newY];
+                if ((((Item.Rotation == newRot) && (Item.GetX == newX)) && (Item.GetY == newY)) && (Item.GetZ != num))
+                    return false;
+
+                if (this._room.GetGameMap().Model.SqState[newX, newY] != SquareState.OPEN)
+                    return false;
+
+                foreach (ThreeDCoord coord in dictionary)
+                {
+                    if (this._room.GetGameMap().Model.SqState[coord.X, coord.Y] != SquareState.OPEN)
+                        return false;
+                }
+                if (!Item.GetBaseItem().IsSeat)
+                {
+                    if (this._room.GetGameMap().SquareHasUsers(newX, newY))
+                        return false;
+
+                    foreach (ThreeDCoord coord in dictionary)
+                    {
+                        if (this._room.GetGameMap().SquareHasUsers(coord.X, coord.Y))
+                            return false;
+                    }
+                }
+
+                List<Item> furniObjects = _room.GetGameMap().GetCoordinatedItems(new Point(newX, newY));
+                List<Item> collection = new();
+                List<Item> list3 = new();
+                foreach (ThreeDCoord coord in dictionary)
+                {
+                    List<Item> list4 = _room.GetGameMap().GetCoordinatedItems(new Point(coord.X, coord.Y));
+                    if (list4 != null)
+                        collection.AddRange(list4);
+
+                }
+
+                if (furniObjects == null)
+                    furniObjects = new List<Item>();
+
+                list3.AddRange(furniObjects);
+                list3.AddRange(collection);
+                foreach (Item item in list3)
+                {
+                    if ((item.Id != Item.Id) && !item.GetBaseItem().Stackable)
+                        return false;
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public void TryAddRoller(int ItemId, Item Roller)
         {
             this._rollers.TryAdd(ItemId, Roller);

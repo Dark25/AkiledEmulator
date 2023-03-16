@@ -55,7 +55,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 }
                 else if (clientByUsername.GetHabbo().CurrentRoomId == Session.GetHabbo().CurrentRoomId && (Math.Abs(checked(roomUserByHabbo1.X - roomUserByHabbo2.X)) < 2 && Math.Abs(checked(roomUserByHabbo1.Y - roomUserByHabbo2.Y)) < 2))
                 {
-                    if ((Session.GetHabbo().sexWith == null || Session.GetHabbo().sexWith == "") && (clientByUsername.GetHabbo().Username != Session.GetHabbo().sexWith && Session.GetHabbo().Username != clientByUsername.GetHabbo().sexWith))
+                    if (string.IsNullOrEmpty(Session.GetHabbo().sexWith) && (clientByUsername.GetHabbo().Username != Session.GetHabbo().sexWith && Session.GetHabbo().Username != clientByUsername.GetHabbo().sexWith))
                     {
                         Session.GetHabbo().sexWith = clientByUsername.GetHabbo().Username;
                         clientByUsername.SendNotification(Session.GetHabbo().Username + " tiene muchas ganas de hacerlo contigo aceptas su invitación? " + Session.GetHabbo().Username + ", escribe :sexo " + Session.GetHabbo().Username + " si lo acepta.");
