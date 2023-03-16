@@ -1,6 +1,5 @@
-﻿using System;
-using MySqlConnector;
-
+﻿using MySql.Data.MySqlClient;
+using System;
 
 namespace Akiled.Database.Interfaces
 {

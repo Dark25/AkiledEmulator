@@ -98,7 +98,7 @@ namespace Akiled.HabboHotel.Items.Interactors
             }
             else
             {
-                Ball.GetRoom().GetSoccer().MoveBall(Ball, User.GetClient(), NewPoint);
+                Ball.GetRoom().GetSoccer().MoveBall(Ball, NewPoint.X, NewPoint.Y);
             }
 
             if (!User.MoveWithBall && !Deloin && Ball.interactionCountHelper == 0 && !Ball.GetRoom().OldFoot)

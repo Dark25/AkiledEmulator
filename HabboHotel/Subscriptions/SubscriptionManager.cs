@@ -8,7 +8,11 @@ namespace Akiled.HabboHotel.Subscriptions
     public class SubscriptionManager
     {
 
-        private readonly Dictionary<int, SubscriptionData> _subscriptions = new();
+        private readonly Dictionary<int, SubscriptionData> _subscriptions = new Dictionary<int, SubscriptionData>();
+
+        public SubscriptionManager()
+        {
+        }
 
         public void Init()
         {

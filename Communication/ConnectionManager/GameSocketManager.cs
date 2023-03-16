@@ -135,8 +135,10 @@ namespace ConnectionManager
                 if (ip == "127.0.0.1")
                     return 0;
 
-                if (_ipConnectionsCount.TryGetValue(ip, out int Count))
+                if (_ipConnectionsCount.ContainsKey(ip))
                 {
+                    int Count = 0;
+                    _ipConnectionsCount.TryGetValue(ip, out Count);
                     return Count;
                 }
                 else

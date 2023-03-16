@@ -16,7 +16,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 int result;
                 if (int.TryParse(Params[1], out result))
                 {
-                    if (string.IsNullOrEmpty(Session.GetHabbo().Prefixnamecolor))
+                    if (Session.GetHabbo().Prefixnamecolor == null || Session.GetHabbo().Prefixnamecolor == string.Empty)
                         Session.GetHabbo().Prefixnamecolor = "000000;";
                     if (result == 12)
                     {
@@ -25,7 +25,9 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                     }
                     else
                     {
-                        bool flag = !(result < 1);
+                        bool flag = true;
+                        if (result < 1)
+                            flag = false;
                         if (result > 20 && Session.GetHabbo().Rank < 6)
                             flag = false;
                         if (flag)

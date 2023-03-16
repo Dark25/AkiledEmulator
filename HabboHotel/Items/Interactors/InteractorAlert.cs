@@ -16,7 +16,7 @@ namespace Akiled.HabboHotel.Items.Interactors
 
         public override void OnTrigger(GameClient Session, Item Item, int Request, bool UserHasRights)
         {
-            if (!UserHasRights || Item.ExtraData != "0")
+            if (!UserHasRights || !(Item.ExtraData == "0"))
                 return;
             Item.ExtraData = "1";
             Item.UpdateState(false, true);

@@ -60,7 +60,7 @@ namespace Akiled.Net
                     return;
                 }
 
-                if (currentClient is { RC4Client: { } } && !deciphered)
+                if (currentClient != null && currentClient.RC4Client != null && !deciphered)
                 {
                     currentClient.RC4Client.Decrypt(ref Data);
                 }
