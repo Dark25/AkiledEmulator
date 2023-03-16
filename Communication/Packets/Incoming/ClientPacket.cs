@@ -29,7 +29,7 @@ namespace Akiled.Communication.Packets.Incoming
         public void Init(int messageID, byte[] body)
         {
             if (body == null)
-                body = Array.Empty<byte>();
+                body = new byte[0];
 
             Id = messageID;
             Body = body;

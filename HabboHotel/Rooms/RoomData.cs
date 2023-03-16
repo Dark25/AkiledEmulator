@@ -260,15 +260,18 @@ namespace Akiled.HabboHotel.Rooms
 
 
 
-        public void SerializeRoomData(ServerPacket Message, GameClient Session) => SerializeRoomData(Message, Session, true);
+        public void SerializeRoomData(ServerPacket Message, GameClient Session)
+        {
+            SerializeRoomData(Message, Session, true);
+        }
 
         public void SerializeRoomData(ServerPacket Message, GameClient Session, bool show)
         {
             Message.WriteBoolean(show);
 
-            this.Serialize(Message, (Session != null) && ((Session.GetHabbo().HasFuse("fuse_enter_any_room")) ? true : Session.GetHabbo().IsTeleporting));
+            this.Serialize(Message, (Session != null) ? (Session.GetHabbo().HasFuse("fuse_enter_any_room")) ? true : Session.GetHabbo().IsTeleporting : false);
 
-            Message.WriteBoolean((Session != null) && (this.Id != Session.GetHabbo().CurrentRoomId));
+            Message.WriteBoolean((Session != null) ? (this.Id != Session.GetHabbo().CurrentRoomId) : false);
             Message.WriteBoolean(false);
             Message.WriteBoolean(false);
             Message.WriteBoolean(false);
@@ -277,8 +280,7 @@ namespace Akiled.HabboHotel.Rooms
             Message.WriteInteger(this.WhoCanKick); // who can kick
             Message.WriteInteger(this.BanFuse); // who can ban
 
-            Message.WriteBoolean((Session != null) &&
-                                 this.OwnerName.ToLower() != Session.GetHabbo().Username.ToLower());
+            Message.WriteBoolean((Session != null) ? this.OwnerName.ToLower() != Session.GetHabbo().Username.ToLower() : false);
             Message.WriteInteger(this.ChatType);  //ChatMode, ChatSize, ChatSpeed, HearingDistance, ExtraFlood is the order.
             Message.WriteInteger(this.ChatBalloon);
             Message.WriteInteger(this.ChatSpeed);

@@ -24,7 +24,7 @@ namespace Akiled.HabboHotel.Items.Interactors
 
         public override void OnTrigger(GameClient Session, Item Item, int Request, bool UserHasRights)
         {
-            if (Item.ExtraData == "1" || Item.GetBaseItem().VendingIds.Count < 1 || (Item.InteractingUser != 0 || Session == null || Session.GetHabbo() == null))
+            if (!(Item.ExtraData != "1") || Item.GetBaseItem().VendingIds.Count < 1 || (Item.InteractingUser != 0 || Session == null || Session.GetHabbo() == null))
                 return;
 
             RoomUser roomUserByHabbo = Item.GetRoom().GetRoomUserManager().GetRoomUserByHabboId(Session.GetHabbo().Id);

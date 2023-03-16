@@ -279,14 +279,12 @@ namespace Akiled.HabboHotel
                             Console.WriteLine("High latency in LowPriorityWorker.Process ({0} ms)", moduleWatch.ElapsedMilliseconds);
                         moduleWatch.Restart();
 
-                        /*
                         this._roomManager.OnCycle(moduleWatch);
 
                         if (moduleWatch.ElapsedMilliseconds > 500)
                             Console.WriteLine("High latency in RoomManager ({0} ms)", moduleWatch.ElapsedMilliseconds);
                         moduleWatch.Restart();
-                        */
-                        
+
                         this._animationManager.OnCycle(moduleWatch);
 
                         if (moduleWatch.ElapsedMilliseconds > 500)

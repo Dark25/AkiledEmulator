@@ -4,7 +4,6 @@ using Akiled.HabboHotel.Rooms.Games;
 using Akiled.HabboHotel.Rooms.Map.Movement;
 using Akiled.HabboHotel.Rooms.Pathfinding;
 using Akiled.HabboHotel.Rooms.Wired;
-using Microsoft.VisualBasic;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -444,10 +443,6 @@ namespace Akiled.HabboHotel.Rooms
                 case InteractionType.freezetileblock:
                     this.room.GetFreeze().AddFreezeBlock(item);
                     break;
-
-                case InteractionType.football:
-                    room.GetSoccer().AddBall(item);
-                    break;
             }
         }
 
@@ -511,10 +506,6 @@ namespace Akiled.HabboHotel.Rooms
                     break;
                 case InteractionType.freezeexit:
                     this.room.GetGameItemHandler().RemoveExitTeleport(item);
-                    break;
-
-                case InteractionType.football:
-                    room.GetSoccer().RemoveBall(item.Id);
                     break;
             }
         }
@@ -1056,15 +1047,6 @@ namespace Akiled.HabboHotel.Rooms
             Array.Clear((Array)this.ItemHeightMap, 0, this.ItemHeightMap.Length);
             Array.Clear((Array)this.mUserOnMap, 0, this.mUserOnMap.Length);
             Array.Clear((Array)this.mSquareTaking, 0, this.mSquareTaking.Length);
-        }
-
-        public bool CanPlaceItem(int x, int y)
-        {
-            if (!ValidTile(x, y))
-                return false;
-
-            
-            return GameMap[x, y] == 1;
         }
     }
 }
