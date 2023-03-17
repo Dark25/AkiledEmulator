@@ -11,7 +11,12 @@ namespace Akiled.Communication.Packets.Incoming.Users
         {
             List<string> ignoredUsers = new();
 
-            foreach (int userId in new List<int>(session.GetHabbo().GetIgnores().IgnoredUserIds()))
+            var ignored = session.GetHabbo().GetIgnores()?.IgnoredUserIds();
+            
+            if (ignored == null)
+                return;
+
+            foreach (int userId in ignored)
             {
                 Habbo player = AkiledEnvironment.GetHabboById(userId);
                 if (player != null)

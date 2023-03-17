@@ -39,12 +39,7 @@
             this.j = 0;
         }
 
-        private void Swap(int a, int b)
-        {
-            byte t = this.bytes[a];
-            this.bytes[a] = this.bytes[b];
-            this.bytes[b] = t;
-        }
+        private void Swap(int a, int b) => (this.bytes[a], this.bytes[b]) = (this.bytes[b], this.bytes[a]);
 
         public byte Next()
         {

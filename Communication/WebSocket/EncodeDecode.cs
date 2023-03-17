@@ -8,11 +8,10 @@ namespace Akiled.Communication.WebSocket
     {
         internal static byte[] EncodeMessage(byte[] message)
         {
-            byte[] response;
             byte[] bytesRaw = message;
             byte[] frame = new byte[10];
 
-            int indexStartRawData = -1;
+            int indexStartRawData;
             int length = bytesRaw.Length;
 
             frame[0] = (byte)130;
@@ -43,7 +42,7 @@ namespace Akiled.Communication.WebSocket
                 indexStartRawData = 10;
             }
 
-            response = new byte[indexStartRawData + length];
+            byte[] response = new byte[indexStartRawData + length];
 
             Int32 i, reponseIdx = 0;
 
