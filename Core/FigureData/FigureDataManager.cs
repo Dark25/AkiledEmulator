@@ -29,8 +29,7 @@ namespace Akiled.Core.FigureData
 
         public void Init()
         {
-            new Task(() =>
-            {
+            
 
                 if (this._palettes.Count > 0) this._palettes.Clear();
 
@@ -116,7 +115,7 @@ namespace Akiled.Core.FigureData
                 //Faceless.
                 this._setTypes["hd"].Sets.Add(99999, new Set(99999, "U", 0, true));
 
-            }).Start();
+          
         }
 
         public string ProcessFigure(string figure, string gender, bool hasHabboClub)
