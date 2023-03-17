@@ -591,7 +591,7 @@ namespace Akiled.HabboHotel.Users
 
             if (!this.GetClient().GetHabbo().HasFuse("fuse_mod"))
             {
-                if (!(this.GetClient().GetHabbo().HasFuse("fuse_enter_any_room") && OwnerEnterNotAllowed.All(x => x != room.RoomData.OwnerName)) && !room.CheckRights(this.GetClient(), true) && !(this.GetClient().GetHabbo().IsTeleporting && this.GetClient().GetHabbo().TeleportingRoomID == room.Id))
+                if (!(this.GetClient().GetHabbo().HasFuse("fuse_enter_any_room") && !OwnerEnterNotAllowed.Any(x => x == room.RoomData.OwnerName)) && !room.CheckRights(this.GetClient(), true) && !(this.GetClient().GetHabbo().IsTeleporting && this.GetClient().GetHabbo().TeleportingRoomID == room.Id))
                 {
                     if (room.RoomData.State == 1 && (!override_doorbell && !room.CheckRights(this.GetClient())))
                     {

@@ -1,6 +1,6 @@
 ﻿namespace Akiled.HabboHotel.Rooms.Pathfinding
 {
-    public readonly struct SquarePoint
+    public struct SquarePoint
     {
         private readonly int _x;
         private readonly int _y;

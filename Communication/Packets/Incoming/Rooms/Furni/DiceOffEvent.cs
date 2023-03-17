@@ -14,7 +14,9 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             Item roomItem = room.GetRoomItemHandler().GetItem(Packet.PopInt());
             if (roomItem == null)
                 return;
-            bool UserHasRights = room.CheckRights(Session);
+            bool UserHasRights = false;
+            if (room.CheckRights(Session))
+                UserHasRights = true;
             roomItem.Interactor.OnTrigger(Session, roomItem, -1, UserHasRights);
             roomItem.OnTrigger(room.GetRoomUserManager().GetRoomUserByHabboId(Session.GetHabbo().Id));
 

@@ -52,7 +52,9 @@ namespace Akiled.Communication.Encryption.KeyExchange
 
                 if (this.Generator > this.Prime)
                 {
-                    (this.Prime, this.Generator) = (this.Generator, this.Prime);
+                    BigInteger temp = this.Prime;
+                    this.Prime = this.Generator;
+                    this.Generator = temp;
                 }
 
                 this.PublicKey = this.Generator.modPow(this.PrivateKey, this.Prime);
