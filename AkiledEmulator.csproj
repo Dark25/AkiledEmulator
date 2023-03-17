@@ -65,10 +65,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Properties\**" />
+    <Compile Remove="Sql\**" />
     <Compile Remove="Utilities\Discord\**" />
     <EmbeddedResource Remove="Properties\**" />
+    <EmbeddedResource Remove="Sql\**" />
     <EmbeddedResource Remove="Utilities\Discord\**" />
     <None Remove="Properties\**" />
+    <None Remove="Sql\**" />
     <None Remove="Utilities\Discord\**" />
   </ItemGroup>
   <ItemGroup>
@@ -98,7 +101,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HabboHotel\Rooms\Chat\Pets\Locale\" />
-    <Folder Include="Sql\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="discord-webhook-client" Version="3.1.0" />
