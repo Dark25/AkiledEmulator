@@ -103,6 +103,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HabboHotel\Rooms\Chat\Pets\Locale\" />
+    <Folder Include="Sql\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="discord-webhook-client" Version="3.1.0" />
