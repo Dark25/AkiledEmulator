@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace Akiled.Core.FigureData
@@ -29,93 +28,93 @@ namespace Akiled.Core.FigureData
 
         public void Init()
         {
-            
 
-                if (this._palettes.Count > 0) this._palettes.Clear();
 
-                if (this._setTypes.Count > 0) this._setTypes.Clear();
+            if (this._palettes.Count > 0) this._palettes.Clear();
 
-                XmlDocument xDoc = new XmlDocument();
-                xDoc.Load(AkiledEnvironment.PatchDir + "Settings/figuredata.xml");
+            if (this._setTypes.Count > 0) this._setTypes.Clear();
 
-                XmlNodeList Colors = xDoc.GetElementsByTagName("colors");
-                foreach (XmlNode Node in Colors)
+            XmlDocument xDoc = new XmlDocument();
+            xDoc.Load(AkiledEnvironment.PatchDir + "Settings/figuredata.xml");
+
+            XmlNodeList Colors = xDoc.GetElementsByTagName("colors");
+            foreach (XmlNode Node in Colors)
+            {
+                foreach (XmlNode Child in Node.ChildNodes)
                 {
-                    foreach (XmlNode Child in Node.ChildNodes)
-                    {
-                        this._palettes.Add(Convert.ToInt32(Child.Attributes["id"].Value),
-                            new Palette(Convert.ToInt32(Child.Attributes["id"].Value)));
+                    this._palettes.Add(Convert.ToInt32(Child.Attributes["id"].Value),
+                        new Palette(Convert.ToInt32(Child.Attributes["id"].Value)));
 
-                        foreach (XmlNode Sub in Child.ChildNodes)
-                        {
-                            this._palettes[Convert.ToInt32(Child.Attributes["id"].Value)].Colors.Add(
-                                Convert.ToInt32(Sub.Attributes["id"].Value),
-                                new Color(Convert.ToInt32(Sub.Attributes["id"].Value),
-                                    Convert.ToInt32(Sub.Attributes["index"].Value),
-                                    Convert.ToInt32(Sub.Attributes["club"].Value),
-                                    Convert.ToInt32(Sub.Attributes["selectable"].Value) == 1,
-                                    Convert.ToString(Sub.InnerText)));
-                        }
+                    foreach (XmlNode Sub in Child.ChildNodes)
+                    {
+                        this._palettes[Convert.ToInt32(Child.Attributes["id"].Value)].Colors.Add(
+                            Convert.ToInt32(Sub.Attributes["id"].Value),
+                            new Color(Convert.ToInt32(Sub.Attributes["id"].Value),
+                                Convert.ToInt32(Sub.Attributes["index"].Value),
+                                Convert.ToInt32(Sub.Attributes["club"].Value),
+                                Convert.ToInt32(Sub.Attributes["selectable"].Value) == 1,
+                                Convert.ToString(Sub.InnerText)));
                     }
                 }
+            }
 
-                XmlNodeList Sets = xDoc.GetElementsByTagName("sets");
-                foreach (XmlNode Node in Sets)
+            XmlNodeList Sets = xDoc.GetElementsByTagName("sets");
+            foreach (XmlNode Node in Sets)
+            {
+                foreach (XmlNode Child in Node.ChildNodes)
                 {
-                    foreach (XmlNode Child in Node.ChildNodes)
+                    this._setTypes.Add(Child.Attributes["type"].Value,
+                        new FigureSet(SetTypeUtility.GetSetType(Child.Attributes["type"].Value),
+                            Convert.ToInt32(Child.Attributes["paletteid"].Value)));
+
+                    foreach (XmlNode Sub in Child.ChildNodes)
                     {
-                        this._setTypes.Add(Child.Attributes["type"].Value,
-                            new FigureSet(SetTypeUtility.GetSetType(Child.Attributes["type"].Value),
-                                Convert.ToInt32(Child.Attributes["paletteid"].Value)));
-
-                        foreach (XmlNode Sub in Child.ChildNodes)
+                        try
                         {
-                            try
-                            {
-                                this._setTypes[Child.Attributes["type"].Value].Sets.Add(
-                                    Convert.ToInt32(Sub.Attributes["id"].Value),
-                                    new Set(Convert.ToInt32(Sub.Attributes["id"].Value),
-                                        Convert.ToString(Sub.Attributes["gender"].Value),
-                                        Convert.ToInt32(Sub.Attributes["club"].Value),
-                                        Convert.ToInt32(Sub.Attributes["colorable"].Value) == 1));
-                            }
-                            catch
-                            {
-                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                //Console.WriteLine("Error 1 anti mutante ID: " + Sub.Attributes["id"].Value);
-                            }
+                            this._setTypes[Child.Attributes["type"].Value].Sets.Add(
+                                Convert.ToInt32(Sub.Attributes["id"].Value),
+                                new Set(Convert.ToInt32(Sub.Attributes["id"].Value),
+                                    Convert.ToString(Sub.Attributes["gender"].Value),
+                                    Convert.ToInt32(Sub.Attributes["club"].Value),
+                                    Convert.ToInt32(Sub.Attributes["colorable"].Value) == 1));
+                        }
+                        catch
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            //Console.WriteLine("Error 1 anti mutante ID: " + Sub.Attributes["id"].Value);
+                        }
 
-                            foreach (XmlNode Subb in Sub.ChildNodes)
+                        foreach (XmlNode Subb in Sub.ChildNodes)
+                        {
+                            if (Subb.Attributes["type"] != null)
                             {
-                                if (Subb.Attributes["type"] != null)
+                                try
                                 {
-                                    try
-                                    {
-                                        this._setTypes[Child.Attributes["type"].Value]
-                                            .Sets[Convert.ToInt32(Sub.Attributes["id"].Value)].Parts.Add(
-                                                Convert.ToInt32(Subb.Attributes["id"].Value) + "-" +
-                                                Subb.Attributes["type"].Value,
-                                                new Part(Convert.ToInt32(Subb.Attributes["id"].Value),
-                                                    SetTypeUtility.GetSetType(Child.Attributes["type"].Value),
-                                                    Convert.ToInt32(Subb.Attributes["colorable"].Value) == 1,
-                                                    Convert.ToInt32(Subb.Attributes["index"].Value),
-                                                    Convert.ToInt32(Subb.Attributes["colorindex"].Value)));
-                                    }
-                                    catch
-                                    {
-                                        Console.ForegroundColor = ConsoleColor.DarkRed;
-                                        // Console.WriteLine("Error 2 anti mutante ID: " + Sub.Attributes["id"].Value);
-                                    }
+                                    this._setTypes[Child.Attributes["type"].Value]
+                                        .Sets[Convert.ToInt32(Sub.Attributes["id"].Value)].Parts.Add(
+                                            Convert.ToInt32(Subb.Attributes["id"].Value) + "-" +
+                                            Subb.Attributes["type"].Value,
+                                            new Part(Convert.ToInt32(Subb.Attributes["id"].Value),
+                                                SetTypeUtility.GetSetType(Child.Attributes["type"].Value),
+                                                Convert.ToInt32(Subb.Attributes["colorable"].Value) == 1,
+                                                Convert.ToInt32(Subb.Attributes["index"].Value),
+                                                Convert.ToInt32(Subb.Attributes["colorindex"].Value)));
+                                }
+                                catch
+                                {
+                                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                                    // Console.WriteLine("Error 2 anti mutante ID: " + Sub.Attributes["id"].Value);
                                 }
                             }
                         }
                     }
                 }
+            }
 
-                //Faceless.
-                this._setTypes["hd"].Sets.Add(99999, new Set(99999, "U", 0, true));
+            //Faceless.
+            this._setTypes["hd"].Sets.Add(99999, new Set(99999, "U", 0, true));
 
-          
+
         }
 
         public string ProcessFigure(string figure, string gender, bool hasHabboClub)
