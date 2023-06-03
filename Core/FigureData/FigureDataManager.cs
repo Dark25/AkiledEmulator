@@ -29,7 +29,6 @@ namespace Akiled.Core.FigureData
         public void Init()
         {
 
-
             if (this._palettes.Count > 0) this._palettes.Clear();
 
             if (this._setTypes.Count > 0) this._setTypes.Clear();

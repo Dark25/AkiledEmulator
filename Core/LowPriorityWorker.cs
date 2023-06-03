@@ -1,4 +1,5 @@
 ﻿using Akiled.Database.Interfaces;
+using AkiledEmulator.HabboHotel.Hotel.CollectorPark;
 using AkiledEmulator.HabboHotel.Hotel.Giveaway;
 using System;
 using System.Diagnostics;
@@ -25,8 +26,8 @@ namespace Akiled.Core
             lowPriorityProcessWatch.Start();
         }
 
-
         private static Stopwatch lowPriorityProcessWatch;
+        
         public static void Process()
         {
             if (lowPriorityProcessWatch.ElapsedMilliseconds >= 1000)
@@ -46,6 +47,18 @@ namespace Akiled.Core
                             {
                                 Logging.LogException(ex.ToString());
                             }
+                        }
+                    }
+
+                    if (CollectorParkConfigs.enabled)
+                    {
+                        try
+                        {
+                            CollectorParkConfigs.load();
+                        }
+                        catch (Exception ex)
+                        {
+                            Logging.LogException(ex.ToString());
                         }
                     }
                 }

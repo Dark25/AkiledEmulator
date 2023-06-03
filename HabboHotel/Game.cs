@@ -23,6 +23,7 @@ using Akiled.HabboHotel.Subscriptions;
 using Akiled.HabboHotel.Support;
 using Akiled.HabboHotel.Users.Messenger;
 using Akiled.HabboHotel.WebClients;
+using AkiledEmulator.HabboHotel.Hotel.CollectorPark;
 using AkiledEmulator.HabboHotel.Hotel.Giveaway;
 using System;
 using System.Diagnostics;
@@ -120,12 +121,14 @@ namespace Akiled.HabboHotel
             this._notiftopManager = new NotificationTopManager();
             this._notiftopManager.Init();
 
+            CollectorParkConfigs.loadConfigs();
+            CollectorParkConfigs.check();
+
             using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {
                 StaffChat.Initialize(dbClient);
             }
-
-
+            
             DatabaseCleanup();
             LowPriorityWorker.Init();
 

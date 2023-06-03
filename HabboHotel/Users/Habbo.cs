@@ -65,6 +65,12 @@ namespace Akiled.HabboHotel.Users
         public Language Langue;
         public bool PickupItemsStatus = false;
 
+        //Collector Park
+        public bool collecting = false;
+        public double nextReward = 0;
+        public int timeWaitReward = 0;
+        public double nextMovementCollector = 0;
+
         public List<RoomData> RoomRightsList;
         public List<RoomData> FavoriteRooms;
         public List<RoomData> UsersRooms;
