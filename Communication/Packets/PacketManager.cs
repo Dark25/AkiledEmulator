@@ -22,7 +22,7 @@ namespace Akiled.Communication.Packets
     {
         private readonly Dictionary<int, IPacketEvent> _incomingPackets;
         private readonly Dictionary<int, IPacketWebEvent> _incomingWebPackets;
-
+      
         public PacketManager()
         {
             _incomingPackets = new Dictionary<int, IPacketEvent>();

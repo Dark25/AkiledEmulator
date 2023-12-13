@@ -77,8 +77,8 @@ using Akiled.Communication.Packets.Outgoing.Structure;using Akiled.Database.Int
             {
                 dbClient.SetQuery("UPDATE `items` SET `base_item` = @BaseItem, `extra_data` = @edata WHERE `id` = @itemId LIMIT 1");
                 dbClient.AddParameter("itemId", Present.Id);
-                dbClient.AddParameter("BaseItem", Row["base_id"]);
-                dbClient.AddParameter("edata", Row["extra_data"]);
+                dbClient.AddParameter("BaseItem", (int)Row["base_id"]);
+                dbClient.AddParameter("edata", (string)Row["extra_data"]);
                 dbClient.RunQuery();
 
                 dbClient.RunQuery("DELETE FROM `user_presents` WHERE `item_id` = " + Present.Id + " LIMIT 1");

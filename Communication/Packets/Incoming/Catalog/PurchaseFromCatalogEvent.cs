@@ -226,8 +226,8 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                         using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                         {
                             queryReactor.SetQuery("UPDATE `catalog_items` SET `limited_sells` = @limitSells WHERE `id` = @itemId LIMIT 1");
-                            queryReactor.AddParameter("limitSells", (object)catalogItem.LimitedEditionSells);
-                            queryReactor.AddParameter("itemId", (object)catalogItem.Id);
+                            queryReactor.AddParameter("limitSells", catalogItem.LimitedEditionSells);
+                            queryReactor.AddParameter("itemId", catalogItem.Id);
                             queryReactor.RunQuery();
                             LimitedNumber = catalogItem.LimitedEditionSells;
                             LimitedStack = catalogItem.LimitedEditionStack;
@@ -341,7 +341,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                                             using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                                             {
                                                 queryReactor.SetQuery("UPDATE `users` SET `prefix` = @prefix WHERE `id` = '" + Session.GetHabbo().Id.ToString() + "' LIMIT 1");
-                                                queryReactor.AddParameter("prefix", (object)Session.GetHabbo().Prefix);
+                                                queryReactor.AddParameter("prefix", (string)Session.GetHabbo().Prefix);
                                                 queryReactor.RunQuery();
                                             }
                                             Session.SendMessage((IServerPacket)new PurchaseOKComposer(catalogItem, catalogItem.Data));
@@ -352,7 +352,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                                         using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                                         {
                                             queryReactor.SetQuery("UPDATE `users` SET `prefix` = @prefix WHERE `id` = '" + Session.GetHabbo().Id.ToString() + "' LIMIT 1");
-                                            queryReactor.AddParameter("prefix", (object)Session.GetHabbo().Prefix);
+                                            queryReactor.AddParameter("prefix", (string)Session.GetHabbo().Prefix);
                                             queryReactor.RunQuery();
                                         }
                                         Session.SendPacket((IServerPacket)new RoomCustomizedAlertComposer("¡Ha comprado un prefijo!"));
@@ -414,7 +414,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                                     using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                                     {
                                         queryReactor.SetQuery("UPDATE `users` SET `prefix` = @prefix WHERE `id` = '" + Session.GetHabbo().Id.ToString() + "' LIMIT 1");
-                                        queryReactor.AddParameter("prefix", (object)Session.GetHabbo().Prefix);
+                                        queryReactor.AddParameter("prefix", Session.GetHabbo().Prefix);
                                         queryReactor.RunQuery();
                                     }
                                     Session.SendPacket((IServerPacket)new RoomCustomizedAlertComposer("¡Ha comprado un color para su prefijo!"));
@@ -430,7 +430,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                                     using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                                     {
                                         queryReactor.SetQuery("UPDATE `users` SET `prefixnamecolor` = @prefixnamecolor WHERE `id` = '" + Session.GetHabbo().Id.ToString() + "' LIMIT 1");
-                                        queryReactor.AddParameter("prefixnamecolor", (object)Session.GetHabbo().Prefixnamecolor);
+                                        queryReactor.AddParameter("prefixnamecolor", Session.GetHabbo().Prefixnamecolor);
                                         queryReactor.RunQuery();
                                     }
                                     Session.SendPacket((IServerPacket)new RoomCustomizedAlertComposer("¡Ha comprado un color para su nombre!"));
@@ -447,7 +447,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                                     using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                                     {
                                         queryReactor.SetQuery("UPDATE `users` SET `prefixsize` = @prefix WHERE `id` = '" + Session.GetHabbo().Id.ToString() + "' LIMIT 1");
-                                        queryReactor.AddParameter("prefix", (object)Session.GetHabbo().PrefixSize);
+                                        queryReactor.AddParameter("prefix", Session.GetHabbo().PrefixSize);
                                         queryReactor.RunQuery();
                                     }
                                     Session.SendPacket((IServerPacket)new RoomCustomizedAlertComposer("¡Ha comprado un tamaño de su nombre de usuario!"));
@@ -463,7 +463,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                                     using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                                     {
                                         queryReactor.SetQuery("UPDATE `users` SET `prefixsize` = @prefix WHERE `id` = '" + Session.GetHabbo().Id.ToString() + "' LIMIT 1");
-                                        queryReactor.AddParameter("prefix", (object)Session.GetHabbo().PrefixSize);
+                                        queryReactor.AddParameter("prefix", Session.GetHabbo().PrefixSize);
                                         queryReactor.RunQuery();
                                     }
                                     Session.SendPacket((IServerPacket)new RoomCustomizedAlertComposer("¡Ha comprado un tamaño para su prefijo!"));

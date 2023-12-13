@@ -10,14 +10,14 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
             WriteInteger(MoodlightData.Presets.Count);
             WriteInteger(MoodlightData.CurrentPreset);
 
-            int i = 1;
-            foreach (MoodlightPreset Preset in MoodlightData.Presets)
+            var i = 0;
+            foreach (var moodlightPreset in MoodlightData.Presets)
             {
-                WriteInteger(i);
-                WriteInteger(Preset.BackgroundOnly ? 2 : 1);
-                WriteString(Preset.ColorCode);
-                WriteInteger(Preset.ColorIntensity);
                 i++;
+                this.WriteInteger(i);
+                this.WriteInteger((moodlightPreset.BackgroundOnly ? 1 : 0) + 1);
+                this.WriteString(moodlightPreset.ColorCode);
+                this.WriteInteger(moodlightPreset.ColorIntensity);
             }
         }
     }

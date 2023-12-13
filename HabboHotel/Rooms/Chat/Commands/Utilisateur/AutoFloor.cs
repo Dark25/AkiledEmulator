@@ -46,7 +46,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 dbClient.AddParameter("id", Room.Id);
                 dbClient.AddParameter("doorX", Room.GetGameMap().Model.DoorX);
                 dbClient.AddParameter("doorY", Room.GetGameMap().Model.DoorY);
-                dbClient.AddParameter("doorZ", Room.GetGameMap().Model.DoorZ);
+                dbClient.AddParameter("doorZ", (int)Room.GetGameMap().Model.DoorZ);
                 dbClient.AddParameter("doorDir", Room.GetGameMap().Model.DoorOrientation);
                 dbClient.AddParameter("heightmap", Map);
                 dbClient.AddParameter("murheight", Room.GetGameMap().Model.MurHeight);

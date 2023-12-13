@@ -44,8 +44,8 @@ namespace Akiled.Communication.Packets.Incoming.Catalog
                 dbClient.AddParameter("room_id", roomId);
                 dbClient.AddParameter("title", name);
                 dbClient.AddParameter("description", desc);
-                dbClient.AddParameter("start", data.Promotion.TimestampStarted);
-                dbClient.AddParameter("expires", data.Promotion.TimestampExpires);
+                dbClient.AddParameter("start", (int)data.Promotion.TimestampStarted);
+                dbClient.AddParameter("expires", (int)data.Promotion.TimestampExpires);
                 dbClient.AddParameter("CategoryId", categoryId);
                 dbClient.RunQuery();
             }

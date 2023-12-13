@@ -105,8 +105,8 @@
   <ItemGroup>
     <PackageReference Include="discord-webhook-client" Version="3.1.0" />
     <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="MediReport.MySql.Data" Version="8.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
-    <PackageReference Include="MySqlConnector" Version="2.2.5" />
     <PackageReference Include="Nancy" Version="2.0.0" />
     <PackageReference Include="Scrutor" Version="4.2.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />

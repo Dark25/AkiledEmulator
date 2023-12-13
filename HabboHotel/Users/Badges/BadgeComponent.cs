@@ -105,7 +105,7 @@ namespace Akiled.HabboHotel.Users.Badges
             using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery("DELETE FROM user_badges WHERE badge_id = @badge AND user_id = " + this._userId.ToString() + " LIMIT 1");
-                queryReactor.AddParameter("badge", (object)Badge);
+                queryReactor.AddParameter("badge", Badge);
                 queryReactor.RunQuery();
             }
             this._badges.Remove(this.GetBadge(Badge).Code);

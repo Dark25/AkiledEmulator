@@ -18,7 +18,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 
             using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {
-                Room.GetRoomItemHandler().SaveFurniture(dbClient);
+                Room.GetRoomItemHandler().SaveFurniture();
 
                 dbClient.SetQuery("INSERT INTO `rooms` (`caption`, `owner`, `description`, `model_name`, `icon_bg`, `icon_fg`, `icon_items`, `wallpaper`, `floor`, `landscape`, `allow_hidewall`, `wallthick`, `floorthick`, `allow_rightsoverride`, `allow_hidewireds`)" +
                 "SELECT 'Copia de la sala " + OldRoomId + "', '" + Session.GetHabbo().Username + "', `description`, `model_name`, `icon_bg`, `icon_fg`, `icon_items`, `wallpaper`, `floor`, `landscape`, `allow_hidewall`, `wallthick`, `floorthick`, `allow_rightsoverride`, `allow_hidewireds` FROM rooms WHERE id = '" + OldRoomId + "'; ");

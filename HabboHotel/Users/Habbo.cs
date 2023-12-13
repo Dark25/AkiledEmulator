@@ -1125,7 +1125,7 @@ namespace Akiled.HabboHotel.Users
                 using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                 {
                     queryReactor.SetQuery("SELECT `itemname` FROM `user_rpfish` WHERE `id` = @id LIMIT 1");
-                    queryReactor.AddParameter("id", (object)fishid);
+                    queryReactor.AddParameter("id", fishid);
                     str = queryReactor.GetString();
                 }
                 if (str == "")
@@ -1134,7 +1134,7 @@ namespace Akiled.HabboHotel.Users
                 using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                 {
                     queryReactor.SetQuery("SELECT count FROM user_rpitems WHERE user_id = '" + this.Id.ToString() + "' AND fish_name = @fishname LIMIT 1");
-                    queryReactor.AddParameter("fishname", (object)str);
+                    queryReactor.AddParameter("fishname", str);
                     dataTable = queryReactor.GetTable();
                 }
                 if (dataTable != null && (uint)dataTable.Rows.Count > 0U)

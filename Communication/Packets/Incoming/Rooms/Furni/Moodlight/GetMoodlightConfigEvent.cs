@@ -10,28 +10,22 @@ namespace Akiled.Communication.Packets.Incoming.Rooms.Furni.Moodlight
     {
         public void Parse(GameClient session, ClientPacket packet)
         {
-            if (!session.GetHabbo().InRoom)
-                return;
+             if (!AkiledEnvironment.GetGame().GetRoomManager().TryGetRoom(session.GetHabbo().CurrentRoomId, out Room room))
+        {
+            return;
+        }
 
-            if (!AkiledEnvironment.GetGame().GetRoomManager().TryGetRoom(session.GetHabbo().CurrentRoomId, out Room room))
-                return;
+        if (!room.CheckRights(session, true))
+        {
+            return;
+        }
 
-            if (!room.CheckRights(session, true))
-                return;
+        if (room.MoodlightData == null || room.MoodlightData.Presets == null)
+        {
+            return;
+        }
 
-            if (room.MoodlightData == null)
-            {
-                foreach (Item item in room.GetRoomItemHandler().GetWall.ToList())
-                {
-                    if (item.GetBaseItem().InteractionType == InteractionType.MOODLIGHT)
-                        room.MoodlightData = new MoodlightData(item.Id);
-                }
-            }
-
-            if (room.MoodlightData == null)
-                return;
-
-            session.SendPacket(new MoodlightConfigComposer(room.MoodlightData));
+        session.SendPacket(new MoodlightConfigComposer(room.MoodlightData));
         }
     }
 }

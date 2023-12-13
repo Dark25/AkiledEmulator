@@ -39,9 +39,9 @@ namespace Akiled.HabboHotel.Users.UserData
 
                     queryreactor.SetQuery("SELECT id FROM bans WHERE expire > @nowtime AND ((bantype = 'user' AND value = @username) OR (bantype = 'ip' AND value = @IP1) OR (bantype = 'ip' AND value = @IP2) OR (bantype = 'machine' AND value = @machineid)) LIMIT 1");
                     queryreactor.AddParameter("nowtime", AkiledEnvironment.GetUnixTimestamp());
-                    queryreactor.AddParameter("username", dUserInfo["username"]);
+                    queryreactor.AddParameter("username", (string)dUserInfo["username"]);
                     queryreactor.AddParameter("IP1", ip);
-                    queryreactor.AddParameter("IP2", dUserInfo["ip_last"]);
+                    queryreactor.AddParameter("IP2", (string)dUserInfo["ip_last"]);
                     queryreactor.AddParameter("machineid", machineid);
 
                     DataRow IsBanned = queryreactor.GetRow();

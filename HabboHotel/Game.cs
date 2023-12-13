@@ -28,7 +28,6 @@ using AkiledEmulator.HabboHotel.Hotel.Giveaway;
 using System;
 using System.Diagnostics;
 using System.Threading;
-using static Akiled.HabboHotel.Rooms.Chat.Commands.Cmd.UserInfo;
 
 namespace Akiled.HabboHotel
 {
@@ -64,8 +63,8 @@ namespace Akiled.HabboHotel
         public static bool gameLoopEnabled = true;
         public bool gameLoopActive;
         public bool gameLoopEnded;
-
-        private Stopwatch moduleWatch;
+        private bool _cycleEnded;
+        private readonly Stopwatch moduleWatch;
 
         public Game()
         {
@@ -76,30 +75,30 @@ namespace Akiled.HabboHotel
             this._roleManager.Init();
 
             this._itemDataManager = new ItemDataManager();
-            this._itemDataManager.Init();
+
 
             this._catalogManager = new CatalogManager();
-            this._catalogManager.Init(this._itemDataManager);
+
 
             this._cacheManager = new CacheManager();
 
             this._navigatorManager = new NavigatorManager();
-            this._navigatorManager.Init();
+
 
             this._roleplayManager = new RoleplayManager();
-            this._roleplayManager.Init();
+
 
             this._roomManager = new RoomManager();
-            this._roomManager.LoadModels();
+
 
             this._groupManager = new GroupManager();
-            this._groupManager.Init();
+
 
             this._moderationManager = new ModerationManager();
-            this._moderationManager.Init();
+
 
             this._questManager = new QuestManager();
-            this._questManager.Init();
+
 
             this._hotelViewManager = new HotelViewManager();
             this._guideManager = new GuideManager();
@@ -112,7 +111,7 @@ namespace Akiled.HabboHotel
             this._achievementManager = new AchievementManager();
 
             this._animationManager = new AnimationManager();
-            this._animationManager.Init();
+
             this._subscriptionManager = new SubscriptionManager();
             this._subscriptionManager.Init();
             this._crackableManager = new CrackableManager();
@@ -128,14 +127,36 @@ namespace Akiled.HabboHotel
             {
                 StaffChat.Initialize(dbClient);
             }
-            
-            DatabaseCleanup();
-            LowPriorityWorker.Init();
+
+
+
 
             this.moduleWatch = new Stopwatch();
 
             this._giveAwayBlocksM = new GiveAwayBlocksManager();
         }
+
+
+        public void Init()
+        {
+            DatabaseCleanup();
+
+            this._itemDataManager.Init();
+            this._catalogManager.Init(this._itemDataManager);
+            this._navigatorManager.Init();
+            this._roleplayManager.Init();
+            this._roomManager.LoadModels();
+            this._groupManager.Init();
+            this._moderationManager.Init();
+            this._questManager.Init();
+
+
+            this._animationManager.Init();
+            
+
+            LowPriorityWorker.Init();
+        }
+
 
         #region Return values
 
@@ -242,11 +263,13 @@ namespace Akiled.HabboHotel
         public void StartGameLoop()
         {
             this.gameLoopActive = true;
-            //this.gameLoop = new Task(this.MainGameLoop, TaskCreationOptions.LongRunning);
-            this.gameLoop = new Thread(new ThreadStart(this.MainGameLoop))
+
+            var receiver = new ThreadStart(this.MainGameLoop);
+            this.gameLoop = new Thread(receiver)
             {
-                Priority = ThreadPriority.Highest
+                IsBackground = true
             };
+
             this.gameLoop.Start();
         }
 
@@ -271,37 +294,35 @@ namespace Akiled.HabboHotel
         {
             while (this.gameLoopActive)
             {
+                this._cycleEnded = false;
                 try
                 {
                     if (gameLoopEnabled)
                     {
                         moduleWatch.Restart();
                         LowPriorityWorker.Process();
-                        
+
                         if (moduleWatch.ElapsedMilliseconds > 500)
                             Console.WriteLine("High latency in LowPriorityWorker.Process ({0} ms)", moduleWatch.ElapsedMilliseconds);
-                        moduleWatch.Restart();
 
-                        /*
-                        this._roomManager.OnCycle(moduleWatch);
+                        this.moduleWatch.Restart();
 
-                        if (moduleWatch.ElapsedMilliseconds > 500)
-                            Console.WriteLine("High latency in RoomManager ({0} ms)", moduleWatch.ElapsedMilliseconds);
-                        moduleWatch.Restart();
-                        */
-                        
+                        this._roomManager.OnCycle(this.moduleWatch);
+
+                        this.moduleWatch.Restart();
                         this._animationManager.OnCycle(moduleWatch);
+
 
                         if (moduleWatch.ElapsedMilliseconds > 500)
                             Console.WriteLine("High latency in AnimationManager ({0} ms)", moduleWatch.ElapsedMilliseconds);
-                        moduleWatch.Restart();
+
                     }
                 }
                 catch (OperationCanceledException e)
                 {
                     Console.WriteLine("Canceled operation {0}", e);
                 }
-
+                this._cycleEnded = true;
                 Thread.Sleep(500);
             }
 
@@ -320,7 +341,6 @@ namespace Akiled.HabboHotel
                 dbClient.RunQuery("UPDATE server_status SET status = '1', users_online = '0', rooms_loaded = '0', stamp = '" + AkiledEnvironment.GetUnixTimestamp() + "'");
             }
         }
-
         public void Destroy()
         {
             DatabaseCleanup();

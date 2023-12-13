@@ -2,9 +2,9 @@
 {
     public class MoodlightPreset
     {
-        public string ColorCode;
-        public int ColorIntensity;
-        public bool BackgroundOnly;
+        public string ColorCode { get; set; }
+        public int ColorIntensity { get; set; }
+        public bool BackgroundOnly { get; set; }
 
         public MoodlightPreset(string ColorCode, int ColorIntensity, bool BackgroundOnly)
         {

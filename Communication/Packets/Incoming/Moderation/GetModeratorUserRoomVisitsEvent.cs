@@ -24,7 +24,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {
                 queryReactor.SetQuery("SELECT room_id, `entry_timestamp` FROM `user_roomvisits` WHERE `user_id` =@id ORDER BY `entry_timestamp` DESC LIMIT 50");
-                queryReactor.AddParameter("id", (object)num);
+                queryReactor.AddParameter("id", num);
                 DataTable table = queryReactor.GetTable();
                 if (table != null)
                 {

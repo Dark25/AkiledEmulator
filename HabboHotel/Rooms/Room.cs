@@ -22,6 +22,8 @@ using System.Threading.Tasks;
 
 namespace Akiled.HabboHotel.Rooms
 {
+
+
     public delegate void RoomEventDelegate(object sender, EventArgs e);
 
     public delegate void RoomUserSaysDelegate(object sender, UserSaysArgs e, ref bool messageHandled);
@@ -32,29 +34,78 @@ namespace Akiled.HabboHotel.Rooms
 
     public class Room : IDisposable
     {
-        public bool RoomMuted;
-        public bool isCycling;
-        public int IsLagging;
-        public bool mCycleEnded;
-        public int IdleTime;
+        private readonly CancellationTokenSource _cancellationTokenSource = new();
 
-        public bool IsRoleplay;
-        public bool Pvp;
-        public int RpHour;
-        public int RpMinute;
+        private readonly TimeSpan _saveFurnitureTimer = TimeSpan.FromMinutes(2);
+        private DateTime _saveFurnitureTimerLast = DateTime.Now;
+        public bool RoomMuted
+        {
+            get; set;
+        }
+        public bool isCycling
+        {
+            get; set;
+        }
+        public int IsLagging
+        {
+            get; set;
+        }
+        public bool mCycleEnded
+        {
+            get; set;
+        }
+        public int IdleTime
+        {
+            get; set;
+        }
+
+        public bool IsRoleplay
+        {
+            get; set;
+        }
+        public bool Pvp
+        {
+            get; set;
+        }
+        public int RpHour
+        {
+            get; set;
+        }
+        public int RpMinute
+        {
+            get; set;
+        }
         private int RpIntensity;
-        public bool RpCycleHourEffect;
-        public bool RpTimeSpeed;
-
+        public bool RpCycleHourEffect
+        {
+            get; set;
+        }
+        public bool RpTimeSpeed
+        {
+            get; set;
+        }
+        public Task ProcessTask { get; set; }
         private TeamManager teammanager;
         private RoomTraxManager _traxManager;
-        public List<int> UsersWithRights;
-        public bool EveryoneGotRights;
+        public List<int> UsersWithRights
+        {
+            get; set;
+        }
+        public bool EveryoneGotRights
+        {
+            get; set;
+        }
         private readonly Dictionary<int, double> Bans;
         private readonly Dictionary<int, double> Mutes;
-        public bool HeightMapLoaded;
-        public DateTime lastTimerReset;
-        public GameManager game;
+        public bool HeightMapLoaded
+        {
+            get; set;
+        }
+        public DateTime lastTimerReset
+        {
+            get; set;
+        }
+        public GameManager game { get; set; }
         private readonly Gamemap gamemap;
         private readonly RoomItemHandling roomItemHandling;
         private RoomUserManager roomUserManager;
@@ -64,26 +115,72 @@ namespace Akiled.HabboHotel.Rooms
         private JankenManager jankan;
         private GameItemHandler gameItemHandler;
         private WiredHandler wiredHandler;
-        public MoodlightData MoodlightData;
-        public List<Trade> ActiveTrades;
-        public bool mIsIdle;
+        public MoodlightData MoodlightData { get; set; }
+        public List<Trade> ActiveTrades { get; set; }
+        public bool mIsIdle
+        {
+            get; set;
+        }
         private readonly ChatMessageManager chatMessageManager;
-        public RoomData RoomData;
-        public bool Disposed;
-        public bool RoomMutePets;
-        public bool FreezeRoom;
-        public bool PushPullAllowed;
-        public bool CloseFullRoom;
+        public RoomData RoomData { get; set; }
+
+        public bool Disposed
+        {
+            get; set;
+        }
+        public bool RoomMutePets
+        {
+            get; set;
+        }
+        public bool FreezeRoom
+        {
+            get; set;
+        }
+        public bool PushPullAllowed
+        {
+            get; set;
+        }
+        public bool CloseFullRoom
+        {
+            get; set;
+        }
         public bool OldFoot = false;
-        public bool RoomIngameChat;
-        public bool BurnEnabled;
-        public bool MatarEnabled;
-        public bool RobarEnabled;
-        public bool CrispyEnabled;
-        public bool GolpeEnabled;
-        public bool SPushEnabled;
-        public bool SPullEnabled;
-        public bool PetMorphsAllowed;
+        public bool RoomIngameChat
+        {
+            get; set;
+        }
+        public bool BurnEnabled
+        {
+            get; set;
+        }
+        public bool MatarEnabled
+        {
+            get; set;
+        }
+        public bool RobarEnabled
+        {
+            get; set;
+        }
+        public bool CrispyEnabled
+        {
+            get; set;
+        }
+        public bool GolpeEnabled
+        {
+            get; set;
+        }
+        public bool SPushEnabled
+        {
+            get; set;
+        }
+        public bool SPullEnabled
+        {
+            get; set;
+        }
+        public bool PetMorphsAllowed
+        {
+            get; set;
+        }
 
         private ProjectileManager projectileManager;
         private int SaveTimer;
@@ -94,8 +191,14 @@ namespace Akiled.HabboHotel.Rooms
         public event Room.FurnitureLoad OnFurnisLoad;
 
         //Question
-        public int VotedYesCount;
-        public int VotedNoCount;
+        public int VotedYesCount
+        {
+            get; set;
+        }
+        public int VotedNoCount
+        {
+            get; set;
+        }
         private bool _hideWired;
         private bool _processingWireds;
         private bool _processingItem;
@@ -172,51 +275,15 @@ namespace Akiled.HabboHotel.Rooms
 
 
 
-            StartRoomProcessing();
-            StartItemProcess();
+
+
         }
 
         /// <summary>
         /// Starts the room processing.
         /// </summary>
-        internal void StartRoomProcessing()
-        {
-            if (_mainProcessSource == null)
-            {
-                return;
-            }
 
-            try
-            {
-                new Task(async () =>
-                {
-                    while (!_mainProcessSource.IsCancellationRequested)
-                    {
-                        try
-                        {
-                            var start = AkiledEnvironment.GetIUnixTimestamp();
-                            await ProcessRoom();
-                            var end = AkiledEnvironment.GetIUnixTimestamp();
-                            var wait = 500 - (end - start);
 
-                            if (wait <= 0)
-                                continue;
-
-                            await Task.Delay(wait);
-                        }
-                        catch (Exception e)
-                        {
-                            Logging.HandleException(e, "RoomProcessing");
-                        }
-                    }
-                }, _mainProcessSource.Token, TaskCreationOptions.LongRunning).Start();
-            }
-            catch (Exception e)
-            {
-                Logging.HandleException(e, "StartRoomProcess");
-            }
-        }
-        
         private bool _processingBall;
 
 
@@ -266,7 +333,7 @@ namespace Akiled.HabboHotel.Rooms
         public RoomUserManager GetRoomUserManager() => this.roomUserManager;
 
         public Soccer GetSoccer()
-        { 
+        {
             if (soccer == null)
             {
                 soccer = new Soccer(this);
@@ -277,41 +344,6 @@ namespace Akiled.HabboHotel.Rooms
         }
 
 
-        internal void StartItemProcess()
-        {
-            if (_processingItem || _mainProcessSource == null) return;
-
-            _processingItem = true;
-
-            try
-            {
-                new Task(async () =>
-                {
-                    while ((GotSoccer() && !Disposed) && !_mainProcessSource.IsCancellationRequested)
-                    {
-                        var start = AkiledEnvironment.GetUnixTimestamp();
-                        try
-                        {
-                            this.GetRoomItemHandler().OnCycle();
-                        }
-                        catch (Exception e)
-                        {
-                            Logging.LogCriticalException(e.ToString());
-                        }
-
-                        var end = AkiledEnvironment.GetUnixTimestamp() - start;
-                        var wait = 500 - end;
-                        if (wait <= 0)
-                            continue;
-                        await Task.Delay(500 - end);
-                    }
-                }, TaskCreationOptions.LongRunning).Start();
-            }
-            catch (Exception e)
-            {
-                Logging.HandleException(e, "Room Item Process");
-            }
-        }
 
         public TeamManager GetTeamManager()
         {
@@ -366,7 +398,7 @@ namespace Akiled.HabboHotel.Rooms
             return wiredHandler;
 
         }
-        
+
         internal void StartWiredsProcess()
         {
             if (_processingWireds || _mainProcessSource == null) return;
@@ -714,77 +746,67 @@ namespace Akiled.HabboHotel.Rooms
             Session.SendPacket(new ItemsComposer(Room.GetRoomItemHandler().GetWall.ToArray(), this));
         }
 
-        public async Task ProcessRoom(object pCallback = null)
+        public Task ProcessRoom()
         {
+
+            if (this.Disposed)
+                return Task.CompletedTask;
+
             try
             {
-                this.isCycling = true;
-                if (this.Disposed)
-                    return;
+                var timeStarted = DateTime.Now;
+                int idleCount = 0;
 
-                try
+                this.roomUserManager.OnCycle(ref idleCount);
+                this.roomItemHandling.OnCycle();
+                this.gameItemHandler.OnCycle();
+                this.projectileManager.OnCycle();
+                this.jankan.OnCycle();
+                this.RpCycleHour();
+
+
+                if (idleCount > 0)
+                    this.IdleTime++;
+                else
+                    this.IdleTime = 0;
+
+                if (!this.mCycleEnded)
                 {
-                    int idleCount = 0;
-
-                    this.GetRoomUserManager().OnCycle(ref idleCount);
-
-
-                    this.RpCycleHour();
-
-                    this.GetProjectileManager().OnCycle();
-
-                    if (idleCount > 0)
-                        this.IdleTime++;
-                    else
-                        this.IdleTime = 0;
-
-                    if (!this.mCycleEnded)
+                    if (this.IdleTime >= 60)
                     {
-                        if (this.IdleTime >= 60)
-                        {
-                            AkiledEnvironment.GetGame().GetRoomManager().UnloadRoom(this);
-                            this.mIsIdle = false;
-                            return;
-                        }
-                        else
-                        {
-                            this.GetRoomUserManager().SerializeStatusUpdates();
-                        }
+                        AkiledEnvironment.GetGame().GetRoomManager().UnloadRoom(this);
+                        this.mIsIdle = false;
+                        return Task.CompletedTask;
                     }
-
-                    if (this.GetGameItemHandler() != null)
-                        this.GetGameItemHandler().OnCycle();
-
-
-                    if (this.GotJanken())
-                        this.GetJanken().OnCycle();
-
-                    if (this.SaveTimer < ((5 * 60) * 2))
-                        this.SaveTimer++;
                     else
                     {
-                        this.SaveTimer = 0;
-                        using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
-                        {
-                            this.GetRoomItemHandler().SaveFurniture(queryreactor);
-                        }
+                        this.GetRoomUserManager().SerializeStatusUpdates();
                     }
                 }
-                catch (Exception ex)
+
+
+
+                if (timeStarted > this._saveFurnitureTimerLast + this._saveFurnitureTimer)
                 {
-                    this.OnRoomCrash(ex);
+                    this._saveFurnitureTimerLast = timeStarted;
+
+                    this.roomItemHandling.SaveFurniture();
                 }
+
+                var timeEnded = DateTime.Now;
+
+                var timeExecution = timeEnded - timeStarted;
             }
             catch (Exception ex)
             {
-                isCycling = false;
-                Logging.LogCriticalException("Sub crash in room cycle: " + (ex).ToString());
+                this.OnRoomCrash(ex);
             }
-            finally
-            {
-                isCycling = false;
-            }
+            return Task.CompletedTask;
         }
+
+
+
+
 
         private void RpCycleHour()
         {
@@ -1095,9 +1117,9 @@ namespace Akiled.HabboHotel.Rooms
             }
         }
 
-
         public void Dispose()
         {
+           
             if (this.Disposed)
                 return;
 
@@ -1110,7 +1132,7 @@ namespace Akiled.HabboHotel.Rooms
 
             using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {
-                this.GetRoomItemHandler().SaveFurniture(queryreactor);
+                this.GetRoomItemHandler().SaveFurniture();
             }
 
             this.RoomData.Tags.Clear();
@@ -1128,7 +1150,7 @@ namespace Akiled.HabboHotel.Rooms
             this.GetRoomUserManager().Destroy();
 
             this.gamemap.Destroy();
-            
+
             new Task(async () =>
             {
                 await Task.Delay(2500);
@@ -1222,6 +1244,22 @@ namespace Akiled.HabboHotel.Rooms
             this.ActiveTrades.Remove(userTrade);
         }
 
+        public Task RunTask(Func<Task> callBack)
+        {
+            var task = Task.Run(async () =>
+            {
+                if (this.Disposed)
+                {
+                    return;
+                }
+
+                await callBack();
+
+            }, this._cancellationTokenSource.Token);
+
+            return task;
+        }
+
         public void SetMaxUsers(int MaxUsers)
         {
             this.RoomData.UsersMax = MaxUsers;
@@ -1237,4 +1275,5 @@ namespace Akiled.HabboHotel.Rooms
 
         public delegate void FurnitureLoad();
     }
+
 }

@@ -33,17 +33,17 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                 using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                 {
                     queryReactor.SetQuery("UPDATE rooms SET owner = @newname WHERE owner = @oldname");
-                    queryReactor.AddParameter("newname", (object)str);
-                    queryReactor.AddParameter("oldname", (object)Session.GetHabbo().Username);
+                    queryReactor.AddParameter("newname", str);
+                    queryReactor.AddParameter("oldname", Session.GetHabbo().Username);
                     queryReactor.RunQuery();
                     queryReactor.SetQuery("UPDATE users SET username = @newname WHERE id = @userid");
-                    queryReactor.AddParameter("newname", (object)str);
-                    queryReactor.AddParameter("userid", (object)Session.GetHabbo().Id);
+                    queryReactor.AddParameter("newname", str);
+                    queryReactor.AddParameter("userid", Session.GetHabbo().Id);
                     queryReactor.RunQuery();
                     queryReactor.SetQuery("INSERT INTO `logs_flagme` (`user_id`, `oldusername`, `newusername`, `time`) VALUES (@userid, @oldusername, @newusername, '" + AkiledEnvironment.GetUnixTimestamp().ToString() + "');");
-                    queryReactor.AddParameter("userid", (object)Session.GetHabbo().Id);
-                    queryReactor.AddParameter("oldusername", (object)Session.GetHabbo().Username);
-                    queryReactor.AddParameter("newusername", (object)str);
+                    queryReactor.AddParameter("userid", Session.GetHabbo().Id);
+                    queryReactor.AddParameter("oldusername", Session.GetHabbo().Username);
+                    queryReactor.AddParameter("newusername", str);
                     queryReactor.RunQuery();
                 }
                 AkiledEnvironment.GetGame().GetClientManager().UpdateClientUsername(Session.ConnectionID, Session.GetHabbo().Username, str);

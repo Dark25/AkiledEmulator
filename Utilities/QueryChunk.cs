@@ -54,7 +54,7 @@ namespace Akiled.Utilities
             this.queries = this.queries.Remove(this.queries.Length - 1, 1);
             dbClient.SetQuery((this.queries).ToString());
             foreach (KeyValuePair<string, object> keyValuePair in this.parameters)
-                dbClient.AddParameter(keyValuePair.Key, keyValuePair.Value);
+                dbClient.AddParameter(keyValuePair.Key, (string)keyValuePair.Value);
             dbClient.RunQuery();
         }
 

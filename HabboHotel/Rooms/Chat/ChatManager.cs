@@ -1,4 +1,5 @@
-﻿using Akiled.HabboHotel.Rooms.Chat.Commands;
+﻿using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.Rooms.Chat.Commands;
 using Akiled.HabboHotel.Rooms.Chat.Emotions;
 using Akiled.HabboHotel.Rooms.Chat.Filter;
 using Akiled.HabboHotel.Rooms.Chat.Pets.Commands;
@@ -78,5 +79,6 @@ namespace Akiled.HabboHotel.Rooms.Chat
         {
             return this._chatStyles;
         }
+
     }
 }

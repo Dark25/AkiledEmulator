@@ -226,8 +226,8 @@ namespace Akiled.HabboHotel.Rooms.TraxMachine
                     using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                     {
                         queryReactor.SetQuery("INSERT INTO room_jukebox_songs (room_id, item_id) VALUES (@room, @item)");
-                        queryReactor.AddParameter("room", (object)this.Room.Id);
-                        queryReactor.AddParameter(nameof(item), (object)item.Id);
+                        queryReactor.AddParameter("room", this.Room.Id);
+                        queryReactor.AddParameter(nameof(item), item.Id);
                         queryReactor.RunQuery();
                     }
                     this.Playlist.Add(item);

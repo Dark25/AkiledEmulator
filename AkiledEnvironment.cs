@@ -184,6 +184,7 @@ namespace Akiled
                         return Task.FromResult(false);
                     }
                 }
+            
                 _settingsManager = new SettingsManager();
                 _settingsManager.Init();
 
@@ -191,6 +192,7 @@ namespace Akiled
                 _languageManager = new LanguageManager();
                 _languageManager.Init();
                 _game = new Game();
+                _game.Init();
                 _game.StartGameLoop();
                 _figureManager = new FigureDataManager();
                 _figureManager.Init();
@@ -258,7 +260,7 @@ namespace Akiled
 
         public static int GetRandomNumberMulti(int Min, int Max) => RandomNumber.GenerateLockedRandom(Min, Max);
 
-        public static int GetUnixTimestamp() => (int)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds;
+        public static int GetUnixTimestamp() => (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
         internal static int GetIUnixTimestamp() => Convert.ToInt32((DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds);
 
@@ -424,9 +426,9 @@ namespace Akiled
                 _connectionManager.destroy();
             if (_webSocketManager != null)
                 _webSocketManager.Destroy();
+            GetGame().Destroy(); // E+N+D+T+I+M+E
             AppendTimeStampWithComment(ref builder, now6, "Connection shutdown");
             DateTime now7 = DateTime.Now;
-            _game.Destroy();
             AppendTimeStampWithComment(ref builder, now7, "Game destroy");
             DateTime now8 = DateTime.Now;
             TimeSpan span = DateTime.Now - now1;

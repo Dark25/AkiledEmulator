@@ -24,7 +24,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                     using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                     {
                         queryReactor.SetQuery("INSERT INTO `navigator_staff_picks` (`room_id`,`image`) VALUES (@roomId, null)");
-                        queryReactor.AddParameter("roomId", (object)Room.Id);
+                        queryReactor.AddParameter("roomId", Room.Id);
                         queryReactor.RunQuery();
                     }
                 }
@@ -34,7 +34,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                 using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                 {
                     queryReactor.SetQuery("DELETE FROM `navigator_staff_picks` WHERE `room_id` = @roomId LIMIT 1");
-                    queryReactor.AddParameter("roomId", (object)Room.Id);
+                    queryReactor.AddParameter("roomId", Room.Id);
                     queryReactor.RunQuery();
                 }
             }

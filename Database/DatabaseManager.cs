@@ -1,5 +1,5 @@
 ﻿using Akiled.Database.Interfaces;
-using MySqlConnector;
+using MySql.Data.MySqlClient;
 using System;
 
 

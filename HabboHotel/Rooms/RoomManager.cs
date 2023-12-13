@@ -1,6 +1,7 @@
 ﻿using Akiled.Core;
 using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.GameClients;
+using AkiledEmulator.Core;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -13,9 +14,10 @@ namespace Akiled.HabboHotel.Rooms
 {
     public class RoomManager
     {
+        private readonly object _roomLoadingSync;
         private ConcurrentDictionary<int, Room> _rooms;
         private Dictionary<string, RoomModel> _roomModels;
-
+        private readonly ConcurrentDictionary<int, RoomData> _roomsData;
         public int Count
         {
             get { return this._rooms.Count; }
@@ -23,8 +25,10 @@ namespace Akiled.HabboHotel.Rooms
 
         public RoomManager()
         {
+            this._roomLoadingSync = new object();
             this._rooms = new ConcurrentDictionary<int, Room>();
             this._roomModels = new Dictionary<string, RoomModel>();
+            this._roomsData = new ConcurrentDictionary<int, RoomData>();
 
             this.roomCycleStopwatch = new Stopwatch();
             this.roomCycleStopwatch.Start();
@@ -69,9 +73,8 @@ namespace Akiled.HabboHotel.Rooms
 
         public RoomData GenerateRoomData(int RoomId)
         {
-            Room Room;
 
-            if (TryGetRoom(RoomId, out Room))
+            if (TryGetRoom(RoomId, out Room Room))
                 return Room.RoomData;
 
             DataRow Row = (DataRow)null;
@@ -109,10 +112,7 @@ namespace Akiled.HabboHotel.Rooms
             return Room;
         }
 
-        public bool TryGetRoom(int RoomId, out Room Room)
-        {
-            return this._rooms.TryGetValue(RoomId, out Room);
-        }
+        public bool TryGetRoom(int RoomId, out Room Room) => _rooms.TryGetValue(RoomId, out Room);
 
         public RoomData FetchRoomData(int roomID, DataRow dRow)
         {
@@ -203,6 +203,7 @@ namespace Akiled.HabboHotel.Rooms
                 }
             }
         }
+
 
         public void OnCycle(Stopwatch moduleWatch)
         {
@@ -359,26 +360,35 @@ namespace Akiled.HabboHotel.Rooms
                     .Select(RoomInstance => RoomInstance)).FirstOrDefault();
         }
 
-        private Stopwatch roomCycleStopwatch;
+        private readonly Stopwatch roomCycleStopwatch;
 
         public void RoomCycleTask()
         {
-            if (roomCycleStopwatch.ElapsedMilliseconds >= 500)
+            if (this.roomCycleStopwatch.ElapsedMilliseconds >= 500)
             {
-                roomCycleStopwatch.Restart();
-                foreach (Room Room in this._rooms.Values.ToList())
+                this.roomCycleStopwatch.Restart();
+
+                foreach (var room in this._rooms.ToList())
                 {
-                    if (!Room.isCycling && !Room.Disposed)
+                    if (room.Value == null)
                     {
-                      //  ThreadPool.QueueUserWorkItem(Room.ProcessRoom, null); //QueueUserWorkItem
-                        Room.IsLagging = 0;
+                        continue;
+                    }
+
+                    if (room.Value.ProcessTask == null || room.Value.ProcessTask.IsCompleted)
+                    {
+                        room.Value.ProcessTask = room.Value.RunTask(room.Value.ProcessRoom);
+
+                        room.Value.IsLagging = 0;
                     }
                     else
                     {
-                        Room.IsLagging++;
-                        if (Room.IsLagging > 20)
+                        room.Value.IsLagging++;
+                        if (room.Value.IsLagging > 20)
                         {
-                            UnloadRoom(Room);
+                            ExceptionLogger.LogThreadException("Room lagging", "Room cycle task for room " + room.Value.Id);
+
+                            this.UnloadRoom(room.Value);
                         }
                     }
                 }
@@ -407,11 +417,9 @@ namespace Akiled.HabboHotel.Rooms
         public void UnloadRoom(Room Room)
         {
             if (Room == null) return;
-
-            Room room = null;
-            if (this._rooms.TryRemove(Room.Id, out room))
+            if (this._rooms.TryRemove(Room.Id, out _))
             {
-                Room.Dispose();
+                ((IDisposable)Room).Dispose();
             }
         }
     }

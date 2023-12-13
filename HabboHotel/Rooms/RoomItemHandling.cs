@@ -9,6 +9,7 @@ using Akiled.HabboHotel.Rooms.Map.Movement;
 using Akiled.HabboHotel.Rooms.Pathfinding;
 using Akiled.HabboHotel.Rooms.Wired;
 using Akiled.Utilities;
+using AkiledEmulator.Database.Ext.Item;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -57,10 +58,7 @@ namespace Akiled.HabboHotel.Rooms
             this._rollerMessages = new List<ServerPacket>();
         }
 
-        public void QueueRoomItemUpdate(Item item)
-        {
-            this._roomItemUpdateQueue.Enqueue(item);
-        }
+        public void QueueRoomItemUpdate(Item item) => this._roomItemUpdateQueue.Enqueue(item);
 
         public void ClearFurniture(GameClient Session)
         {
@@ -179,79 +177,90 @@ namespace Akiled.HabboHotel.Rooms
                 this._wallItems.Clear();
             }
 
-            using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
+            using IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor();
+            queryreactor.SetQuery("SELECT items.id, items.user_id, items.room_id, items.base_item, items.extra_data, items.x, items.y, items.z, items.rot, items.wall_pos, items_limited.limited_number, items_limited.limited_stack, room_items_moodlight.enabled, room_items_moodlight.current_preset, room_items_moodlight.preset_one, room_items_moodlight.preset_two, room_items_moodlight.preset_three FROM items LEFT JOIN items_limited ON (items_limited.item_id = items.id) LEFT JOIN room_items_moodlight ON (room_items_moodlight.item_id = items.id) WHERE items.room_id = @roomid");
+            queryreactor.AddParameter("roomid", (RoomId == 0) ? this._room.Id : RoomId);
+
+            int itemID;
+            int UserId;
+            int baseID;
+            string ExtraData;
+            int x;
+            int y;
+            double z;
+            sbyte n;
+            string wallposs;
+            int Limited;
+            int LimitedTo;
+            string wallCoord;
+
+            bool moodlightEnabled;
+            int moodlightCurrentPreset;
+            string moodlightPresetOne;
+            string moodlightPresetTwo;
+            string moodlightPresetThree;
+
+            foreach (DataRow dataRow in queryreactor.GetTable().Rows)
             {
-                queryreactor.SetQuery("SELECT items.id, items.user_id, items.room_id, items.base_item, items.extra_data, items.x, items.y, items.z, items.rot, items.wall_pos, items_limited.limited_number, items_limited.limited_stack FROM items LEFT JOIN items_limited ON (items_limited.item_id = items.id) WHERE items.room_id = @roomid");
-                queryreactor.AddParameter("roomid", (RoomId == 0) ? this._room.Id : RoomId);
 
-                int itemID;
-                int UserId;
-                int baseID;
-                string ExtraData;
-                int x;
-                int y;
-                double z;
-                sbyte n;
-                string wallposs;
-                int Limited;
-                int LimitedTo;
-                string wallCoord;
+                itemID = Convert.ToInt32(dataRow[0]);
+                UserId = Convert.ToInt32(dataRow[1]);
+                baseID = Convert.ToInt32(dataRow[3]);
+                ExtraData = !DBNull.Value.Equals(dataRow[4]) ? (string)dataRow[4] : string.Empty;
+                x = Convert.ToInt32(dataRow[5]);
+                y = Convert.ToInt32(dataRow[6]);
+                z = Convert.ToDouble(dataRow[7]);
+                n = Convert.ToSByte(dataRow[8]);
+                wallposs = !DBNull.Value.Equals(dataRow[9]) ? (string)(dataRow[9]) : string.Empty;
+                Limited = !DBNull.Value.Equals(dataRow[10]) ? Convert.ToInt32(dataRow[10]) : 0;
+                LimitedTo = !DBNull.Value.Equals(dataRow[11]) ? Convert.ToInt32(dataRow[11]) : 0;
 
-                foreach (DataRow dataRow in queryreactor.GetTable().Rows)
+                ItemData Data = null;
+                AkiledEnvironment.GetGame().GetItemManager().GetItem(baseID, out Data);
+
+                if (Data == null)
+                    continue;
+
+                if (Data.Type.ToString() == "i")
                 {
+                    if (string.IsNullOrEmpty(wallposs))
+                        wallCoord = "w=0,0 l=0,0 l";
+                    else
+                        wallCoord = wallposs;
 
-                    itemID = Convert.ToInt32(dataRow[0]);
-                    UserId = Convert.ToInt32(dataRow[1]);
-                    baseID = Convert.ToInt32(dataRow[3]);
-                    ExtraData = !DBNull.Value.Equals(dataRow[4]) ? (string)dataRow[4] : string.Empty;
-                    x = Convert.ToInt32(dataRow[5]);
-                    y = Convert.ToInt32(dataRow[6]);
-                    z = Convert.ToDouble(dataRow[7]);
-                    n = Convert.ToSByte(dataRow[8]);
-                    wallposs = !DBNull.Value.Equals(dataRow[9]) ? (string)(dataRow[9]) : string.Empty;
-                    Limited = !DBNull.Value.Equals(dataRow[10]) ? Convert.ToInt32(dataRow[10]) : 0;
-                    LimitedTo = !DBNull.Value.Equals(dataRow[11]) ? Convert.ToInt32(dataRow[11]) : 0;
+                    Item roomItem = new(itemID, UserId, this._room.Id, baseID, ExtraData, Limited, LimitedTo, 0, 0, 0.0, 0, wallCoord, this._room);
+                    if (!this._wallItems.ContainsKey(itemID))
+                        this._wallItems.TryAdd(itemID, roomItem);
 
-                    ItemData Data = null;
-                    AkiledEnvironment.GetGame().GetItemManager().GetItem(baseID, out Data);
-
-                    if (Data == null)
-                        continue;
-
-                    if (Data.Type.ToString() == "i")
+                    if (roomItem.GetBaseItem().InteractionType == InteractionType.MOODLIGHT)
                     {
-                        if (string.IsNullOrEmpty(wallposs))
-                            wallCoord = "w=0,0 l=0,0 l";
-                        else
-                            wallCoord = wallposs;
+                      
+                        moodlightEnabled = !DBNull.Value.Equals(dataRow["enabled"]) && Convert.ToBoolean(dataRow["enabled"]);
+                        moodlightCurrentPreset = !DBNull.Value.Equals(dataRow["current_preset"]) ? Convert.ToInt32(dataRow["current_preset"]) : 1;
+                        moodlightPresetOne = !DBNull.Value.Equals(dataRow["preset_one"]) ? (string)dataRow["preset_one"] : "#000001,255,0";
+                        moodlightPresetTwo = !DBNull.Value.Equals(dataRow["preset_two"]) ? (string)dataRow["preset_two"] : "#000000,255,0";
+                        moodlightPresetThree = !DBNull.Value.Equals(dataRow["preset_three"]) ? (string)dataRow["preset_three"] : "#000000,255,0";
 
-                        Item roomItem = new Item(itemID, UserId, this._room.Id, baseID, ExtraData, Limited, LimitedTo, 0, 0, 0.0, 0, wallCoord, this._room);
-                        if (!this._wallItems.ContainsKey(itemID))
-                            this._wallItems.TryAdd(itemID, roomItem);
+                        this._room.MoodlightData ??= new MoodlightData(roomItem.Id, moodlightEnabled, moodlightCurrentPreset, moodlightPresetOne, moodlightPresetTwo, moodlightPresetThree);
 
-                        if (roomItem.GetBaseItem().InteractionType == InteractionType.MOODLIGHT)
-                        {
-                            if (this._room.MoodlightData == null)
-                                this._room.MoodlightData = new MoodlightData(roomItem.Id);
-                        }
-                    }
-                    else //Is flooritem
-                    {
-                        Item roomItem = new Item(itemID, UserId, this._room.Id, baseID, ExtraData, Limited, LimitedTo, x, y, (double)z, n, "", this._room);
-
-                        if (!this._floorItems.ContainsKey(itemID))
-                            this._floorItems.TryAdd(itemID, roomItem);
                     }
                 }
-
-                if (RoomId == 0)
+                else //Is flooritem
                 {
-                    foreach (Item Item in _floorItems.Values)
+                    Item roomItem = new Item(itemID, UserId, this._room.Id, baseID, ExtraData, Limited, LimitedTo, x, y, (double)z, n, "", this._room);
+
+                    if (!this._floorItems.ContainsKey(itemID))
+                        this._floorItems.TryAdd(itemID, roomItem);
+                }
+            }
+
+            if (RoomId == 0)
+            {
+                foreach (Item Item in _floorItems.Values)
+                {
+                    if (WiredUtillity.TypeIsWired(Item.GetBaseItem().InteractionType))
                     {
-                        if (WiredUtillity.TypeIsWired(Item.GetBaseItem().InteractionType))
-                        {
-                            WiredLoader.LoadWiredItem(Item, this._room, queryreactor);
-                        }
+                        WiredLoader.LoadWiredItem(Item, this._room, queryreactor);
                     }
                 }
             }
@@ -572,16 +581,16 @@ namespace Akiled.HabboHotel.Rooms
         }
 
 
-        public void SaveFurniture(IQueryAdapter dbClient)
+        public void SaveFurniture()
         {
             try
             {
                 if (this._updateItems.Count <= 0 && this._room.GetRoomUserManager().BotCounter <= 0) return;
-
+                using var dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor();
                 if (this._updateItems.Count > 0)
                 {
                     QueryChunk standardQueries = new QueryChunk();
-
+                 
                     foreach (Item roomItem in (IEnumerable)this._updateItems.Values)
                     {
                         if (!string.IsNullOrEmpty(roomItem.ExtraData))
@@ -920,7 +929,17 @@ namespace Akiled.HabboHotel.Rooms
                 Item.Interactor.OnPlace(Session, Item);
                 if (Item.GetBaseItem().InteractionType == InteractionType.MOODLIGHT && this._room.MoodlightData == null)
                 {
-                    this._room.MoodlightData = new MoodlightData(Item.Id);
+                    using var dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor();
+
+                    var moodlightRow = ItemMoodlightExt.GetOne(dbClient, Item.Id);
+
+                    var moodlightEnabled = moodlightRow != null && Convert.ToBoolean(moodlightRow["enabled"]);
+                    var moodlightCurrentPreset = moodlightRow != null ? Convert.ToInt32(moodlightRow["current_preset"]) : 1;
+                    var moodlightPresetOne = moodlightRow != null ? (string)moodlightRow["preset_one"] : "#000000,255,0";
+                    var moodlightPresetTwo = moodlightRow != null ? (string)moodlightRow["preset_two"] : "#000000,255,0";
+                    var moodlightPresetThree = moodlightRow != null ? (string)moodlightRow["preset_three"] : "#000000,255,0";
+
+                    this._room.MoodlightData = new MoodlightData(Item.Id, moodlightEnabled, moodlightCurrentPreset, moodlightPresetOne, moodlightPresetTwo, moodlightPresetThree);
                     Item.ExtraData = this._room.MoodlightData.GenerateExtraData();
                 }
                 this._wallItems.TryAdd(Item.Id, Item);

@@ -1,46 +1,36 @@
 ﻿using Akiled.Database.Interfaces;
-using ConsoleWriter;
+using AkiledEmulator.Core;
+using MySql.Data.MySqlClient;
 using System;
 using System.Data;
-using MySqlConnector;
 
 namespace Akiled.Database.Adapter
 {
     public class QueryAdapter : IRegularQueryAdapter
     {
-        protected IDatabaseClient client;
-        protected MySqlCommand command;
+        public IDatabaseClient Client { get; set; }
+        public MySqlCommand Command { get; set; }
 
+        private readonly bool _dbEnabled = true;
 
-        public bool dbEnabled = true;
-        public QueryAdapter(IDatabaseClient Client)
-        {
-            client = Client;
-        }
+        public QueryAdapter(IDatabaseClient client) => this.Client = client;
 
-        /*private static bool dbEnabled
-        {
-            get { return DatabaseManager.dbEnabled; }
-        }*/
+        public void AddParameter(string name, string query) => this.Command.Parameters.AddWithValue(name, query);
 
-        public void AddParameter(string parameterName, object val)
-        {
-            command.Parameters.AddWithValue(parameterName, val);
-        }
+        public void AddParameter(string name, int query) => this.Command.Parameters.AddWithValue(name, query.ToString());
+        public void AddParameter(string name, object query) => this.Command.Parameters.AddWithValue(name, query);
 
         public bool FindsResult()
         {
-            bool hasRows = false;
+            var hasRows = false;
             try
             {
-                using (MySqlDataReader reader = command.ExecuteReader())
-                {
-                    hasRows = reader.HasRows;
-                }
+                using var reader = this.Command.ExecuteReader();
+                hasRows = reader.HasRows;
             }
             catch (Exception exception)
             {
-                Writer.LogQueryError(exception, command.CommandText);
+                ExceptionLogger.LogQueryError(exception, this.Command.CommandText);
             }
 
             return hasRows;
@@ -48,18 +38,18 @@ namespace Akiled.Database.Adapter
 
         public int GetInteger()
         {
-            int result = 0;
+            var result = 0;
             try
             {
-                object obj2 = command.ExecuteScalar();
+                var obj2 = this.Command.ExecuteScalar();
                 if (obj2 != null)
                 {
-                    int.TryParse(obj2.ToString(), out result);
+                    _ = int.TryParse(obj2.ToString(), out result);
                 }
             }
             catch (Exception exception)
             {
-                Writer.LogQueryError(exception, command.CommandText);
+                ExceptionLogger.LogQueryError(exception, this.Command.CommandText);
             }
 
             return result;
@@ -70,10 +60,10 @@ namespace Akiled.Database.Adapter
             DataRow row = null;
             try
             {
-                DataSet dataSet = new DataSet();
-                using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
+                var dataSet = new DataSet();
+                using (var adapter = new MySqlDataAdapter(this.Command))
                 {
-                    adapter.Fill(dataSet);
+                    _ = adapter.Fill(dataSet);
                 }
                 if ((dataSet.Tables.Count > 0) && (dataSet.Tables[0].Rows.Count == 1))
                 {
@@ -82,7 +72,7 @@ namespace Akiled.Database.Adapter
             }
             catch (Exception exception)
             {
-                Writer.LogQueryError(exception, command.CommandText);
+                ExceptionLogger.LogQueryError(exception, this.Command.CommandText);
             }
 
             return row;
@@ -90,10 +80,10 @@ namespace Akiled.Database.Adapter
 
         public string GetString()
         {
-            string str = string.Empty;
+            var str = string.Empty;
             try
             {
-                object obj2 = command.ExecuteScalar();
+                var obj2 = this.Command.ExecuteScalar();
                 if (obj2 != null)
                 {
                     str = obj2.ToString();
@@ -101,7 +91,7 @@ namespace Akiled.Database.Adapter
             }
             catch (Exception exception)
             {
-                Writer.LogQueryError(exception, command.CommandText);
+                ExceptionLogger.LogQueryError(exception, this.Command.CommandText);
             }
 
             return str;
@@ -109,20 +99,20 @@ namespace Akiled.Database.Adapter
 
         public DataTable GetTable()
         {
-            DataTable dataTable = new DataTable();
-            if (!dbEnabled)
+            var dataTable = new DataTable();
+            if (!this._dbEnabled)
+            {
                 return dataTable;
+            }
 
             try
             {
-                using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
-                {
-                    adapter.Fill(dataTable);
-                }
+                using var adapter = new MySqlDataAdapter(this.Command);
+                _ = adapter.Fill(dataTable);
             }
             catch (Exception exception)
             {
-                Writer.LogQueryError(exception, command.CommandText);
+                ExceptionLogger.LogQueryError(exception, this.Command.CommandText);
             }
 
             return dataTable;
@@ -130,54 +120,58 @@ namespace Akiled.Database.Adapter
 
         public void RunQuery(string query)
         {
-            if (!dbEnabled)
+            if (!this._dbEnabled)
+            {
                 return;
+            }
 
-            SetQuery(query);
-            RunQuery();
+            this.SetQuery(query);
+            this.RunQuery();
         }
 
         public void SetQuery(string query)
         {
-            command.Parameters.Clear();
-            command.CommandText = query;
-        }
-
-        public void addParameter(string name, byte[] data)
-        {
-            command.Parameters.Add(new MySqlParameter(name, MySqlDbType.Blob, data.Length));
+            this.Command.Parameters.Clear();
+            this.Command.CommandText = query;
         }
 
         public long InsertQuery()
         {
-            if (!dbEnabled)
+            if (!this._dbEnabled)
+            {
                 return 0;
+            }
 
-            long lastInsertedId = 0L;
+            var lastInsertedId = 0L;
             try
             {
-                command.ExecuteScalar();
-                lastInsertedId = command.LastInsertedId;
+                _ = this.Command.ExecuteScalar();
+                lastInsertedId = this.Command.LastInsertedId;
             }
             catch (Exception exception)
             {
-                Writer.LogQueryError(exception, command.CommandText);
+                ExceptionLogger.LogQueryError(exception, this.Command.CommandText);
             }
             return lastInsertedId;
         }
 
         public void RunQuery()
         {
-            if (!dbEnabled) return;
+            if (!this._dbEnabled)
+            {
+                return;
+            }
 
             try
             {
-                command.ExecuteNonQuery();
+                _ = this.Command.ExecuteNonQuery();
             }
             catch (Exception exception)
             {
-                Writer.LogQueryError(exception, command.CommandText);
+                ExceptionLogger.LogQueryError(exception, this.Command.CommandText);
             }
         }
+
+
     }
 }

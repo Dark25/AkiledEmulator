@@ -115,7 +115,7 @@ namespace Akiled.Communication.RCON.Commands.User
                         using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                         {
                             dbClient.SetQuery("SELECT `id`,`username` FROM users WHERE `id` = @id LIMIT 1");
-                            dbClient.AddParameter("id", RoomData["owner"]);
+                            dbClient.AddParameter("id", (string)RoomData["owner"]);
                             DonoQuarto = dbClient.GetRow();
                         }
 

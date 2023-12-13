@@ -1204,10 +1204,7 @@ namespace Akiled.HabboHotel.Items
             this.GetRoom().GetRoomItemHandler().QueueRoomItemUpdate(this);
         }
 
-        public void UpdateState()
-        {
-            this.UpdateState(true, true);
-        }
+        public void UpdateState() => this.UpdateState(true, true);
 
         public void RequestUpdate(int Cycles, bool setUpdate)
         {
@@ -1327,6 +1324,7 @@ namespace Akiled.HabboHotel.Items
                 return;
             this.OnUserWalksOnFurni(user, item);
         }
+        public override bool Equals(object obj) => this.Equals(obj as Item);
 
         public void UserWalksOffFurni(RoomUser user, Item item)
         {

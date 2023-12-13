@@ -38,7 +38,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                     using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                     {
                         queryReactor.SetQuery("UPDATE `bots` SET `look` = @look, `gender` = '" + Session.GetHabbo().Gender + "' WHERE `id` = '" + Bot.BotData.Id.ToString() + "' LIMIT 1");
-                        queryReactor.AddParameter("look", (object)Session.GetHabbo().Look);
+                        queryReactor.AddParameter("look", Session.GetHabbo().Look);
                         queryReactor.RunQuery();
                         break;
                     }
@@ -73,11 +73,11 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                     using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                     {
                         queryReactor.SetQuery("UPDATE `bots` SET `chat_enabled` = @AutomaticChat, `chat_seconds` = @SpeakingInterval, `is_mixchat` = @MixChat, `chat_text` = @ChatText WHERE `id` = @id LIMIT 1");
-                        queryReactor.AddParameter("id", (object)BotId);
-                        queryReactor.AddParameter("AutomaticChat", (object)AkiledEnvironment.BoolToEnum(Convert.ToBoolean(str2)));
-                        queryReactor.AddParameter("SpeakingInterval", (object)Convert.ToInt32(str3));
-                        queryReactor.AddParameter("MixChat", (object)AkiledEnvironment.BoolToEnum(Convert.ToBoolean(str4)));
-                        queryReactor.AddParameter("ChatText", (object)Text);
+                        queryReactor.AddParameter("id", BotId);
+                        queryReactor.AddParameter("AutomaticChat", AkiledEnvironment.BoolToEnum(Convert.ToBoolean(str2)));
+                        queryReactor.AddParameter("SpeakingInterval", Convert.ToInt32(str3));
+                        queryReactor.AddParameter("MixChat", AkiledEnvironment.BoolToEnum(Convert.ToBoolean(str4)));
+                        queryReactor.AddParameter("ChatText", Text);
                         queryReactor.RunQuery();
                         break;
                     }
@@ -113,7 +113,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                     using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                     {
                         queryReactor.SetQuery("UPDATE `bots` SET `name` = @name WHERE `id` = '" + Bot.BotData.Id.ToString() + "' LIMIT 1");
-                        queryReactor.AddParameter("name", (object)str1);
+                        queryReactor.AddParameter("name", str1);
                         queryReactor.RunQuery();
                     }
                     currentRoom.SendPacket((IServerPacket)new UserNameChangeMessageComposer(0, Bot.VirtualId, Bot.BotData.Name));
