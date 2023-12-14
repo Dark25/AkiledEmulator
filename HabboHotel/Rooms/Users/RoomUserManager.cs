@@ -1128,9 +1128,10 @@ namespace Akiled.HabboHotel.Rooms
             }
         }
 
-        public void OnCycle(ref int idleCount)
+        public void OnCycle()
         {
             int userCounter = 0;
+            int idleCount = 0;
 
             List<RoomUser> ToRemove = new List<RoomUser>();
 

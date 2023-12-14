@@ -13,6 +13,7 @@ using Akiled.HabboHotel.Rooms.Projectile;
 using Akiled.HabboHotel.Rooms.RoomBots;
 using Akiled.HabboHotel.Rooms.TraxMachine;
 using Akiled.HabboHotel.Rooms.Wired;
+using AkiledEmulator.Core;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -272,9 +273,7 @@ namespace Akiled.HabboHotel.Rooms
             this.InitPets();
             this.lastTimerReset = DateTime.Now;
             this._hideWired = Data.HideWired;
-
-
-
+            StartRoomProcessing();
 
 
         }
@@ -285,7 +284,42 @@ namespace Akiled.HabboHotel.Rooms
 
 
         private bool _processingBall;
+        internal void StartRoomProcessing()
+        {
+            if (_mainProcessSource == null)
+            {
+                return;
+            }
 
+            try
+            {
+                new Task(async () =>
+                {
+                    while (!_mainProcessSource.IsCancellationRequested)
+                    {
+                        try
+                        {
+                            var start = AkiledEnvironment.GetIUnixTimestamp();
+                            await ProcessRoom();
+                            var end = AkiledEnvironment.GetIUnixTimestamp();
+                            var wait = 500 - (end - start);
+
+                            if (wait <= 0)
+                                continue;
+                            await Task.Delay(wait);
+                        }
+                        catch (Exception e)
+                        {
+                            Logging.HandleException(e, "RoomProcessing");
+                        }
+                    }
+                }, _mainProcessSource.Token, TaskCreationOptions.LongRunning).Start();
+            }
+            catch (Exception e)
+            {
+                Logging.HandleException(e, "StartRoomProcess");
+            }
+        }
 
         internal void StartBallProcess()
         {
@@ -755,20 +789,16 @@ namespace Akiled.HabboHotel.Rooms
             try
             {
                 var timeStarted = DateTime.Now;
-                int idleCount = 0;
-
-                this.roomUserManager.OnCycle(ref idleCount);
-                this.roomItemHandling.OnCycle();
-                this.gameItemHandler.OnCycle();
-                this.projectileManager.OnCycle();
-                this.jankan.OnCycle();
-                this.RpCycleHour();
 
 
-                if (idleCount > 0)
-                    this.IdleTime++;
-                else
-                    this.IdleTime = 0;
+               
+               
+
+
+                if (GetRoomUserManager().GetRoomUsers().Count == 0)
+                    IdleTime++;
+                else if (IdleTime > 0)
+                    IdleTime = 0;
 
                 if (!this.mCycleEnded)
                 {
@@ -784,7 +814,14 @@ namespace Akiled.HabboHotel.Rooms
                     }
                 }
 
-
+                try
+                {
+                    GetRoomUserManager().OnCycle();
+                }
+                catch (Exception e)
+                {
+                   
+                }
 
                 if (timeStarted > this._saveFurnitureTimerLast + this._saveFurnitureTimer)
                 {

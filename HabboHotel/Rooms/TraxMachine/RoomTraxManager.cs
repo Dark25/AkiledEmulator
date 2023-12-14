@@ -87,7 +87,7 @@ namespace Akiled.HabboHotel.Rooms.TraxMachine
         public RoomTraxManager(Room room)
         {
             this.Room = room;
-            room.OnFurnisLoad += new Room.FurnitureLoad(this.Room_OnFurnisLoad);
+          
             this.IsPlaying = false;
             this.StartedPlayTimestamp = AkiledEnvironment.GetUnixTimestamp();
             this.Playlist = new List<Item>();

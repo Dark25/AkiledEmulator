@@ -192,7 +192,7 @@ namespace Akiled
                 _languageManager = new LanguageManager();
                 _languageManager.Init();
                 _game = new Game();
-                _game.Init();
+              
                 _game.StartGameLoop();
                 _figureManager = new FigureDataManager();
                 _figureManager.Init();

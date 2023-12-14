@@ -379,6 +379,7 @@ namespace Akiled.HabboHotel.Rooms
                     {
                         room.Value.ProcessTask = room.Value.RunTask(room.Value.ProcessRoom);
 
+                     
                         room.Value.IsLagging = 0;
                     }
                     else
