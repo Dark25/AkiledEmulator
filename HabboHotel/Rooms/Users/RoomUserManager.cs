@@ -14,6 +14,7 @@ using Akiled.HabboHotel.Rooms.Games;
 using Akiled.HabboHotel.Rooms.Map.Movement;
 using Akiled.HabboHotel.Rooms.Pathfinding;
 using Akiled.HabboHotel.Rooms.RoomBots;
+using Akiled.HabboHotel.Users.Inventory.Bots;
 using Akiled.Utilities;
 using AkiledEmulator.HabboHotel.Rooms;
 using System;
@@ -139,17 +140,15 @@ namespace Akiled.HabboHotel.Rooms
             }
 
             roomUser.BotAI = Bot.GenerateBotAI(roomUser.VirtualId);
+            roomUser.BotAI.Init(Bot.Id, roomUser.VirtualId, this._room.Id, roomUser, this._room);
 
             if (roomUser.IsPet)
             {
-                roomUser.BotAI.Init(Bot.Id, roomUser.VirtualId, this._room.Id, roomUser, this._room);
+                
                 roomUser.PetData = PetData;
                 roomUser.PetData.VirtualId = roomUser.VirtualId;
             }
-            else
-            {
-                roomUser.BotAI.Init(Bot.Id, roomUser.VirtualId, this._room.Id, roomUser, this._room);
-            }
+           
             this.BotCounter++;
             roomUser.SetStatus("flatctrl 4", "");
 

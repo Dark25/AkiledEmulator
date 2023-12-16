@@ -4,6 +4,7 @@ using Akiled.Communication.Packets.Outgoing;
 using Akiled.Communication.WebSocket;
 using Akiled.Core;
 using Akiled.Core.FigureData;
+using Akiled.Core.OpenIA;
 using Akiled.Core.Settings;
 using Akiled.Database;
 using Akiled.Database.Interfaces;
@@ -125,6 +126,7 @@ namespace Akiled
         private static Game _game;
 
         private static SettingsManager _settingsManager;
+        private static OpenAIProxy _chatOpenAI;
         private static DatabaseManager _datebasemanager;
         private static RCONSocket _rcon;
         private static FigureDataManager _figureManager;
@@ -196,6 +198,8 @@ namespace Akiled
                 _game.StartGameLoop();
                 _figureManager = new FigureDataManager();
                 _figureManager.Init();
+                _chatOpenAI = new OpenAIProxy(AkiledEnvironment.GetSettingsManager().TryGetValue("openia.url"));
+                
                 if (_configuration.data["Websocketenable"] == "true")
                     _webSocketManager = new WebSocketManager(int.Parse(GetConfig().data["game.websocketsport"]), int.Parse(GetConfig().data["game.tcp.conlimit"]));
                 _connectionManager = new ConnectionHandeling(int.Parse(GetConfig().data["game.tcp.port"]), int.Parse(GetConfig().data["game.tcp.conlimit"]), int.Parse(GetConfig().data["game.tcp.conperip"]));
@@ -397,6 +401,7 @@ namespace Akiled
 
 
         internal static void PreformRestart() => PreformShutDown(true);
+        public static OpenAIProxy GetChatOpenAI() => _chatOpenAI;
 
         public static void PreformShutDown(bool restart)
         {

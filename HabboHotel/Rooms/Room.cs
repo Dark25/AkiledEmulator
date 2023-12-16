@@ -7,13 +7,13 @@ using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Pets;
 using Akiled.HabboHotel.Roleplay;
+using Akiled.HabboHotel.Rooms.Chat.Commands.Cmd;
 using Akiled.HabboHotel.Rooms.Games;
 using Akiled.HabboHotel.Rooms.Janken;
 using Akiled.HabboHotel.Rooms.Projectile;
 using Akiled.HabboHotel.Rooms.RoomBots;
 using Akiled.HabboHotel.Rooms.TraxMachine;
 using Akiled.HabboHotel.Rooms.Wired;
-using AkiledEmulator.Core;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -31,7 +31,8 @@ namespace Akiled.HabboHotel.Rooms
 
     public delegate void TriggerUserDelegate(RoomUser user, string ActionType);
 
-    public delegate void BotCollisionDelegate(RoomUser user, string BotName);
+    public delegate void BotCollisionDelegate(RoomUser user, string BotName);4
+
 
     public class Room : IDisposable
     {
@@ -107,7 +108,8 @@ namespace Akiled.HabboHotel.Rooms
             get; set;
         }
         public GameManager game { get; set; }
-        private readonly Gamemap gamemap;
+
+        public Gamemap gamemap { get;}
         private readonly RoomItemHandling roomItemHandling;
         private RoomUserManager roomUserManager;
         private Soccer soccer;
@@ -656,6 +658,17 @@ namespace Akiled.HabboHotel.Rooms
                 else
                     roomUser.BotAI.OnUserSay(User, Message);
             }
+            foreach (var roomUser in this.roomUserManager.GetBots().ToList())
+            {
+                if (Shout)
+                {
+                    roomUser.BotAI.OnUserShout(User, Message);
+                }
+                else
+                {
+                    roomUser.BotAI.OnUserSay(User, Message);
+                }
+            }
         }
 
         public void LoadRights()
@@ -789,12 +802,6 @@ namespace Akiled.HabboHotel.Rooms
             try
             {
                 var timeStarted = DateTime.Now;
-
-
-               
-               
-
-
                 if (GetRoomUserManager().GetRoomUsers().Count == 0)
                     IdleTime++;
                 else if (IdleTime > 0)
@@ -820,7 +827,7 @@ namespace Akiled.HabboHotel.Rooms
                 }
                 catch (Exception e)
                 {
-                   
+
                 }
 
                 if (timeStarted > this._saveFurnitureTimerLast + this._saveFurnitureTimer)
@@ -1156,7 +1163,7 @@ namespace Akiled.HabboHotel.Rooms
 
         public void Dispose()
         {
-           
+
             if (this.Disposed)
                 return;
 

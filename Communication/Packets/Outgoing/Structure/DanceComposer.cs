@@ -4,11 +4,11 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
 {
     class DanceComposer : ServerPacket
     {
-        public DanceComposer(RoomUser Avatar, int Dance)
+        public DanceComposer(int virtualId, int dance)
             : base(ServerPacketHeader.DanceMessageComposer)
         {
-            WriteInteger(Avatar.VirtualId);
-            WriteInteger(Dance);
+            WriteInteger(virtualId);
+            WriteInteger(dance);
         }
     }
 }

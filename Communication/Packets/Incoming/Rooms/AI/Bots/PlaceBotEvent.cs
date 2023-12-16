@@ -39,7 +39,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                 queryreactor.RunQuery("UPDATE bots SET room_id = " + Room.Id + ", x = " + X + ", y = " + Y + " WHERE id = " + Bot.Id);
 
 
-            RoomUser roomUser = Room.GetRoomUserManager().DeployBot(new RoomBot(Bot.Id, Bot.OwnerId, Room.Id, AIType.Generic, Bot.WalkingEnabled, Bot.Name, Bot.Motto, Bot.Gender, Bot.Figure, X, Y, 0, 2, Bot.ChatEnabled, Bot.ChatText, Bot.ChatSeconds, Bot.IsDancing, Bot.Enable, Bot.Handitem, Bot.Status), null);
+            RoomUser roomUser = Room.GetRoomUserManager().DeployBot(new RoomBot(Bot.Id, Bot.OwnerId, Room.Id, Bot.AIType, Bot.WalkingEnabled, Bot.Name, Bot.Motto, Bot.Gender, Bot.Figure, X, Y, 0, 2, Bot.ChatEnabled, Bot.ChatText, Bot.ChatSeconds, Bot.IsDancing, Bot.Enable, Bot.Handitem, Bot.Status), null);
             roomUser.Chat("¡Hola " + Session.GetHabbo().Username + "!", false, 0);
             Bot ToRemove = null;
             if (!Session.GetHabbo().GetInventoryComponent().TryRemoveBot(BotId, out ToRemove))

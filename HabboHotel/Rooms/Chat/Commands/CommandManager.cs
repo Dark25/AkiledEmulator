@@ -399,6 +399,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands
             this.Register(278, new GiveawayCommand());
             this.Register(279, new ClearBlocksGiveawayCommand());
             this.Register(280, new CollectorParkCommand());
+            this.Register(281, new ChatGTP());
         }
     }
 }

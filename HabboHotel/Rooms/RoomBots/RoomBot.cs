@@ -1,4 +1,5 @@
 ﻿using Akiled.HabboHotel.Roleplay.Enemy;
+using AkiledEmulator.HabboHotel.Rooms.Chat.Commands.Systeme;
 using System.Collections.Generic;
 
 namespace Akiled.HabboHotel.Rooms.RoomBots
@@ -106,6 +107,8 @@ namespace Akiled.HabboHotel.Rooms.RoomBots
                 case AIType.RolePlayBot:
                 case AIType.RolePlayPet:
                     return (BotAI)new RoleplayBot(VirtualId);
+                case AIType.ChatGPT:
+                    return new ChatGPTBot(VirtualId);
                 case AIType.SuperBot:
                     return (BotAI)new SuperBot(VirtualId);
                 case AIType.Pet:

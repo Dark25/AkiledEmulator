@@ -1,5 +1,6 @@
 ﻿using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.Items;
+using Akiled.HabboHotel.Rooms.RoomBots;
 using Akiled.HabboHotel.Users.Inventory.Bots;
 using System;
 using System.Data;
@@ -21,8 +22,18 @@ namespace Akiled.HabboHotel.Catalog.Utilities
                 dbClient.SetQuery("SELECT `id`,`user_id`,`name`,`motto`,`look`,`gender` FROM `bots` WHERE `user_id` = '" + OwnerId + "' AND `id` = '" + Id + "' LIMIT 1");
                 DataRow BotData = dbClient.GetRow();
 
-                return new Bot(Convert.ToInt32(BotData["id"]), Convert.ToInt32(BotData["user_id"]), Convert.ToString(BotData["name"]), Convert.ToString(BotData["motto"]), Convert.ToString(BotData["look"]), Convert.ToString(BotData["gender"]), false, true, "", 0, false, 0, 0, 0);
+                return new Bot(Id, OwnerId, CataBot.Name, CataBot.Motto, CataBot.Figure, CataBot.Gender, false, true, "", 0, false, 0, 0, 0, AIType.Generic);
             }
+
         }
+        public static AIType GetAIFromString(string type) => type switch
+        {
+            "pet" => AIType.Pet,
+            "generic" => AIType.Generic,
+            "roleplaybot" => AIType.RolePlayBot,
+            "roleplaypet" => AIType.RolePlayPet,
+            "chatgpt" => AIType.ChatGPT,
+            _ => AIType.Generic,
+        };
     }
 }

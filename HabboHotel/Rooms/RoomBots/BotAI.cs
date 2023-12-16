@@ -5,12 +5,13 @@ namespace Akiled.HabboHotel.Rooms.RoomBots
     public abstract class BotAI
     {
         public int BaseId;
+        public int VirtualId { get; set; }
         private int RoomUserId;
         private int RoomId;
         private RoomUser roomUser;
         private Room room;
 
-        public void Init(int pBaseId, int pRoomUserId, int pRoomId, RoomUser user, Room room)
+        public virtual void Init(int pBaseId, int pRoomUserId, int pRoomId, RoomUser user, Room room)
         {
             this.BaseId = pBaseId;
             this.RoomUserId = pRoomUserId;

@@ -137,6 +137,12 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                         AkiledEnvironment.GetGame().GetNotifTopManager().Init();
                         break;
                     }
+                case "openia":
+                    {
+                        AkiledEnvironment.GetChatOpenAI().Init();
+                        Session.SendWhisper("OpenIA actualizado");
+                        break;
+                    }
                 default:
                     {
                         UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.notfound", Session.Langue));

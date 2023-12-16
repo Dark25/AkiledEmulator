@@ -18,6 +18,7 @@ namespace Akiled.HabboHotel.Rooms
 {
     public class RoomUser : IEquatable<RoomUser>
     {
+        public GameClient Client { get; private set; }
         public int UserId;
         public int HabboId;
         public int VirtualId;
@@ -530,7 +531,7 @@ namespace Akiled.HabboHotel.Rooms
                 this.RotHead = Rotation;
             this.UpdateNeeded = true;
         }
-
+        public bool ContainStatus(string key) => this.Statusses.ContainsKey(key);
         public void SetStatus(string Key, string Value)
         {
             if (this.Statusses.ContainsKey(Key))

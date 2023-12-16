@@ -1,4 +1,6 @@
-﻿namespace Akiled.HabboHotel.Users.Inventory.Bots
+﻿using Akiled.HabboHotel.Rooms.RoomBots;
+
+namespace Akiled.HabboHotel.Users.Inventory.Bots
 {
     public class Bot
     {
@@ -16,8 +18,9 @@
         public int Enable;
         public int Handitem;
         public int Status;
+        public AIType AIType { get; set; }
 
-        public Bot(int Id, int OwnerId, string Name, string Motto, string Figure, string Gender, bool WalkingEnabled, bool ChatEnabled, string ChatText, int ChatSeconds, bool IsDancing, int pEnable, int pHanditem, int pStatus)
+        public Bot(int Id, int OwnerId, string Name, string Motto, string Figure, string Gender, bool WalkingEnabled, bool ChatEnabled, string ChatText, int ChatSeconds, bool IsDancing, int pEnable, int pHanditem, int pStatus, AIType aiType)
         {
             this.Id = Id;
             this.OwnerId = OwnerId;
@@ -33,6 +36,7 @@
             this.Enable = pEnable;
             this.Handitem = pHanditem;
             this.Status = pStatus;
+            this.AIType = aiType;
         }
     }
 }

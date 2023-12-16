@@ -8,5 +8,6 @@
         SuperBot,
         RolePlayBot,
         RolePlayPet,
+        ChatGPT
     }
 }

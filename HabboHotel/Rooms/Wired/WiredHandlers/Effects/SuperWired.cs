@@ -464,14 +464,14 @@ namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
                             AkiledEnvironment.GetGame().GetRoleplayManager().GetEnemyManager().RemoveEnemyBot(BotOrPet.BotData.Id);
                             BotOrPet.BotData.RoleBot = null;
                             BotOrPet.BotData.AiType = RoomBots.AIType.Generic;
-                            BotOrPet.BotData.GenerateBotAI(BotOrPet.VirtualId);
+                            BotOrPet.BotAI = BotOrPet.BotData.GenerateBotAI(BotOrPet.VirtualId);;
                         }
                         else
                         {
                             AkiledEnvironment.GetGame().GetRoleplayManager().GetEnemyManager().RemoveEnemyPet(BotOrPet.BotData.Id);
                             BotOrPet.BotData.RoleBot = null;
                             BotOrPet.BotData.AiType = RoomBots.AIType.Pet;
-                            BotOrPet.BotData.GenerateBotAI(BotOrPet.VirtualId);
+                            BotOrPet.BotAI = BotOrPet.BotData.GenerateBotAI(BotOrPet.VirtualId);;
                         }
                         break;
                     }
@@ -488,7 +488,7 @@ namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
                             {
                                 BotOrPet.BotData.RoleBot = new RoleBot(RPEnemyConfig);
                                 BotOrPet.BotData.AiType = RoomBots.AIType.RolePlayBot;
-                                BotOrPet.BotData.GenerateBotAI(BotOrPet.VirtualId);
+                                 BotOrPet.BotAI = BotOrPet.BotData.GenerateBotAI(BotOrPet.VirtualId);;
                             }
                         }
                         else
@@ -498,7 +498,7 @@ namespace Akiled.HabboHotel.Rooms.Wired.WiredHandlers.Effects
                             {
                                 BotOrPet.BotData.RoleBot = new RoleBot(RPEnemyConfig);
                                 BotOrPet.BotData.AiType = RoomBots.AIType.RolePlayPet;
-                                BotOrPet.BotData.GenerateBotAI(BotOrPet.VirtualId);
+                                 BotOrPet.BotAI = BotOrPet.BotData.GenerateBotAI(BotOrPet.VirtualId);;
                             }
                         }
                         break;
