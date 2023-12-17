@@ -35,6 +35,7 @@
         public const int GuideVisitUserEvent = 1052;
         public const int RefreshCampaignMessageEvent = 2912;
         public const int GetPromoArticlesMessageEvent = 1827;
+        public const int GET_COMMUNITY_GOAL_HALL_OF_FAME = 2167;
         public const int SaveFloorPlanModelMessageEvent = 875;
         public const int InitializeFloorPlanSessionMessageEvent = 3559;
         public const int UpdateMagicTileMessageEvent = 3839;

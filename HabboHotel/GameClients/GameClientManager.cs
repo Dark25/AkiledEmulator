@@ -64,16 +64,22 @@ namespace Akiled.HabboHotel.GameClients
 
         public GameClient GetClientByUserID(int userID)
         {
-            if (this._userIDRegister.ContainsKey(userID))
+            if (this._userIDRegister.TryGetValue(userID, out var clientId))
             {
-                GameClient Client = null;
-                if (!TryGetClient(this._userIDRegister[userID], out Client))
+                if (!this.TryGetClient(clientId, out var client))
+                {
                     return null;
-                return Client;
+                }
+
+                return client;
             }
             else
-                return (GameClient)null;
+            {
+                return null;
+            }
         }
+
+       
 
         public GameClient GetClientByUsername(string username)
         {
@@ -111,7 +117,6 @@ namespace Akiled.HabboHotel.GameClients
         }
 
         public bool TryGetClient(int ClientId, out GameClient Client) => this._clients.TryGetValue(ClientId, out Client);
-
         public string GetNameById(int Id)
         {
             GameClient clientByUserId = this.GetClientByUserID(Id);

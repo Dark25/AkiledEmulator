@@ -1,9 +1,12 @@
 ﻿using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Core;
+using Akiled.Database.Daos.User;
 using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.Achievements;
+using Akiled.HabboHotel.Rooms.Chat.Commands.Cmd;
 using Akiled.HabboHotel.Users.Badges;
 using Akiled.HabboHotel.Users.Messenger;
+using MySqlX.XDevAPI.Relational;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -283,7 +286,7 @@ namespace Akiled.HabboHotel.Users.UserData
                     return (UserData)null;
 
                 userID = Convert.ToInt32(row["id"]);
-                if (AkiledEnvironment.GetGame().GetClientManager().GetClientByUserID(userID) != null)
+                if (AkiledEnvironment.GetGame()?.GetClientManager()?.GetClientByUserID(userID) != null)
                     return (UserData)null;
 
                 queryreactor.SetQuery("SELECT * FROM user_stats WHERE id = @id");
@@ -311,6 +314,7 @@ namespace Akiled.HabboHotel.Users.UserData
             return new UserData(userID, achievements, favouritedRooms, badges, friends, requests, quests, MyGroups, user, Relationships, RoomRight);
         }
 
+      
         public static Habbo GenerateHabbo(DataRow dRow, DataRow dRow2, bool ChangeName)
         {
             int Id = Convert.ToInt32(dRow["id"]);
@@ -360,7 +364,9 @@ namespace Akiled.HabboHotel.Users.UserData
             int int32_8 = Convert.ToInt32(dRow["angelpass"]);
             int int32_9 = Convert.ToInt32(dRow["angelstatus"]);
             int int32_10 = Convert.ToInt32(dRow["miningpass"]);
-            return new Habbo(Id, Username, Prefix, Prefixnamecolor, PrefixSize, Rank, Motto, Look, Gender, Credits, Diamonds, ActivityPoints, LastActivityPointsUpdate, HomeRoom, Respect, DailyRespectPoints, DailyPetRespectPoints, HasFriendRequestsDisabled, currentQuestID, achievementPoints, LastOnline, FavoriteGroup, accountCreated, AcceptTrading, Ip, HideInroom, HideOnline, MazoHighScore, Mazo, clientVolume, NuxEnable, MachineId, ChangeName, Langue, IgnoreAll, PetsMuted: false, BotsMuted: false, last_marked_friend, time_muted, lastdailycredits, NuxEnable2, Ismod, ispub, Isinter, Isgm, Isguia, IsEMB, int32_8, int32_9, int32_10);
+            var gamePointsMonth = Convert.ToInt32(dRow["game_points_month"]);
+            return new Habbo(Id, Username, Prefix, Prefixnamecolor, PrefixSize, Rank, Motto, Look, Gender, Credits, Diamonds, ActivityPoints, LastActivityPointsUpdate, HomeRoom, Respect, DailyRespectPoints, DailyPetRespectPoints, HasFriendRequestsDisabled, currentQuestID, achievementPoints, LastOnline, FavoriteGroup, accountCreated, AcceptTrading, Ip, HideInroom, HideOnline, MazoHighScore, Mazo, clientVolume, NuxEnable, MachineId, ChangeName, Langue, IgnoreAll, PetsMuted: false, BotsMuted: false, last_marked_friend, time_muted, lastdailycredits, NuxEnable2, Ismod, ispub, Isinter, Isgm, Isguia, IsEMB, int32_8, int32_9, int32_10, gamePointsMonth);
         }
+       
     }
 }

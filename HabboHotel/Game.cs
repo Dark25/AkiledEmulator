@@ -12,6 +12,7 @@ using Akiled.HabboHotel.Guides;
 using Akiled.HabboHotel.HotelView;
 using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Items.Crafting;
+using Akiled.HabboHotel.LandingView;
 using Akiled.HabboHotel.Navigators;
 using Akiled.HabboHotel.NotifTop;
 using Akiled.HabboHotel.Quests;
@@ -58,6 +59,7 @@ namespace Akiled.HabboHotel
         private readonly CrackableManager _crackableManager;
         private readonly CraftingManager _craftingManager;
         private readonly GiveAwayBlocksManager _giveAwayBlocksM;
+        private readonly HallOfFameManager _hallOfFameManager;
 
         private Thread gameLoop; //Task
         public static bool gameLoopEnabled = true;
@@ -70,6 +72,12 @@ namespace Akiled.HabboHotel
         {
             this._clientManager = new GameClientManager();
             this._clientWebManager = new WebClientManager();
+            this._hallOfFameManager = new HallOfFameManager();
+            using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
+            
+                this._hallOfFameManager.Init(dbClient);
+            
+
 
             this._roleManager = new RoleManager();
             this._roleManager.Init();
@@ -124,9 +132,9 @@ namespace Akiled.HabboHotel
             CollectorParkConfigs.check();
 
             using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
-            {
+           
                 StaffChat.Initialize(dbClient);
-            }
+            
 
             DatabaseCleanup();
             LowPriorityWorker.Init();
@@ -167,6 +175,8 @@ namespace Akiled.HabboHotel
         {
             return _packetManager;
         }
+
+        public HallOfFameManager GetHallOFFame() => this._hallOfFameManager;
 
         public GuideManager GetGuideManager()
         {
@@ -287,13 +297,14 @@ namespace Akiled.HabboHotel
                             Console.WriteLine("High latency in LowPriorityWorker.Process ({0} ms)", moduleWatch.ElapsedMilliseconds);
 
 
-                        /*
-                        this._roomManager.OnCycle(moduleWatch);
+                        this._hallOfFameManager.OnCycle();
 
-                        if (moduleWatch.ElapsedMilliseconds > 500)
-                            Console.WriteLine("High latency in RoomManager ({0} ms)", moduleWatch.ElapsedMilliseconds);
-                        moduleWatch.Restart();
-                        */
+                        if (this.moduleWatch.ElapsedMilliseconds > 500)
+                        {
+                            Console.WriteLine("High latency in HallOfFame ({0} ms)", this.moduleWatch.ElapsedMilliseconds);
+                        }
+
+                        this.moduleWatch.Restart();
 
                         this._animationManager.OnCycle(moduleWatch);
 

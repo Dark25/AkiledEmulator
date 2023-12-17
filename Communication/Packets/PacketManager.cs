@@ -1,5 +1,6 @@
 ﻿using Akiled.Communication.Packets.Incoming;
 using Akiled.Communication.Packets.Incoming.Catalog;
+using Akiled.Communication.Packets.Incoming.LandingView;
 using Akiled.Communication.Packets.Incoming.Marketplace;
 using Akiled.Communication.Packets.Incoming.Navigator;
 using Akiled.Communication.Packets.Incoming.Rooms.AI.Pets.Horse;
@@ -22,7 +23,7 @@ namespace Akiled.Communication.Packets
     {
         private readonly Dictionary<int, IPacketEvent> _incomingPackets;
         private readonly Dictionary<int, IPacketWebEvent> _incomingWebPackets;
-      
+
         public PacketManager()
         {
             _incomingPackets = new Dictionary<int, IPacketEvent>();
@@ -146,6 +147,7 @@ namespace Akiled.Communication.Packets
         {
             _incomingPackets.Add(ClientPacketHeader.RefreshCampaignMessageEvent, new RefreshCampaignEvent());
             _incomingPackets.Add(ClientPacketHeader.GetPromoArticlesMessageEvent, new GetPromoArticlesEvent());
+            _incomingPackets.Add(ClientPacketHeader.GET_COMMUNITY_GOAL_HALL_OF_FAME, new GetCommunityGoalHallOfFameEvent());
         }
 
         private void RegisterNux()

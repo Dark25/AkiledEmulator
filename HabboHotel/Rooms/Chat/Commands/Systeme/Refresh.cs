@@ -1,4 +1,5 @@
 ﻿using Akiled.Communication.Packets.Outgoing.Structure;
+using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.GameClients;
 
 namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
@@ -135,6 +136,13 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 case "pushtop":
                     {
                         AkiledEnvironment.GetGame().GetNotifTopManager().Init();
+                        break;
+                    }
+                case "hof":
+                    {
+                        using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
+                            AkiledEnvironment.GetGame().GetHallOFFame().Init(dbClient);
+                        Session.SendWhisper("Hof Actualizado");
                         break;
                     }
                 default:

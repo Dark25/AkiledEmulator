@@ -64,7 +64,7 @@ namespace Akiled.HabboHotel.Users
         public string MachineId;
         public Language Langue;
         public bool PickupItemsStatus = false;
-
+        public int GamePointsMonth { get; set; }
         //Collector Park
         public bool collecting = false;
         public double nextReward = 0;
@@ -196,6 +196,7 @@ namespace Akiled.HabboHotel.Users
         internal double DiamondsCycleUpdate;
         internal double MoedasCycleUpdate;
         private IgnoresComponent _ignores;
+ 
 
         public bool InRoom
         {
@@ -255,7 +256,7 @@ namespace Akiled.HabboHotel.Users
             int LastOnline, int FavoriteGroup, int accountCreated, bool accepttrading, string ip, bool HideInroom,
             bool HideOnline, int MazoHighScore, int Mazo, string clientVolume, bool nuxenable, string MachineId, bool ChangeName, Language Langue, bool IgnoreAll, bool PetsMuted, bool BotsMuted, int last_marked_friend, double TimeMuted, string lastdailycredits, bool nuxenable2, bool ismod, bool ispub, bool isinter, bool isgm, bool isguia, bool isemb, int angelpass,
       int angelstatus,
-      int miningpass)
+      int miningpass, int gamePointsMonth)
         {
             this.Id = Id;
             this.Username = Username;
@@ -270,6 +271,7 @@ namespace Akiled.HabboHotel.Users
             this.Credits = Credits;
             this.AkiledPoints = WPoint;
             this.Duckets = ActivityPoints;
+            this.GamePointsMonth = gamePointsMonth;
             this.AchievementPoints = achievementPoints;
             this.LastActivityPointsUpdate = LastActivityPointsUpdate;
             this.CurrentRoomId = 0;

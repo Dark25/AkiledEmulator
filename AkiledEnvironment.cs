@@ -8,7 +8,9 @@ using Akiled.Core.Settings;
 using Akiled.Database;
 using Akiled.Database.Interfaces;
 using Akiled.HabboHotel;
+using Akiled.HabboHotel.Cache;
 using Akiled.HabboHotel.GameClients;
+using Akiled.HabboHotel.Rooms.Chat.Commands.Cmd;
 using Akiled.HabboHotel.Users;
 using Akiled.HabboHotel.Users.UserData;
 using Akiled.Net;
@@ -26,9 +28,9 @@ using System.Threading.Tasks;
 
 namespace Akiled
 {
-    public class AkiledEnvironment
+    public static class AkiledEnvironment
     {
-        private static ConcurrentDictionary<int, Habbo> _usersCached = new();
+        private static readonly ConcurrentDictionary<int, Habbo> _usersCached = new();
         public static Random Random = new();
 
 
@@ -331,9 +333,15 @@ namespace Akiled
 
         public static Habbo GetHabboById(int UserId)
         {
+            if (UserId == 0)
+            {
+               
+                return null;
+            }
             try
             {
-                GameClient clientByUserId = GetGame().GetClientManager().GetClientByUserID(UserId);
+                
+                GameClient clientByUserId = GetGame()?.GetClientManager()?.GetClientByUserID(UserId);
                 if (clientByUserId != null)
                 {
                     Habbo habbo = clientByUserId.GetHabbo();
@@ -368,12 +376,13 @@ namespace Akiled
                 }
                 return null;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 return null;
             }
         }
-
+       
         public static LanguageManager GetLanguageManager() => _languageManager;
 
         public static ConfigurationData GetConfig()

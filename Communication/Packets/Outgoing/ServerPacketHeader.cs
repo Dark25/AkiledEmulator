@@ -7,7 +7,7 @@
         public const int QuestionInfoComposer = 2665;
         public const int SimplePollAnswersComposer = 1066;
         public const int ItemStateComposer = 2376;
-
+        public const int COMMUNITY_GOAL_HALL_OF_FAME = 3005;
         public const int ErrorLoginComposer = 4000;
         public const int WiredRewardAlertComposer = 178;
         public const int CameraPriceComposer = 3878;

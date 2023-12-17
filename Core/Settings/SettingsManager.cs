@@ -38,9 +38,6 @@ namespace Akiled.Core.Settings
             Log.Info("Loaded " + _settings.Count + " server settings.");
         }
 
-        public string TryGetValue(string value)
-        {
-            return _settings.ContainsKey(value) ? _settings[value] : "0";
-        }
+        public string TryGetValue(string value) => _settings.ContainsKey(value) ? _settings[value] : "0";
     }
 }
