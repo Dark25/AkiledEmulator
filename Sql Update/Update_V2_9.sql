@@ -135,3 +135,5 @@ UPDATE `catalog_items` SET `page_id` = '231' WHERE `catalog_items`.`id` = 10318 
 -- fix hof
 
 INSERT INTO `server_settings` (`variable`, `value`, `description`) VALUES ('hof.lastupdate', '1', '')
+ALTER TABLE `users` ADD INDEX(`game_points_month`);
+ALTER TABLE `users` ADD INDEX(`game_points`);
