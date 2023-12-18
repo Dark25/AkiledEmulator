@@ -1,5 +1,6 @@
 using Akiled.HabboHotel.Catalog;
 using Akiled.HabboHotel.Items;
+using System;
 
 namespace Akiled.Communication.Packets.Outgoing.Structure
 {
@@ -8,6 +9,8 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
         public PurchaseOKComposer(CatalogItem Item, ItemData BaseItem)
             : base(ServerPacketHeader.PurchaseOKMessageComposer)
         {
+
+           
             WriteInteger(BaseItem.Id);
             WriteString(BaseItem.ItemName);
             WriteBoolean(false);
@@ -23,6 +26,7 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
             WriteInteger(0);
             WriteString("");
             WriteInteger(1);
+            
         }
 
         public PurchaseOKComposer()

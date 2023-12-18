@@ -74,4 +74,64 @@ ALTER TABLE `catalog_items` ADD `offer_id` INT NOT NULL DEFAULT 1 AFTER `badge`;
 -- Dump dei dati di tabella mezz.catalog_items
 
 UPDATE catalog_items SET offer_id =item_id WHERE offer_id;
+ -- ADD collectorpark
 
+INSERT INTO `server_settings` (`variable`, `value`, `description`) VALUES
+	('collectorpark.define.badge_pass_code', '', ''),
+	('collectorpark.define.item_base_id', '2823', ''),
+	('collectorpark.define.max_time.next_reward', '3', ''),
+	('collectorpark.define.min.enable_id', '0', ''),
+	('collectorpark.define.min_time.next_reward', '1', ''),
+	('collectorpark.define.room_id', '117', ''),
+	('collectorpark.define.update_in_seconds', '2', ''),
+	('collectorpark.level_2.percentages', '35,65', ''),
+	('collectorpark.level_3.percentages', '65,85', ''),
+	('collectorpark.level_4.percentages', '85,95', ''),
+	('collectorpark.level_5.percentages', '95,97', ''),
+	('collectorpark.level_6.percentage', '97', ''),
+	('collectorpark.rewards.level_1.config.credits', '1,2', ''),
+	('collectorpark.rewards.level_1.config.diamonds', '', ''),
+	('collectorpark.rewards.level_1.config.duckets', '', ''),
+	('collectorpark.rewards.level_1.config.gotw', '', ''),
+	('collectorpark.rewards.level_1.config.is_random_items', 'true', ''),
+	('collectorpark.rewards.level_1.config.items', '205,206', ''),
+	('collectorpark.rewards.level_2.config.credits', '1,2', ''),
+	('collectorpark.rewards.level_2.config.diamonds', '', ''),
+	('collectorpark.rewards.level_2.config.duckets', '', ''),
+	('collectorpark.rewards.level_2.config.gotw', '', ''),
+	('collectorpark.rewards.level_2.config.is_random_items', 'true', ''),
+	('collectorpark.rewards.level_2.config.items', '205,206', ''),
+	('collectorpark.rewards.level_3.config.credits', '1,2', ''),
+	('collectorpark.rewards.level_3.config.diamonds', '', ''),
+	('collectorpark.rewards.level_3.config.duckets', '', ''),
+	('collectorpark.rewards.level_3.config.gotw', '', ''),
+	('collectorpark.rewards.level_3.config.is_random_items', 'true', ''),
+	('collectorpark.rewards.level_3.config.items', '205,206', ''),
+	('collectorpark.rewards.level_4.config.credits', '1,2', ''),
+	('collectorpark.rewards.level_4.config.diamonds', '', ''),
+	('collectorpark.rewards.level_4.config.duckets', '', ''),
+	('collectorpark.rewards.level_4.config.gotw', '', ''),
+	('collectorpark.rewards.level_4.config.is_random_items', 'true', ''),
+	('collectorpark.rewards.level_4.config.items', '205,206', ''),
+	('collectorpark.rewards.level_5.config.credits', '1,2', ''),
+	('collectorpark.rewards.level_5.config.diamonds', '', ''),
+	('collectorpark.rewards.level_5.config.duckets', '', ''),
+	('collectorpark.rewards.level_5.config.gotw', '', ''),
+	('collectorpark.rewards.level_5.config.is_random_items', 'true', ''),
+	('collectorpark.rewards.level_5.config.items', '205,206', ''),
+	('collectorpark.rewards.level_6.config.credits', '1,2', ''),
+	('collectorpark.rewards.level_6.config.diamonds', '', ''),
+	('collectorpark.rewards.level_6.config.duckets', '', ''),
+	('collectorpark.rewards.level_6.config.gotw', '', ''),
+	('collectorpark.rewards.level_6.config.is_random_items', 'true', ''),
+	('collectorpark.rewards.level_6.config.items', '205,206', ''),
+	('collectorpark.status_enabled', 'true', '');
+
+	
+--Fix lechones (no se si funciona (cerdos))
+UPDATE `catalog_items` SET `page_id` = '231' WHERE `catalog_items`.`id` = 10318 AND `catalog_items`.`limited_stack` = 0;
+
+
+-- fix hof
+
+INSERT INTO `server_settings` (`variable`, `value`, `description`) VALUES ('hof.lastupdate', '1', '')

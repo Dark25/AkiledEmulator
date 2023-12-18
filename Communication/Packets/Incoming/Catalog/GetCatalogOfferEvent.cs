@@ -1,6 +1,7 @@
 using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.HabboHotel.Catalog;
 using Akiled.HabboHotel.GameClients;
+using System;
 
 namespace Akiled.Communication.Packets.Incoming.Structure
 {
@@ -26,6 +27,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                 return;
 
             Item = (CatalogItem)Page.ItemOffers[OfferId];
+           
             if (Item != null)
                 Session.SendMessage(new CatalogOfferComposer(Item));
         }
