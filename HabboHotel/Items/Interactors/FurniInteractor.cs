@@ -10,5 +10,6 @@ namespace Akiled.HabboHotel.Items.Interactors
 
         public abstract void OnTrigger(GameClient Session, Item Item, int Request, bool UserHasRights);
         public abstract void OnTrigger2(GameClient Session, Item Item, int Request);
+        public abstract void OnTick(Item item);
     }
 }

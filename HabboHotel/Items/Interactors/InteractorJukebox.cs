@@ -18,6 +18,8 @@ namespace Akiled.HabboHotel.Items.Interactors
             Item.UpdateState();
         }
 
+        public override void OnTick(Item item) => throw new System.NotImplementedException();
+
         public override void OnTrigger(GameClient Session, Item Item, int Request, bool UserHasRights)
         {
             Room room = Item.GetRoom();

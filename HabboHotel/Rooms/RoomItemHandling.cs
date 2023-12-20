@@ -4,7 +4,6 @@ using Akiled.Core;
 using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
-using Akiled.HabboHotel.Rooms.Chat.Commands.Cmd;
 using Akiled.HabboHotel.Rooms.Map.Movement;
 using Akiled.HabboHotel.Rooms.Pathfinding;
 using Akiled.HabboHotel.Rooms.Wired;
@@ -234,7 +233,7 @@ namespace Akiled.HabboHotel.Rooms
 
                     if (roomItem.GetBaseItem().InteractionType == InteractionType.MOODLIGHT)
                     {
-                      
+
                         moodlightEnabled = !DBNull.Value.Equals(dataRow["enabled"]) && Convert.ToBoolean(dataRow["enabled"]);
                         moodlightCurrentPreset = !DBNull.Value.Equals(dataRow["current_preset"]) ? Convert.ToInt32(dataRow["current_preset"]) : 1;
                         moodlightPresetOne = !DBNull.Value.Equals(dataRow["preset_one"]) ? (string)dataRow["preset_one"] : "#000001,255,0";
@@ -590,7 +589,7 @@ namespace Akiled.HabboHotel.Rooms
                 if (this._updateItems.Count > 0)
                 {
                     QueryChunk standardQueries = new QueryChunk();
-                 
+
                     foreach (Item roomItem in (IEnumerable)this._updateItems.Values)
                     {
                         if (!string.IsNullOrEmpty(roomItem.ExtraData))
@@ -659,7 +658,7 @@ namespace Akiled.HabboHotel.Rooms
             RoomUser User = null;
             if (Session.GetHabbo().CurrentRoom != null)
                 User = this._room.GetRoomUserManager().GetRoomUserByHabboId(Session.GetHabbo().Id);
-            
+
             int setRotate = (User != null && User.setRotate != -1) ? User.setRotate : newRot;
             newRot = setRotate;
 
@@ -810,7 +809,7 @@ namespace Akiled.HabboHotel.Rooms
             {
                 if (user == null)
                     continue;
-                
+
                 if (user.IsWalking)
                     continue;
 
@@ -962,23 +961,36 @@ namespace Akiled.HabboHotel.Rooms
         {
             this._room.SendMessage(this.CycleRollers());
 
-            if (this._roomItemUpdateQueue.Count > 0)
+            if (!this._roomItemUpdateQueue.IsEmpty)
             {
-                List<Item> addItems = new List<Item>();
+                var addItems = new List<Item>();
 
-                while (this._roomItemUpdateQueue.Count > 0)
+                while (!this._roomItemUpdateQueue.IsEmpty)
                 {
-                    Item item = (Item)null;
-                    if (this._roomItemUpdateQueue.TryDequeue(out item))
+                    if (this._roomItemUpdateQueue.TryDequeue(out var item))
                     {
+                        if (this._room.Disposed)
+                        {
+                            continue;
+                        }
+
+                        if (item.GetRoom() == null)
+                        {
+                            continue;
+                        }
+
                         item.ProcessUpdates();
 
                         if (item.UpdateCounter > 0)
+                        {
                             addItems.Add(item);
+                        }
                     }
                 }
-                foreach (Item item_0 in addItems)
-                    this._roomItemUpdateQueue.Enqueue(item_0);
+                foreach (var item in addItems)
+                {
+                    this._roomItemUpdateQueue.Enqueue(item);
+                }
             }
         }
 

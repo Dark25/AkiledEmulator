@@ -12,6 +12,8 @@ namespace Akiled.HabboHotel.Items.Interactors
         {
         }
 
+        public override void OnTick(Item item) => throw new System.NotImplementedException();
+
         public override void OnTrigger(GameClient Session, Item Ball, int Request, bool UserHasRights)
         {
         }

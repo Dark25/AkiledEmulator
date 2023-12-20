@@ -31,6 +31,8 @@ namespace Akiled.HabboHotel.Items.Interactors
             Item.InteractingUser = 0;
         }
 
+        public override void OnTick(Item item) => throw new System.NotImplementedException();
+
         public override void OnTrigger(GameClient Session, Item Item, int Request, bool UserHasRights)
         {
             if (Session == null || Session.GetHabbo() == null || Item == null || Item.GetRoom() == null)

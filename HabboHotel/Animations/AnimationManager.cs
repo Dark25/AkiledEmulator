@@ -12,9 +12,9 @@ namespace Akiled.HabboHotel.Animations
 {
     public class AnimationManager
     {
-        private const int MIN_USERS = 1500;
-        private const int START_TIME = 20;
-        private const int NOTIF_TIME = 2;
+        private const int MIN_USERS = 0;
+        private const int START_TIME = 2;
+        private const int NOTIF_TIME = 1;
         private const int CLOSE_TIME = 1;
 
         private List<int> _roomId;
@@ -51,6 +51,7 @@ namespace Akiled.HabboHotel.Animations
             this._notif = false;
             this._skipCycle = false;
             this._forceDisabled = false;
+            this._cycleId = 0;
         }
 
         public bool IsActivate()
@@ -128,7 +129,7 @@ namespace Akiled.HabboHotel.Animations
             if (this._timer >= this.GetMinutes(START_TIME - NOTIF_TIME) && !this._notif)
             {
                 this._notif = true;
-                //AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifTopComposer("Jack & Daisy: La prochaine animation démarre dans 2 minutes !"), Core.Language.FRANCAIS);
+                AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifTopComposer("Jack & Daisy: La prochaine animation démarre dans 2 minutes !"), Core.Language.FRANCAIS);
             }
 
             if (this._timer >= this.GetMinutes(START_TIME))
@@ -152,6 +153,7 @@ namespace Akiled.HabboHotel.Animations
 
                 room.RoomData.State = 0;
                 room.CloseFullRoom = true;
+                string event_alert = (AkiledEnvironment.GetConfig().data["event_alert"]);
 
                 string AlertMessage = "<i>Beep beep, c'est l'heure d'une animation !</i>" +
                 "\r\r" +
@@ -162,7 +164,7 @@ namespace Akiled.HabboHotel.Animations
                 "\r\n- Jack et Daisy\r\n";
 
                 AkiledEnvironment.GetGame().GetModerationManager().LogStaffEntry(1953042, "AkiledGames", room.Id, string.Empty, "eventha", string.Format("JeuAuto EventHa: {0}", AlertMessage));
-                AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer("gameauto", "Message d'animation", AlertMessage, "Je veux y jouer !", room.Id, ""));
+                AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer(event_alert, "Message d'animation", AlertMessage, "Je veux y jouer !", room.Id, ""));
             }
         }
 

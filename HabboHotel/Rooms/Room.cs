@@ -13,7 +13,6 @@ using Akiled.HabboHotel.Rooms.Projectile;
 using Akiled.HabboHotel.Rooms.RoomBots;
 using Akiled.HabboHotel.Rooms.TraxMachine;
 using Akiled.HabboHotel.Rooms.Wired;
-using AkiledEmulator.Core;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -39,6 +38,7 @@ namespace Akiled.HabboHotel.Rooms
 
         private readonly TimeSpan _saveFurnitureTimer = TimeSpan.FromMinutes(2);
         private DateTime _saveFurnitureTimerLast = DateTime.Now;
+        public RoomRoleplay RoomRoleplay { get; }
         public bool RoomMuted
         {
             get; set;
@@ -108,8 +108,8 @@ namespace Akiled.HabboHotel.Rooms
         }
         public GameManager game { get; set; }
         private readonly Gamemap gamemap;
-        private readonly RoomItemHandling roomItemHandling;
-        private RoomUserManager roomUserManager;
+        private RoomItemHandling RoomItemHandling { get; }
+        private readonly RoomUserManager roomUserManager;
         private Soccer soccer;
         private BattleBanzai banzai;
         private Freeze freeze;
@@ -257,7 +257,7 @@ namespace Akiled.HabboHotel.Rooms
             this.PetMorphsAllowed = true;
             this.RoomIngameChat = false;
             this.gamemap = new Gamemap(this);
-            this.roomItemHandling = new RoomItemHandling(this);
+            this.RoomItemHandling = new RoomItemHandling(this);
             this.roomUserManager = new RoomUserManager(this);
             this.wiredHandler = new WiredHandler(this);
             this.projectileManager = new ProjectileManager(this);
@@ -362,7 +362,7 @@ namespace Akiled.HabboHotel.Rooms
 
         public Gamemap GetGameMap() => this.gamemap;
 
-        public RoomItemHandling GetRoomItemHandler() => this.roomItemHandling;
+        public RoomItemHandling GetRoomItemHandler() => this.RoomItemHandling;
 
         public RoomUserManager GetRoomUserManager() => this.roomUserManager;
 
@@ -789,11 +789,15 @@ namespace Akiled.HabboHotel.Rooms
             try
             {
                 var timeStarted = DateTime.Now;
+                this.GetRoomUserManager().OnCycle();
 
+                this.GetRoomItemHandler().OnCycle();
 
-               
-               
+                this.RoomRoleplay?.OnCycle();
 
+                this.GetGameItemHandler().OnCycle();
+
+                this.GetProjectileManager().OnCycle();
 
                 if (GetRoomUserManager().GetRoomUsers().Count == 0)
                     IdleTime++;
@@ -814,20 +818,13 @@ namespace Akiled.HabboHotel.Rooms
                     }
                 }
 
-                try
-                {
-                    GetRoomUserManager().OnCycle();
-                }
-                catch (Exception e)
-                {
-                   
-                }
+
 
                 if (timeStarted > this._saveFurnitureTimerLast + this._saveFurnitureTimer)
                 {
                     this._saveFurnitureTimerLast = timeStarted;
 
-                    this.roomItemHandling.SaveFurniture();
+                    this.RoomItemHandling.SaveFurniture();
                 }
 
                 var timeEnded = DateTime.Now;
@@ -1156,7 +1153,7 @@ namespace Akiled.HabboHotel.Rooms
 
         public void Dispose()
         {
-           
+
             if (this.Disposed)
                 return;
 
