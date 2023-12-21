@@ -274,6 +274,8 @@ namespace Akiled.HabboHotel.Rooms
             this.lastTimerReset = DateTime.Now;
             this._hideWired = Data.HideWired;
             StartRoomProcessing();
+            StartBallProcess();
+            StartWiredsProcess();
 
 
         }

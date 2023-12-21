@@ -697,13 +697,503 @@ namespace Akiled.HabboHotel.Items
         {
             this.UpdateCounter--;
             if (this.UpdateCounter > 0)
-            {
                 return;
-            }
 
             this.UpdateCounter = 0;
 
-            this.Interactor.OnTick(this);
+            switch (this.GetBaseItem().InteractionType)
+            {
+                case InteractionType.football:
+                    if (this.interactionCountHelper <= 0 || this.interactionCountHelper > 6)
+                    {
+                        this.ExtraData = "0";
+                        this.UpdateState(false, true);
+
+                        this.interactionCountHelper = 0;
+                        break;
+                    }
+
+                    int Length = 1;
+                    int OldX = this.GetX;
+                    int OldY = this.GetY;
+
+                    int NewX = this.GetX;
+                    int NewY = this.GetY;
+
+                    Point NewPoint = this.GetMoveCoord(OldX, OldY, 1);
+
+                    if (this.interactionCountHelper > 3)
+                    {
+                        Length = 3;
+
+                        this.ExtraData = "6";
+                        this.UpdateState(false, true);
+                    }
+                    else if (this.interactionCountHelper > 1 && this.interactionCountHelper < 4)
+                    {
+                        Length = 2;
+
+                        this.ExtraData = "4";
+                        this.UpdateState(false, true);
+                    }
+                    else
+                    {
+                        Length = 1;
+
+                        this.ExtraData = "2";
+                        this.UpdateState(false, true);
+                    }
+
+
+                    if ((Length != 1 || this.GetRoom().OldFoot) && !this.GetRoom().GetGameMap().CanStackItem(NewPoint.X, NewPoint.Y, true))
+                    {
+                        this.GetNewDir(NewX, NewY);
+                        this.interactionCountHelper--;
+                    }
+
+                    for (int i = 1; i <= Length; i++)
+                    {
+                        NewPoint = this.GetMoveCoord(OldX, OldY, i);
+
+
+                        if (((this.interactionCountHelper <= 3 && !this.GetRoom().OldFoot) && this.GetRoom().GetGameMap().SquareHasUsers(NewPoint.X, NewPoint.Y)))
+                        {
+                            this.interactionCountHelper = 0;
+                            break;
+                        }
+
+                        if (this.GetRoom().GetGameMap().CanStackItem(NewPoint.X, NewPoint.Y, true))
+                        {
+                            NewX = NewPoint.X;
+                            NewY = NewPoint.Y;
+                            this.GetRoom().GetSoccer().HandleFootballGameItems(new Point(NewPoint.X, NewPoint.Y));
+                        }
+                        else
+                        {
+                            this.GetNewDir(NewX, NewY);
+                            this.interactionCountHelper--;
+                            break;
+                        }
+
+
+                        this.interactionCountHelper--;
+                    }
+
+                    double Z = this.GetRoom().GetGameMap().SqAbsoluteHeight(NewX, NewY);
+                    this.GetRoom().GetRoomItemHandler().PositionReset(this, NewX, NewY, Z);
+
+                    this.UpdateCounter = 1;
+                    break;
+                case InteractionType.ChronoTimer:
+                    if (string.IsNullOrEmpty(this.ExtraData))
+                        break;
+                    int NumChrono = 0;
+                    if (!int.TryParse(this.ExtraData, out NumChrono))
+                        break;
+                    if (!this.ChronoStarter)
+                        break;
+
+                    if (NumChrono > 0)
+                    {
+                        if (this.interactionCountHelper == 1)
+                        {
+                            NumChrono--;
+                            /*if (!this.GetRoom().GetBanzai().isBanzaiActive || !this.GetRoom().GetFreeze().isGameActive)
+                            {
+                                NumChrono = 0;
+                            }*/
+                            this.interactionCountHelper = 0;
+                            this.ExtraData = NumChrono.ToString();
+                            this.UpdateState();
+                        }
+                        else
+                            this.interactionCountHelper++;
+
+                        this.UpdateCounter = 1;
+                        break;
+                    }
+                    else
+                    {
+                        this.ChronoStarter = false;
+                        this.GetRoom().GetGameManager().StopGame();
+                        break;
+                    }
+                case InteractionType.banzaitele:
+                    if (this.InteractingUser == 0)
+                    {
+                        this.ExtraData = string.Empty;
+                        this.UpdateState();
+                        break;
+                    }
+
+                    this.ExtraData = "1";
+                    this.UpdateState();
+
+                    this.UpdateCounter = 1;
+
+                    RoomUser roomUserByHabbo = this.GetRoom().GetRoomUserManager().GetRoomUserByHabboId(this.InteractingUser);
+                    if (roomUserByHabbo != null)
+                    {
+                        this.GetRoom().GetGameMap().TeleportToItem(roomUserByHabbo, this);
+                        roomUserByHabbo.SetRot(AkiledEnvironment.GetRandomNumber(0, 7), false);
+                        roomUserByHabbo.CanWalk = true;
+                    }
+                    this.InteractingUser = 0;
+
+                    break;
+                case InteractionType.freezetile:
+                    if (this.InteractingUser <= 0)
+                        break;
+                    RoomUser roomUserByHabbo3 = this.GetRoom().GetRoomUserManager().GetRoomUserByHabboId(this.InteractingUser);
+                    if (roomUserByHabbo3 != null)
+                    {
+                        roomUserByHabbo3.CountFreezeBall = 1;
+                    }
+                    this.ExtraData = "11000";
+                    this.UpdateState(false, true);
+                    this.GetRoom().GetFreeze().onFreezeTiles(this, this.freezePowerUp, this.InteractingUser);
+                    this.InteractingUser = 0;
+                    this.interactionCountHelper = (byte)0;
+                    break;
+                case InteractionType.scoreboard:
+                    if (string.IsNullOrEmpty(this.ExtraData))
+                        break;
+                    int num4 = 0;
+                    try
+                    {
+                        num4 = int.Parse(this.ExtraData);
+                    }
+                    catch
+                    {
+                    }
+                    if (num4 > 0)
+                    {
+                        if (this.interactionCountHelper == 1)
+                        {
+                            int num2 = num4 - 1;
+                            this.interactionCountHelper = (byte)0;
+                            this.ExtraData = num2.ToString();
+                            this.UpdateState();
+                        }
+                        else
+                            this.interactionCountHelper++;
+                        this.UpdateCounter = 1;
+                        break;
+                    }
+                    else
+                    {
+                        this.UpdateCounter = 0;
+                        break;
+                    }
+                case InteractionType.vendingmachine:
+                    if (!(this.ExtraData == "1"))
+                        break;
+                    RoomUser roomUserByHabbo1 = this.GetRoom().GetRoomUserManager().GetRoomUserByHabboId(this.InteractingUser);
+                    if (roomUserByHabbo1 != null)
+                    {
+                        int num2 = this.GetBaseItem().VendingIds[AkiledEnvironment.GetRandomNumber(0, this.GetBaseItem().VendingIds.Count - 1)];
+                        roomUserByHabbo1.CarryItem(num2);
+                    }
+                    this.InteractingUser = 0;
+                    this.ExtraData = "0";
+                    this.UpdateState(false, true);
+                    break;
+                case InteractionType.vendingenablemachine:
+                    if (!(this.ExtraData == "1"))
+                        break;
+                    RoomUser roomUserByHabboEnable = this.GetRoom().GetRoomUserManager().GetRoomUserByHabboId(this.InteractingUser);
+                    if (roomUserByHabboEnable != null)
+                    {
+                        int num2 = this.GetBaseItem().VendingIds[AkiledEnvironment.GetRandomNumber(0, this.GetBaseItem().VendingIds.Count - 1)];
+                        roomUserByHabboEnable.ApplyEffect(num2);
+                    }
+                    this.InteractingUser = 0;
+                    this.ExtraData = "0";
+                    this.UpdateState(false, true);
+                    break;
+                case InteractionType.alert:
+                    if (!(this.ExtraData == "1"))
+                        break;
+                    this.ExtraData = "0";
+                    this.UpdateState(false, true);
+                    break;
+                case InteractionType.onewaygate:
+                    RoomUser roomUser3 = (RoomUser)null;
+                    if (this.InteractingUser > 0)
+                        roomUser3 = this.GetRoom().GetRoomUserManager().GetRoomUserByHabboId(this.InteractingUser);
+
+                    if (roomUser3 == null)
+                    {
+                        this.InteractingUser = 0;
+                        break;
+                    }
+
+                    if (roomUser3.Coordinate == this.SquareBehind || !Gamemap.TilesTouching(this.GetX, this.GetY, roomUser3.X, roomUser3.Y))
+                    {
+                        roomUser3.UnlockWalking();
+                        this.ExtraData = "0";
+                        this.InteractingUser = 0;
+                        this.UpdateState(false, true);
+                    }
+                    else
+                    {
+                        roomUser3.CanWalk = false;
+                        roomUser3.AllowOverride = true;
+                        roomUser3.MoveTo(this.SquareBehind);
+
+                        this.UpdateCounter = 1;
+                    }
+
+                    break;
+                case InteractionType.loveshuffler:
+                    if (this.ExtraData == "0")
+                    {
+                        this.ExtraData = AkiledEnvironment.GetRandomNumber(1, 4).ToString();
+                        this.ReqUpdate(20);
+                    }
+                    else if (this.ExtraData != "-1")
+                        this.ExtraData = "-1";
+                    this.UpdateState(false, true);
+                    break;
+                case InteractionType.habbowheel:
+                    this.ExtraData = AkiledEnvironment.GetRandomNumber(1, 10).ToString();
+                    this.UpdateState();
+                    break;
+                case InteractionType.dice:
+                    this.ExtraData = AkiledEnvironment.GetRandomNumber(1, 6).ToString();
+                    this.UpdateState();
+                    /*string[] numbers = new string[] { "1", "2", "3", "4", "5", "6" };
+                    if (ExtraData == "-1")
+                        ExtraData = RandomizeStrings(numbers)[0];*/
+                    //UpdateState();
+                    AkiledEnvironment.GetHabboById(this.InteractingUser).casinoEvent(ExtraData);
+                    break;
+                case InteractionType.bottle:
+                    this.ExtraData = AkiledEnvironment.GetRandomNumber(0, 7).ToString();
+                    this.UpdateState();
+                    break;
+                #region Cannon
+                case InteractionType.CANNON:
+                    {
+                        if (ExtraData != "1")
+                            break;
+
+                        #region Target Calculation
+                        Point TargetStart = Coordinate;
+                        List<Point> TargetSquares = new List<Point>();
+                        switch (Rotation)
+                        {
+                            case 0:
+                                {
+                                    TargetStart = new Point(GetX - 1, GetY);
+
+                                    if (!TargetSquares.Contains(TargetStart))
+                                        TargetSquares.Add(TargetStart);
+
+                                    for (int I = 1; I <= 3; I++)
+                                    {
+                                        Point TargetSquare = new Point(TargetStart.X - I, TargetStart.Y);
+
+                                        if (!TargetSquares.Contains(TargetSquare))
+                                            TargetSquares.Add(TargetSquare);
+                                    }
+
+                                    break;
+                                }
+
+                            case 2:
+                                {
+                                    TargetStart = new Point(GetX, GetY - 1);
+
+                                    if (!TargetSquares.Contains(TargetStart))
+                                        TargetSquares.Add(TargetStart);
+
+                                    for (int I = 1; I <= 3; I++)
+                                    {
+                                        Point TargetSquare = new Point(TargetStart.X, TargetStart.Y - I);
+
+                                        if (!TargetSquares.Contains(TargetSquare))
+                                            TargetSquares.Add(TargetSquare);
+                                    }
+
+                                    break;
+                                }
+
+                            case 4:
+                                {
+                                    TargetStart = new Point(GetX + 2, GetY);
+
+                                    if (!TargetSquares.Contains(TargetStart))
+                                        TargetSquares.Add(TargetStart);
+
+                                    for (int I = 1; I <= 3; I++)
+                                    {
+                                        Point TargetSquare = new Point(TargetStart.X + I, TargetStart.Y);
+
+                                        if (!TargetSquares.Contains(TargetSquare))
+                                            TargetSquares.Add(TargetSquare);
+                                    }
+
+                                    break;
+                                }
+
+                            case 6:
+                                {
+                                    TargetStart = new Point(GetX, GetY + 2);
+
+
+                                    if (!TargetSquares.Contains(TargetStart))
+                                        TargetSquares.Add(TargetStart);
+
+                                    for (int I = 1; I <= 3; I++)
+                                    {
+                                        Point TargetSquare = new Point(TargetStart.X, TargetStart.Y + I);
+
+                                        if (!TargetSquares.Contains(TargetSquare))
+                                            TargetSquares.Add(TargetSquare);
+                                    }
+
+                                    break;
+                                }
+                        }
+                        #endregion
+
+                        if (TargetSquares.Count > 0)
+                        {
+                            foreach (Point Square in TargetSquares.ToList())
+                            {
+                                List<RoomUser> affectedUsers = this.GetRoom().GetGameMap().GetRoomUsers(Square).ToList();
+
+                                if (affectedUsers == null || affectedUsers.Count == 0)
+                                    continue;
+
+                                foreach (RoomUser Target in affectedUsers)
+                                {
+                                    if (Target == null || Target.IsBot || Target.IsPet)
+                                        continue;
+
+                                    if (Target.GetClient() == null || Target.GetClient().GetHabbo() == null)
+                                        continue;
+
+                                    if (this.GetRoom().CheckRights(Target.GetClient(), true))
+                                        continue;
+
+                                    Target.ApplyEffect(4);
+                                    Target.GetClient().SendNotification("Usted ha sido expulsado de la sala, gracias a un buen cañonazo recibido!");
+                                    //AkiledEnvironment.GetGame().GetClientManager().SendMessage(RoomNotificationComposer.SendBubble("cannon", "El usuario: " + Target.GetClient().GetHabbo().Username + " fue golpeado por la bola de un cañon, denles sus condolencias.!"));
+                                    Target.ApplyEffect(0);
+                                    this.GetRoom().GetRoomUserManager().RemoveUserFromRoom(Target.GetClient(), true, true);
+                                }
+                            }
+                        }
+
+                        ExtraData = "2";
+                        UpdateState(false, true);
+                    }
+                    break;
+                #endregion
+                case InteractionType.TELEPORT:
+                case InteractionType.ARROW:
+                    bool keepDoorOpen = false;
+                    bool showTeleEffect = false;
+                    if (this.InteractingUser > 0)
+                    {
+                        RoomUser roomUserByHabbo2 = this.GetRoom().GetRoomUserManager().GetRoomUserByHabboId(this.InteractingUser);
+                        if (roomUserByHabbo2 != null)
+                        {
+                            if (roomUserByHabbo2.Coordinate == this.Coordinate)
+                            {
+                                roomUserByHabbo2.AllowOverride = false;
+                                if (ItemTeleporterFinder.IsTeleLinked(this.Id, this.mRoom))
+                                {
+                                    showTeleEffect = true;
+                                    int linkedTele = ItemTeleporterFinder.GetLinkedTele(this.Id);
+                                    int teleRoomId = ItemTeleporterFinder.GetTeleRoomId(linkedTele, this.mRoom);
+                                    if (teleRoomId == this.RoomId)
+                                    {
+                                        Item roomItem = this.GetRoom().GetRoomItemHandler().GetItem(linkedTele);
+                                        if (roomItem == null)
+                                        {
+                                            roomUserByHabbo2.UnlockWalking();
+                                        }
+                                        else
+                                        {
+                                            roomUserByHabbo2.SetRot(roomItem.Rotation, false);
+                                            roomItem.GetRoom().GetGameMap().TeleportToItem(roomUserByHabbo2, roomItem);
+                                            roomItem.ExtraData = "2";
+                                            roomItem.UpdateState(false, true);
+                                            roomItem.InteractingUser2 = this.InteractingUser;
+                                            roomItem.ReqUpdate(2);
+                                        }
+                                    }
+                                    else if (!roomUserByHabbo2.IsBot && roomUserByHabbo2 != null && (roomUserByHabbo2.GetClient() != null && roomUserByHabbo2.GetClient().GetHabbo() != null))
+                                    {
+                                        roomUserByHabbo2.GetClient().GetHabbo().IsTeleporting = true;
+                                        roomUserByHabbo2.GetClient().GetHabbo().TeleportingRoomID = teleRoomId;
+                                        roomUserByHabbo2.GetClient().GetHabbo().TeleporterId = linkedTele;
+                                        roomUserByHabbo2.GetClient().GetHabbo().PrepareRoom(teleRoomId, "");
+                                    }
+                                    this.InteractingUser = 0;
+                                }
+                                else
+                                {
+                                    roomUserByHabbo2.UnlockWalking();
+                                    this.InteractingUser = 0;
+                                }
+                            }
+                            else if (roomUserByHabbo2.Coordinate == this.SquareInFront)
+                            {
+                                roomUserByHabbo2.AllowOverride = true;
+                                keepDoorOpen = true;
+
+                                roomUserByHabbo2.CanWalk = false;
+                                roomUserByHabbo2.AllowOverride = true;
+                                roomUserByHabbo2.MoveTo(this.Coordinate.X, this.Coordinate.Y, true);
+                            }
+                            else
+                                this.InteractingUser = 0;
+                        }
+                        else
+                            this.InteractingUser = 0;
+
+                        this.UpdateCounter = 1;
+                    }
+                    if (this.InteractingUser2 > 0)
+                    {
+                        RoomUser roomUserByHabbo2 = this.GetRoom().GetRoomUserManager().GetRoomUserByHabboId(this.InteractingUser2);
+                        if (roomUserByHabbo2 != null)
+                        {
+                            keepDoorOpen = true;
+                            roomUserByHabbo2.UnlockWalking();
+                            roomUserByHabbo2.MoveTo(this.SquareInFront);
+                        }
+                        this.UpdateCounter = 1;
+                        this.InteractingUser2 = 0;
+                    }
+                    if (keepDoorOpen)
+                    {
+                        if (this.ExtraData != "1")
+                        {
+                            this.ExtraData = "1";
+                            this.UpdateState(false, true);
+                        }
+                    }
+                    else if (showTeleEffect)
+                    {
+                        if (this.ExtraData != "2")
+                        {
+                            this.ExtraData = "2";
+                            this.UpdateState(false, true);
+                        }
+                    }
+                    else if (this.ExtraData != "0")
+                    {
+                        this.ExtraData = "0";
+                        this.UpdateState(false, true);
+                    }
+
+                    break;
+            }
         }
 
         public void ReqUpdate(int Cycles)
