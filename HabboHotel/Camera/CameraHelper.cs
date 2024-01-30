@@ -2,9 +2,6 @@
 using Nancy.Json;
 using System.IO;
 using System.Net;
-using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace AkiledEmulator.HabboHotel.Camera
 {
@@ -15,10 +12,12 @@ namespace AkiledEmulator.HabboHotel.Camera
 
         public static string request(string type, int userId, int roomId, string base64)
         {
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(REQUEST_URL);
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
 
-            using (var client = new HttpClient())
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
-
                 string json = new JavaScriptSerializer().Serialize(new
                 {
                     type,
@@ -28,11 +27,15 @@ namespace AkiledEmulator.HabboHotel.Camera
                     timestamp = AkiledEnvironment.GetUnixTimestamp()
                 });
 
-                var httpResponse = client.PostAsJsonAsync(REQUEST_URL, json);
-                
-                return httpResponse.Result.Content.ReadAsStringAsync().Result;
+                streamWriter.Write(json);
             }
-            
+
+            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                var result = streamReader.ReadToEnd();
+                return result;
+            }
         }
     }
 }
