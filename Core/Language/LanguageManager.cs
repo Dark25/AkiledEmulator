@@ -11,6 +11,7 @@ namespace Akiled.Core
         ANGLAIS,
         PORTUGAIS,
         SPANISH,
+        ITALIAN
     }
 
     public class LanguageManager
@@ -19,6 +20,7 @@ namespace Akiled.Core
         private Dictionary<string, string> _valuesEn;
         private Dictionary<string, string> _valuesBr;
         private Dictionary<string, string> _valuesEs;
+        private Dictionary<string, string> _valuesIt;
 
         public void Init()
         {
@@ -26,6 +28,7 @@ namespace Akiled.Core
             this._valuesEn = new Dictionary<string, string>();
             this._valuesBr = new Dictionary<string, string>();
             this._valuesEs = new Dictionary<string, string>();
+            this._valuesIt = new Dictionary<string, string>();
             this.InitLocalValues();
         }
 
@@ -34,6 +37,8 @@ namespace Akiled.Core
             this._valuesFr.Clear();
             this._valuesEn.Clear();
             this._valuesBr.Clear();
+            this._valuesEs.Clear();
+            this._valuesIt.Clear();
 
             DataTable table;
             using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
@@ -51,10 +56,12 @@ namespace Akiled.Core
                 string value_en = (string)dataRow["value_en"];
                 string value_br = (string)dataRow["value_br"];
                 string value_es = (string)dataRow["value_es"];
+                string value_it = (string)dataRow["value_it"];
                 this._valuesFr.Add(key, value_fr);
                 this._valuesEn.Add(key, value_en);
                 this._valuesBr.Add(key, value_br);
                 this._valuesEs.Add(key, value_es);
+                this._valuesIt.Add(key, value_it);
             }
         }
 
@@ -68,8 +75,11 @@ namespace Akiled.Core
                 return this._valuesBr.ContainsKey(value) ? this._valuesBr[value] : "No se ha encontrado ningún idioma local para[" + value + "] (br)";
             else if (Language == Language.SPANISH)
                 return this._valuesEs.ContainsKey(value) ? this._valuesEs[value] : "No se ha encontrado ningún idioma local para[" + value + "] (es)";
+            else if (Language == Language.ITALIAN)
+                return this._valuesEs.ContainsKey(value) ? this._valuesEs[value] : "No se ha encontrado ningún idioma local para[" + value + "] (it)";
             else
                 return this._valuesFr.ContainsKey(value) ? this._valuesFr[value] : "No se ha encontrado ningún idioma local para[" + value + "] (def)";
+
         }
 
         public static Language ParseLanguage(string v)
@@ -84,6 +94,8 @@ namespace Akiled.Core
                     return Language.PORTUGAIS;
                 case "es":
                     return Language.SPANISH;
+                case "it":
+                    return Language.ITALIAN;
                 default:
                     return Language.FRANCAIS;
             }

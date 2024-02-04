@@ -69,7 +69,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             {
                 Console.WriteLine("tried");
                 Session.GetHabbo().GetBadgeComponent().GiveBadge(item.Badge, 0, true, Session);
-                Session.SendMessage(new RoomCustomizedAlertComposer("¡ Recibiste una nueva placa, revisa tu inventario !"));
+                Session.SendMessage(new RoomCustomizedAlertComposer(AkiledEnvironment.GetLanguageManager().TryGetValue("PurchaseFromCatalogEvent.1", Session.Langue)));
             }
 
             switch (item.Data.InteractionType)
@@ -317,32 +317,33 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                                         if (str1.Length < 1)
                                         {
                                             Session.SendMessage((IServerPacket)new PurchaseOKComposer(item, item.Data));
-                                            Session.SendMessage((IServerPacket)new RoomCustomizedAlertComposer("¡Su prefijo es muy corto minimo 1 caracteres!"));
+                                            Session.SendMessage((IServerPacket)new RoomCustomizedAlertComposer(AkiledEnvironment.GetLanguageManager().TryGetValue("PurchaseFromCatalogEvent.2", Session.Langue)));
+
                                             return;
                                         }
                                         if (str1.Length > 12)
                                         {
                                             Session.SendMessage((IServerPacket)new PurchaseOKComposer(item, item.Data));
-                                            Session.SendMessage((IServerPacket)new RoomCustomizedAlertComposer("¡Su prefijo es muy largo solo puede tener 12 caracteres!"));
+                                            Session.SendMessage((IServerPacket)new RoomCustomizedAlertComposer(AkiledEnvironment.GetLanguageManager().TryGetValue("PurchaseFromCatalogEvent.3", Session.Langue)));
                                             return;
                                         }
                                         if (!AkiledEnvironment.IsValidAlphaNumeric(str1))
                                         {
                                             Session.SendMessage((IServerPacket)new PurchaseOKComposer(item, item.Data));
-                                            Session.SendMessage((IServerPacket)new RoomCustomizedAlertComposer("¡Caracteres invalidos!"));
+                                            Session.SendMessage((IServerPacket)new RoomCustomizedAlertComposer(AkiledEnvironment.GetLanguageManager().TryGetValue("PurchaseFromCatalogEvent.4", Session.Langue)));
                                             return;
                                         }
                                         if (Session.Antipub(str1, "<PREFIJO>") && !Session.GetHabbo().HasFuse("word_filter_override"))
                                         {
-                                            AkiledEnvironment.GetGame().GetClientManager().StaffAlert(RoomNotificationComposer.SendBubble("publicidad", "El usuario: " + Session.GetHabbo().Username + ", palabra:" + str1 + ", comprando un prefijo en el catálogo."));
+                                            AkiledEnvironment.GetGame().GetClientManager().StaffAlert(RoomNotificationComposer.SendBubble("publicidad", string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("PurchaseFromCatalogEvent.5", Session.Langue),Session.GetHabbo().Username, str1)));
                                             Session.SendMessage((IServerPacket)new PurchaseOKComposer(item, item.Data));
-                                            Session.SendMessage((IServerPacket)new RoomCustomizedAlertComposer("¡No puedes usar este prefijo en el hotel!"));
+                                            Session.SendMessage((IServerPacket)new RoomCustomizedAlertComposer(AkiledEnvironment.GetLanguageManager().TryGetValue("PurchaseFromCatalogEvent.6", Session.Langue)));
                                             return;
                                         }
                                         if (str1.Contains("MOD") || str1.Contains("mod") || (str1.Contains("HEAD") || str1.Contains("head")) || (str1.Contains("ADMIN") || str1.Contains("admin") || (str1.Contains("SEX") || str1.Contains("ADM"))) || (str1.Contains("DEV") || str1.Contains("XLER") || (str1.Contains("PREMIUM") || str1.Contains("premium")) || (str1.Contains("Premium") || str1.Contains(">") || (str1.Contains("<") || str1.Contains("&")))) || (str1.Contains("=") || str1.Contains("GUIDE") || (str1.Contains("M0D") || str1.Contains("OWNER")) || (str1.Contains("staff") || str1.Contains("owner") || (str1.Contains("STAFF") || str1.ToUpper().Contains("ADM"))) || (str1.ToUpper().Contains("WWW.HEVVO.NET") || str1.ToUpper().Contains("H3VV0") || (str1.ToUpper().Contains("ADMIN") || str1.ToUpper().Contains("DUENO")) || (str1.ToUpper().Contains("DUEñO") || str1.ToUpper().Contains("RANK") || (str1.ToUpper().Contains("MNG") || str1.ToUpper().Contains("MOD"))))) || (str1.ToUpper().Contains("STAFF") || str1.ToUpper().Contains("ALFA") || (str1.ToUpper().Contains("ALPHA") || str1.ToUpper().Contains("HELPER")) || (str1.ToUpper().Contains("GM") || str1.ToUpper().Contains("OWNER") || (str1.ToUpper().Contains("CEO") || str1.ToUpper().Contains("VIP"))) || (str1.ToUpper().Contains("M0D") || str1.ToUpper().Contains("DEV") || (str1.ToUpper().Contains("OWNR") || str1.ToUpper().Contains("HEVVO.NET")) || (str1.ToUpper().Contains("FUNDADOR") || str1.ToUpper().Contains("PLUS") || (str1.ToUpper().Contains("HEBBA") || str1.ToUpper().Contains("HOBBA")))) || (str1.ToUpper().Contains("HEVVO") || str1.ToUpper().Contains("H3VVO"))) || str1.ToUpper().Contains("HADDOZ"))
                                         {
                                             Session.SendMessage((IServerPacket)new PurchaseOKComposer(item, item.Data));
-                                            Session.SendMessage((IServerPacket)new RoomCustomizedAlertComposer("¡No puedes usar este prefijo en el hotel!"));
+                                            Session.SendMessage((IServerPacket)new RoomCustomizedAlertComposer(AkiledEnvironment.GetLanguageManager().TryGetValue("PurchaseFromCatalogEvent.6", Session.Langue)));
                                             return;
                                         }
                                         string str2 = Session.GetHabbo().Prefix.Split(';')[1];
@@ -358,7 +359,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                                                 queryReactor.RunQuery();
                                             }
                                             Session.SendMessage((IServerPacket)new PurchaseOKComposer(item, item.Data));
-                                            Session.SendWhisper("Usted acaba de desactivar los prefijos.");
+                                            Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("PurchaseFromCatalogEvent.7", Session.Langue));
                                             return;
                                         }
                                         Session.GetHabbo().Prefix = str1 + ";" + str2;
@@ -368,7 +369,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                                             queryReactor.AddParameter("prefix", (string)Session.GetHabbo().Prefix);
                                             queryReactor.RunQuery();
                                         }
-                                        Session.SendPacket((IServerPacket)new RoomCustomizedAlertComposer("¡Ha comprado un prefijo!"));
+                                        Session.SendPacket((IServerPacket)new RoomCustomizedAlertComposer(AkiledEnvironment.GetLanguageManager().TryGetValue("PurchaseFromCatalogEvent.8", Session.Langue)));
                                         Session.SendMessage((IServerPacket)new ScrSendUserInfoComposer());
                                         Session.SendMessage((IServerPacket)new PurchaseOKComposer(item, item.Data));
                                         Session.SendMessage((IServerPacket)new FurniListUpdateComposer());
@@ -430,7 +431,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                                         queryReactor.AddParameter("prefix", Session.GetHabbo().Prefix);
                                         queryReactor.RunQuery();
                                     }
-                                    Session.SendPacket((IServerPacket)new RoomCustomizedAlertComposer("¡Ha comprado un color para su prefijo!"));
+                                    Session.SendPacket((IServerPacket)new RoomCustomizedAlertComposer(AkiledEnvironment.GetLanguageManager().TryGetValue("PurchaseFromCatalogEvent.9", Session.Langue)));
                                     Session.SendPacket((IServerPacket)new ScrSendUserInfoComposer());
                                     Session.SendPacket((IServerPacket)new PurchaseOKComposer(item, item.Data));
                                     Session.SendPacket((IServerPacket)new FurniListUpdateComposer());
@@ -446,7 +447,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                                         queryReactor.AddParameter("prefixnamecolor", Session.GetHabbo().Prefixnamecolor);
                                         queryReactor.RunQuery();
                                     }
-                                    Session.SendPacket((IServerPacket)new RoomCustomizedAlertComposer("¡Ha comprado un color para su nombre!"));
+                                    Session.SendPacket((IServerPacket)new RoomCustomizedAlertComposer(AkiledEnvironment.GetLanguageManager().TryGetValue("PurchaseFromCatalogEvent.10", Session.Langue)));
                                     Session.SendPacket((IServerPacket)new ScrSendUserInfoComposer());
                                     Session.SendPacket((IServerPacket)new PurchaseOKComposer(item, item.Data));
                                     Session.SendPacket((IServerPacket)new FurniListUpdateComposer());
@@ -463,7 +464,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                                         queryReactor.AddParameter("prefix", Session.GetHabbo().PrefixSize);
                                         queryReactor.RunQuery();
                                     }
-                                    Session.SendPacket((IServerPacket)new RoomCustomizedAlertComposer("¡Ha comprado un tamaño de su nombre de usuario!"));
+                                    Session.SendPacket((IServerPacket)new RoomCustomizedAlertComposer(AkiledEnvironment.GetLanguageManager().TryGetValue("PurchaseFromCatalogEvent.11", Session.Langue)));
                                     Session.SendPacket((IServerPacket)new ScrSendUserInfoComposer());
                                     Session.SendPacket((IServerPacket)new PurchaseOKComposer(item, item.Data));
                                     Session.SendPacket((IServerPacket)new FurniListUpdateComposer());
@@ -479,7 +480,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                                         queryReactor.AddParameter("prefix", Session.GetHabbo().PrefixSize);
                                         queryReactor.RunQuery();
                                     }
-                                    Session.SendPacket((IServerPacket)new RoomCustomizedAlertComposer("¡Ha comprado un tamaño para su prefijo!"));
+                                    Session.SendPacket((IServerPacket)new RoomCustomizedAlertComposer(AkiledEnvironment.GetLanguageManager().TryGetValue("PurchaseFromCatalogEvent.12", Session.Langue)));
                                     Session.SendPacket((IServerPacket)new ScrSendUserInfoComposer());
                                     Session.SendPacket((IServerPacket)new PurchaseOKComposer(item, item.Data));
                                     Session.SendPacket((IServerPacket)new FurniListUpdateComposer());
