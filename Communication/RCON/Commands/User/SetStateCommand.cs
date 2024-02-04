@@ -31,13 +31,13 @@ namespace Akiled.Communication.RCON.Commands.User
 
             if (parameters.Length == 1)
             {
-                Session.SendWhisper("Escribe el valor.", 34);
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("SetStateCommandrcon.1", Session.Langue), 34);
                 return false; 
             }
             else if (parameters[1].Equals("clear", StringComparison.Ordinal) || parameters[1].Equals("limpiar", StringComparison.Ordinal))
             {
                 user.setState = -1;
-                Session.SendWhisper("Comando deshabilitado.", 34);
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("SetStateCommandrcon.2", Session.Langue), 34);
                 return true;
             }
 
@@ -46,12 +46,12 @@ namespace Akiled.Communication.RCON.Commands.User
 
             if (state < 0 || state > 100)
             {
-                Session.SendWhisper("Entre 1 y 100.", 34);
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("SetStateCommandrcon.3", Session.Langue), 34);
                 return false;
             }
 
             user.setState = state;
-            Session.SendWhisper("Valor cambiado a: " + state, 34);
+            Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("SetStateCommandrcon.4", Session.Langue) + state, 34);
             return true;
 
         }

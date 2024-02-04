@@ -30,7 +30,7 @@ namespace Akiled.Communication.RCON.Commands.User
 
             UserRoom.ConstruitZMode = false;
             Client.SendPacket(Room.GetGameMap().Model.SerializeRelativeHeightmap());
-            UserRoom.SendWhisperChat("SetZ : Detenido");
+            UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("SetzStopCommandrcon.1", Client.GetHabbo().Langue));
 
             return true;
 

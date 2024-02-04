@@ -28,12 +28,12 @@ namespace AkiledEmulator.Communication.RCON.Commands.User
                     string BadgeCode = parameters[1];
                     TargetClient.GetHabbo().GetBadgeComponent().GiveBadge(BadgeCode, 0, true);
                     TargetClient.SendPacket(new ReceiveBadgeComposer(BadgeCode));
-                    TargetClient.SendNotification("Has recibido la placa: " + BadgeCode);
+                    TargetClient.SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("GivebadgeCommandrcon.1", TargetClient.Langue) + BadgeCode);
 
 
                 }
                 else
-                    TargetClient.SendWhisper("¡Huy!Este usuario ya tiene la placa.(" + parameters[1] + ")!");
+                    TargetClient.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("GivebadgeCommandrcon.2", TargetClient.Langue));
                 return false;
 
             }

@@ -22,7 +22,7 @@ namespace Akiled.Communication.RCON.Commands.User
 
             string Message = parameters[2];
 
-            AkiledEnvironment.GetGame().GetModerationManager().LogStaffEntry(Client.GetHabbo().Id, Client.GetHabbo().Username, 0, string.Empty, "ha", string.Format("WbTool ha: {0}", Message));
+            AkiledEnvironment.GetGame().GetModerationManager().LogStaffEntry(Client.GetHabbo().Id, Client.GetHabbo().Username, 0, string.Empty, "ha", string.Format("akitool ha: {0}", Message));
             if (Client.Antipub(Message, "<alert>"))
                 return false;
 

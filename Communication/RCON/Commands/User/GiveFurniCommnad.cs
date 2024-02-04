@@ -42,7 +42,7 @@ namespace Akiled.Communication.RCON.Commands.Hotel
 
             if (!AkiledEnvironment.GetGame().GetItemManager().GetItem(Convert.ToInt32(parameters[1]), out ItemData))
             {
-                client.SendWhisper("Item inexistente.");
+                client.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("GiveFurniCommnadrcon.1", client.Langue));
                 return false;
             }
 

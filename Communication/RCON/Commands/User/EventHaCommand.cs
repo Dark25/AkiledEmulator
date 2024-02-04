@@ -22,7 +22,7 @@ namespace Akiled.Communication.RCON.Commands.User
 
             string Message = parameters[2];
 
-            AkiledEnvironment.GetGame().GetModerationManager().LogStaffEntry(Client.GetHabbo().Id, Client.GetHabbo().Username, 0, string.Empty, "eventha", string.Format("WbTool eventha: {0}", Message));
+            AkiledEnvironment.GetGame().GetModerationManager().LogStaffEntry(Client.GetHabbo().Id, Client.GetHabbo().Username, 0, string.Empty, "eventha", string.Format("akitool eventha: {0}", Message));
             if (Client.Antipub(Message, "<eventalert>", Client.GetHabbo().CurrentRoom.Id))
                 return false;
 
@@ -36,8 +36,8 @@ namespace Akiled.Communication.RCON.Commands.User
             Message = new Regex(@"\[u\](.*?)\[\/u\]").Replace(Message, "<u>$1</u>");
 
             string AlertMessage = Message + "\r\n- " + Client.GetHabbo().Username;
-            AkiledEnvironment.GetGame().GetClientManager().SendSuperNotif("Mensaje del Equipo Staff", AlertMessage, "game_promo_small", "event:navigator/goto/" + Client.GetHabbo().CurrentRoom.Id, "Ir al Evento!", true, true);
-            AkiledEnvironment.GetGame().GetClientManager().StaffAlert(RoomNotificationComposer.SendBubble("gameopen", "El usuario: " + Client.GetHabbo().Username + " - Acaba de abrir un juego/evento, por favor estar atento a su turno."));
+            AkiledEnvironment.GetGame().GetClientManager().SendSuperNotif(AkiledEnvironment.GetLanguageManager().TryGetValue("EventHaCommandrcon.1", Client.Langue), AlertMessage, "game_promo_small", "event:navigator/goto/" + Client.GetHabbo().CurrentRoom.Id, AkiledEnvironment.GetLanguageManager().TryGetValue("EventHaCommandrcon.2", Client.Langue), true, true);
+            AkiledEnvironment.GetGame().GetClientManager().StaffAlert(RoomNotificationComposer.SendBubble("gameopen", string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("EventHaCommandrcon.3", Client.Langue), Client.GetHabbo().Username)));
             //AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer("game_promo_small", "Message d'animation", AlertMessage, "Je veux y jouer !", Client.GetHabbo().CurrentRoom.Id));
             Client.GetHabbo().CurrentRoom.CloseFullRoom = true;
 
