@@ -37,6 +37,7 @@ namespace Akiled.HabboHotel.GameClients
         public GameClient(int ClientId, ConnectionInformation pConnection)
         {
             this.ConnectionID = ClientId;
+            //usa el lenguaje del usuario que llega el mensaje
             this.Langue = Language.SPANISH;
             this.Connection = pConnection;
             this.packetParser = new GamePacketParser(this);
@@ -76,6 +77,7 @@ namespace Akiled.HabboHotel.GameClients
                     else if (this.Langue == Language.ANGLAIS) AkiledEnvironment.GetGame().GetClientManager().OnlineUsersEn++;
                     else if (this.Langue == Language.PORTUGAIS) AkiledEnvironment.GetGame().GetClientManager().OnlineUsersBr++;
                     else if (this.Langue == Language.SPANISH) AkiledEnvironment.GetGame().GetClientManager().OnlineUsersEs++;
+                    else if (this.Langue == Language.ITALIAN) AkiledEnvironment.GetGame().GetClientManager().OnlineUsersIT++;
 
                     if (this.Habbo.MachineId != this.MachineId)
                     {
@@ -121,9 +123,10 @@ namespace Akiled.HabboHotel.GameClients
 
 
 
-                    string last_success_login = "Tu último inicio de sesiòn exitoso fue el ";
+                    string last_success_login = AkiledEnvironment.GetLanguageManager().TryGetValue("last_success_login", Habbo.Langue);
+                    string horas = AkiledEnvironment.GetLanguageManager().TryGetValue("last_success_login.horas", Habbo.Langue);
                     var last_success_login1 = last_success_login;
-                    SendMessage(RoomNotificationComposer.SendBubble("last_success_login", last_success_login1 + new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(GetHabbo().LastOnline + 7200.0) + " Horas."));
+                    SendMessage(RoomNotificationComposer.SendBubble("last_success_login", last_success_login1 + " " + new DateTime(1970, 1, 1, 0, 0, 0).AddSeconds(GetHabbo().LastOnline + 7200.0) + " "+ horas));
 
 
 
@@ -160,19 +163,22 @@ namespace Akiled.HabboHotel.GameClients
                             var client = new DiscordWebhookClient(Webhook_login_logout_WebHookurl);
 
                             var message = new DiscordMessage(
-                             "La Seguridad es importante para nosotros! " + DiscordEmoji.Grinning,
+                             AkiledEnvironment.GetLanguageManager().TryGetValue("notif.login.secu", Habbo.Langue)
+                             + DiscordEmoji.Grinning,
+
                                 username: Webhook_login_logout_UserNameD,
                                 avatarUrl: Webhook_login_logout_ProfilePicture,
                                 tts: false,
                                 embeds: new[]
                     {
                                 new DiscordMessageEmbed(
-                                "Notificacion de login" + DiscordEmoji.Thumbsup,
+                                AkiledEnvironment.GetLanguageManager().TryGetValue("notif.login.ok", Habbo.Langue)
+                                + DiscordEmoji.Thumbsup,
                                  color: 4833120,
                                 author: new DiscordMessageEmbedAuthor(GetHabbo().Username),
-                                description: "Ha ingresado al cliente del hotel",
+                                description: AkiledEnvironment.GetLanguageManager().TryGetValue("notif.login.desc", Habbo.Langue),
                                 thumbnail: new DiscordMessageEmbedThumbnail(Webhooka_avatar + GetHabbo().Look),
-                                footer: new DiscordMessageEmbedFooter("Creado por "+Webhook_login_logout_UserNameD, Webhook_login_logout_ProfilePicture)
+                                footer: new DiscordMessageEmbedFooter(AkiledEnvironment.GetLanguageManager().TryGetValue("notif.login.footer", Habbo.Langue)+Webhook_login_logout_UserNameD, Webhook_login_logout_ProfilePicture)
         )
                     }
                     );
@@ -191,8 +197,7 @@ namespace Akiled.HabboHotel.GameClients
 
                     if (GetHabbo().AccountCreated > AkiledEnvironment.GetUnixTimestamp() - 259200.0 && GetHabbo().Nuxenable2 && GetHabbo().AchievementPoints > 20000)
                     {
-                        SendNotification("<font color = '#B40404'><font><b>Enhorabuena!</b></font></font>\n\nQueremos felicitarte por ser un amig@ fiel, y por haber completado 20 horas de conexión y  recompensa > 20000 en el hotel, te hemos obsequiado un Trono Clásico..\r");
-
+                        SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("notif.nux.20h", Habbo.Langue));
 
                         using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                         {
@@ -212,7 +217,8 @@ namespace Akiled.HabboHotel.GameClients
                             if (GetHabbo().GetInventoryComponent().TryAddItem(PurchasedItem))
                             {
                                 SendPacket(new FurniListNotificationComposer(PurchasedItem.Id, 1));
-                                SendPacket(RoomNotificationComposer.SendBubble("rewards", "Acabas de recibir un:\n\n " + premiox20horasname + ".\n\n¡Corre, " + GetHabbo().Username + ", revisa tu inventario, hay algo nuevo al parecer! \n\nClick Aquí", "inventory/open/furni"));
+                                SendPacket(RoomNotificationComposer.SendBubble("rewards", String.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("notif.nux.20h.2", Habbo.Langue), premiox20horasname, GetHabbo().Username), "inventory/open/furni"));
+
                                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                                 Console.WriteLine("El Usuario: " + GetHabbo().Username + " ha recibido su premio x estar conectado 20 horas. ", "Akiled.Users",
                                 ConsoleColor.DarkGreen);
@@ -260,7 +266,7 @@ namespace Akiled.HabboHotel.GameClients
                 {
                     dbClient.SetQuery("INSERT INTO rooms (caption,description,owner,model_name,category,state, icon_bg, icon_fg, icon_items, wallpaper, floor, landscape, allow_hidewall, wallthick, floorthick) SELECT @caption, @desc, @username, @model, category, state, icon_bg, icon_fg, icon_items, wallpaper, floor, landscape, allow_hidewall, wallthick, floorthick FROM rooms WHERE id = '" + sala_girl + "'");
                     dbClient.AddParameter("caption", GetHabbo().Username + " - Tú Sala de Bienvenida");
-                    dbClient.AddParameter("desc", AkiledEnvironment.GetLanguageManager().TryGetValue("room.welcome.desc", this.Langue));
+                    dbClient.AddParameter("desc", AkiledEnvironment.GetLanguageManager().TryGetValue("room.welcome.desc", Habbo.Langue));
                     dbClient.AddParameter("username", GetHabbo().Username);
                     dbClient.AddParameter("model", modelsala_girl);
                     RoomId = (int)dbClient.InsertQuery();
@@ -287,14 +293,16 @@ namespace Akiled.HabboHotel.GameClients
                     var client = new DiscordWebhookClient(WebHookurl);
 
                     var message = new DiscordMessage(
-                     "La seguridad es importate para nosotros " + DiscordEmoji.Grinning,
+                     AkiledEnvironment.GetLanguageManager().TryGetValue("notif.login.secu", Habbo.Langue)
+                     + DiscordEmoji.Grinning,
                         username: UserNameD,
                         avatarUrl: ProfilePicture,
                         tts: false,
                         embeds: new[]
             {
                                 new DiscordMessageEmbed(
-                                "Notificación nuevo usuario" + DiscordEmoji.Thumbsup,
+                                AkiledEnvironment.GetLanguageManager().TryGetValue("notif.login.ok", Habbo.Langue)
+                                + DiscordEmoji.Thumbsup,
                                  color: 1824480,
                                 author: new DiscordMessageEmbedAuthor(GetHabbo().Username),
                                 description: "Ha ingresado al cliente del hotel por primera vez",
@@ -322,7 +330,7 @@ namespace Akiled.HabboHotel.GameClients
                 {
                     dbClient.SetQuery("INSERT INTO rooms (caption,description,owner,model_name,category,state, icon_bg, icon_fg, icon_items, wallpaper, floor, landscape, allow_hidewall, wallthick, floorthick) SELECT @caption, @desc, @username, @model, category, state, icon_bg, icon_fg, icon_items, wallpaper, floor, landscape, allow_hidewall, wallthick, floorthick FROM rooms WHERE id = '" + sala_boy + "'");
                     dbClient.AddParameter("caption", GetHabbo().Username + " - Tú Sala de Bienvenida");
-                    dbClient.AddParameter("desc", AkiledEnvironment.GetLanguageManager().TryGetValue("room.welcome.desc", this.Langue));
+                    dbClient.AddParameter("desc", AkiledEnvironment.GetLanguageManager().TryGetValue("room.welcome.desc", Habbo.Langue));
                     dbClient.AddParameter("username", GetHabbo().Username);
                     dbClient.AddParameter("model", modelsala_boy);
                     RoomId = (int)dbClient.InsertQuery();
@@ -349,19 +357,21 @@ namespace Akiled.HabboHotel.GameClients
                     var client = new DiscordWebhookClient(WebHookurl);
 
                     var message = new DiscordMessage(
-                     "La seguridad es importate para nosotros " + DiscordEmoji.Grinning,
+                     AkiledEnvironment.GetLanguageManager().TryGetValue("notif.login.secu", Habbo.Langue)
+                     + DiscordEmoji.Grinning,
                         username: UserNameD,
                         avatarUrl: ProfilePicture,
                         tts: false,
                         embeds: new[]
             {
                                 new DiscordMessageEmbed(
-                                "Notificación nuevo usuario" + DiscordEmoji.Thumbsup,
+                                AkiledEnvironment.GetLanguageManager().TryGetValue("notif.login.new", Habbo.Langue)
+                                + DiscordEmoji.Thumbsup,
                                  color: 1824480,
                                 author: new DiscordMessageEmbedAuthor(GetHabbo().Username),
-                                description: "Ha ingresado al cliente del hotel por primera vez",
+                                description: AkiledEnvironment.GetLanguageManager().TryGetValue("notif.login.desc.new", Habbo.Langue),
                                 thumbnail: new DiscordMessageEmbedThumbnail(Webhooka_avatar + GetHabbo().Look),
-                                footer: new DiscordMessageEmbedFooter("Creado por "+UserNameD, ProfilePicture)
+                                footer: new DiscordMessageEmbedFooter(AkiledEnvironment.GetLanguageManager().TryGetValue("notif.login.footer", Habbo.Langue)+UserNameD, ProfilePicture)
         )
             }
             );
@@ -475,7 +485,7 @@ namespace Akiled.HabboHotel.GameClients
 
             if (PubCount < 3 && PubCount > 0)
             {
-                SendNotification(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("notif.antipub.warn.1", this.Langue), PubCount));
+                SendNotification(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("notif.antipub.warn.1", Habbo.Langue), PubCount));
                 using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                 {
                     queryreactor.SetQuery("INSERT INTO chatlogs_pub (user_id,user_name,timestamp,message) VALUES ('" + GetHabbo().Id + "',@pseudo,UNIX_TIMESTAMP(),@message)");
@@ -486,7 +496,7 @@ namespace Akiled.HabboHotel.GameClients
             }
             else if (PubCount == 3)
             {
-                SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("notif.antipub.warn.2", this.Langue));
+                SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("notif.antipub.warn.2", Habbo.Langue));
                 using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                 {
                     queryreactor.SetQuery("INSERT INTO chatlogs_pub (user_id,user_name,timestamp,message) VALUES ('" + GetHabbo().Id + "',@pseudo,UNIX_TIMESTAMP(),@message)");

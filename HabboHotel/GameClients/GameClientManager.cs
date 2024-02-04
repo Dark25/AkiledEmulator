@@ -30,6 +30,7 @@ namespace Akiled.HabboHotel.GameClients
         public int OnlineUsersEn;
         public int OnlineUsersBr;
         public int OnlineUsersEs;
+        public int OnlineUsersIT;
 
         private readonly List<int> _userStaff;
 

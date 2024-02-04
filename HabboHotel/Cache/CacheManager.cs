@@ -19,7 +19,7 @@ namespace Akiled.HabboHotel.Cache
             this._usersCached = new ConcurrentDictionary<int, UserCache>();
             this._process = new ProcessComponent();
             this._process.Init();
-            Console.WriteLine(" Manager Cache -> Listo!");
+            Console.WriteLine(" Manager Cache -> OK!");
         }
 
         public bool ContainsUser(int Id) => this._usersCached.ContainsKey(Id);

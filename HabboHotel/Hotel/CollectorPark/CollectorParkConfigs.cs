@@ -423,7 +423,7 @@ namespace AkiledEmulator.HabboHotel.Hotel.CollectorPark
 
                             client.GetHabbo().AkiledPoints += amount;
                             client.SendMessage(new HabboActivityPointNotificationComposer(client.GetHabbo().AkiledPoints, amount, 105));
-                            client.SendWhisper("You won " + amount + " diamonds in Collector Park!");
+                            client.SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("collectorpark.1", client.GetHabbo().Langue), amount));
                         }
                     }
                     else

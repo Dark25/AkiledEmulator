@@ -737,6 +737,7 @@ namespace Akiled.HabboHotel.Users
             else if (this.Langue == Language.ANGLAIS) AkiledEnvironment.GetGame().GetClientManager().OnlineUsersEn--;
             else if (this.Langue == Language.PORTUGAIS) AkiledEnvironment.GetGame().GetClientManager().OnlineUsersBr--;
             else if (this.Langue == Language.SPANISH) AkiledEnvironment.GetGame().GetClientManager().OnlineUsersEs--;
+            else if (this.Langue == Language.ITALIAN) AkiledEnvironment.GetGame().GetClientManager().OnlineUsersIT--;
 
             if (this.HasFuse("fuse_mod"))
 

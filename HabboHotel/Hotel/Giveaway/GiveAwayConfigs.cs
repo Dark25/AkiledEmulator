@@ -1,10 +1,12 @@
 ﻿using Akiled;
 using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Core;
+using Akiled.HabboHotel;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Users;
 using AkiledEmulator.HabboHotel.Hotel.Extras;
+using MySqlX.XDevAPI;
 using System;
 using System.Collections.Generic;
 
@@ -102,7 +104,7 @@ namespace AkiledEmulator.HabboHotel.Hotel.Giveaway
                     }
 
                     //Message
-                    AkiledEnvironment.GetGame().GetClientManager().SendWhisper($"¡Los usuarios {string.Join(", ", usersWinners)} ganaron el sorteo!");
+                    AkiledEnvironment.GetGame().GetClientManager().SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("giveaway.winners", Language.SPANISH) + string.Join(", ", usersWinners));
                 }
                 else
                     AkiledEnvironment.GetGame().GetClientManager().SendWhisper("¡No hay ganadores!");

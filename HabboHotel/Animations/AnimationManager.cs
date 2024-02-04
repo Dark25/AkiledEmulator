@@ -129,7 +129,7 @@ namespace Akiled.HabboHotel.Animations
             if (this._timer >= this.GetMinutes(START_TIME - NOTIF_TIME) && !this._notif)
             {
                 this._notif = true;
-                AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifTopComposer("Jack & Daisy: La prochaine animation démarre dans 2 minutes !"), Core.Language.FRANCAIS);
+                AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifTopComposer("Jack & Daisy: La prochaine animation démarre dans 2 minutes !"), Core.Language.SPANISH);
             }
 
             if (this._timer >= this.GetMinutes(START_TIME))
@@ -164,7 +164,7 @@ namespace Akiled.HabboHotel.Animations
                 "\r\n- Jack et Daisy\r\n";
 
                 AkiledEnvironment.GetGame().GetModerationManager().LogStaffEntry(1953042, "AkiledGames", room.Id, string.Empty, "eventha", string.Format("JeuAuto EventHa: {0}", AlertMessage));
-                AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer(event_alert, "Message d'animation", AlertMessage, "Je veux y jouer !", room.Id, ""));
+                AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer(event_alert, "Message d'animation", AlertMessage, "Je veux y jouer !", room.Id, ""),Core.Language.SPANISH);
             }
         }
 
