@@ -41,7 +41,8 @@ namespace Akiled.Communication.Packets.Incoming.Structure
 
             if (Session.Antipub(TextMessage, "<RM>"))
             {
-                AkiledEnvironment.GetGame().GetClientManager().StaffAlert(RoomNotificationComposer.SendBubble("publicidad", "El usuario: " + Session.GetHabbo().Username + ", Pub en invitación:" + TextMessage + ", pulsa aquí para ir a mirar.", "event:navigator/goto/" + Session.GetHabbo().CurrentRoomId));
+                AkiledEnvironment.GetGame().GetClientManager().StaffAlert(RoomNotificationComposer.SendBubble("publicidad", string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("SendRoomInviteEvent.1", Session.Langue), Session.GetHabbo().Username, TextMessage), "event:navigator/goto/" + Session.GetHabbo().CurrentRoomId));
+
                 return;
             }
             if (Session.GetHabbo().IgnoreAll)

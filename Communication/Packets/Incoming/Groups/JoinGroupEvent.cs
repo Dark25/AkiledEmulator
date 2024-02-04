@@ -20,7 +20,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
 
             if (Session.GetHabbo().MyGroups.Count >= 50)
             {
-                Session.SendNotification("¡Vaya, parece que has alcanzado el límite de membresía de grupo!Solo puedes unirte hasta 50 grupos.");
+                Session.SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("JoinGroupEvent.1", Session.Langue));
                 return;
             }
 

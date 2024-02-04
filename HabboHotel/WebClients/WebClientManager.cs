@@ -44,7 +44,7 @@ namespace Akiled.HabboHotel.WebClients
             return this._clients.TryGetValue(ClientId, out Client);
         }
 
-        public void SendMessage(IServerPacket Packet, Language Langue = Language.FRANCAIS)
+        public void SendMessage(IServerPacket Packet, Language Langue)
         {
             foreach (WebClient Client in this._clients.Values.ToList())
             {

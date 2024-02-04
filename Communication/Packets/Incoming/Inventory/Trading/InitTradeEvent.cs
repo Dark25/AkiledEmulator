@@ -24,14 +24,14 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                 RolePlayer Rp = RoomUser.Roleplayer;
                 if (Rp == null || Rp.TradeId > 0 || Rp.Dead || Rp.SendPrison || (Rp.PvpEnable && room.Pvp) || Rp.AggroTimer > 0)
                 {
-                    RoomUser.SendWhisperChat("Debes estar en zona segura para poder tradear y no en la guerra.");
+                    RoomUser.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("InitTradeEvent.1", RoomUser.GetClient().Langue));
                     return;
                 }
 
                 RolePlayer RpTarget = RoomUserTarget.Roleplayer;
                 if (RpTarget == null || RpTarget.TradeId > 0 || RpTarget.Dead || RpTarget.SendPrison || (RpTarget.PvpEnable && room.Pvp) || RpTarget.AggroTimer > 0)
                 {
-                    RoomUser.SendWhisperChat("Este usuario no puede tradear.");
+                    RoomUser.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("InitTradeEvent.2", RoomUser.GetClient().Langue));
                     return;
                 }
 

@@ -1,5 +1,14 @@
 using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.Database.Interfaces;using Akiled.HabboHotel.GameClients;using Akiled.HabboHotel.Rooms;namespace Akiled.Communication.Packets.Incoming.Structure{    class ModifyWhoCanRideHorseEvent : IPacketEvent    {        public void Parse(GameClient Session, ClientPacket Packet)        {
+using Akiled.Database.Interfaces;
+using Akiled.HabboHotel.GameClients;
+using Akiled.HabboHotel.Rooms;
+
+namespace Akiled.Communication.Packets.Incoming.Structure
+{
+    class ModifyWhoCanRideHorseEvent : IPacketEvent
+    {
+        public void Parse(GameClient Session, ClientPacket Packet)
+        {
             if (!Session.GetHabbo().InRoom)
                 return;
 
@@ -46,4 +55,8 @@ using Akiled.Database.Interfaces;using Akiled.HabboHotel.GameClients;using Aki
                 dbClient.RunQuery("UPDATE `user_pets` SET `anyone_ride` = '" + AkiledEnvironment.BoolToEnum(Pet.PetData.AnyoneCanRide) + "' WHERE `id` = '" + PetId + "' LIMIT 1");
             }
 
-            Room.SendPacket(new PetInformationComposer(Pet.PetData, Pet.RidingHorse));        }    }}
+            Room.SendPacket(new PetInformationComposer(Pet.PetData, Pet.RidingHorse));
+
+        }
+    }
+}

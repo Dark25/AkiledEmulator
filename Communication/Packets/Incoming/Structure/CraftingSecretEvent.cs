@@ -85,7 +85,8 @@ namespace Akiled.Communication.Packets.Incoming.Structure
                 Session.SendMessage((IServerPacket)new FurniListUpdateComposer());
                 Session.GetHabbo().GetInventoryComponent().UpdateItems(true);
                 Session.SendMessage((IServerPacket)new CraftableProductsComposer());
-                Session.SendNotification("Has recibido un nuevo rare, Abre tu inventario y colocalo en tu sala.\n\n");
+                Session.SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("CraftingSecretEvent.1", Session.Langue));
+                
                 if (itemByName1.Id == 2683)
                     AkiledEnvironment.GetGame().GetAchievementManager().ProgressAchievement(Session, "ACH_CraftingHalloweenSofa", 1);
                 if (itemByName1.Id == 3150)

@@ -89,7 +89,7 @@ namespace Akiled.Communication.Packets.Incoming.WebSocket
                     }
                 case "showtime":
                     {
-                        User.SendWhisperChat("Son las " + Room.RpHour + " horas y " + Room.RpMinute + " minutos");
+                        User.SendWhisperChat(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("RpUseItemsEvent.1", Client.Langue), Room.RpHour, Room.RpMinute));
                         break;
                     }
                 case "money":

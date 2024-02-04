@@ -40,7 +40,9 @@ namespace Akiled.Communication.Packets.Incoming.Structure
 
 
             RoomUser roomUser = Room.GetRoomUserManager().DeployBot(new RoomBot(Bot.Id, Bot.OwnerId, Room.Id, AIType.Generic, Bot.WalkingEnabled, Bot.Name, Bot.Motto, Bot.Gender, Bot.Figure, X, Y, 0, 2, Bot.ChatEnabled, Bot.ChatText, Bot.ChatSeconds, Bot.IsDancing, Bot.Enable, Bot.Handitem, Bot.Status), null);
-            roomUser.Chat("¡Hola " + Session.GetHabbo().Username + "!", false, 0);
+           
+            roomUser.Chat(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("PlaceBotEvent.1", Session.Langue), Session.GetHabbo().Username), false, 0);
+            
             Bot ToRemove = null;
             if (!Session.GetHabbo().GetInventoryComponent().TryRemoveBot(BotId, out ToRemove))
                 return;

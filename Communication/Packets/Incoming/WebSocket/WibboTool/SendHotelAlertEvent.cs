@@ -38,12 +38,12 @@ namespace Akiled.Communication.Packets.Incoming.WebSocket
 
             if (!string.IsNullOrWhiteSpace(Url))
             {
-                AkiledEnvironment.GetGame().GetModerationManager().LogStaffEntry(Client.GetHabbo().Id, Client.GetHabbo().Username, 0, string.Empty, "hal", string.Format("WbTool hal: {0} : {1}", Url, Message));
+                AkiledEnvironment.GetGame().GetModerationManager().LogStaffEntry(Client.GetHabbo().Id, Client.GetHabbo().Username, 0, string.Empty, "hal", string.Format("Akitools hal: {0} : {1}", Url, Message));
 
                 if (!Url.StartsWith(Hotel_url) && !Url.StartsWith(instagram_url) && !Url.StartsWith(Facebook) && !Url.StartsWith("https://www.facebook.com/") && !Url.StartsWith(instagram_url))
                     return;
 
-                AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer("comunicadostaff", "Atención Comunicado Staff", Message, "Ir al Enlace !", 0, Url), Session.Langue);
+                AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer("comunicadostaff", AkiledEnvironment.GetLanguageManager().TryGetValue("SendHotelAlertEvent.1", Session.Langue), Message, AkiledEnvironment.GetLanguageManager().TryGetValue("SendHotelAlertEvent.2",Session.Langue), 0, Url), Session.Langue);
                 return;
             }
 
@@ -52,7 +52,7 @@ namespace Akiled.Communication.Packets.Incoming.WebSocket
                 if (Client.GetHabbo().CurrentRoom == null)
                     return;
 
-                AkiledEnvironment.GetGame().GetModerationManager().LogStaffEntry(Client.GetHabbo().Id, Client.GetHabbo().Username, Client.GetHabbo().CurrentRoom.Id, string.Empty, "eventha", string.Format("WbTool eventha: {0}", Message));
+                AkiledEnvironment.GetGame().GetModerationManager().LogStaffEntry(Client.GetHabbo().Id, Client.GetHabbo().Username, Client.GetHabbo().CurrentRoom.Id, string.Empty, "eventha", string.Format("Akitool eventha: {0}", Message));
                 if (Client.Antipub(Message, "<eventalert>"))
                     return;
 
@@ -60,7 +60,7 @@ namespace Akiled.Communication.Packets.Incoming.WebSocket
                     return;
 
                 //AkiledEnvironment.GetGame().GetClientManager().SendSuperNotif("Message de_hotelalerts Staffs", AlertMessage, "game_promo_small", "event:navigator/goto/" + Client.GetHabbo().CurrentRoom.Id, "Je veux y accéder!", true, true);
-                AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer("alertajuego", "Notificacíon de Evento", Message, "Ir al Evento!", Client.GetHabbo().CurrentRoom.Id, ""), Session.Langue);
+                AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer("alertajuego", AkiledEnvironment.GetLanguageManager().TryGetValue("SendHotelAlertEvent.3", Session.Langue), Message, AkiledEnvironment.GetLanguageManager().TryGetValue("SendHotelAlertEvent.4", Session.Langue), Client.GetHabbo().CurrentRoom.Id, ""), Session.Langue);
 
                 Client.GetHabbo().CurrentRoom.CloseFullRoom = true;
             }
@@ -70,10 +70,7 @@ namespace Akiled.Communication.Packets.Incoming.WebSocket
                 if (Client.Antipub(Message, "<alert>"))
                     return;
 
-                //ServerPacket message = new ServerPacket(ServerPacketHeader.BroadcastMessageAlertMessageComposer);
-                //message.WriteString(AkiledEnvironment.GetLanguageManager().TryGetValue("hotelallert.notice", Client.Langue) + "\r\n" + Message);// + "\r\n- " + Client.GetHabbo().Username);
-                //AkiledEnvironment.GetGame().GetClientManager().SendMessage(message);
-                AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer("alertastaff", "Mensaje del Equipo Staff", Message, "Entendido !", 0, ""), Session.Langue);
+                AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer("alertastaff", AkiledEnvironment.GetLanguageManager().TryGetValue("SendHotelAlertEvent.5", Session.Langue), Message, AkiledEnvironment.GetLanguageManager().TryGetValue("SendHotelAlertEvent.6", Session.Langue), 0, ""), Session.Langue);
             }
 
         }

@@ -19,7 +19,7 @@ namespace Akiled.Communication.Packets.Incoming.Structure
             {
                 room.GetRoomUserManager().RemoveUserFromRoom(Session, false, false);
                 Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                Console.WriteLine("El usuario: " + Session.GetHabbo().Username + " ha salido a la vista del hotel.");
+                Console.WriteLine("The user: " + Session.GetHabbo().Username + " has left the hotel view.");
             }
         }
     }
