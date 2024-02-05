@@ -34,7 +34,7 @@ namespace Akiled.HabboHotel.Items.Crafting
                 foreach (DataRow row in (InternalDataCollectionBase)queryReactor.GetTable().Rows)
                     this.CraftableItems.Add((string)row["itemName"]);
             }
-            Console.WriteLine("Crafting Manager -> Lito");
+            Console.WriteLine("Crafting Manager -> ok");
         }
 
         internal CraftingRecipe GetRecipe(string name) => this.CraftingRecipes.ContainsKey(name) ? this.CraftingRecipes[name] : (CraftingRecipe)null;

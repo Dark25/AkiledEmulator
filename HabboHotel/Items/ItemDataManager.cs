@@ -73,7 +73,7 @@ namespace Akiled.HabboHotel.Items
                 }
             }
             Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine("Furnis del Hotel -> Listo! ");
+            Console.WriteLine("Furnis del Hotel -> ok! ");
         }
 
         public bool GetGift(int SpriteId, out ItemData Item)

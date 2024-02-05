@@ -1079,7 +1079,7 @@ namespace Akiled.HabboHotel.Items
                                         continue;
 
                                     Target.ApplyEffect(4);
-                                    Target.GetClient().SendNotification("Usted ha sido expulsado de la sala, gracias a un buen cañonazo recibido!");
+                                    Target.GetClient().SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("Item.hit.1", Target.GetClient().Langue));
                                     //AkiledEnvironment.GetGame().GetClientManager().SendMessage(RoomNotificationComposer.SendBubble("cannon", "El usuario: " + Target.GetClient().GetHabbo().Username + " fue golpeado por la bola de un cañon, denles sus condolencias.!"));
                                     Target.ApplyEffect(0);
                                     this.GetRoom().GetRoomUserManager().RemoveUserFromRoom(Target.GetClient(), true, true);

@@ -42,7 +42,7 @@ namespace Akiled.HabboHotel.Quests
                     this.AddToCounter(str);
                 }
             }
-            Console.WriteLine("Busquedas del Hotel -> Listo!");
+            Console.WriteLine("Busquedas del Hotel -> ok!");
         }
 
         private void AddToCounter(string category)

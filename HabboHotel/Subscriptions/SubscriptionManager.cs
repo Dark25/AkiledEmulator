@@ -30,7 +30,7 @@ namespace Akiled.HabboHotel.Subscriptions
                 }
             }
 
-            Console.WriteLine(_subscriptions.Count + " subscriptions cargada!!.");
+            Console.WriteLine(_subscriptions.Count + " subscriptions ok!!.");
         }
 
         public bool TryGetSubscriptionData(int Id, out SubscriptionData Data)

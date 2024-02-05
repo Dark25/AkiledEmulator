@@ -46,7 +46,7 @@ namespace Akiled.HabboHotel.Items.Interactors
                 return;
             if (Session.GetHabbo().is_mining)
             {
-                Session.SendWhisper("No puedes fábricar explosivos mientras estás minando!", 1);
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("InteractorMineria.1", Session.Langue), 1);
             }
             else
             {
@@ -61,13 +61,13 @@ namespace Akiled.HabboHotel.Items.Interactors
                 }
                 if (Session.GetHabbo().porbora == -1 || Session.GetHabbo().porbora == 0)
                 {
-                    Session.SendWhisper("Necesitas polvora para crear explosivos, comprala en la tienda del Bot TNT.", 1);
+                    Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("InteractorMineria.2", Session.Langue), 1);
                 }
                 else
                 {
                     RoomUser ThisUser = Session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabboId(Session.GetHabbo().Id);
                     if (Math.Abs(Item.GetX - ThisUser.X) >= 2 || Math.Abs(Item.GetY - ThisUser.Y) >= 2)
-                        Session.SendWhisper("Tienes que estar más cerca, para emperzar a crear explosivos.", 1);
+                        Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("InteractorMineria.3", Session.Langue), 1);
                     else
                         Task.Run((Func<Task>)(async () =>
                         {
@@ -76,12 +76,12 @@ namespace Akiled.HabboHotel.Items.Interactors
                                 if (Session.GetHabbo().onfarm)
                                 {
                                     Session.GetHabbo().onfarm = false;
-                                    Session.SendWhisper("Dejaste de crear explosivos.", 1);
+                                    Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("InteractorMineria.4", Session.Langue), 1);
                                     ThisUser.ApplyEffect(0);
                                 }
                                 else
                                 {
-                                    Session.SendWhisper("Has empezado a crear explosivos, Por favor espera mientras se procesa, ni se te ocurra moverte.", 1);
+                                    Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("InteractorMineria.5", Session.Langue), 1);
                                     ThisUser.ApplyEffect(64);
                                     Session.GetHabbo().SendPacketWeb((IServerPacket)new PlaySoundComposer("pico", 2));
                                     Session.GetHabbo().onfarm = true;
@@ -93,7 +93,7 @@ namespace Akiled.HabboHotel.Items.Interactors
                                             return;
                                         if (Math.Abs(Item.GetX - ThisUser.X) >= 2 || Math.Abs(Item.GetY - ThisUser.Y) >= 2)
                                         {
-                                            Session.SendWhisper("Has parado el proceso de crear explosivos.", 1);
+                                            Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("InteractorMineria.6", Session.Langue), 1);
                                             ThisUser.ApplyEffect(0);
                                             Session.GetHabbo().onfarm = false;
                                             return;
@@ -117,8 +117,8 @@ namespace Akiled.HabboHotel.Items.Interactors
                                         Random rand = new Random();
                                         int wurm = rand.Next(1, 5);
                                         Session.GetHabbo().Leftpolvora();
-                                        Session.SendWhisper("Has tenido éxito " + wurm.ToString() + " Explosivos Creados Correctamente!", 1);
-                                        room.SendPacket((IServerPacket)new ChatComposer(ThisUser.VirtualId, "@blue@*" + ThisUser.GetClient().GetHabbo().Username + " Ha creado " + wurm.ToString() + " Explosivos*", 0, ThisUser.LastBubble));
+                                        Session.SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("InteractorMineria.7", Session.Langue), wurm.ToString()), 1);
+                                        room.SendPacket((IServerPacket)new ChatComposer(ThisUser.VirtualId, String.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("InteractorMineria.8", Session.Langue), ThisUser.GetClient().GetHabbo().Username, wurm.ToString()), 0, ThisUser.LastBubble));
                                         ThisUser.ApplyEffect(0);
                                         RolePlayer Rp = ThisUser.Roleplayer;
                                         Rp.AddInventoryItem(373, wurm);

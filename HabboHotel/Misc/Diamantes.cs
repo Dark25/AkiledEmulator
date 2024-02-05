@@ -18,7 +18,7 @@ namespace Akin.HabboHotel.Misc
                 int DiamondsAmount = Convert.ToInt32(cantdiamonds);
 
                 Session.GetHabbo().DiamondsCycleUpdate = AkiledEnvironment.GetUnixTimestamp();
-                Session.SendWhisper("Recibiste 60 por estar conectado.");
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("diamantes.cycle.1", Session.Langue), 1);
                 Session.SendPacket(new HabboActivityPointNotificationComposer(Session.GetHabbo().Duckets, 50));
 
 

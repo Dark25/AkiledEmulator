@@ -6,6 +6,8 @@ using Akiled.HabboHotel.Items;
 using Akiled.HabboHotel.Roleplay.Weapon;
 using Akiled.HabboHotel.Rooms;
 using Akiled.HabboHotel.WebClients;
+using MySqlX.XDevAPI;
+using Org.BouncyCastle.Asn1.X509;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -345,7 +347,7 @@ namespace Akiled.HabboHotel.Roleplay.Player
                     Room.GetRoomItemHandler().AddTempItem(User.VirtualId, 5461, User.SetX, User.SetY, User.Z, "1", monaiePerdu, InteractionTypeTemp.MONEY);
                 }
 
-                User.OnChat("@red@ Joder me han Matao ! [" + this.Health + "/" + this.HealthMax + "]", 0, true);
+                User.OnChat(AkiledEnvironment.GetLanguageManager().TryGetValue("RolePlayer.user.1", User.GetClient().Langue) + this.Health + "/" + this.HealthMax + "]", 0, true);
 
                 using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                     queryreactor.RunQuery("UPDATE user_rp SET dead = dead + 1 WHERE user_id = " + User.GetClient().GetHabbo().Id + " LIMIT 1");
@@ -432,12 +434,12 @@ namespace Akiled.HabboHotel.Roleplay.Player
                     User.RotHead = 2;
                     User.Freeze = true;
                     User.FreezeEndCounter = 0;
-                    User.OnChat("*Estoy sin energía*");
+                    User.OnChat(AkiledEnvironment.GetLanguageManager().TryGetValue("RolePlayer.user.2", User.GetClient().Langue), 0, true);
                     User.SetStatus("sit", "0.5");
                     User.IsSit = true;
                     User.UpdateNeeded = true;
 
-                    User.SendWhisperChat("Te caíste, descansa 30 segundos", true);
+                    User.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("RolePlayer.user.3", User.GetClient().Langue));
                 }
             }
 
@@ -455,7 +457,7 @@ namespace Akiled.HabboHotel.Roleplay.Player
                 if (this.GunLoad == 0)
                 {
                     this.GunLoadTimer = 6;
-                    User.OnChat("@green@ *Recargando mi Arma*");
+                    User.OnChat(AkiledEnvironment.GetLanguageManager().TryGetValue("RolePlayer.user.4", User.GetClient().Langue), 0, true);
                     this.SendPacketWeb(new PlaySoundComposer("recargauser", 2)); //Type = Trax
                 }
             }

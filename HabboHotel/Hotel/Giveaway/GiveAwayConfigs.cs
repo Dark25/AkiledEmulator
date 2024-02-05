@@ -107,7 +107,7 @@ namespace AkiledEmulator.HabboHotel.Hotel.Giveaway
                     AkiledEnvironment.GetGame().GetClientManager().SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("giveaway.winners", Language.SPANISH) + string.Join(", ", usersWinners));
                 }
                 else
-                    AkiledEnvironment.GetGame().GetClientManager().SendWhisper("¡No hay ganadores!");
+                    AkiledEnvironment.GetGame().GetClientManager().SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("giveaway.no_winners", Language.SPANISH));
 
                 //Reset variables
                 Reset();
@@ -169,7 +169,7 @@ namespace AkiledEmulator.HabboHotel.Hotel.Giveaway
 
 
             //Message
-            client.SendMessage(new RoomCustomizedAlertComposer("Felicidades, has ganado el sorteo!" + Environment.NewLine + "Recompensas: " + Environment.NewLine + $"Créditos: {credits}" + Environment.NewLine + $"Duckets: {duckets}" + Environment.NewLine + $"Diamantes: {diamonds}" + Environment.NewLine + $"Insignia: {badge}" + Environment.NewLine + $"Artículo: {item}"));
+            client.SendMessage(new RoomCustomizedAlertComposer(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("giveaway.win", client.Langue), Environment.NewLine, credits, duckets, diamonds, badge, item)));
         }
 
         /// <summary>
@@ -229,17 +229,7 @@ namespace AkiledEmulator.HabboHotel.Hotel.Giveaway
             DateTime timeStart = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(timestamp - AkiledEnvironment.GetUnixTimestamp());
 
 
-            AkiledEnvironment.GetGame().GetClientManager().SendMessage(new RoomNotificationComposer($"¡Nuevo Sorteo abierto! {description}",
-                        $"<b><font color='#9200cc'  style='font-size: 16px;'>Descripción:</font></b>\n<font color='#363636'>{startedByUsername} ha inciado un sorteo!\r Usa el comando:' :giveaway ' para participar </font>\n\n" +
-                         $"<b><font color='#9200cc' style='font-size: 16px;'>Premios:</font></b>\n" +
-                         $"<b><font color='#b8b814'>Créditos:</font></b> {credits}\n" +
-                         $"<b><font color='#00bb92'>Esmeraldas:</font></b> {duckets}\n" +
-                         $"<b><font color='#008af3'>Planetas:</font></b> {diamonds}\n" +
-                         $"<b><font color='#e36a00'>Insignia:</font></b> {(badge ?? "Ninguno")}\n" +
-                         $"<b><font color='#a10005'>Item:</font></b> {(ItemData != null ? ItemData.publicname : "Ninguno")}\n" +
-                         $"<b><font color='#9200cc'>Termina en:</font></b> {(timeStart.Minute > 0 ? timeStart.Minute + " Minutos " + timeStart.Second + " Segundos!" : timeStart.Second + " " + " segundo")}!\n" +
-                         $"<b><font color='#9200cc'>Creado por :</font></b> {startedByUsername}\n"
-                         , giveaway_image, ""));
+            AkiledEnvironment.GetGame().GetClientManager().SendMessage(new RoomNotificationComposer(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("giveaway.start.title", Language.SPANISH), description),string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("giveaway.start.desc", Language.SPANISH), startedByUsername, credits, duckets, diamonds, (badge ?? "nothing"), (ItemData != null ? ItemData.publicname : "nothing"), (timeStart.Minute > 0 ? timeStart.Minute + " minutes " + timeStart.Second + " Seconds!" : timeStart.Second + " " + " Second")), giveaway_image,""));
 
 
 

@@ -44,7 +44,7 @@ namespace Akiled.HabboHotel.Support
             this.LoadMessagePresets();
             this.LoadPendingTickets();
             this.LoadTicketResolution();
-            Console.WriteLine("Moderacion del Hotel -> Listo!");
+            Console.WriteLine("Moderacion del Hotel -> ok!");
         }
 
         public ServerPacket SerializeTool()
@@ -331,15 +331,15 @@ namespace Akiled.HabboHotel.Support
             {
                 case 1:
                     NewStatus = TicketStatus.INVALID;
-                    MessageAlert = "Es-tu certain d'avoir bien utilisé cet outil ? Nous voulons donner le meilleur des services mais nous devons aussi aider d'autres personnes dans l'urgence...";
+                    MessageAlert = AkiledEnvironment.GetLanguageManager().TryGetValue("moderation.ticket.reported.1", Session.Langue);    
                     break;
                 case 2:
                     NewStatus = TicketStatus.ABUSIVE;
-                    MessageAlert = "Merci de ne pas utiliser l'outil d'appel à l'aide pour rien. Tu risques l'exclusion.";
+                    MessageAlert = AkiledEnvironment.GetLanguageManager().TryGetValue("moderation.ticket.reported.2", Session.Langue);
                     break;
                 default:
                     NewStatus = TicketStatus.RESOLVED;
-                    MessageAlert = "Merci, ton souci est résolu ou en cours de résolution. N'hésite pas à Ignorer la personne  ou à la supprimer de ta console s'il s'agit d'insultes.";
+                    MessageAlert = AkiledEnvironment.GetLanguageManager().TryGetValue("moderation.ticket.reported.3", Session.Langue);
                     break;
             }
             if (clientByUserId != null)

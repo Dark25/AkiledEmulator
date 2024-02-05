@@ -27,7 +27,7 @@ namespace Akiled.HabboHotel.Roles
 
                 foreach (DataRow dataRow in table1.Rows) this.Rights.Add((string)dataRow["fuse"], Convert.ToInt32(dataRow["rank"]));
             }
-            Console.WriteLine("Permisos -> Listo!");
+            Console.WriteLine("Permisos -> ok!");
         }
 
         public bool RankHasRight(int RankId, string Fuse)

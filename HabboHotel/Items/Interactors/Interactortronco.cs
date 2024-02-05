@@ -46,7 +46,7 @@ namespace Akiled.HabboHotel.Items.Interactors
                 return;
             if (Session.GetHabbo().is_angeln)
             {
-                Session.SendWhisper("No puedes cavar mientras estás pescando!", 1);
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("Interactortronco.1", Session.Langue), 1);
             }
             else
             {
@@ -61,13 +61,13 @@ namespace Akiled.HabboHotel.Items.Interactors
                 }
                 if (!Session.GetHabbo().hasschaufel)
                 {
-                    Session.SendWhisper("Necesitas una pala para cavar gusanos.", 1);
+                    Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("Interactortronco.2", Session.Langue), 1);
                 }
                 else
                 {
                     RoomUser ThisUser = Session.GetHabbo().CurrentRoom.GetRoomUserManager().GetRoomUserByHabboId(Session.GetHabbo().Id);
                     if (Math.Abs(Item.GetX - ThisUser.X) >= 2 || Math.Abs(Item.GetY - ThisUser.Y) >= 2)
-                        Session.SendWhisper("Tienes que estar más cerca.", 1);
+                        Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("Interactortronco.3", Session.Langue), 1);
                     else
                         Task.Run((Func<Task>)(async () =>
                         {
@@ -76,12 +76,12 @@ namespace Akiled.HabboHotel.Items.Interactors
                                 if (Session.GetHabbo().onfarm)
                                 {
                                     Session.GetHabbo().onfarm = false;
-                                    Session.SendWhisper("Dejaste de cavar.", 1);
+                                    Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("Interactortronco.4", Session.Langue), 1);
                                     ThisUser.ApplyEffect(0);
                                 }
                                 else
                                 {
-                                    Session.SendWhisper("Empezaste a cavar. Por favor detente aquí por un momento.", 1);
+                                    Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("Interactortronco.5", Session.Langue), 1);
                                     ThisUser.ApplyEffect(546);
                                     Session.GetHabbo().SendPacketWeb((IServerPacket)new PlaySoundComposer("cavar", 2));
                                     Session.GetHabbo().onfarm = true;
@@ -93,7 +93,7 @@ namespace Akiled.HabboHotel.Items.Interactors
                                             return;
                                         if (Math.Abs(Item.GetX - ThisUser.X) >= 2 || Math.Abs(Item.GetY - ThisUser.Y) >= 2)
                                         {
-                                            Session.SendWhisper("Dejaste de cavar.", 1);
+                                            Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("Interactortronco.6", Session.Langue), 1);
                                             ThisUser.ApplyEffect(0);
                                             Session.GetHabbo().onfarm = false;
                                             return;
@@ -116,8 +116,8 @@ namespace Akiled.HabboHotel.Items.Interactors
                                         Session.GetHabbo().onfarm = false;
                                         Random rand = new Random();
                                         int wurm = rand.Next(1, 5);
-                                        Session.SendWhisper("Has tenido éxito " + wurm.ToString() + " Gusanos desenterrados!", 1);
-                                        room.SendPacket((IServerPacket)new ChatComposer(ThisUser.VirtualId, "@blue@*" + ThisUser.GetClient().GetHabbo().Username + " Ha desenterrado " + wurm.ToString() + " Gusanos*", 0, ThisUser.LastBubble));
+                                        Session.SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("Interactortronco.7", Session.Langue), wurm.ToString()), 1);
+                                        room.SendPacket((IServerPacket)new ChatComposer(ThisUser.VirtualId, string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("Interactortronco.8", Session.Langue), ThisUser.GetClient().GetHabbo().Username, wurm.ToString()), 0, ThisUser.LastBubble));
                                         ThisUser.ApplyEffect(0);
                                         RolePlayer Rp = ThisUser.Roleplayer;
                                         Rp.AddInventoryItem(167, wurm);
