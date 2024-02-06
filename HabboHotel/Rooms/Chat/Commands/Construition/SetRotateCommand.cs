@@ -18,13 +18,13 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 
             if (Params.Length == 1)
             {
-                Session.SendWhisper("Escribe el valor.", 34);
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("SetRotateCommand.1", Session.Langue),34);
                 return;
             }
             else if (Params[1].Equals("clear", StringComparison.Ordinal) || Params[1].Equals("limpiar", StringComparison.Ordinal))
             {
                 user.setRotate = -1;
-                Session.SendWhisper("Comando deshabilitado.", 34);
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("SetRotateCommand.2", Session.Langue), 34);
                 return;
             }
 
@@ -34,12 +34,12 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 
             if (rot < 0 || rot > 8)
             {
-                Session.SendWhisper("Entre 1 y 8.", 34);
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("SetRotateCommand.3", Session.Langue), 34);
                 return;
             }
 
             user.setRotate = rot;
-            Session.SendWhisper("Valor cambiado a: " + rot, 34);
+            Session.SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("SetRotateCommand.4", Session.Langue), rot), 34);
         }
     }
 }

@@ -17,14 +17,14 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 
             if (Params.Length == 1)
             {
-                Session.SendWhisper("Escribe el valor.", 34);
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("SetStateCommand.1", Session.Langue), 34);
                 return;
             }
             else if (Params[1].Equals("clear", StringComparison.Ordinal) || Params[1].Equals("limpiar", StringComparison.Ordinal))
             {
                 user.ConstruitZMode = false;
                 user.ConstruitHeigth = 0;
-                Session.SendWhisper("Comando deshabilitado.", 34);
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("SetStateCommand.2", Session.Langue), 34);
                 return;
             }
             
@@ -33,13 +33,13 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 
             if (value < 0 || value > 100)
             {
-                Session.SendWhisper("Entre 1 y 100.", 34);
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("SetStateCommand.3", Session.Langue), 34);
                 return;
             }
 
             user.ConstruitZMode = true;
             user.ConstruitHeigth = value;
-            Session.SendWhisper("Valor cambiado a: " + value, 34);
+            Session.SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("SetStateCommand.4", Session.Langue), value), 34);
         }
     }
 }
