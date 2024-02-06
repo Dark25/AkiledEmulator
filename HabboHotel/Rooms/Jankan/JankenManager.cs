@@ -1,6 +1,7 @@
 ﻿using Akiled.Core;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Akiled.HabboHotel.Rooms.Janken
 {
@@ -62,6 +63,7 @@ namespace Akiled.HabboHotel.Rooms.Janken
 
                 User.SendWhisperChat(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("janken.wait", User.GetClient().Langue), DuelUser.GetUsername()));
                 DuelUser.SendWhisperChat(User.GetUsername() + " te ha desafiado en Piedra Papel o Tijera :janken " + User.GetUsername() + " para aceptar desafio.");
+                DuelUser.SendWhisperChat(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("janken.accept", DuelUser.GetClient().Langue), User.GetUsername()));
             }
         }
 
@@ -132,11 +134,11 @@ namespace Akiled.HabboHotel.Rooms.Janken
             Janken party = GetParty(User.PartyId);
 
             JankenEnum Choix = JankenEnum.None;
-            if (Message.ToLower().StartsWith("piedra"))
+            if (Message.ToLower().StartsWith("piedra") || Message.ToLower().StartsWith("rock"))
                 Choix = JankenEnum.Pierre;
-            else if (Message.ToLower().StartsWith("papel"))
+            else if (Message.ToLower().StartsWith("papel") || Message.ToLower().StartsWith("paper"))
                 Choix = JankenEnum.Feuille;
-            else if (Message.ToLower().StartsWith("tijera"))
+            else if (Message.ToLower().StartsWith("tijera") || Message.ToLower().StartsWith("scissors"))
                 Choix = JankenEnum.Ciseaux;
             else
                 return false;

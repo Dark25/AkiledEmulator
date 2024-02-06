@@ -15,10 +15,11 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 
             string Message = CommandManager.MergeParams(Params, 1);
             string hotelalert_alert = (AkiledEnvironment.GetConfig().data["hotelalert_alert"]);
-            string AlertMessage = "<i>¡Mensaje Del Equipo Staff!</i>" + "\r\r" + "El usuario <b> <font><font color=\"#58ACFA\">" + Session.GetHabbo().Username + "</font></font></b> esta dando el siguiente anuncio. <br><br>" + Message + "</b> <br><br><font><font color=\"#DB0003\">Gracias por su atención.</font></font>";
+            string AlertMessage = string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("hotelalert.1", Session.Langue), Session.GetHabbo().Username, Message);
 
 
-            AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer(hotelalert_alert, "Comunicado Staff", AlertMessage, "Entendido !", 0, ""), Session.Langue);
+            AkiledEnvironment.GetGame().GetClientWebManager().SendMessage(new NotifAlertComposer(hotelalert_alert, AkiledEnvironment.GetLanguageManager().TryGetValue("StaffAlertTitle.1", Session.Langue), AlertMessage, AkiledEnvironment.GetLanguageManager().TryGetValue("StaffAlertButton.1", Session.Langue), 0, ""), Session.Langue);
+
 
             AkiledEnvironment.GetGame().GetModerationManager().LogStaffEntry(Session.GetHabbo().Id, Session.GetHabbo().Username, 0, string.Empty, "staffalert", string.Format("Staff Alert: {0}", AlertMessage));
 

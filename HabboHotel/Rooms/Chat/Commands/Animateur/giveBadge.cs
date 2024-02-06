@@ -9,7 +9,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
         {
             if (Params.Length != 3)
             {
-                Session.SendWhisper("Introduce el nombre del usuario a quien deseas enviar una placa!");
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("GiveBadge.1", Session.Langue));
                 return;
             }
 
@@ -28,16 +28,17 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                     {
                         TargetClient.SendMessage(new NewYearComposer(Params[2]));
 
-                        Session.SendWhisper("Le diste la placa (" + Params[2] + ") exitosamente a " + Params[1] + ".");
+                        Session.SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("GiveBadge.2", Session.Langue), Params[2], Params[1]));
                     }
                     else
                     {
                         Session.SendMessage(new NewYearComposer(Params[2]));
-                        Session.SendWhisper("Le diste la placa (" + Params[2] + ") exitosamente a " + Params[1] + ".");
+                        Session.SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("GiveBadge.2", Session.Langue), Params[2], Params[1]));
                     }
                 }
                 else
-                    Session.SendWhisper("¡Huy!Este usuario ya tiene la placa.(" + Params[2] + ")!");
+                    Session.SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("GiveBadge.3", Session.Langue), Params[2]));
+
                 return;
             }
             else
