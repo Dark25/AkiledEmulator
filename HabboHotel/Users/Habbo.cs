@@ -758,19 +758,19 @@ namespace Akiled.HabboHotel.Users
                 var client = new DiscordWebhookClient(Webhook_login_logout_WebHookurl);
 
                 var message = new DiscordMessage(
-                 "La Seguridad es importante para nosotros! " + DiscordEmoji.Grinning,
+                 AkiledEnvironment.GetLanguageManager().TryGetValue("discord.login.logout.1", this.Langue) + DiscordEmoji.Grinning,
                     username: Webhook_login_logout_UserNameD,
                     avatarUrl: Webhook_login_logout_ProfilePicture,
                     tts: false,
                     embeds: new[]
         {
                                 new DiscordMessageEmbed(
-                                "Notificacion de Logout" + DiscordEmoji.Thumbsup,
+                                AkiledEnvironment.GetLanguageManager().TryGetValue("discord.login.logout.2", this.Langue) + DiscordEmoji.Thumbsup,
                                  color: 14687003,
                                 author: new DiscordMessageEmbedAuthor(this.Username),
-                                description: "Se ha Desconectado del Hotel",
+                                description: AkiledEnvironment.GetLanguageManager().TryGetValue("discord.login.logout.3", this.Langue),
                                 thumbnail: new DiscordMessageEmbedThumbnail(Webhooka_avatar + this.Look),
-                                footer: new DiscordMessageEmbedFooter("Creado por "+Webhook_login_logout_UserNameD, Webhook_login_logout_ProfilePicture)
+                                footer: new DiscordMessageEmbedFooter(AkiledEnvironment.GetLanguageManager().TryGetValue("discord.login.logout.4", this.Langue) + Webhook_login_logout_UserNameD, Webhook_login_logout_ProfilePicture)
         )
         }
         );
@@ -1012,8 +1012,10 @@ namespace Akiled.HabboHotel.Users
                 this.mClient.SendPacket((IServerPacket)new HabboActivityPointNotificationComposer(this.mClient.GetHabbo().AkiledPoints, Notif1, 105));
                 using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                     queryReactor.RunQuery("UPDATE users SET vip_points = vip_points + " + Notif1.ToString() + " WHERE id = " + this.mClient.GetHabbo().Id.ToString() + " LIMIT 1");
-                this.GetClient().SendMessage((IServerPacket)RoomNotificationComposer.SendBubble("happyhour", "Has recibido " + num.ToString() + " " + str1 + ", " + Notif2.ToString() + " " + str2 + ", " + Notif1.ToString() + " " + str3 + " Por estar conectado 30 minutos en el hotel."));
-                this.GetClient().SendWhisper("Has recibido " + num.ToString() + " " + str1 + ", " + Notif2.ToString() + " " + str2 + ", " + Notif1.ToString() + " " + str3 + " Por estar conectado 30 minutos en el hotel.", 34);
+              
+                this.GetClient().SendMessage((IServerPacket)RoomNotificationComposer.SendBubble("happyhour", string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("happyhour.1", this.Langue), num.ToString(), str1, Notif2.ToString(), str2, Notif1.ToString(), str3)));
+
+                this.GetClient().SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("happyhour.1", this.Langue), num.ToString(), str1, Notif2.ToString(), str2, Notif1.ToString(), str3), 34);
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine("El Usuario: " + this.mClient.GetHabbo().Username + " ha recibido su premio por tiempo online. ", (object)".", (object)ConsoleColor.DarkGreen);
                 this.CreditsUpdateTick = 30;
@@ -1067,8 +1069,10 @@ namespace Akiled.HabboHotel.Users
                 this.mClient.SendPacket((IServerPacket)new HabboActivityPointNotificationComposer(this.mClient.GetHabbo().AkiledPoints, Notif1, 105));
                 using (IQueryAdapter queryReactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
                     queryReactor.RunQuery("UPDATE users SET vip_points = vip_points + " + Notif1.ToString() + " WHERE id = " + this.mClient.GetHabbo().Id.ToString() + " LIMIT 1");
-                this.GetClient().SendMessage((IServerPacket)RoomNotificationComposer.SendBubble("notibonusrp", "Has recibido " + num.ToString() + " " + str1 + ", " + Notif2.ToString() + " " + str2 + ", " + Notif1.ToString() + " " + str3 + ", " + num2.ToString() + " " + str4 + "Por estar conectado 30 minutos en en la zona rp."));
-                this.GetClient().SendWhisper("Has recibido " + num.ToString() + " " + str1 + ", " + Notif2.ToString() + " " + str2 + ", " + Notif1.ToString() + " " + str3 + " Por estar conectado 30 minutos en el hotel.", 34);
+              
+                this.GetClient().SendMessage((IServerPacket)RoomNotificationComposer.SendBubble("notibonusrp", string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("happyhour.2", this.Langue), num.ToString(), str1, Notif2.ToString(), str2, Notif1.ToString(), str3, num2.ToString(), str4)));
+
+                this.GetClient().SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("happyhour.1", this.Langue), num.ToString(), str1, Notif2.ToString(), str2, Notif1.ToString(), str3), 34);
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine("El Usuario: " + this.mClient.GetHabbo().Username + " ha recibido su premio por tiempo online. ", (object)".", (object)ConsoleColor.DarkGreen);
                 this.CreditsUpdateTick = 30;
@@ -1167,34 +1171,34 @@ namespace Akiled.HabboHotel.Users
                 this.casinoCount = this.casinoCount + Int32.Parse(diceRoll);
                 if (this.casinoCount > 21)
                 {
-                    this.CurrentRoom.SendPacket(RoomNotificationComposer.SendBubble("volada", "El usuario " + this.Username + " tira los dados y lleva " + this.casinoCount + ", ha volado.", ""));
-                    this.GetClient().SendWhisper("El usuario " + this.Username + " tira los dados y lleva " + this.casinoCount + ", ha volado.", 27);
+                    this.CurrentRoom.SendPacket(RoomNotificationComposer.SendBubble("volada", string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("casino.1", this.Langue), this.Username, this.casinoCount), ""));
+                    this.GetClient().SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("casino.1", this.Langue), this.Username, this.casinoCount), 27);
                     this.casinoCount = 0;
                     this.casinoEnabled = false;
-                    this.GetClient().SendWhisper("Modo casino desactivado", 34);
+                    this.GetClient().SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("casino.5",this.Langue), 34);
                 }
                 else if (this.casinoCount == 21)
                 {
-                    this.CurrentRoom.SendPacket(RoomNotificationComposer.SendBubble("ganadordado", "El usuario " + this.Username + " ha sacado " + this.casinoCount + " en los dados (Ganador ó ganando por el momento)", ""));
-                    this.GetClient().SendWhisper("El usuario " + this.Username + " ha sacado " + this.casinoCount + " en los dados (Ganador ó ganando por el momento)", 27);
+                    this.CurrentRoom.SendPacket(RoomNotificationComposer.SendBubble("ganadordado", string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("casino.2", this.Langue), this.Username, this.casinoCount), ""));
+                    this.GetClient().SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("casino.2", this.Langue), this.Username, this.casinoCount), 27);
                     //this.Effects().ApplyEffect(165);
                     this.casinoCount = 0;
                     this.casinoEnabled = false;
-                    this.GetClient().SendWhisper("Modo casino desactivado", 34);
+                    this.GetClient().SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("casino.5",this.Langue), 34);
                 }
                 if ((this.casinoCount == 19) || (this.casinoCount == 20))
                 {
-                    this.CurrentRoom.SendPacket(RoomNotificationComposer.SendBubble("dadospl", "El usuario " + this.Username + " ha sacado " + this.casinoCount + " en los dados (puede quedar en PL ó Arriesgarse)", ""));
-                    this.GetClient().SendWhisper("El usuario " + this.Username + " ha sacado " + this.casinoCount + " en los dados (puede quedar en PL ó Arriesgarse)", 27);
+                    this.CurrentRoom.SendPacket(RoomNotificationComposer.SendBubble("dadospl", string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("casino.3", this.Langue), this.Username, this.casinoCount), ""));
+                     this.GetClient().SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("casino.3", this.Langue), this.Username, this.casinoCount), 27);
                     //this.Effects().ApplyEffect(165);
                     this.casinoCount = 0;
                     this.casinoEnabled = false;
-                    this.GetClient().SendWhisper("Modo casino desactivado", 34);
+                    this.GetClient().SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("casino.5", this.Langue), 34);
                 }
                 else
                 {
-                    this.CurrentRoom.SendPacket(RoomNotificationComposer.SendBubble("sumandodados", "El usuario " + this.Username + " tira los dados y lleva " + this.casinoCount + ".", ""));
-                    this.GetClient().SendWhisper("El usuario " + this.Username + " tira los dados y lleva " + this.casinoCount + ".", 27);
+                   this.CurrentRoom.SendPacket(RoomNotificationComposer.SendBubble("sumandodados", string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("casino.4", this.Langue), this.Username, this.casinoCount), ""));
+                    this.GetClient().SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("casino.4", this.Langue), this.Username, this.casinoCount), 27);
 
                 }
 
