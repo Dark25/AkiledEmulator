@@ -11,7 +11,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Moderator
 
             if (Params.Length == 1)
             {
-                Session.SendWhisper("Por favor, introduzca un mensaje para enviar.");
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("SuschatstaffCommand", Session.Langue));
                 return;
             }
 

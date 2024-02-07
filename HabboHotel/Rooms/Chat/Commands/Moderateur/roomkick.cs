@@ -15,7 +15,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             string MessageAlert = CommandManager.MergeParams(Params, 1);
             if (Session.Antipub(MessageAlert, "<CMD>"))
             {
-                AkiledEnvironment.GetGame().GetClientManager().StaffAlert(RoomNotificationComposer.SendBubble("publicidad", "El usuario: " + Session.GetHabbo().Username + ", Pub CMD:" + MessageAlert + ", pulsa aquí para ir a mirar.", "event:navigator/goto/" + Session.GetHabbo().CurrentRoomId));
+                AkiledEnvironment.GetGame().GetClientManager().StaffAlert(RoomNotificationComposer.SendBubble("publicidad", string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("roomkick.pub.1", Session.Langue), Session.GetHabbo().Username, MessageAlert), "event:navigator/goto/" + Session.GetHabbo().CurrentRoomId));
                 return;
             }
 

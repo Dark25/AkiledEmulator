@@ -13,7 +13,8 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             Room room = AkiledEnvironment.GetGame().GetRoomManager().GetRoom(Session.GetHabbo().CurrentRoomId);
             if (room == null)
                 return;
-            RoomKick kick = new RoomKick("Usted ha sido expulsado de la sala.", Session.GetHabbo().Id);
+            RoomKick kick = new RoomKick(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("kickall.1", Session.Langue), Session.GetHabbo().Username), Session.GetHabbo().Id);
+
             List<RoomUser> local_1 = new List<RoomUser>();
             foreach (RoomUser user in room.GetRoomUserManager().GetUserList().ToList())
             {

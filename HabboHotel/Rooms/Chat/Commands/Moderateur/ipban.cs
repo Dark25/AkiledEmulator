@@ -10,7 +10,8 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
         {
             if (Params.Length < 2)
             {
-                Session.SendWhisper("syntaxis incorrecta, use :ipban [usuario]");
+                Session.SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("Ipban.1", Session.Langue), "ipban [user]"));
+
                 return;
             }
 
@@ -44,16 +45,16 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 }
                 else
                 {
-                    Raison = "No se ha especificado una razón.";
+                    Raison = string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("Ipban.2", Session.Langue));
                 }
 
                 string Username = Habbo.Username;
 
                 AkiledEnvironment.GetGame().GetClientManager().BanUserAsync(clientByUsername, Session.GetHabbo().Username, (double)788922000, Raison, true, false);
                 Session.Antipub(Raison, "<CMD>");
-                AkiledEnvironment.GetGame().GetClientManager().StaffAlert(RoomNotificationComposer.SendBubble("baneo", "El usuario: " + Username + " ha sido baneado, por favor verifiquen la razon del baneo, para evitar malos entendidos"));
-                Session.SendWhisper("Excelente has baneado la ip del usuario '" + Username + "' por la razon: '" + Raison + "'!");
-               
+                AkiledEnvironment.GetGame().GetClientManager().StaffAlert(RoomNotificationComposer.SendBubble("baneo", string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("Ipban.3", Session.Langue), Username), ""));
+                Session.SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("Ipban.4", Session.Langue), Username, Raison));
+
             }
         }
     }

@@ -12,7 +12,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             {
                 if (User == null) continue;
 
-                User.SendWhisperChat((Room.RoomMuted) ? "Ya no puedes hablar" : "Ahora puedes volver hablar");
+                User.SendWhisperChat((Room.RoomMuted) ? AkiledEnvironment.GetLanguageManager().TryGetValue("roommute.1", Session.Langue) : AkiledEnvironment.GetLanguageManager().TryGetValue("roommute.2", Session.Langue));
             }
         }
     }

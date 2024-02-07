@@ -1,11 +1,26 @@
 using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Database.Interfaces;
-using Akiled.HabboHotel.GameClients;using System;
+using Akiled.HabboHotel.GameClients;
+using System;
 using System.Data;
 using System.Text;
 
-namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd{    class UserInfo : IChatCommand    {        public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)        {
-            /*  if (Params.Length != 2)                return;            string username = Params[1];            if (string.IsNullOrEmpty(username))            {                Session.SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("input.userparammissing", Session.Langue));                return;            }
+namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
+{
+    class UserInfo : IChatCommand
+    {
+        public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)
+        {
+            /*  if (Params.Length != 2)
+                return;
+
+            string username = Params[1];
+
+            if (string.IsNullOrEmpty(username))
+            {
+                Session.SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("input.userparammissing", Session.Langue));
+                return;
+            }
     GameClient clientByUsername = AkiledEnvironment.GetGame().GetClientManager().GetClientByUsername(username);
     if (clientByUsername == null || clientByUsername.GetHabbo() == null)
     {
@@ -15,7 +30,8 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd{    class UserInfo : IChat
     Habbo Habbo = clientByUsername.GetHabbo();
     StringBuilder stringBuilder = new StringBuilder();
 
-     HabboInfo.Append("Nombre: " + Habbo.Username + "\r");             HabboInfo.Append("ID: " + Habbo.Id + "\r");
+     HabboInfo.Append("Nombre: " + Habbo.Username + "\r");
+             HabboInfo.Append("ID: " + Habbo.Id + "\r");
      HabboInfo.Append("Misión: " + Habbo.Motto + "\r");
      HabboInfo.Append("Diamantes: " + Habbo.AkiledPoints + "\r");
      HabboInfo.Append("Créditos: " + Habbo.Credits + "\r");
@@ -58,7 +74,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd{    class UserInfo : IChat
 
             if (Params.Length == 1)
             {
-                Session.SendWhisper("Introduce el nombre del usuario que deseas ver revisar su información.");
+                Session.SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("UserInfo.1", Session.Langue)));
                 return;
             }
 
@@ -74,7 +90,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd{    class UserInfo : IChat
 
             if (UserData == null)
             {
-                Session.SendNotification("No existe ningún usuario con el nombre " + Username + ".");
+                Session.SendNotification(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("UserInfo.2", Session.Langue), Username));
                 return;
             }
 
@@ -88,43 +104,30 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd{    class UserInfo : IChat
             string time = valecrack.ToString();
             string name_monedaoficial = (AkiledEnvironment.GetConfig().data["name_monedaoficial"]);
             StringBuilder HabboInfo = new StringBuilder();//
-            HabboInfo.Append("<font  color='#0489B1'><b>Información General:</b></font>\r");
-            HabboInfo.Append("<font >ID: " + Convert.ToInt32(UserData["id"]) + "\r");
-            HabboInfo.Append("Rango: " + Convert.ToInt32(UserData["rank"]) + "\r");
-            HabboInfo.Append("Email: " + Convert.ToString(UserData["mail"]) + "\r");
-            HabboInfo.Append("Online: " + (TargetClient != null ? "Sí" : "No") + "\r");
-            HabboInfo.Append("Última conexión: " + time + "</font>\r\r");
-
-            HabboInfo.Append("<font  color='#0489B1'><b>Información Monetaria:</b></font>\r");
-            HabboInfo.Append("<font><font color='#F7D358'><b>Créditos:</b></font> " + Convert.ToInt32(UserData["credits"]) + "\r");
-            HabboInfo.Append("<font color='#00b1bb'><b>Diamantes:</b></font> " + Convert.ToInt32(UserData["activity_points"]) + "\r");
-            HabboInfo.Append("<font color='#2E9AFE'><b>" + name_monedaoficial + ":</b></font> " + Convert.ToInt32(UserData["vip_points"]) + "\r");
-            HabboInfo.Append("<font >Games Ganados: " + Convert.ToInt32(UserData["games_win"]) + "\r\r");
-
+            HabboInfo.Append(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("UserInfo.FullInfo", Session.Langue),
+                Convert.ToInt32(UserData["id"]),
+                Convert.ToInt32(UserData["rank"]),
+                Convert.ToString(UserData["mail"]),
+                TargetClient != null ? "Sí" : "No",
+                time,
+                Convert.ToInt32(UserData["credits"]),
+                Convert.ToInt32(UserData["activity_points"]),
+                name_monedaoficial,
+                Convert.ToInt32(UserData["vip_points"]),
+                Convert.ToInt32(UserData["games_win"])));
 
             if (TargetClient != null)
             {
-                HabboInfo.Append("<font size='15' color = '#0489B1'><b> Localización en el Hotel:</b></font>\r");
-                if (!TargetClient.GetHabbo().InRoom)
-                    HabboInfo.Append("No se encuentra en ninguna sala.\r");
-                else
-                {
-                    HabboInfo.Append("<font >Sala: " + TargetClient.GetHabbo().CurrentRoom.RoomData.Name + " (" + TargetClient.GetHabbo().CurrentRoom.Id + ")</font>\r");
-                    HabboInfo.Append("<font >Dueño: " + TargetClient.GetHabbo().CurrentRoom.RoomData.OwnerName + "</font>\r");
-                    HabboInfo.Append("<font >Visitantes: " + TargetClient.GetHabbo().CurrentRoom.UserCount + " de " + TargetClient.GetHabbo().CurrentRoom.RoomData.UsersMax + "</font>\r");
-                }
-                if (Session.GetHabbo().HasFuse("fuse_sysadmin"))
-                {
-                    HabboInfo.Append("\r - Otra Información - \r");
-                    HabboInfo.Append("MAC: " + TargetClient.GetHabbo().MachineId + "\r");
-                    HabboInfo.Append("IP Web: " + TargetClient.GetHabbo().IP + "\r");
-                    HabboInfo.Append("IP Emulador: " + TargetClient.GetConnection().getIp() + "\r");
-
-
-                }
-                Session.SendPacket(new RoomNotificationComposer("Información de " + Username + ":", (HabboInfo.ToString()), "fig/" + Session.GetHabbo().Look + "", "", ""));
+                HabboInfo.Append(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("UserInfo.LocationInfo", Session.Langue),
+                    !TargetClient.GetHabbo().InRoom ? AkiledEnvironment.GetLanguageManager().TryGetValue("UserInfo.LocationInfo.NotInRoom", Session.Langue) : string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("UserInfo.LocationInfo.InRoom", Session.Langue),
+                        TargetClient.GetHabbo().CurrentRoom.RoomData.Name, TargetClient.GetHabbo().CurrentRoom.Id, TargetClient.GetHabbo().CurrentRoom.RoomData.OwnerName, TargetClient.GetHabbo().CurrentRoom.UserCount, TargetClient.GetHabbo().CurrentRoom.RoomData.UsersMax),""));
+                  
             }
-        }
+
+            Session.SendPacket(new RoomNotificationComposer(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("UserInfo.Header", Session.Langue), Username), (HabboInfo.ToString()), "fig/" + Session.GetHabbo().Look + "", "", ""));
+
+        
+    }
         public class Meteorologia
         {
             public string ApiVersion { get; set; }
