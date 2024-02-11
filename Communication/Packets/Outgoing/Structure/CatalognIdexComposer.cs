@@ -34,7 +34,7 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
             base.WriteInteger(page.Icon);
             base.WriteInteger(page.Enabled ? page.Id : -1);
             base.WriteString(page.PageLink);
-            base.WriteString(page.GetCaptionByLangue(Langue));
+            base.WriteString(page.GetCaptionByLangue(Langue)+ " ["+ page.Id +"]");
 
             base.WriteInteger(page.ItemOffers.Count);
             foreach (int key in page.ItemOffers.Keys)
