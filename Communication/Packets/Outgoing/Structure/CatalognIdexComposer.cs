@@ -2,6 +2,7 @@ using Akiled.Core;
 using Akiled.HabboHotel.Catalog;
 using Akiled.HabboHotel.GameClients;
 using System.Collections.Generic;
+using ZstdSharp.Unsafe;
 
 namespace Akiled.Communication.Packets.Outgoing.Structure
 {
@@ -34,7 +35,7 @@ namespace Akiled.Communication.Packets.Outgoing.Structure
             base.WriteInteger(page.Icon);
             base.WriteInteger(page.Enabled ? page.Id : -1);
             base.WriteString(page.PageLink);
-            base.WriteString(page.GetCaptionByLangue(Langue)+ " ["+ page.Id +"]");
+            base.WriteString(page.GetCaptionByLangue(Langue) + (session.GetHabbo().HasFuse("page.view.id") ? "[" + page.Id + "]" : ""));
 
             base.WriteInteger(page.ItemOffers.Count);
             foreach (int key in page.ItemOffers.Keys)
