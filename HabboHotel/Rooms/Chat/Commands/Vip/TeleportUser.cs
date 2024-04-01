@@ -10,7 +10,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 return;
             if (!Room.CheckRights(Session, true))
             {
-                Session.SendWhisper("Oops, solo el dueño de la sala puede ejecutar este comando.", 34);
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("TeleportUser.error", Session.Langue), 34);
             }
             else
             {
@@ -19,9 +19,9 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                     return;
                 roomUserByHabboId.TeleportEnabled = !roomUserByHabboId.TeleportEnabled;
                 if (roomUserByHabboId.TeleportEnabled)
-                    Session.SendWhisper("Has activado el teleport en toda la sala.", 34);
+                    Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("TeleportUser.enabled", Session.Langue), 34);
                 else
-                    Session.SendWhisper("Has desactivado el teleport en toda la sala.", 34);
+                    Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("TeleportUser.disabled", Session.Langue), 34);
             }
         }
     }

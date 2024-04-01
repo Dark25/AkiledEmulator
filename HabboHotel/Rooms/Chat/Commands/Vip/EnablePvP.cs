@@ -15,9 +15,11 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 return;
             roleplayer.PvpEnable = !roleplayer.PvpEnable;
             if (roleplayer.PvpEnable)
-                Session.SendWhisper("Modo PvP Activado", 34);
+             
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("pvp_on", Session.Langue), 34);
             else
-                Session.SendWhisper("Modo PvP Desactivado", 34);
+               
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("pvp_off", Session.Langue), 34);
         }
     }
 }

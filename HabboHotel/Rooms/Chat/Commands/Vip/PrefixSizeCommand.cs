@@ -10,7 +10,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
         {
             if (Params.Length == 1)
             {
-                Session.SendWhisper("Oops, debes escribir un numero de 1-20!");
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("PrefixSizeCommand.name_size", Session.Langue));   
             }
             else
             {
@@ -22,7 +22,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                     if (result == 12)
                     {
                         Session.GetHabbo().PrefixSize = "12;12";
-                        Session.SendWhisper("Tu tamaño de prefijo, Ha vuelto a la normalidad");
+                        Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("PrefixSizeCommand.name", Session.Langue));
                     }
                     else
                     {
@@ -37,20 +37,20 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                             if (!string.IsNullOrEmpty(str))
                             {
                                 Session.GetHabbo().PrefixSize = result.ToString() + ";" + str;
-                                Session.SendWhisper("El tamaño ha sido cambiado a " + Convert.ToString(result));
+                                Session.SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("PrefixSizeCommand.name.1", Session.Langue), Convert.ToString(result)));
                             }
                             else
                             {
                                 Session.GetHabbo().PrefixSize = Convert.ToString(result) + ";";
-                                Session.SendWhisper("El tamaño ha sido cambiado a " + Convert.ToString(result));
+                                Session.SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("PrefixSizeCommand.name.1", Session.Langue), Convert.ToString(result)));   
                             }
                         }
                         else
-                            Session.SendWhisper("Tamaño invalido, debe ser numero de 1-20.");
+                        Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("PrefixSizeCommand.name_size.1", Session.Langue));
                     }
                 }
                 else
-                    Session.SendWhisper("Tamaño invalido, debe ser numero de 1-20.");
+                    Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("PrefixSizeCommand.name_size.1", Session.Langue));
             }
         }
     }

@@ -9,7 +9,8 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
         {
             if (Params.Length == 1)
             {
-                Session.SendWhisper("Oops, debes escribir un numero de 1-20!");
+                
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("NameSizeCommand.name_size", Session.Langue));
             }
             else
             {
@@ -21,7 +22,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                     if (result == 12)
                     {
                         Session.GetHabbo().PrefixSize = "12;12";
-                        Session.SendWhisper("Tu tamaño de nombre, Ha vuelto a la normalidad");
+                        Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("NameSizeCommand.name", Session.Langue));
                     }
                     else
                     {
@@ -32,14 +33,16 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                         {
                             string str = Session.GetHabbo().PrefixSize.Split(';')[0];
                             Session.GetHabbo().PrefixSize = string.IsNullOrEmpty(str) ? ";" + result.ToString() : str + ";" + Convert.ToString(result);
-                            Session.SendWhisper("El tamaño ha sido cambiado a " + Convert.ToString(result));
+                            Session.SendWhisper("    " + Convert.ToString(result));
+                            Session.SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("NameSizeCommand.name.1", Session.Langue),Convert.ToString(result)));
                         }
                         else
-                            Session.SendWhisper("Tamaño invalido, debe ser numero de 1-20.");
+                            Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("NameSizeCommand.name_size.1", Session.Langue));
                     }
                 }
                 else
                     Session.SendWhisper("Tamaño invalido, debe ser numero de 1-20.");
+                    Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("NameSizeCommand.name_size.2", Session.Langue));
             }
         }
     }
