@@ -8,9 +8,10 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
         {
             Session.GetHabbo().forceOpenGift = !Session.GetHabbo().forceOpenGift;
 
-            if (Session.GetHabbo().forceOpenGift) UserRoom.SendWhisperChat("Forzar abrir regalos activo");
+            if (Session.GetHabbo().forceOpenGift) UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.forceopengift.true", Session.Langue));
+           
 
-            else UserRoom.SendWhisperChat("Forzar abrir regalos desactivado");
+            else UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.forceopengift.false", Session.Langue));
         }
     }
 }

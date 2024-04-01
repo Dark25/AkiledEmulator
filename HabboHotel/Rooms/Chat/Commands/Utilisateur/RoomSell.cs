@@ -54,7 +54,13 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 
             UserRoom.SendWhisperChat(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("roomsell.valide", Session.Langue), Prix));
 
-            foreach (RoomUser user in Room.GetRoomUserManager().GetUserList().ToList())            {                if (user == null || user.IsBot)                    continue;                user.SendWhisperChat(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("roomsell.warn", Session.Langue), Prix));            }
+            foreach (RoomUser user in Room.GetRoomUserManager().GetUserList().ToList())
+            {
+                if (user == null || user.IsBot)
+                    continue;
+
+                user.SendWhisperChat(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("roomsell.warn", Session.Langue), Prix));
+            }
         }
     }
 }

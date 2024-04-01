@@ -16,7 +16,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             Message.WriteInteger(Room.VotedYesCount);//Nombre
             Room.SendPacket(Message);
 
-            UserRoom.SendWhisperChat("La encuenta ha terminado!");
+            UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.stopquestion", Session.Langue));
         }
     }
 }

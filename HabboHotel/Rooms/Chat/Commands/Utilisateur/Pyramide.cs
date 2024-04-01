@@ -2,7 +2,12 @@ using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Items;
 using System.Linq;
 
-namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd{    class Pyramide : IChatCommand    {        public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)        {
+namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
+{
+    class Pyramide : IChatCommand
+    {
+        public void Execute(GameClient Session, Room Room, RoomUser UserRoom, string[] Params)
+        {
             foreach (Item Item in Room.GetRoomItemHandler().GetFloor.ToList())
             {
                 if (Item == null || Item.GetBaseItem() == null)
@@ -14,4 +19,9 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd{    class Pyramide : IChat
                 Item.ExtraData = (Item.ExtraData == "0") ? "1" : "0";
                 Item.UpdateState();
                 Item.GetRoom().GetGameMap().updateMapForItem(Item);
-            }            UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.pyramide", Session.Langue));        }    }}
+            }
+
+            UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.pyramide", Session.Langue));
+        }
+    }
+}
