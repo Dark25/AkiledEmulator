@@ -54,7 +54,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 
             if (TargetUser == null)
             {
-                Session.SendWhisper(Convert.ToString(Params[1]) + " el usuario ya no se encuentra aquí.");
+                Session.SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd_hugusernotfound", Session.Langue), Params[1]));
                 return;
             }
 
