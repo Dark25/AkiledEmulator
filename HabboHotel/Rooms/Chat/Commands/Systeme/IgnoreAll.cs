@@ -10,18 +10,20 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             if (Params.Length != 2)
                 return;
 
-            GameClient clientByUsername = AkiledEnvironment.GetGame().GetClientManager().GetClientByUsername(Params[1]);            if (clientByUsername == null || clientByUsername.GetHabbo() == null)
+            GameClient clientByUsername = AkiledEnvironment.GetGame().GetClientManager().GetClientByUsername(Params[1]);
+            if (clientByUsername == null || clientByUsername.GetHabbo() == null)
                 return;
 
             clientByUsername.GetHabbo().IgnoreAll = !clientByUsername.GetHabbo().IgnoreAll;
 
             if (clientByUsername.GetHabbo().IgnoreAll)
-                UserRoom.SendWhisperChat("Ignorar a todos activado");
+            UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.ignoreall.1", Session.Langue));
+                
             else
-                UserRoom.SendWhisperChat("Ignorar a todos desactivado");
+                UserRoom.SendWhisperChat(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd.ignoreall.2", Session.Langue));
 
-            using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
-                queryreactor.RunQuery("UPDATE users SET ignoreall = '" + AkiledEnvironment.BoolToEnum(clientByUsername.GetHabbo().IgnoreAll) + "' WHERE id = " + clientByUsername.GetHabbo().Id);
+            using IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor();
+            queryreactor.RunQuery("UPDATE users SET ignoreall = '" + AkiledEnvironment.BoolToEnum(clientByUsername.GetHabbo().IgnoreAll) + "' WHERE id = " + clientByUsername.GetHabbo().Id);
         }
     }
 }

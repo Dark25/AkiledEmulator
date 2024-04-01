@@ -18,7 +18,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 
             if ((double)Session.GetHabbo().last_kiss > AkiledEnvironment.GetUnixTimestamp() - 30.0 && !Session.GetHabbo().HasFuse("override_limit_command"))
             {
-                Session.SendWhisper("Debes esperar 30 segundos, para volver a usar el comando", 1);
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd_hugwait", Session.Langue), 1);
                 return;
             }
 
@@ -36,19 +36,19 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 
             if (Params.Length == 1)
             {
-                Session.SendWhisper("Introduce el nombre del usuario que deseas besar.");
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd_huginsertname", Session.Langue));
                 return;
             }
 
             if (!TargetRoom.RoomData.BesarEnabled && !TargetRoom.CheckRights(Session, true) && !Session.GetHabbo().HasFuse("room_override_custom_config"))
             {
-                Session.SendWhisper("Oops, al parecer el dueño de la sala ha prohibido los besos en su sala.");
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd_hugblockcommand", Session.Langue));
                 return;
             }
 
             if ((TargetUser.GetClient().GetHabbo().HasFuse("no_accept_use_custom_commands")))
             {
-                Session.SendWhisper("No se puede besar a este usuario.");
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd_huguserprotected", Session.Langue));
                 return;
             }
 
@@ -76,11 +76,10 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             {
                 if (!((Math.Abs(TargetUser.X - ThisUser.X) >= 2) || (Math.Abs(TargetUser.Y - ThisUser.Y) >= 2)))
                 {
-
-                    Room.SendPacket(new ChatComposer(ThisUser.VirtualId, "@red@ * Besar a " + Params[1] + " *", 0, ThisUser.LastBubble));
+                    Room.SendPacket(new ChatComposer(ThisUser.VirtualId, string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd_huguser", Session.Langue), Params[1]), 0, ThisUser.LastBubble));
                     System.Threading.Thread.Sleep(500);
                     Room.SendPacketWeb(new PlaySoundComposer("kiss", 2)); //Type = Trax
-                    Room.SendPacket(new ChatComposer(TargetUser.VirtualId, "@red@ * He Sido Besado@ Por :$ *" + Session.GetHabbo().Username + " <3 *", 0, ThisUser.LastBubble));
+                    Room.SendPacket(new ChatComposer(ThisUser.VirtualId, string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd_hugedbyuser", Session.Langue), Session.GetHabbo().Username), 0, ThisUser.LastBubble));
                     System.Threading.Thread.Sleep(500);
                     ThisUser.ApplyEffect(9);
                     System.Threading.Thread.Sleep(500);
@@ -93,14 +92,14 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
                 }
                 else
                 {
-                    Session.SendWhisper("@green@ ¡Oops, " + Params[1] + " no está lo suficientemente cerca!");
+                    Session.SendWhisper(string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd_huguserisfar", Session.Langue), Params[1]));
                 }
             }
             if (Session.GetHabbo().Rank >= 4)
             {
-                Room.SendPacket(new ChatComposer(ThisUser.VirtualId, "@red@ * Abrazar a " + Params[1] + " *", 0, ThisUser.LastBubble));
+                Room.SendPacket(new ChatComposer(ThisUser.VirtualId, string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd_huguserother", Session.Langue), Params[1]), 0, ThisUser.LastBubble));
                 System.Threading.Thread.Sleep(500);
-                Room.SendPacket(new ChatComposer(TargetUser.VirtualId, "@red@ * He Sido Abrazad@ Por :$ *" + Session.GetHabbo().Username + " <3 *", 0, ThisUser.LastBubble));
+                Room.SendPacket(new ChatComposer(TargetUser.VirtualId, string.Format(AkiledEnvironment.GetLanguageManager().TryGetValue("cmd_huggedby", Session.Langue), Session.GetHabbo().Username), 0, ThisUser.LastBubble));
                 System.Threading.Thread.Sleep(500);
                 ThisUser.ApplyEffect(9);
                 TargetUser.ApplyEffect(9);

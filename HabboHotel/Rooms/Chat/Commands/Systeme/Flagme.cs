@@ -10,7 +10,8 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             if (Params.Length != 2)
                 return;
 
-            GameClient clientByUsername = AkiledEnvironment.GetGame().GetClientManager().GetClientByUsername(Params[1]);            if (clientByUsername == null || clientByUsername.GetHabbo() == null)
+            GameClient clientByUsername = AkiledEnvironment.GetGame().GetClientManager().GetClientByUsername(Params[1]);
+            if (clientByUsername == null || clientByUsername.GetHabbo() == null)
             {
                 Session.SendNotification(AkiledEnvironment.GetLanguageManager().TryGetValue("input.usernotfound", Session.Langue));
                 return;

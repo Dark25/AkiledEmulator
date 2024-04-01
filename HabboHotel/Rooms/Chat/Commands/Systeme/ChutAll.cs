@@ -12,7 +12,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             {
                 client.SendWhisper(Message, 33);
             }
-            Session.SendWhisper("Mensaje Enviado Con Éxito!", 33);
+            Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("chutall.1", Session.Langue), 33);
         }
     }
 }

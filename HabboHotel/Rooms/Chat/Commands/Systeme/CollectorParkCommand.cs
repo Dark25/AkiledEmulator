@@ -10,13 +10,13 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
         {
             if (!CollectorParkConfigs.enabled)
             {
-                Session.SendWhisper("Collector Park está deshabilitado!", 1);
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("collectorpark.disabled", Session.Langue), 1);
                 return;
             }
 
             if (Room.Id != CollectorParkConfigs.roomId)
             {
-                Session.SendWhisper("¡Habitación no válida!", 1);
+                Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("collectorpark.invalidroom", Session.Langue), 1);
                 return;
             }
 
@@ -24,7 +24,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             {
                 if (!Session.GetHabbo().GetBadgeComponent().HasBadge(CollectorParkConfigs.badgePass))
                 {
-                    Session.SendWhisper("Vaya, ¡necesitas la insignia para usar Collector Park!", 1);
+                    Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("collectorpark.needbadge", Session.Langue), 1);
                     return;
                 }
             }
@@ -60,7 +60,7 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             if (user != null && Convert.ToInt32(AkiledEnvironment.GetSettingsManager().TryGetValue("collectorpark.define.min.enable_id")) > 0)
                 user.ApplyEffect(0);
 
-            Session.SendWhisper("Collector Park activado!", 34);
+            Session.SendWhisper(AkiledEnvironment.GetLanguageManager().TryGetValue("collectorpark.start", Session.Langue), 34);
         }
     }
 }
