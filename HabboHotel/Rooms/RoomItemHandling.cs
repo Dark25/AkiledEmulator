@@ -932,7 +932,7 @@ namespace Akiled.HabboHotel.Rooms
 
                     var moodlightRow = ItemMoodlightExt.GetOne(dbClient, Item.Id);
 
-                    var moodlightEnabled = moodlightRow != null && Convert.ToBoolean(moodlightRow["enabled"]);
+                    var moodlightEnabled = moodlightRow != null && Convert.ToInt32(moodlightRow["enabled"]) > 0;
                     var moodlightCurrentPreset = moodlightRow != null ? Convert.ToInt32(moodlightRow["current_preset"]) : 1;
                     var moodlightPresetOne = moodlightRow != null ? (string)moodlightRow["preset_one"] : "#000000,255,0";
                     var moodlightPresetTwo = moodlightRow != null ? (string)moodlightRow["preset_two"] : "#000000,255,0";
