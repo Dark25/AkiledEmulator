@@ -234,7 +234,7 @@ namespace Akiled.HabboHotel.Rooms
                     if (roomItem.GetBaseItem().InteractionType == InteractionType.MOODLIGHT)
                     {
 
-                        moodlightEnabled = !DBNull.Value.Equals(dataRow["enabled"]) && Convert.ToBoolean(dataRow["enabled"]);
+                        moodlightEnabled = !DBNull.Value.Equals(dataRow["enabled"]) && Convert.ToInt32(dataRow["enabled"]) > 0;
                         moodlightCurrentPreset = !DBNull.Value.Equals(dataRow["current_preset"]) ? Convert.ToInt32(dataRow["current_preset"]) : 1;
                         moodlightPresetOne = !DBNull.Value.Equals(dataRow["preset_one"]) ? (string)dataRow["preset_one"] : "#000001,255,0";
                         moodlightPresetTwo = !DBNull.Value.Equals(dataRow["preset_two"]) ? (string)dataRow["preset_two"] : "#000000,255,0";
