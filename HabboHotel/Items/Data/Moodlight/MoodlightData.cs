@@ -1,17 +1,18 @@
-﻿using Akiled.Database.Interfaces;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Akiled.HabboHotel.Items
+﻿namespace Akiled.HabboHotel.Items
 {
+    using Akiled.Database.Interfaces;
+    using System.Collections.Generic;
+    using System.Text;
+
     public class MoodlightData
     {
         public int ItemId { get; set; }
+
         public int CurrentPreset { get; set; }
+
         public bool Enabled { get; set; }
 
         public List<MoodlightPreset> Presets { get; set; }
-
 
         public MoodlightData(int itemId, bool enabled, int currentPreset, string presetOne, string presetTwo, string presetThree)
         {
@@ -56,8 +57,6 @@ namespace Akiled.HabboHotel.Items
                 2 => "two",
                 _ => "one",
             };
-
-
 
             using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
             {

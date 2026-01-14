@@ -1,46 +1,53 @@
-﻿using Akiled.Communication.Packets.Outgoing;
-using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.Core;
-using Akiled.Database.Interfaces;
-using Akiled.HabboHotel.GameClients;
-using Akiled.HabboHotel.Items;
-using Akiled.HabboHotel.Rooms.Map.Movement;
-using Akiled.HabboHotel.Rooms.Pathfinding;
-using Akiled.HabboHotel.Rooms.Wired;
-using Akiled.Utilities;
-using AkiledEmulator.Database.Ext.Item;
-using System;
-using System.Collections;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-
-namespace Akiled.HabboHotel.Rooms
+﻿namespace Akiled.HabboHotel.Rooms
 {
-    public class RoomItemHandling
+    using Akiled.Communication.Packets.Outgoing;
+    using Akiled.Communication.Packets.Outgoing.Structure;
+    using Akiled.Core;
+    using Akiled.Database.Interfaces;
+    using Akiled.HabboHotel.GameClients;
+    using Akiled.HabboHotel.Items;
+    using Akiled.HabboHotel.Rooms.Map.Movement;
+    using Akiled.HabboHotel.Rooms.Pathfinding;
+    using Akiled.HabboHotel.Rooms.Wired;
+    using Akiled.Utilities;
+    using AkiledEmulator.Database.Ext.Item;
+    using System;
+    using System.Collections;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Drawing;
+    using System.Linq;
+
+        public class RoomItemHandling
     {
-        private ConcurrentDictionary<int, Item> _floorItems;
-        private ConcurrentDictionary<int, Item> _wallItems;
-        private ConcurrentDictionary<int, Item> _rollers;
+                private ConcurrentDictionary<int, Item> _floorItems;
 
-        private ConcurrentDictionary<int, ItemTemp> _itemsTemp;
+                private ConcurrentDictionary<int, Item> _wallItems;
 
-        private ConcurrentDictionary<int, Item> _updateItems;
+                private ConcurrentDictionary<int, Item> _rollers;
 
-        private List<int> _rollerItemsMoved;
-        private List<int> _rollerUsersMoved;
-        private List<ServerPacket> _rollerMessages;
+                private ConcurrentDictionary<int, ItemTemp> _itemsTemp;
 
-        private int _rollerSpeed;
-        private int _rollerCycle;
-        private ConcurrentQueue<Item> _roomItemUpdateQueue;
-        private int _itemTempoId;
+                private ConcurrentDictionary<int, Item> _updateItems;
 
-        private Room _room;
+                private List<int> _rollerItemsMoved;
 
-        public RoomItemHandling(Room room)
+                private List<int> _rollerUsersMoved;
+
+                private List<ServerPacket> _rollerMessages;
+
+                private int _rollerSpeed;
+
+                private int _rollerCycle;
+
+                private ConcurrentQueue<Item> _roomItemUpdateQueue;
+
+                private int _itemTempoId;
+
+                private Room _room;
+
+                public RoomItemHandling(Room room)
         {
             this._room = room;
             this._updateItems = new ConcurrentDictionary<int, Item>();
@@ -57,9 +64,9 @@ namespace Akiled.HabboHotel.Rooms
             this._rollerMessages = new List<ServerPacket>();
         }
 
-        public void QueueRoomItemUpdate(Item item) => this._roomItemUpdateQueue.Enqueue(item);
+                public void QueueRoomItemUpdate(Item item) => this._roomItemUpdateQueue.Enqueue(item);
 
-        public void ClearFurniture(GameClient Session)
+                public void ClearFurniture(GameClient Session)
         {
             foreach (Item roomItem in this._floorItems.Values.ToList())
             {
@@ -121,7 +128,7 @@ namespace Akiled.HabboHotel.Rooms
                 this._room.GetWiredHandler().OnPickall();
         }
 
-        public List<Item> RemoveAllFurniture(GameClient Session)
+                public List<Item> RemoveAllFurniture(GameClient Session)
         {
             List<ServerPacket> ListMessage = new List<ServerPacket>();
             List<Item> Items = new List<Item>();
@@ -162,13 +169,12 @@ namespace Akiled.HabboHotel.Rooms
             return Items;
         }
 
-        public void SetSpeed(int p)
+                public void SetSpeed(int p)
         {
             this._rollerSpeed = p;
         }
 
-
-        public void LoadFurniture(int RoomId = 0)
+                public void LoadFurniture(int RoomId = 0)
         {
             if (RoomId == 0)
             {
@@ -265,7 +271,7 @@ namespace Akiled.HabboHotel.Rooms
             }
         }
 
-        public ICollection<Item> GetFloor
+                public ICollection<Item> GetFloor
         {
             get
             {
@@ -273,7 +279,7 @@ namespace Akiled.HabboHotel.Rooms
             }
         }
 
-        public ConcurrentDictionary<int, Item> GetFloorItems
+                public ConcurrentDictionary<int, Item> GetFloorItems
         {
             get
             {
@@ -281,8 +287,7 @@ namespace Akiled.HabboHotel.Rooms
             }
         }
 
-
-        public ItemTemp GetFirstTempDrop(int x, int y)
+                public ItemTemp GetFirstTempDrop(int x, int y)
         {
             foreach (ItemTemp Item in _itemsTemp.Values)
             {
@@ -292,14 +297,13 @@ namespace Akiled.HabboHotel.Rooms
                 if (Item.X != x || Item.Y != y)
                     continue;
 
-
                 return Item;
             }
 
             return null;
         }
 
-        public ItemTemp GetTempItem(int pId)
+                public ItemTemp GetTempItem(int pId)
         {
             if (_itemsTemp != null && _itemsTemp.ContainsKey(pId))
             {
@@ -311,7 +315,7 @@ namespace Akiled.HabboHotel.Rooms
             return null;
         }
 
-        public Item GetItem(int pId)
+                public Item GetItem(int pId)
         {
             if (_floorItems != null && _floorItems.ContainsKey(pId))
             {
@@ -329,7 +333,7 @@ namespace Akiled.HabboHotel.Rooms
             return null;
         }
 
-        public ICollection<ItemTemp> GetTempItems
+                public ICollection<ItemTemp> GetTempItems
         {
             get
             {
@@ -337,7 +341,7 @@ namespace Akiled.HabboHotel.Rooms
             }
         }
 
-        public ICollection<Item> GetWall
+                public ICollection<Item> GetWall
         {
             get
             {
@@ -345,7 +349,7 @@ namespace Akiled.HabboHotel.Rooms
             }
         }
 
-        public IEnumerable<Item> GetWallAndFloor
+                public IEnumerable<Item> GetWallAndFloor
         {
             get
             {
@@ -353,7 +357,7 @@ namespace Akiled.HabboHotel.Rooms
             }
         }
 
-        public void RemoveFurniture(GameClient Session, int pId)
+                public void RemoveFurniture(GameClient Session, int pId)
         {
             Item roomItem = this.GetItem(pId);
             if (roomItem == null)
@@ -376,7 +380,7 @@ namespace Akiled.HabboHotel.Rooms
             roomItem.Destroy();
         }
 
-        public void RemoveTempItem(int pId)
+                public void RemoveTempItem(int pId)
         {
             ItemTemp Item = this.GetTempItem(pId);
             if (Item == null)
@@ -386,7 +390,7 @@ namespace Akiled.HabboHotel.Rooms
             this._itemsTemp.TryRemove(pId, out Item);
         }
 
-        private void RemoveRoomItem(Item Item)
+                private void RemoveRoomItem(Item Item)
         {
             if (Item.IsWallItem)
             {
@@ -399,7 +403,6 @@ namespace Akiled.HabboHotel.Rooms
             {
                 this._room.SendPacket(new ObjectRemoveMessageComposer(Item.Id, Item.OwnerId));
             }
-
 
             if (Item.IsWallItem)
             {
@@ -430,7 +433,7 @@ namespace Akiled.HabboHotel.Rooms
             }
         }
 
-        private List<ServerPacket> CycleRollers()
+                private List<ServerPacket> CycleRollers()
         {
             if (this._rollerCycle >= this._rollerSpeed || this._rollerSpeed == 0)
             {
@@ -499,7 +502,7 @@ namespace Akiled.HabboHotel.Rooms
             return new List<ServerPacket>();
         }
 
-        public void PositionReset(Item pItem, int x, int y, double z)
+                public void PositionReset(Item pItem, int x, int y, double z)
         {
             ServerPacket serverMessage = new ServerPacket(ServerPacketHeader.SlideObjectBundleMessageComposer);
             serverMessage.WriteInteger(pItem.GetX);
@@ -518,14 +521,14 @@ namespace Akiled.HabboHotel.Rooms
             this.SetFloorItem(pItem, x, y, z);
         }
 
-        public void RotReset(Item pItem, int newRot)
+                public void RotReset(Item pItem, int newRot)
         {
             pItem.Rotation = newRot;
 
             _room.SendPacket(new ObjectUpdateComposer(pItem, pItem.OwnerId));
         }
 
-        private ServerPacket UpdateItemOnRoller(Item pItem, Point NextCoord, double NextZ)
+                private ServerPacket UpdateItemOnRoller(Item pItem, Point NextCoord, double NextZ)
         {
             ServerPacket serverMessage = new ServerPacket(ServerPacketHeader.SlideObjectBundleMessageComposer);
             serverMessage.WriteInteger(pItem.GetX);
@@ -541,7 +544,7 @@ namespace Akiled.HabboHotel.Rooms
             return serverMessage;
         }
 
-        public ServerPacket UpdateUserOnRoller(RoomUser pUser, Point pNextCoord, int pRollerID, double NextZ)
+                public ServerPacket UpdateUserOnRoller(RoomUser pUser, Point pNextCoord, int pRollerID, double NextZ)
         {
             ServerPacket serverMessage = new ServerPacket(ServerPacketHeader.SlideObjectBundleMessageComposer);
             serverMessage.WriteInteger(pUser.X);
@@ -560,7 +563,7 @@ namespace Akiled.HabboHotel.Rooms
             return serverMessage;
         }
 
-        public ServerPacket TeleportUser(RoomUser pUser, Point pNextCoord, int pRollerID, double NextZ)
+                public ServerPacket TeleportUser(RoomUser pUser, Point pNextCoord, int pRollerID, double NextZ)
         {
             ServerPacket serverMessage = new ServerPacket(ServerPacketHeader.SlideObjectBundleMessageComposer);
             serverMessage.WriteInteger(pUser.X);
@@ -579,8 +582,7 @@ namespace Akiled.HabboHotel.Rooms
             return serverMessage;
         }
 
-
-        public void SaveFurniture()
+                public void SaveFurniture()
         {
             try
             {
@@ -636,7 +638,7 @@ namespace Akiled.HabboHotel.Rooms
             }
         }
 
-        public ItemTemp AddTempItem(int vId, int spriteId, int x, int y, double z, string extraData, int value = 0, InteractionTypeTemp pInteraction = InteractionTypeTemp.NONE, MovementDirection movement = MovementDirection.none, int pDistance = 0, int pTeamId = 0)
+                public ItemTemp AddTempItem(int vId, int spriteId, int x, int y, double z, string extraData, int value = 0, InteractionTypeTemp pInteraction = InteractionTypeTemp.NONE, MovementDirection movement = MovementDirection.none, int pDistance = 0, int pTeamId = 0)
         {
             int id = this._itemTempoId--;
             ItemTemp Item = new ItemTemp(id, vId, spriteId, x, y, z, extraData, movement, value, pInteraction, pDistance, pTeamId);
@@ -649,7 +651,7 @@ namespace Akiled.HabboHotel.Rooms
             return Item;
         }
 
-        public bool SetFloorItem(GameClient Session, Item Item, int newX, int newY, int newRot, bool newItem, bool OnRoller, bool sendMessage)
+                public bool SetFloorItem(GameClient Session, Item Item, int newX, int newY, int newRot, bool newItem, bool OnRoller, bool sendMessage)
         {
             bool NeedsReAdd = false;
             if (!newItem)
@@ -692,7 +694,6 @@ namespace Akiled.HabboHotel.Rooms
             }
             //ItemsComplete.AddRange(ItemsOnTile);
             ItemsComplete.AddRange(ItemsAffected);
-
 
             bool ConstruitMode = false;
             bool ConstruitZMode = false;
@@ -799,7 +800,6 @@ namespace Akiled.HabboHotel.Rooms
 
             this._room.GetGameMap().AddToMap(Item);
 
-
             foreach (ThreeDCoord threeDcoord in Item.GetAffectedTiles.Values)
             {
                 userForSquare.AddRange(this._room.GetGameMap().GetRoomUsers(new Point(threeDcoord.X, threeDcoord.Y)));
@@ -819,14 +819,13 @@ namespace Akiled.HabboHotel.Rooms
             return true;
         }
 
-        public bool CheckPosItem(GameClient Session, Item Item, int newX, int newY, int newRot)
+                public bool CheckPosItem(GameClient Session, Item Item, int newX, int newY, int newRot)
         {
             try
             {
                 var dictionary = Gamemap.GetAffectedTiles(Item.GetBaseItem().Length, Item.GetBaseItem().Width, newX, newY, newRot).Values.ToList();
                 if (!this._room.GetGameMap().ValidTile(newX, newY))
                     return false;
-
 
                 foreach (ThreeDCoord coord in dictionary)
                 {
@@ -836,7 +835,6 @@ namespace Akiled.HabboHotel.Rooms
 
                 if ((this._room.GetGameMap().Model.DoorX == newX) && (this._room.GetGameMap().Model.DoorY == newY))
                     return false;
-
 
                 foreach (ThreeDCoord coord in dictionary)
                 {
@@ -896,17 +894,18 @@ namespace Akiled.HabboHotel.Rooms
                 return false;
             }
         }
-        public void TryAddRoller(int ItemId, Item Roller)
+
+                public void TryAddRoller(int ItemId, Item Roller)
         {
             this._rollers.TryAdd(ItemId, Roller);
         }
 
-        public ICollection<Item> GetRollers()
+                public ICollection<Item> GetRollers()
         {
             return this._rollers.Values;
         }
 
-        public bool SetFloorItem(Item Item, int newX, int newY, double newZ)
+                public bool SetFloorItem(Item Item, int newX, int newY, double newZ)
         {
             this._room.GetGameMap().RemoveFromMap(Item);
             Item.SetState(newX, newY, newZ, Gamemap.GetAffectedTiles(Item.GetBaseItem().Length, Item.GetBaseItem().Width, newX, newY, Item.Rotation));
@@ -915,7 +914,7 @@ namespace Akiled.HabboHotel.Rooms
             return true;
         }
 
-        public bool SetWallItem(GameClient Session, Item Item)
+                public bool SetWallItem(GameClient Session, Item Item)
         {
             if (!Item.IsWallItem || this._wallItems.ContainsKey(Item.Id))
                 return false;
@@ -950,14 +949,14 @@ namespace Akiled.HabboHotel.Rooms
             }
         }
 
-        public void UpdateItem(Item item)
+                public void UpdateItem(Item item)
         {
             if (this._updateItems.ContainsKey(item.Id))
                 return;
             this._updateItems.TryAdd(item.Id, item);
         }
 
-        public void OnCycle()
+                public void OnCycle()
         {
             this._room.SendMessage(this.CycleRollers());
 
@@ -994,7 +993,7 @@ namespace Akiled.HabboHotel.Rooms
             }
         }
 
-        public void Destroy()
+                public void Destroy()
         {
             this._floorItems.Clear();
             this._wallItems.Clear();

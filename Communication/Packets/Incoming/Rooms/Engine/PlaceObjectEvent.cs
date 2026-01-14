@@ -1,17 +1,17 @@
-using Akiled.Communication.Packets.Outgoing;
-using Akiled.Communication.Packets.Outgoing.Structure;
-using Akiled.Database.Interfaces;
-using Akiled.HabboHotel.GameClients;
-using Akiled.HabboHotel.Items;
-using Akiled.HabboHotel.Quests;
-using Akiled.HabboHotel.Rooms;
-using Akiled.HabboHotel.Rooms.Wired;
-using Akiled.HabboHotel.Users;
-using System;
-using System.Linq;
-
 namespace Akiled.Communication.Packets.Incoming.Structure
 {
+    using Akiled.Communication.Packets.Outgoing;
+    using Akiled.Communication.Packets.Outgoing.Structure;
+    using Akiled.Database.Interfaces;
+    using Akiled.HabboHotel.GameClients;
+    using Akiled.HabboHotel.Items;
+    using Akiled.HabboHotel.Quests;
+    using Akiled.HabboHotel.Rooms;
+    using Akiled.HabboHotel.Rooms.Wired;
+    using Akiled.HabboHotel.Users;
+    using System;
+    using System.Linq;
+
     internal class PlaceObjectEvent : IPacketEvent
     {
         public void Parse(GameClient Session, ClientPacket Packet)
