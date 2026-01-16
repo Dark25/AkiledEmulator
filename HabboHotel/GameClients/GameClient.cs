@@ -12,12 +12,13 @@ using Akiled.HabboHotel.Users;
 using Akiled.HabboHotel.Users.UserData;
 using Akiled.Net;
 using ConnectionManager;
-using JNogueira.Discord.Webhook.Client;
+using JNogueira.Discord.WebhookClient;
 using SharedPacketLib;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace Akiled.HabboHotel.GameClients
 {
@@ -40,6 +41,18 @@ namespace Akiled.HabboHotel.GameClients
             this.Langue = Language.SPANISH;
             this.Connection = pConnection;
             this.packetParser = new GamePacketParser(this);
+        }
+
+        private static DiscordWebhookClient CreateWebhookClient(string webhookUrl)
+        {
+            if (string.IsNullOrWhiteSpace(webhookUrl))
+                return null;
+
+            if (!Uri.TryCreate(webhookUrl, UriKind.Absolute, out var uri))
+                return null;
+
+            var httpClient = new DiscordWebhookHttpClient(new System.Net.Http.HttpClient { BaseAddress = uri });
+            return new DiscordWebhookClient(httpClient);
         }
 
         private void SwitchParserRequest()
@@ -157,7 +170,7 @@ namespace Akiled.HabboHotel.GameClients
                         if (Webhook == "true")
                         {
 
-                            var client = new DiscordWebhookClient(Webhook_login_logout_WebHookurl);
+                            var client = CreateWebhookClient(Webhook_login_logout_WebHookurl);
 
                             var message = new DiscordMessage(
                              "La Seguridad es importante para nosotros! " + DiscordEmoji.Grinning,
@@ -179,9 +192,11 @@ namespace Akiled.HabboHotel.GameClients
 
                             //agrega un catch
 
-                            await client.SendToDiscord(message).ContinueWith(task => { if (task.IsFaulted) { Console.WriteLine("Error al enviar el mensaje: " + task.Exception.Message); } }).ConfigureAwait(true);
-
-                            Console.WriteLine("login enviado a Discord ", ConsoleColor.DarkCyan);
+                            if (client != null)
+                            {
+                                await client.SendToDiscordAsync(message).ContinueWith(task => { if (task.IsFaulted) { Console.WriteLine("Error al enviar el mensaje: " + task.Exception?.Message); } }).ConfigureAwait(true);
+                                Console.WriteLine("login enviado a Discord ", ConsoleColor.DarkCyan);
+                            }
 
                         }
 
@@ -284,7 +299,7 @@ namespace Akiled.HabboHotel.GameClients
                 SendPacket(new NuxAlertComposer("nux/lobbyoffer/hide"));
                 if (Webhook == "true")
                 {
-                    var client = new DiscordWebhookClient(WebHookurl);
+                    var client = CreateWebhookClient(WebHookurl);
 
                     var message = new DiscordMessage(
                      "La seguridad es importate para nosotros " + DiscordEmoji.Grinning,
@@ -303,7 +318,8 @@ namespace Akiled.HabboHotel.GameClients
         )
             }
             );
-                    await client.SendToDiscord(message);
+                    if (client != null)
+                        await client.SendToDiscordAsync(message);
                     Console.WriteLine("login de nuevo usuario enviado a Discord ", ConsoleColor.DarkYellow);
 
                 }
@@ -346,7 +362,7 @@ namespace Akiled.HabboHotel.GameClients
                 SendPacket(new NuxAlertComposer("nux/lobbyoffer/hide"));
                 if (Webhook == "true")
                 {
-                    var client = new DiscordWebhookClient(WebHookurl);
+                    var client = CreateWebhookClient(WebHookurl);
 
                     var message = new DiscordMessage(
                      "La seguridad es importate para nosotros " + DiscordEmoji.Grinning,
@@ -365,7 +381,8 @@ namespace Akiled.HabboHotel.GameClients
         )
             }
             );
-                    await client.SendToDiscord(message);
+                    if (client != null)
+                        await client.SendToDiscordAsync(message);
                     Console.WriteLine("login de nuevo usuario enviado a Discord ", ConsoleColor.DarkYellow);
 
                 }

@@ -15,7 +15,7 @@ using Akiled.HabboHotel.Users.Inventory;
 using Akiled.HabboHotel.Users.Messenger;
 using Akiled.HabboHotel.WebClients;
 using AkiledEmulator.HabboHotel.Camera;
-using JNogueira.Discord.Webhook.Client;
+using JNogueira.Discord.WebhookClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -719,6 +719,18 @@ namespace Akiled.HabboHotel.Users
 
         public void LoadAchievements(Dictionary<string, UserAchievement> achievements) => this.Achievements = achievements;
 
+        private static DiscordWebhookClient CreateWebhookClient(string webhookUrl)
+        {
+            if (string.IsNullOrWhiteSpace(webhookUrl))
+                return null;
+
+            if (!Uri.TryCreate(webhookUrl, UriKind.Absolute, out var uri))
+                return null;
+
+            var httpClient = new DiscordWebhookHttpClient(new System.Net.Http.HttpClient { BaseAddress = uri });
+            return new DiscordWebhookClient(httpClient);
+        }
+
         public async Task OnDisconnectAsync()
         {
             if (this.Disconnected)
@@ -754,7 +766,7 @@ namespace Akiled.HabboHotel.Users
 
             if (Webhook == "true")
             {
-                var client = new DiscordWebhookClient(Webhook_login_logout_WebHookurl);
+                var client = CreateWebhookClient(Webhook_login_logout_WebHookurl);
 
                 var message = new DiscordMessage(
                  "La Seguridad es importante para nosotros! " + DiscordEmoji.Grinning,
@@ -773,8 +785,11 @@ namespace Akiled.HabboHotel.Users
         )
         }
         );
-                await client.SendToDiscord(message);
-                Console.WriteLine("logout enviado a Discord ", ConsoleColor.DarkYellow);
+                if (client != null)
+                {
+                    await client.SendToDiscordAsync(message).ConfigureAwait(true);
+                    Console.WriteLine("logout enviado a Discord ", ConsoleColor.DarkYellow);
+                }
                 //discord stats enviar a discord
 
 

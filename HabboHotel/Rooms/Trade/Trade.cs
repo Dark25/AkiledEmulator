@@ -3,7 +3,7 @@ using Akiled.Communication.Packets.Outgoing.Structure;
 using Akiled.Core;
 using Akiled.Database.Interfaces;
 using Akiled.HabboHotel.Items;
-using JNogueira.Discord.Webhook.Client;
+using JNogueira.Discord.WebhookClient;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -57,6 +57,18 @@ namespace Akiled.HabboHotel.Rooms
                     tradeUser.GetRoomUser().UpdateNeeded = true;
                 }
             }
+        }
+
+        private static DiscordWebhookClient CreateWebhookClient(string webhookUrl)
+        {
+            if (string.IsNullOrWhiteSpace(webhookUrl))
+                return null;
+
+            if (!Uri.TryCreate(webhookUrl, UriKind.Absolute, out var uri))
+                return null;
+
+            var httpClient = new DiscordWebhookHttpClient(new System.Net.Http.HttpClient { BaseAddress = uri });
+            return new DiscordWebhookClient(httpClient);
         }
 
         public bool ContainsUser(int Id)
@@ -326,7 +338,7 @@ namespace Akiled.HabboHotel.Rooms
             if (Webhook == "true")
             {
 
-                var client = new DiscordWebhookClient(Webhook_trade_WebHookurl);
+                var client = CreateWebhookClient(Webhook_trade_WebHookurl);
 
                 var message = new DiscordMessage(
                  "La Seguridad es importante para nosotros! " + DiscordEmoji.Grinning,
@@ -353,9 +365,11 @@ namespace Akiled.HabboHotel.Rooms
         )
         }
         );
-                await client.SendToDiscord(message);
-
-                Console.WriteLine("Trade enviado a Discord ", ConsoleColor.DarkCyan);
+                if (client != null)
+                {
+                    await client.SendToDiscordAsync(message);
+                    Console.WriteLine("Trade enviado a Discord ", ConsoleColor.DarkCyan);
+                }
 
             }
         }

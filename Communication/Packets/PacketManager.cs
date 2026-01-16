@@ -380,6 +380,8 @@ namespace Akiled.Communication.Packets
         {
             _incomingPackets.Add(ClientPacketHeader.UpdateMagicTileMessageEvent, new UpdateMagicTileEvent());
             _incomingPackets.Add(ClientPacketHeader.GetYouTubeTelevisionMessageEvent, new GetYouTubeTelevisionEvent());
+            _incomingPackets.Add(2069, (IPacketEvent)new SetYoutubeDisplayPlaylistEvent());
+            _incomingPackets.Add(3005, (IPacketEvent)new ControlYoutubeDisplayPlaybackEvent());
             _incomingPackets.Add(ClientPacketHeader.SaveWiredTriggerConfigMessageEvent, new SaveWiredConfigEvent());
             _incomingPackets.Add(ClientPacketHeader.SaveWiredEffectConfigMessageEvent, new SaveWiredConfigEvent());
             _incomingPackets.Add(ClientPacketHeader.SaveWiredConditionConfigMessageEvent, new SaveWiredConfigEvent());

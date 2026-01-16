@@ -6,7 +6,6 @@ using Akiled.HabboHotel.Rooms;
 using Akiled.HabboHotel.Users.Messenger;
 using Akin.HabboHotel.Misc;
 using ConnectionManager;
-using JNogueira.Discord.Webhook.Client;
 using System;
 using System.Collections;
 using System.Collections.Concurrent;

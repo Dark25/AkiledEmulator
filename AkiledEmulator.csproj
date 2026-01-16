@@ -103,17 +103,17 @@
     <Folder Include="HabboHotel\Rooms\Chat\Pets\Locale\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="discord-webhook-client" Version="3.1.0" />
-    <PackageReference Include="log4net" Version="2.0.15" />
-    <PackageReference Include="MediReport.MySql.Data" Version="8.1.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="discord-webhook-client" Version="4.0.3" />
+    <PackageReference Include="log4net" Version="3.2.0" />
+    <PackageReference Include="MediReport.MySql.Data" Version="8.4.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.2" />
     <PackageReference Include="Nancy" Version="2.0.0" />
-    <PackageReference Include="Scrutor" Version="4.2.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.346202">
+    <PackageReference Include="Scrutor" Version="7.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.2" />
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.421302">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.2" />
     <PackageReference Include="Vse.Web.Serialization.ControlledSerializationJsonConverter" Version="1.0.4" />
   </ItemGroup>
   <ItemGroup>

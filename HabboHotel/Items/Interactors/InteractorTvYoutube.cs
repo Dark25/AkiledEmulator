@@ -21,8 +21,17 @@ namespace Akiled.HabboHotel.Items.Interactors
             if (Session == null || Session.GetHabbo() == null)
                 return;
 
-            if (Session.GetHabbo().SendWebPacket(new YoutubeTvComposer((UserHasRights) ? Item.Id : 0, Item.ExtraData)))
-                return;
+            var composer = new Akiled.Communication.Packets.Outgoing.WebSocket.YoutubeTvComposer((UserHasRights) ? Item.Id : 0, Item.ExtraData);
+
+            // Send to the connected game client so Nitro/modern clients receive the TV packet
+            try
+            {
+                Session.SendPacket(composer);
+            }
+            catch { }
+
+            // Also send to any web clients in the room
+            Session.GetHabbo().SendWebPacket(composer);
 
             if (!UserHasRights)
                 return;
