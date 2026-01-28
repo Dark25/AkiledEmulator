@@ -3,6 +3,7 @@ using AkiledEmulator.Core;
 using MySql.Data.MySqlClient;
 using System;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace Akiled.Database.Adapter
 {
@@ -170,6 +171,139 @@ namespace Akiled.Database.Adapter
             {
                 ExceptionLogger.LogQueryError(exception, this.Command.CommandText);
             }
+        }
+
+        public async Task RunQueryAsync()
+        {
+            if (!this._dbEnabled)
+            {
+                return;
+            }
+
+            try
+            {
+                _ = await this.Command.ExecuteNonQueryAsync();
+            }
+            catch (Exception exception)
+            {
+                ExceptionLogger.LogQueryError(exception, this.Command.CommandText);
+            }
+        }
+
+        public async Task RunQueryAsync(string query)
+        {
+            if (!this._dbEnabled)
+            {
+                return;
+            }
+
+            this.SetQuery(query);
+            await this.RunQueryAsync();
+        }
+
+        public async Task<int> GetIntegerAsync()
+        {
+            var result = 0;
+            try
+            {
+                var obj2 = await this.Command.ExecuteScalarAsync();
+                if (obj2 != null)
+                {
+                    _ = int.TryParse(obj2.ToString(), out result);
+                }
+            }
+            catch (Exception exception)
+            {
+                ExceptionLogger.LogQueryError(exception, this.Command.CommandText);
+            }
+
+            return result;
+        }
+
+        public async Task<DataRow> GetRowAsync()
+        {
+            DataRow row = null;
+            try
+            {
+                var dataTable = new DataTable();
+                using (var reader = await this.Command.ExecuteReaderAsync())
+                {
+                    dataTable.Load(reader);
+                }
+                
+                if (dataTable.Rows.Count > 0)
+                {
+                    row = dataTable.Rows[0];
+                }
+            }
+            catch (Exception exception)
+            {
+                ExceptionLogger.LogQueryError(exception, this.Command.CommandText);
+            }
+
+            return row;
+        }
+
+        public async Task<string> GetStringAsync()
+        {
+            var str = string.Empty;
+            try
+            {
+                var obj2 = await this.Command.ExecuteScalarAsync();
+                if (obj2 != null)
+                {
+                    str = obj2.ToString();
+                }
+            }
+            catch (Exception exception)
+            {
+                ExceptionLogger.LogQueryError(exception, this.Command.CommandText);
+            }
+
+            return str;
+        }
+
+        public async Task<DataTable> GetTableAsync()
+        {
+            var dataTable = new DataTable();
+            if (!this._dbEnabled)
+            {
+                return dataTable;
+            }
+
+            try
+            {
+                using (var reader = await this.Command.ExecuteReaderAsync())
+                {
+                    dataTable.Load(reader);
+                }
+            }
+            catch (Exception exception)
+            {
+                ExceptionLogger.LogQueryError(exception, this.Command.CommandText);
+            }
+
+            return dataTable;
+        }
+
+        public async Task<long> InsertQueryAsync()
+        {
+            if (!this._dbEnabled)
+            {
+                return 0;
+            }
+
+            var lastInsertedId = 0L;
+            try
+            {
+                _ = await this.Command.ExecuteScalarAsync();
+                lastInsertedId = this.Command.LastInsertedId;
+            }
+            catch (Exception exception)
+            {
+                ExceptionLogger.LogQueryError(exception, this.Command.CommandText);
+            }
+            return lastInsertedId;
         }
 
 

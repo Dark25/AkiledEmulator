@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Threading.Tasks;
 
 namespace Akiled.Database.Interfaces
 {
@@ -13,7 +14,13 @@ namespace Akiled.Database.Interfaces
         string GetString();
         DataTable GetTable();
         void RunQuery(string query);
+        Task RunQueryAsync(string query);
         void SetQuery(string query);
         void RunQuery();
+        Task RunQueryAsync();
+        Task<DataTable> GetTableAsync();
+        Task<DataRow> GetRowAsync();
+        Task<int> GetIntegerAsync();
+        Task<string> GetStringAsync();
     }
 }

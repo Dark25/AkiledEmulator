@@ -118,7 +118,7 @@ namespace Akiled.HabboHotel.Rooms.Games
 
                     if (!ball.BallIsMoving || ball?.ballMover == null) return false;
 
-                    new Task(async () =>
+                    _ = Task.Run(async () =>
                     {
                         MoveBallProcess(ball, ball.ballMover);
                         
@@ -134,7 +134,7 @@ namespace Akiled.HabboHotel.Rooms.Games
                         {
                             await Task.Delay(400);
                         }
-                    }).Start();
+                    });
                 }
                 
             }

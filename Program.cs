@@ -1,6 +1,8 @@
 ﻿using Akiled.Core;
 using System;
+using System.Reflection.Metadata;
 using System.Security.Permissions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Akiled
@@ -24,6 +26,7 @@ namespace Akiled
                         ConsoleCommands.InvokeCommand(text.Split(' ', StringSplitOptions.None)[0]);
                     }
                 }
+                Thread.Sleep(20); // Prevent high CPU usage
             }
         }
 

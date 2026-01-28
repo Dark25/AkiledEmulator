@@ -105,6 +105,24 @@ namespace Akiled.HabboHotel.GameClients
             return userid;
         }
 
+        public async Task<int> GetUserIdByUsernameAsync(string Username)
+        {
+            GameClient client = GetClientByUsername(Username);
+
+            if (client != null)
+                return client.GetHabbo().Id;
+
+            int userid;
+            using (IQueryAdapter dbClient = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
+            {
+                dbClient.SetQuery("SELECT id FROM users WHERE username = @username LIMIT 1");
+                dbClient.AddParameter("username", Username);
+                userid = await dbClient.GetIntegerAsync();
+            }
+
+            return userid;
+        }
+
         public bool UpdateClientUsername(int ClientId, string OldUsername, string NewUsername)
         {
             if (!_usernameRegister.ContainsKey(OldUsername.ToLower()))
@@ -127,6 +145,22 @@ namespace Akiled.HabboHotel.GameClients
             {
                 queryreactor.SetQuery("SELECT username FROM users WHERE id = " + Id);
                 username = queryreactor.GetString();
+            }
+
+            return username;
+        }
+
+        public async Task<string> GetNameByIdAsync(int Id)
+        {
+            GameClient clientByUserId = this.GetClientByUserID(Id);
+
+            if (clientByUserId != null) return clientByUserId.GetHabbo().Username;
+
+            string username = "";
+            using (IQueryAdapter queryreactor = AkiledEnvironment.GetDatabaseManager().GetQueryReactor())
+            {
+                queryreactor.SetQuery("SELECT username FROM users WHERE id = " + Id);
+                username = await queryreactor.GetStringAsync();
             }
 
             return username;
@@ -449,7 +483,7 @@ namespace Akiled.HabboHotel.GameClients
             Console.WriteLine("Connections closed!");
         }
 
-        public Task BanUserAsync(GameClient Client, string Moderator, double LengthSeconds, string Reason, bool IpBan, bool MachineBan)
+        public async Task BanUserAsync(GameClient Client, string Moderator, double LengthSeconds, string Reason, bool IpBan, bool MachineBan)
         {
             if (string.IsNullOrEmpty(Reason))
                 Reason = "No respetar las reglas del hotel";
@@ -477,13 +511,13 @@ namespace Akiled.HabboHotel.GameClients
                 queryreactor.AddParameter("var", Variable);
                 queryreactor.AddParameter("reason", Reason);
                 queryreactor.AddParameter("mod", Moderator);
-                queryreactor.RunQuery();
+                await queryreactor.RunQueryAsync();
             }
             if (MachineBan)
-                BanUserAsync(Client, Moderator, LengthSeconds, Reason, true, false);
+                await BanUserAsync(Client, Moderator, LengthSeconds, Reason, true, false);
             else if (IpBan)
             {
-                BanUserAsync(Client, Moderator, LengthSeconds, Reason, false, false);
+                await BanUserAsync(Client, Moderator, LengthSeconds, Reason, false, false);
             }
             else
             {
@@ -491,7 +525,7 @@ namespace Akiled.HabboHotel.GameClients
 
             }
 
-            return Task.CompletedTask;
+            // return Task.CompletedTask; // No longer needed
         }
 
         public void SendSuperNotif(string Title, string Notice, string Picture, string Link, string LinkTitle, bool Broadcast, bool Event) => this.SendMessage(new RoomNotificationComposer(Title, Notice, Picture, LinkTitle, Link));

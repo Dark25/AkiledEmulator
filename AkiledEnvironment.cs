@@ -31,10 +31,9 @@ namespace Akiled
     public static class AkiledEnvironment
     {
         private static readonly ConcurrentDictionary<int, Habbo> _usersCached = new();
-        public static Random Random = new();
 
-
-        private static readonly List<char> Allowedchars = new(new char[82]
+        // Thread-safe HashSet for O(1) character validation lookups
+        private static readonly HashSet<char> Allowedchars = new(new char[82]
         {
             'a',
             'b',
@@ -138,6 +137,7 @@ namespace Akiled
 
         public static Task<bool> Initialize()
         {
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             Console.Clear();
             ServerStarted = DateTime.Now;
             Console.BackgroundColor = ConsoleColor.White;
@@ -258,7 +258,8 @@ namespace Akiled
         public static string BoolToEnum(bool Bool) => Bool ? "1" : "0";
 
 
-        public static int GetRandomNumber(int Min, int Max) => Random.Next(Min, Max + 1);
+        // Using thread-safe Random.Shared instead of static Random instance
+        public static int GetRandomNumber(int Min, int Max) => Random.Shared.Next(Min, Max + 1);
 
         public static int GetRandomNumberMulti(int Min, int Max) => RandomNumber.GenerateLockedRandom(Min, Max);
 

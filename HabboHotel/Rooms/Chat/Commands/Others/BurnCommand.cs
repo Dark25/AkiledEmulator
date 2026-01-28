@@ -3,6 +3,7 @@ using Akiled.Communication.Packets.Outgoing.WebSocket;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Rooms.Games;
 using System;
+using System.Threading.Tasks;
 
 namespace Akiled.HabboHotel.Rooms.Chat.Commands.SpecialPvP
 {
@@ -75,19 +76,23 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.SpecialPvP
             {
                 GameClient Target = AkiledEnvironment.GetGame().GetClientManager().GetClientByUsername(Params[1]);
                 RoomUser User = Room.GetRoomUserManager().GetRoomUserByHabboId(Target.GetHabbo().Id);
-                Room.SendPacket(new ChatComposer(ThisUser.VirtualId, "@green@ *Sacar bomba molotov*", 0, ThisUser.LastBubble));
-                ThisUser.ApplyEffect(1005);
-                System.Threading.Thread.Sleep(1500);
-                Room.SendPacket(new ChatComposer(ThisUser.VirtualId, "@red@ * Lanzarle bomba a  " + Target.GetHabbo().Username + "*", 0, ThisUser.LastBubble));
-                Room.SendPacketWeb(new PlaySoundComposer("molotov", 2)); //Type = Trax
-                ThisUser.ApplyEffect(0);
-                System.Threading.Thread.Sleep(500);
-                Room.SendPacket(new ChatComposer(TargetUser.VirtualId, "@red@ *¡AHHHHHH! ¡AYUDAAAA! ¡ME QUEMO!*", 0, TargetUser.LastBubble));
-                TargetUser.ApplyEffect(25);
-                System.Threading.Thread.Sleep(500);
-                TargetUser.ApplyEffect(0);
+                
+                // Ejecutar animación en background
+                _ = Task.Run(async () =>
+                {
+                    Room.SendPacket(new ChatComposer(ThisUser.VirtualId, "@green@ *Sacar bomba molotov*", 0, ThisUser.LastBubble));
+                    ThisUser.ApplyEffect(1005);
+                    await Task.Delay(1500);
+                    Room.SendPacket(new ChatComposer(ThisUser.VirtualId, "@red@ * Lanzarle bomba a  " + Target.GetHabbo().Username + "*", 0, ThisUser.LastBubble));
+                    Room.SendPacketWeb(new PlaySoundComposer("molotov", 2));
+                    ThisUser.ApplyEffect(0);
+                    await Task.Delay(500);
+                    Room.SendPacket(new ChatComposer(TargetUser.VirtualId, "@red@ *¡AHHHHHH! ¡AYUDAAAA! ¡ME QUEMO!*", 0, TargetUser.LastBubble));
+                    TargetUser.ApplyEffect(25);
+                    await Task.Delay(500);
+                    TargetUser.ApplyEffect(0);
+                });
                 Session.GetHabbo().last_burn = AkiledEnvironment.GetIUnixTimestamp();
-
             }
             else
             {
