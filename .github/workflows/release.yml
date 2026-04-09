@@ -27,10 +27,10 @@ jobs:
         run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore "Akiled Emulator.sln"
 
       - name: Build (Release)
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build "Akiled Emulator.sln" --configuration Release --no-restore
 
       - name: Publish (Linux x64)
         run: |
