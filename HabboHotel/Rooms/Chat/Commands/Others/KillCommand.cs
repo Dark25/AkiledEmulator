@@ -3,6 +3,7 @@ using Akiled.Communication.Packets.Outgoing.WebSocket;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Rooms.Games;
 using System;
+using System.Threading.Tasks;
 
 namespace Akiled.HabboHotel.Rooms.Chat.Commands.SpecialPvP
 {
@@ -72,21 +73,24 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.SpecialPvP
 
             if (!((Math.Abs(TargetUser.X - ThisUser.X) > 1) || (Math.Abs(TargetUser.Y - ThisUser.Y) > 1)))
             {
-                ThisUser.ApplyEffect(1000);
-                System.Threading.Thread.Sleep(1000);
-                Room.SendPacket(new ChatComposer(ThisUser.VirtualId, "* Quieto Mmgv@ " + Params[1] + ", Tas Pega@ # PlopLO *", 0, ThisUser.LastBubble));
-                System.Threading.Thread.Sleep(500);
-                Room.SendPacket(new ChatComposer(ThisUser.VirtualId, "* Disparar en la cara a " + Params[1] + " *", 0, ThisUser.LastBubble));
-                Room.SendPacketWeb(new PlaySoundComposer("pistoladeoro", 2)); //Type = Trax
-                System.Threading.Thread.Sleep(1000);
-                Room.SendPacket(new ChatComposer(TargetUser.VirtualId, "@red@ * :x :x Ayudaaaa :( me mataron*", 0, ThisUser.LastBubble));
-                TargetUser.RotBody--;//
-                TargetUser.Statusses.Add("lay", "1.0 null");
-                TargetUser.Z -= 0.35;
-                TargetUser.IsSit = true;
-                TargetUser.UpdateNeeded = true;
+                // Ejecutar animación en background para no bloquear el hilo
+                _ = Task.Run(async () =>
+                {
+                    ThisUser.ApplyEffect(1000);
+                    await Task.Delay(1000);
+                    Room.SendPacket(new ChatComposer(ThisUser.VirtualId, "* Quieto Mmgv@ " + Params[1] + ", Tas Pega@ # PlopLO *", 0, ThisUser.LastBubble));
+                    await Task.Delay(500);
+                    Room.SendPacket(new ChatComposer(ThisUser.VirtualId, "* Disparar en la cara a " + Params[1] + " *", 0, ThisUser.LastBubble));
+                    Room.SendPacketWeb(new PlaySoundComposer("pistoladeoro", 2));
+                    await Task.Delay(1000);
+                    Room.SendPacket(new ChatComposer(TargetUser.VirtualId, "@red@ * :x :x Ayudaaaa :( me mataron*", 0, ThisUser.LastBubble));
+                    TargetUser.RotBody--;
+                    TargetUser.Statusses.Add("lay", "1.0 null");
+                    TargetUser.Z -= 0.35;
+                    TargetUser.IsSit = true;
+                    TargetUser.UpdateNeeded = true;
+                });
                 Session.GetHabbo().last_kiss = AkiledEnvironment.GetIUnixTimestamp();
-
             }
             else
             {

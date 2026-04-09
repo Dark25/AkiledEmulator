@@ -64,11 +64,12 @@ namespace Akiled.HabboHotel.Rooms
 
         public RoomData GenerateNullableRoomData(int RoomId)
         {
-            if (this.GenerateRoomData(RoomId) != null)
-                return this.GenerateRoomData(RoomId);
-            RoomData roomData = new RoomData();
-            roomData.FillNull(RoomId);
-            return roomData;
+            var roomData = this.GenerateRoomData(RoomId);
+            if (roomData != null)
+                return roomData;
+            RoomData nullData = new RoomData();
+            nullData.FillNull(RoomId);
+            return nullData;
         }
 
         public RoomData GenerateRoomData(int RoomId)
@@ -255,30 +256,34 @@ namespace Akiled.HabboHotel.Rooms
 
         public List<RoomData> GetPopularRooms(int category, int Amount = 50, Language Langue = Language.FRANCAIS)
         {
-            IEnumerable<RoomData> rooms =
-                (from RoomInstance in this._rooms.ToList()
-                    where RoomInstance.Value != null && RoomInstance.Value.RoomData != null &&
-                          RoomInstance.Value.RoomData.UsersNow > 0 &&
-                          (category == -1 || RoomInstance.Value.RoomData.Category == category) &&
-                          RoomInstance.Value.RoomData.State != 3 // && RoomInstance.Value.RoomData.Langue == Langue
-                    orderby RoomInstance.Value.RoomData.Score descending
-                    orderby RoomInstance.Value.RoomData.UsersNow descending
-                    select RoomInstance.Value.RoomData).Take(Amount);
-            return rooms.ToList();
+            // Optimized: Using method syntax with proper ThenByDescending to avoid double orderby
+            var rooms = this._rooms.Values
+                .Where(r => r?.RoomData != null && 
+                            r.RoomData.UsersNow > 0 && 
+                            (category == -1 || r.RoomData.Category == category) && 
+                            r.RoomData.State != 3)
+                .OrderByDescending(r => r.RoomData.UsersNow)
+                .ThenByDescending(r => r.RoomData.Score)
+                .Take(Amount)
+                .Select(r => r.RoomData)
+                .ToList();
+            return rooms;
         }
 
         public List<RoomData> GetRecommendedRooms(int Amount = 50, int CurrentRoomId = 0)
         {
-            IEnumerable<RoomData> Rooms =
-                (from RoomInstance in this._rooms.ToList()
-                    where RoomInstance.Value.RoomData.UsersNow >= 0 &&
-                          RoomInstance.Value.RoomData.Score >= 0 &&
-                          RoomInstance.Value.RoomData.State != 3 &&
-                          RoomInstance.Value.RoomData.Id != CurrentRoomId
-                    orderby RoomInstance.Value.RoomData.Score descending
-                    orderby RoomInstance.Value.RoomData.UsersNow descending
-                    select RoomInstance.Value.RoomData).Take(Amount);
-            return Rooms.ToList();
+            // Optimized: Using method syntax with proper ThenByDescending
+            var rooms = this._rooms.Values
+                .Where(r => r.RoomData.UsersNow >= 0 && 
+                            r.RoomData.Score >= 0 && 
+                            r.RoomData.State != 3 && 
+                            r.RoomData.Id != CurrentRoomId)
+                .OrderByDescending(r => r.RoomData.UsersNow)
+                .ThenByDescending(r => r.RoomData.Score)
+                .Take(Amount)
+                .Select(r => r.RoomData)
+                .ToList();
+            return rooms;
         }
 
         public List<RoomData> GetPopularRatedRooms(int Amount = 50)

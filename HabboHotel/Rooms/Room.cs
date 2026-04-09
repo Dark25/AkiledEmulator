@@ -295,7 +295,7 @@ namespace Akiled.HabboHotel.Rooms
 
             try
             {
-                new Task(async () =>
+                _ = Task.Run(async () =>
                 {
                     while (!_mainProcessSource.IsCancellationRequested)
                     {
@@ -315,7 +315,7 @@ namespace Akiled.HabboHotel.Rooms
                             Logging.HandleException(e, "RoomProcessing");
                         }
                     }
-                }, _mainProcessSource.Token, TaskCreationOptions.LongRunning).Start();
+                }, _mainProcessSource.Token);
             }
             catch (Exception e)
             {
@@ -331,7 +331,7 @@ namespace Akiled.HabboHotel.Rooms
 
             try
             {
-                new Task(async () =>
+                _ = Task.Run(async () =>
                 {
                     while ((GotSoccer() && !Disposed) && !_mainProcessSource.IsCancellationRequested)
                     {
@@ -353,7 +353,7 @@ namespace Akiled.HabboHotel.Rooms
                         var end = AkiledEnvironment.GetUnixTimestamp() - start;
                         await Task.Delay(100);
                     }
-                }, TaskCreationOptions.LongRunning).Start();
+                });
             }
             catch (Exception e)
             {
@@ -443,7 +443,7 @@ namespace Akiled.HabboHotel.Rooms
             {
                 _processingWireds = true;
 
-                new Task(async () =>
+                _ = Task.Run(async () =>
                 {
                     while (wiredHandler != null && !_mainProcessSource.IsCancellationRequested)
                     {
@@ -458,7 +458,7 @@ namespace Akiled.HabboHotel.Rooms
 
                         await Task.Delay(250);
                     }
-                }, _mainProcessSource.Token, TaskCreationOptions.LongRunning).Start();
+                }, _mainProcessSource.Token);
             }
             catch (Exception e)
             {
@@ -1187,12 +1187,12 @@ namespace Akiled.HabboHotel.Rooms
 
             this.gamemap.Destroy();
 
-            new Task(async () =>
+            _ = Task.Run(async () =>
             {
                 await Task.Delay(2500);
                 _mainProcessSource?.Dispose();
                 _mainProcessSource = null;
-            }).Start();
+            });
         }
 
         public Dictionary<int, double> getBans() => this.Bans;

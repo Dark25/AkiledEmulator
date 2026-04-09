@@ -33,26 +33,20 @@ namespace Akiled.Database
 
         public bool IsConnected()
         {
-
-            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             try
             {
-
-                MySqlConnection con = new MySqlConnection(this._connectionStr);
-                con.Open();
-                MySqlCommand CMD = con.CreateCommand();
-                CMD.CommandText = "SELECT 1+1";
-                CMD.ExecuteNonQuery();
-
-                CMD.Dispose();
-                con.Close();
+                using (MySqlConnection con = new MySqlConnection(this._connectionStr))
+                {
+                    con.Open();
+                    // Just opening is enough to test connectivity with pooling
+                    // Execute scalar is minimal overhead compared to Open
+                    return con.State == System.Data.ConnectionState.Open;
+                }
             }
             catch (MySqlException)
             {
                 return false;
             }
-
-            return true;
         }
 
         public IQueryAdapter GetQueryReactor()

@@ -2,6 +2,7 @@
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Rooms.Games;
 using System;
+using System.Threading.Tasks;
 
 namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 {
@@ -73,13 +74,15 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             {
                 if (!((Math.Abs(TargetUser.X - ThisUser.X) >= 2) || (Math.Abs(TargetUser.Y - ThisUser.Y) >= 2)))
                 {
-                    Room.SendPacket(new ChatComposer(ThisUser.VirtualId, "* Dame El Iphone Pendej@ " + Params[1] + " *", 0, ThisUser.LastBubble));
-                    System.Threading.Thread.Sleep(500);
-                    Room.SendPacket(new ChatComposer(TargetUser.VirtualId, "@red@ * He Sido Robad@ Por: * " + Session.GetHabbo().Username + " :( *", 0, ThisUser.LastBubble));
-                    ThisUser.ApplyEffect(101);
-                    TargetUser.ApplyEffect(65);
+                    _ = Task.Run(async () =>
+                    {
+                        Room.SendPacket(new ChatComposer(ThisUser.VirtualId, "* Dame El Iphone Pendej@ " + Params[1] + " *", 0, ThisUser.LastBubble));
+                        await Task.Delay(500);
+                        Room.SendPacket(new ChatComposer(TargetUser.VirtualId, "@red@ * He Sido Robad@ Por: * " + Session.GetHabbo().Username + " :( *", 0, ThisUser.LastBubble));
+                        ThisUser.ApplyEffect(101);
+                        TargetUser.ApplyEffect(65);
+                    });
                     return;
-
                 }
                 else
                 {
@@ -88,11 +91,14 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             }
             if (Session.GetHabbo().Rank >= 4)
             {
-                Room.SendPacket(new ChatComposer(ThisUser.VirtualId, "* Dame El Iphone Pendej@ " + Params[1] + " *", 0, ThisUser.LastBubble));
-                System.Threading.Thread.Sleep(500);
-                Room.SendPacket(new ChatComposer(TargetUser.VirtualId, "@red@ * He Sido Robad@ Por: * " + Session.GetHabbo().Username + " :( *", 0, ThisUser.LastBubble));
-                ThisUser.ApplyEffect(101);
-                TargetUser.ApplyEffect(65);
+                _ = Task.Run(async () =>
+                {
+                    Room.SendPacket(new ChatComposer(ThisUser.VirtualId, "* Dame El Iphone Pendej@ " + Params[1] + " *", 0, ThisUser.LastBubble));
+                    await Task.Delay(500);
+                    Room.SendPacket(new ChatComposer(TargetUser.VirtualId, "@red@ * He Sido Robad@ Por: * " + Session.GetHabbo().Username + " :( *", 0, ThisUser.LastBubble));
+                    ThisUser.ApplyEffect(101);
+                    TargetUser.ApplyEffect(65);
+                });
                 return;
             }
 

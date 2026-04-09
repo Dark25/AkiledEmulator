@@ -73,7 +73,7 @@ namespace Akiled.HabboHotel.GameClients
             try
             {
                 string ip = GetConnection().getIp();
-                UserData userData = UserDataFactory.GetUserData(AuthTicket, ip, this.MachineId);
+                UserData userData = await UserDataFactory.GetUserDataAsync(AuthTicket, ip, this.MachineId);
 
                 if (userData == null) return;
 

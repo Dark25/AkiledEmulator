@@ -29,6 +29,7 @@ using AkiledEmulator.HabboHotel.Hotel.Giveaway;
 using System;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Akiled.HabboHotel
 {
@@ -61,12 +62,11 @@ namespace Akiled.HabboHotel
         private readonly GiveAwayBlocksManager _giveAwayBlocksM;
         private readonly HallOfFameManager _hallOfFameManager;
 
-        private Thread gameLoop; //Task
         public static bool gameLoopEnabled = true;
         public bool gameLoopActive;
         public bool gameLoopEnded;
         private bool _cycleEnded;
-        private readonly Stopwatch moduleWatch;
+        private Stopwatch moduleWatch;
 
         public Game()
         {
@@ -253,15 +253,11 @@ namespace Akiled.HabboHotel
 
         public void StartGameLoop()
         {
-           this.gameLoopActive = true;
+            this.gameLoopActive = true;
+            this.moduleWatch = new Stopwatch();
+            this.moduleWatch.Start();
 
-        var receiver = new ThreadStart(this.MainGameLoop);
-        this.gameLoop = new Thread(receiver)
-        {
-            IsBackground = true
-        };
-
-        this.gameLoop.Start();
+            Task.Factory.StartNew(MainGameLoop, TaskCreationOptions.LongRunning);
         }
 
         [Obsolete]
@@ -281,7 +277,7 @@ namespace Akiled.HabboHotel
 
         public CacheManager GetCacheManager() => this._cacheManager;
         internal CrackableManager GetPinataManager() => this._crackableManager;
-        private void MainGameLoop()
+        private async Task MainGameLoop()
         {
             while (this.gameLoopActive)
             {
@@ -319,7 +315,14 @@ namespace Akiled.HabboHotel
                     Console.WriteLine("Canceled operation {0}", e);
                 }
                 this._cycleEnded = true;
-                Thread.Sleep(500);
+                
+                // Calculamos cuánto tardó el ciclo para restar ese tiempo del delay
+                long timeTaken = this.moduleWatch.ElapsedMilliseconds;
+                int sleepTime = 500 - (int)timeTaken;
+
+                if (sleepTime < 0) sleepTime = 0; // Si el servidor va lento, no duerme
+
+                await Task.Delay(sleepTime);
             }
 
             Console.WriteLine("MainGameLoop end");

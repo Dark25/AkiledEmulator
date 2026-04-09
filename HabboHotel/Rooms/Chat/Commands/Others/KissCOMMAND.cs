@@ -3,6 +3,7 @@ using Akiled.Communication.Packets.Outgoing.WebSocket;
 using Akiled.HabboHotel.GameClients;
 using Akiled.HabboHotel.Rooms.Games;
 using System;
+using System.Threading.Tasks;
 
 namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
 {
@@ -76,20 +77,21 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             {
                 if (!((Math.Abs(TargetUser.X - ThisUser.X) >= 2) || (Math.Abs(TargetUser.Y - ThisUser.Y) >= 2)))
                 {
-
-                    Room.SendPacket(new ChatComposer(ThisUser.VirtualId, "@red@ * Besar a " + Params[1] + " *", 0, ThisUser.LastBubble));
-                    System.Threading.Thread.Sleep(500);
-                    Room.SendPacketWeb(new PlaySoundComposer("kiss", 2)); //Type = Trax
-                    Room.SendPacket(new ChatComposer(TargetUser.VirtualId, "@red@ * He Sido Besado@ Por :$ *" + Session.GetHabbo().Username + " <3 *", 0, ThisUser.LastBubble));
-                    System.Threading.Thread.Sleep(500);
-                    ThisUser.ApplyEffect(9);
-                    System.Threading.Thread.Sleep(500);
-                    TargetUser.ApplyEffect(9);
-                    TargetUser.ApplyEffect(0);
-                    ThisUser.ApplyEffect(0);
+                    _ = Task.Run(async () =>
+                    {
+                        Room.SendPacket(new ChatComposer(ThisUser.VirtualId, "@red@ * Besar a " + Params[1] + " *", 0, ThisUser.LastBubble));
+                        await Task.Delay(500);
+                        Room.SendPacketWeb(new PlaySoundComposer("kiss", 2));
+                        Room.SendPacket(new ChatComposer(TargetUser.VirtualId, "@red@ * He Sido Besado@ Por :$ *" + Session.GetHabbo().Username + " <3 *", 0, ThisUser.LastBubble));
+                        await Task.Delay(500);
+                        ThisUser.ApplyEffect(9);
+                        await Task.Delay(500);
+                        TargetUser.ApplyEffect(9);
+                        TargetUser.ApplyEffect(0);
+                        ThisUser.ApplyEffect(0);
+                    });
                     Session.GetHabbo().last_kiss = AkiledEnvironment.GetIUnixTimestamp();
                     return;
-
                 }
                 else
                 {
@@ -98,16 +100,19 @@ namespace Akiled.HabboHotel.Rooms.Chat.Commands.Cmd
             }
             if (Session.GetHabbo().Rank >= 4)
             {
-                Room.SendPacket(new ChatComposer(ThisUser.VirtualId, "@red@ * Besar a " + Params[1] + " *", 0, ThisUser.LastBubble));
-                System.Threading.Thread.Sleep(500);
-                Room.SendPacketWeb(new PlaySoundComposer("kiss", 2)); //Type = Trax
-                Room.SendPacket(new ChatComposer(TargetUser.VirtualId, "@red@ * He Sido Besado@ Por :$ *" + Session.GetHabbo().Username + " <3 *", 0, ThisUser.LastBubble));
-                System.Threading.Thread.Sleep(500);
-                ThisUser.ApplyEffect(9);
-                System.Threading.Thread.Sleep(500);
-                TargetUser.ApplyEffect(9);
-                TargetUser.ApplyEffect(0);
-                ThisUser.ApplyEffect(0);
+                _ = Task.Run(async () =>
+                {
+                    Room.SendPacket(new ChatComposer(ThisUser.VirtualId, "@red@ * Besar a " + Params[1] + " *", 0, ThisUser.LastBubble));
+                    await Task.Delay(500);
+                    Room.SendPacketWeb(new PlaySoundComposer("kiss", 2));
+                    Room.SendPacket(new ChatComposer(TargetUser.VirtualId, "@red@ * He Sido Besado@ Por :$ *" + Session.GetHabbo().Username + " <3 *", 0, ThisUser.LastBubble));
+                    await Task.Delay(500);
+                    ThisUser.ApplyEffect(9);
+                    await Task.Delay(500);
+                    TargetUser.ApplyEffect(9);
+                    TargetUser.ApplyEffect(0);
+                    ThisUser.ApplyEffect(0);
+                });
                 Session.GetHabbo().last_kiss = AkiledEnvironment.GetIUnixTimestamp();
                 return;
             }
